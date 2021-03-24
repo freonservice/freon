@@ -1,0 +1,50 @@
+syntax = "proto3";
+package api;
+
+enum UserStatus {
+  USER_ACTIVE = 0;
+  USER_NOT_ACTIVE = 1;
+  USER_IS_BANNED = 2;
+}
+
+enum UserRole {
+  USER_ROLE_ADMIN = 0;
+  USER_ROLE_TRANSLATOR = 1;
+  USER_ROLE_MODERATOR = 2;
+}
+
+enum IdentifierStatus {
+  IDENTIFIER_ACTIVE = 0;
+  IDENTIFIER_NOT_ACTIVE = 1;
+}
+
+enum LocalizationIdentifierStatus {
+  LOCALIZATION_IDENTIFIER_ACTIVE = 0;
+  LOCALIZATION_IDENTIFIER_NOT_ACTIVE = 1;
+}
+
+enum CategoryStatus {
+  CATEGORY_ACTIVE = 0;
+  CATEGORY_NOT_ACTIVE = 1;
+}
+
+enum LocalizationStatus {
+  LOCALIZATION_ACTIVE = 0;
+  LOCALIZATION_NOT_ACTIVE = 1;
+}
+
+enum Status {
+  ACTIVE = 0;
+  NOT_ACTIVE = 1;
+}
+
+enum TranslationStatus {
+  TRANSLATION_ACTIVE = 0;
+  TRANSLATION_HIDDEN = 1;
+}
+
+//enum PlatformType {
+//  PLATFORM_TYPE_WEB = 0;
+//  PLATFORM_TYPE_IOS = 1;
+//  PLATFORM_TYPE_ANDROID = 2;
+//}
