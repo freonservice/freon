@@ -16,7 +16,7 @@ func (r *r) SaveSession(ctx Ctx, userID int64, token string) error {
 		session := &dao.UserSession{
 			UserID:    userID,
 			Token:     token,
-			CreatedAt: time.Now(),
+			CreatedAt: time.Now().UTC(),
 			Active:    true,
 		}
 		if err := tx.Save(session); err != nil {

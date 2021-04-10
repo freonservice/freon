@@ -64,7 +64,7 @@ func (a *auth) IsAuthorized(accessToken string) (*app.UserSession, error) {
 	}
 
 	claims := token.Claims.(*jwt.StandardClaims)
-	if !claims.VerifyExpiresAt(time.Now().Unix(), true) {
+	if !claims.VerifyExpiresAt(time.Now().UTC().Unix(), true) {
 		return nil, ErrTokenInvalid
 	}
 
@@ -103,8 +103,8 @@ func (a *auth) GenerateAuthToken(uID uuid.UUID) (string, error) {
 	claims := jwt.StandardClaims{
 		Id:        uID.String(),
 		Audience:  audienceToken,
-		ExpiresAt: time.Now().Add(config.JwtTokenLifetime).Unix(),
-		IssuedAt:  time.Now().Unix(),
+		ExpiresAt: time.Now().UTC().Add(config.JwtTokenLifetime).Unix(),
+		IssuedAt:  time.Now().UTC().Unix(),
 		Issuer:    issuerToken,
 	}
 	return jwt.NewWithClaims(jwt.SigningMethodHS256, &claims).SignedString(a.secretKey)
@@ -130,7 +130,7 @@ func (a *auth) session(userUUID, token string) (*session, error) {
 	a.storage.Set(userUUID, memory.Item{
 		UserID:     sess.UserID,
 		Status:     sess.User.Status,
-		Expiration: time.Now().Add(sessionExpire).Unix(),
+		Expiration: time.Now().UTC().Add(sessionExpire).Unix(),
 	})
 
 	return &session{

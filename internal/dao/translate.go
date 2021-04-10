@@ -34,7 +34,7 @@ func (u *Translation) BeforeInsert() error {
 }
 
 func (u *Translation) BeforeUpdate() error {
-	now := time.Now()
+	now := time.Now().UTC()
 	u.UpdatedAt = &now
 	u.UpdatedAt = pointer.ToTime(u.UpdatedAt.UTC().Truncate(time.Second).AddDate(0, 0, 0))
 	return nil

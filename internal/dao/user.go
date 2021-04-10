@@ -30,7 +30,7 @@ func (u *User) BeforeInsert() error {
 }
 
 func (u *User) BeforeUpdate() error {
-	now := time.Now()
+	now := time.Now().UTC()
 	u.UpdatedAt = &now
 	u.UpdatedAt = pointer.ToTime(u.UpdatedAt.UTC().Truncate(time.Second))
 	return nil

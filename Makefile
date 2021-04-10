@@ -10,7 +10,7 @@ GO_BUILD_ARGS = \
     -X '${PACKAGENAME}/pkg/version.buildDate=${DATE}' \
   " \
 
-build-freon: #clean gofmt golangci test
+build-freon:
 	go build ${GO_BUILD_ARGS} -o ${PROJECTNAME} ./cmd/${PROJECTNAME}
 
 genny-generate:

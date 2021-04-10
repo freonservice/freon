@@ -28,7 +28,7 @@ func (l *LocalizationIdentifier) BeforeInsert() error {
 }
 
 func (l *LocalizationIdentifier) BeforeUpdate() error {
-	now := time.Now()
+	now := time.Now().UTC()
 	l.UpdatedAt = &now
 	l.UpdatedAt = pointer.ToTime(l.UpdatedAt.UTC().Truncate(time.Second))
 	return nil
