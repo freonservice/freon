@@ -1,7 +1,7 @@
 package cache
 
 import (
-	"github.com/MarcSky/freon/internal/auth/cache/memory"
+	"github.com/freonservice/freon/internal/auth/cache/memory"
 )
 
 type Storage interface {

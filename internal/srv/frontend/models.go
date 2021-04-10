@@ -1,10 +1,10 @@
 package frontend
 
 import (
-	"github.com/MarcSky/freon/api/openapi/frontend/model"
-	"github.com/MarcSky/freon/api/openapi/frontend/restapi/op"
-	"github.com/MarcSky/freon/internal/app"
-	"github.com/MarcSky/freon/pkg/api"
+	"github.com/freonservice/freon/api/openapi/frontend/model"
+	"github.com/freonservice/freon/api/openapi/frontend/restapi/op"
+	"github.com/freonservice/freon/internal/app"
+	"github.com/freonservice/freon/pkg/api"
 
 	"github.com/AlekSi/pointer"
 )
@@ -15,7 +15,7 @@ func apiUser(v *app.User) *model.User {
 		Email:      &v.Email,
 		FirstName:  v.FirstName,
 		SecondName: v.SecondName,
-		UUIDID:     &v.UuidID,
+		UUIDID:     &v.UUIDID,
 		Role:       pointer.ToString(getUserRoleByInteger(api.UserRole(v.Role))),
 		Status:     pointer.ToString(getUserStatusByInteger(api.UserStatus(v.Status))),
 		CreatedAt:  pointer.ToInt64(v.CreatedAt.Unix()),

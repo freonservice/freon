@@ -10,7 +10,7 @@ import (
 
 	"github.com/go-openapi/runtime/middleware"
 
-	"github.com/MarcSky/freon/internal/app"
+	"github.com/freonservice/freon/internal/app"
 )
 
 // ListLocalizationHandlerFunc turns a function with the right signature into a list localization handler

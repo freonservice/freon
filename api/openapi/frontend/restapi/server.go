@@ -25,7 +25,7 @@ import (
 	flags "github.com/jessevdk/go-flags"
 	"golang.org/x/net/netutil"
 
-	"github.com/MarcSky/freon/api/openapi/frontend/restapi/op"
+	"github.com/freonservice/freon/api/openapi/frontend/restapi/op"
 )
 
 const (

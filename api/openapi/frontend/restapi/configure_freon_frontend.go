@@ -9,10 +9,9 @@ import (
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
 
-	"github.com/MarcSky/freon/api/openapi/frontend/restapi/op"
-	"github.com/MarcSky/freon/internal/app"
+	"github.com/freonservice/freon/api/openapi/frontend/restapi/op"
+	"github.com/freonservice/freon/internal/app"
 )
-
 
 func configureFlags(api *op.FreonFrontendAPI) {
 	// api.CommandLineOptionsGroups = []swag.CommandLineOptionsGroup{ ... }

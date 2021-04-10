@@ -3,8 +3,8 @@ package dal
 import (
 	"context"
 
-	"github.com/MarcSky/freon/internal/app"
-	"github.com/MarcSky/freon/pkg/repo"
+	"github.com/freonservice/freon/internal/app"
+	"github.com/freonservice/freon/pkg/repo"
 
 	"github.com/jmoiron/sqlx"
 )
@@ -15,11 +15,11 @@ type r struct {
 	*repo.Repo
 }
 
-func (r r) GetDB() *sqlx.DB {
+func (r *r) GetDB() *sqlx.DB {
 	return r.DB
 }
 
-func New(ctx Ctx, cfg repo.Config) (app.Repo, error) {
+func New(ctx Ctx, cfg *repo.Config) (app.Repo, error) {
 	r := &r{}
 	var err error
 

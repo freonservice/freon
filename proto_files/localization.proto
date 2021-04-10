@@ -1,0 +1,16 @@
+syntax = "proto3";
+package api;
+option go_package = "pb;api";
+
+message Localization {
+  string locale = 1;
+  string lang_name = 2;
+}
+
+message GetLocalizationsReq {
+}
+
+message GetLocalizationsRes {
+  repeated Localization localizations = 1;
+}
+

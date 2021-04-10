@@ -47,7 +47,7 @@ func (v *userTableType) PKColumnIndex() uint {
 
 // UserTable represents users view or table in SQL database.
 var UserTable = &userTableType{
-	s: parse.StructInfo{Type: "User", SQLSchema: "", SQLName: "users", Fields: []parse.FieldInfo{{Name: "ID", Type: "int64", Column: "id"}, {Name: "UuidID", Type: "string", Column: "uuid_id"}, {Name: "Email", Type: "string", Column: "email"}, {Name: "Password", Type: "string", Column: "password"}, {Name: "FirstName", Type: "sql.NullString", Column: "first_name"}, {Name: "SecondName", Type: "sql.NullString", Column: "second_name"}, {Name: "Status", Type: "int64", Column: "status"}, {Name: "Role", Type: "int64", Column: "role"}, {Name: "CreatedAt", Type: "time.Time", Column: "created_at"}, {Name: "UpdatedAt", Type: "*time.Time", Column: "updated_at"}}, PKFieldIndex: 0},
+	s: parse.StructInfo{Type: "User", SQLSchema: "", SQLName: "users", Fields: []parse.FieldInfo{{Name: "ID", Type: "int64", Column: "id"}, {Name: "UUIDID", Type: "string", Column: "uuid_id"}, {Name: "Email", Type: "string", Column: "email"}, {Name: "Password", Type: "string", Column: "password"}, {Name: "FirstName", Type: "sql.NullString", Column: "first_name"}, {Name: "SecondName", Type: "sql.NullString", Column: "second_name"}, {Name: "Status", Type: "int64", Column: "status"}, {Name: "Role", Type: "int64", Column: "role"}, {Name: "CreatedAt", Type: "time.Time", Column: "created_at"}, {Name: "UpdatedAt", Type: "*time.Time", Column: "updated_at"}}, PKFieldIndex: 0},
 	z: new(User).Values(),
 }
 
@@ -55,7 +55,7 @@ var UserTable = &userTableType{
 func (s User) String() string {
 	res := make([]string, 10)
 	res[0] = "ID: " + reform.Inspect(s.ID, true)
-	res[1] = "UuidID: " + reform.Inspect(s.UuidID, true)
+	res[1] = "UUIDID: " + reform.Inspect(s.UUIDID, true)
 	res[2] = "Email: " + reform.Inspect(s.Email, true)
 	res[3] = "Password: " + reform.Inspect(s.Password, true)
 	res[4] = "FirstName: " + reform.Inspect(s.FirstName, true)
@@ -72,7 +72,7 @@ func (s User) String() string {
 func (s *User) Values() []interface{} {
 	return []interface{}{
 		s.ID,
-		s.UuidID,
+		s.UUIDID,
 		s.Email,
 		s.Password,
 		s.FirstName,
@@ -89,7 +89,7 @@ func (s *User) Values() []interface{} {
 func (s *User) Pointers() []interface{} {
 	return []interface{}{
 		&s.ID,
-		&s.UuidID,
+		&s.UUIDID,
 		&s.Email,
 		&s.Password,
 		&s.FirstName,

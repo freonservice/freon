@@ -19,7 +19,7 @@ import (
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 
-	"github.com/MarcSky/freon/internal/app"
+	"github.com/freonservice/freon/internal/app"
 )
 
 // NewFreonFrontendAPI creates a new FreonFrontend instance

@@ -1,7 +1,7 @@
 package password
 
 import (
-	"github.com/MarcSky/freon/internal/app"
+	"github.com/freonservice/freon/internal/app"
 
 	"golang.org/x/crypto/bcrypt"
 )
@@ -27,7 +27,7 @@ func (p *Password) Hashing(password string) ([]byte, error) {
 	return bcrypt.GenerateFromPassword([]byte(password), p.cost)
 }
 
-func (p *Password) Compare(hashedPassword []byte, password []byte) bool {
+func (p *Password) Compare(hashedPassword, password []byte) bool {
 	err := bcrypt.CompareHashAndPassword(hashedPassword, password)
 	return err == nil
 }

@@ -2,26 +2,26 @@ package main
 
 import (
 	"context"
+	"math/rand"
 	"os"
 	"os/signal"
 	"syscall"
+	"time"
 
-	"github.com/MarcSky/freon/internal/config"
+	"github.com/freonservice/freon/internal/config"
 
 	_ "github.com/lib/pq"
 	"github.com/powerman/structlog"
 )
 
-//nolint:gochecknoglobals // Main.
 var (
 	log = structlog.New(structlog.KeyUnit, "main")
 )
 
-func init() {
-	config.Init()
-}
-
 func main() {
+	rand.Seed(time.Now().UnixNano())
+	config.Init()
+
 	ctxShutdown, shutdown := context.WithCancel(context.Background())
 	sigc := make(chan os.Signal, 1)
 	signal.Notify(sigc, syscall.SIGHUP, syscall.SIGINT, syscall.SIGQUIT, syscall.SIGABRT, syscall.SIGTERM)

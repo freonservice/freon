@@ -16,7 +16,7 @@ import (
 	"github.com/go-openapi/swag"
 	"github.com/go-openapi/validate"
 
-	"github.com/MarcSky/freon/internal/app"
+	"github.com/freonservice/freon/internal/app"
 )
 
 // UpdateCategoryHandlerFunc turns a function with the right signature into a update category handler

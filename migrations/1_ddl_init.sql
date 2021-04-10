@@ -75,9 +75,6 @@ create table if not exists public.identifiers
 create unique index if not exists identifiers_name_uindex
     on public.identifiers (name);
 
-create index if not exists identifiers_parent_path_idx
-    on identifiers using gist (parent_path);
-
 create table if not exists public.localization_identifiers
 (
     id              SERIAL PRIMARY KEY,

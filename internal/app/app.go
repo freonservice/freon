@@ -3,7 +3,7 @@ package app
 import (
 	"context"
 
-	"github.com/MarcSky/freon/internal/dao"
+	"github.com/freonservice/freon/internal/dao"
 
 	"github.com/google/uuid"
 	"github.com/jmoiron/sqlx"
@@ -29,10 +29,16 @@ type (
 		GetLocalizations(ctx Ctx) ([]*Localization, error)
 		DeleteLocalization(ctx Ctx, id int64) error
 
-		CreateIdentifier(ctx Ctx, creatorID, categoryID, parentID int64, name, description, exampleText string, platforms, namedList []string) error
+		CreateIdentifier(
+			ctx Ctx, creatorID, categoryID, parentID int64, name, description, exampleText string,
+			platforms, namedList []string,
+		) error
 		GetIdentifiers(ctx Ctx, categoryID int64) ([]*Identifier, error)
 		DeleteIdentifier(ctx Ctx, id int64) error
-		UpdateIdentifier(ctx Ctx, id, categoryID, parentID int64, name, description, exampleText string, platforms, namedList []string) error
+		UpdateIdentifier(
+			ctx Ctx, id, categoryID, parentID int64, name, description, exampleText string,
+			platforms, namedList []string,
+		) error
 
 		CreateCategory(ctx Ctx, name string) error
 		GetCategories(ctx Ctx) ([]*Category, error)
@@ -66,7 +72,7 @@ type (
 
 		GetUserByUserUUID(userUUID string) (*dao.User, error)
 		GetUserByEmail(email string) (*dao.User, error)
-		GetUserById(id int64) (*dao.User, error)
+		GetUserByID(id int64) (*dao.User, error)
 
 		SaveSession(ctx Ctx, userID int64, token AccessToken) error
 		SessionByAccessToken(ctx Ctx, token AccessToken) (*dao.UserSession, error)
@@ -76,10 +82,14 @@ type (
 		GetLocalizations(ctx Ctx) ([]*dao.Localization, error)
 		DeleteLocalization(ctx Ctx, id int64) error
 
-		CreateIdentifier(ctx Ctx, createID, categoryID, parentID int64, name, description, exampleText, platforms, namedList string) error
+		CreateIdentifier(
+			ctx Ctx, createID, categoryID, parentID int64,
+			name, description, exampleText, platforms, namedList string,
+		) error
 		GetIdentifiers(ctx Ctx, filter dao.IdentifierFilter) ([]*dao.Identifier, error)
 		DeleteIdentifier(ctx Ctx, id int64) error
-		UpdateIdentifier(ctx Ctx, id, categoryID, parentID int64, name, description, exampleText, platforms, namedList string) error
+		UpdateIdentifier(
+			ctx Ctx, id, categoryID, parentID int64, name, description, exampleText, platforms, namedList string) error
 		UpdateHideStatusTranslation(ctx Ctx, id int64, hide bool) error
 
 		CreateCategory(ctx Ctx, name string) error

@@ -1,16 +1,16 @@
 package frontend
 
 import (
-	"github.com/MarcSky/freon/api/openapi/frontend/restapi/op"
-	"github.com/MarcSky/freon/internal/app"
-	"github.com/MarcSky/freon/internal/dal"
+	"github.com/freonservice/freon/api/openapi/frontend/restapi/op"
+	"github.com/freonservice/freon/internal/app"
+	"github.com/freonservice/freon/internal/dal"
 
 	"github.com/go-openapi/swag"
 	"github.com/pkg/errors"
 )
 
 func (srv *server) createCategory(params op.CreateCategoryParams, session *app.UserSession) op.CreateCategoryResponder {
-	ctx, log := fromRequest(params.HTTPRequest, nil)
+	ctx, log := fromRequest(params.HTTPRequest, session)
 
 	err := srv.app.CreateCategory(
 		ctx,

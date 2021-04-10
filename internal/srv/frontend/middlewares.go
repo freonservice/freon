@@ -6,7 +6,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/MarcSky/freon/pkg/def"
+	"github.com/freonservice/freon/pkg/def"
 
 	"github.com/felixge/httpsnoop"
 	"github.com/powerman/structlog"

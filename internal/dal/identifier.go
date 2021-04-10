@@ -5,16 +5,19 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/MarcSky/freon/internal/app"
-	"github.com/MarcSky/freon/internal/dao"
-	"github.com/MarcSky/freon/pkg/api"
+	"github.com/freonservice/freon/internal/app"
+	"github.com/freonservice/freon/internal/dao"
+	"github.com/freonservice/freon/pkg/api"
 
 	"github.com/AlekSi/pointer"
 	"github.com/jmoiron/sqlx"
 	"gopkg.in/reform.v1"
 )
 
-func (r r) CreateIdentifier(ctx Ctx, creatorID, categoryID, parentID int64, name, description, exampleText, platforms, namedList string) error {
+func (r *r) CreateIdentifier(
+	ctx Ctx, creatorID, categoryID, parentID int64,
+	name, description, exampleText, platforms, namedList string,
+) error {
 	var err error
 	return r.ReformDB.InTransactionContext(ctx, &sql.TxOptions{}, func(tx *reform.TX) error {
 		identifier := &dao.Identifier{
@@ -39,7 +42,7 @@ func (r r) CreateIdentifier(ctx Ctx, creatorID, categoryID, parentID int64, name
 		}
 
 		if parentID > 0 {
-			parent, err := r.GetIdentifierByID(tx, parentID)
+			parent, err := r.GetIdentifierByID(tx, parentID) // nolint:govet
 			if err != nil {
 				return err
 			}
@@ -48,7 +51,8 @@ func (r r) CreateIdentifier(ctx Ctx, creatorID, categoryID, parentID int64, name
 			identifier.ParentPath = fmt.Sprintf("%d", identifier.ID)
 		}
 
-		if err = tx.Save(identifier); err != nil {
+		err = tx.Save(identifier)
+		if err != nil {
 			return err
 		}
 
@@ -64,7 +68,8 @@ func (r r) CreateIdentifier(ctx Ctx, creatorID, categoryID, parentID int64, name
 				Status:         int64(api.LocalizationIdentifierStatus_LOCALIZATION_IDENTIFIER_ACTIVE),
 				CreatedAt:      time.Now().UTC(),
 			}
-			if err = tx.Save(localizationIdentifier); err != nil {
+			err = tx.Save(localizationIdentifier)
+			if err != nil {
 				return err
 			}
 
@@ -75,7 +80,8 @@ func (r r) CreateIdentifier(ctx Ctx, creatorID, categoryID, parentID int64, name
 				Status:         int64(api.TranslationStatus_TRANSLATION_ACTIVE),
 				CreatedAt:      time.Now().UTC(),
 			}
-			if err = tx.Save(translation); err != nil {
+			err = tx.Save(translation)
+			if err != nil {
 				return err
 			}
 		}
@@ -84,9 +90,11 @@ func (r r) CreateIdentifier(ctx Ctx, creatorID, categoryID, parentID int64, name
 	})
 }
 
-func (r r) GetIdentifiers(ctx Ctx, f dao.IdentifierFilter) ([]*dao.Identifier, error) {
+func (r *r) GetIdentifiers(ctx Ctx, f dao.IdentifierFilter) ([]*dao.Identifier, error) {
 	rows, err := f.CreateRows(ctx, r.ReformDB)
 	if err != nil {
+		return nil, err
+	} else if rows.Err() != nil {
 		return nil, err
 	}
 	defer rows.Close()
@@ -94,12 +102,15 @@ func (r r) GetIdentifiers(ctx Ctx, f dao.IdentifierFilter) ([]*dao.Identifier, e
 	var entities []*dao.Identifier
 	for rows.Next() {
 		entity := new(dao.Identifier)
-		err = rows.Scan(&entity.ID, &entity.Name, &entity.Description, &entity.ExampleText, &entity.Platforms, &entity.NamedList, &entity.CategoryID)
+		err = rows.Scan(
+			&entity.ID, &entity.Name, &entity.Description,
+			&entity.ExampleText, &entity.Platforms, &entity.NamedList, &entity.CategoryID,
+		)
 		if err != nil {
 			break
 		}
 		if entity.CategoryID.Valid {
-			c, err := r.GetCategory(entity.CategoryID.Int64)
+			c, err := r.GetCategory(entity.CategoryID.Int64) //nolint:govet
 			if err == nil {
 				entity.Category = c
 			}
@@ -112,7 +123,7 @@ func (r r) GetIdentifiers(ctx Ctx, f dao.IdentifierFilter) ([]*dao.Identifier, e
 	return entities, nil
 }
 
-func (r r) DeleteIdentifier(ctx Ctx, id int64) error {
+func (r *r) DeleteIdentifier(ctx Ctx, id int64) error {
 	return r.Tx(ctx, &sql.TxOptions{}, func(tx *sqlx.Tx) error {
 		var err error
 		_, err = tx.ExecContext(ctx, sqlDeleteIdentifier, id)
@@ -120,9 +131,11 @@ func (r r) DeleteIdentifier(ctx Ctx, id int64) error {
 	})
 }
 
-func (r r) SelectLocalizationListID(ctx Ctx, tx *reform.TX) ([]int64, error) {
+func (r *r) SelectLocalizationListID(ctx Ctx, tx *reform.TX) ([]int64, error) {
 	rows, err := tx.QueryContext(ctx, sqlSelectLocalizationListID)
 	if err != nil {
+		return nil, err
+	} else if rows.Err() != nil {
 		return nil, err
 	}
 	defer rows.Close()
@@ -142,7 +155,7 @@ func (r r) SelectLocalizationListID(ctx Ctx, tx *reform.TX) ([]int64, error) {
 	return ids, nil
 }
 
-func (r r) GetIdentifierByID(tx *reform.TX, id int64) (*dao.Identifier, error) {
+func (r *r) GetIdentifierByID(tx *reform.TX, id int64) (*dao.Identifier, error) {
 	var i dao.Identifier
 	err := tx.FindOneTo(&i, "id", id)
 	if err != nil {
@@ -151,7 +164,10 @@ func (r r) GetIdentifierByID(tx *reform.TX, id int64) (*dao.Identifier, error) {
 	return &i, err
 }
 
-func (r r) UpdateIdentifier(ctx app.Ctx, id, categoryID, parentID int64, name, description, exampleText, platforms, namedList string) error {
+func (r *r) UpdateIdentifier(
+	ctx app.Ctx, id, categoryID, parentID int64,
+	name, description, exampleText, platforms, namedList string,
+) error {
 	var i dao.Identifier
 	err := r.ReformDB.FindOneTo(&i, "id", id)
 	if err != nil {

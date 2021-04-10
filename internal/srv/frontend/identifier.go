@@ -1,16 +1,18 @@
 package frontend
 
 import (
-	"github.com/MarcSky/freon/api/openapi/frontend/restapi/op"
-	"github.com/MarcSky/freon/internal/app"
-	"github.com/MarcSky/freon/internal/dal"
+	"github.com/freonservice/freon/api/openapi/frontend/restapi/op"
+	"github.com/freonservice/freon/internal/app"
+	"github.com/freonservice/freon/internal/dal"
 
 	"github.com/go-openapi/swag"
 	"github.com/pkg/errors"
 )
 
-func (srv *server) createIdentifier(params op.CreateIdentifierParams, session *app.UserSession) op.CreateIdentifierResponder {
-	ctx, log := fromRequest(params.HTTPRequest, nil)
+func (srv *server) createIdentifier( //nolint:dupl
+	params op.CreateIdentifierParams, session *app.UserSession, //nolint:gocritic
+) op.CreateIdentifierResponder {
+	ctx, log := fromRequest(params.HTTPRequest, session)
 
 	err := srv.app.CreateIdentifier(
 		ctx,
@@ -35,8 +37,10 @@ func (srv *server) createIdentifier(params op.CreateIdentifierParams, session *a
 	return op.NewCreateIdentifierNoContent()
 }
 
-func (srv *server) listIdentifiers(params op.ListIdentifiersParams, session *app.UserSession) op.ListIdentifiersResponder {
-	ctx, log := fromRequest(params.HTTPRequest, nil)
+func (srv *server) listIdentifiers(
+	params op.ListIdentifiersParams, session *app.UserSession,
+) op.ListIdentifiersResponder {
+	ctx, log := fromRequest(params.HTTPRequest, session)
 
 	entities, err := srv.app.GetIdentifiers(
 		ctx,
@@ -53,7 +57,7 @@ func (srv *server) listIdentifiers(params op.ListIdentifiersParams, session *app
 }
 
 func (srv *server) deleteIdentifier(params op.DeleteIdentifierParams, session *app.UserSession) op.DeleteIdentifierResponder {
-	ctx, log := fromRequest(params.HTTPRequest, nil)
+	ctx, log := fromRequest(params.HTTPRequest, session)
 
 	err := srv.app.DeleteIdentifier(ctx, params.ID)
 	switch errors.Cause(err) {
@@ -66,8 +70,10 @@ func (srv *server) deleteIdentifier(params op.DeleteIdentifierParams, session *a
 	return op.NewDeleteIdentifierNoContent()
 }
 
-func (srv *server) updateIdentifier(params op.UpdateIdentifierParams, session *app.UserSession) op.UpdateIdentifierResponder {
-	ctx, log := fromRequest(params.HTTPRequest, nil)
+func (srv *server) updateIdentifier( //nolint:dupl
+	params op.UpdateIdentifierParams, session *app.UserSession, //nolint:gocritic
+) op.UpdateIdentifierResponder {
+	ctx, log := fromRequest(params.HTTPRequest, session)
 
 	err := srv.app.UpdateIdentifier(
 		ctx,

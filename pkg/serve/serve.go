@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"net"
 
-	"github.com/MarcSky/freon/pkg/def"
+	"github.com/freonservice/freon/pkg/def"
 
 	"github.com/powerman/must"
 	"github.com/powerman/structlog"

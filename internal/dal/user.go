@@ -2,23 +2,23 @@ package dal
 
 import (
 	"database/sql"
-	"github.com/AlekSi/pointer"
 	"time"
 
-	"github.com/MarcSky/freon/internal/app"
-	"github.com/MarcSky/freon/internal/dao"
-	"github.com/MarcSky/freon/pkg/api"
+	"github.com/freonservice/freon/internal/app"
+	"github.com/freonservice/freon/internal/dao"
+	"github.com/freonservice/freon/pkg/api"
 
+	"github.com/AlekSi/pointer"
 	"github.com/google/uuid"
 	"gopkg.in/reform.v1"
 )
 
-func (r r) CreateUser(ctx Ctx, email, password, firstName, secondName string, role int64) (*dao.User, error) {
+func (r *r) CreateUser(ctx Ctx, email, password, firstName, secondName string, role int64) (*dao.User, error) {
 	var err error
 	user := new(dao.User)
 	err = r.ReformDB.InTransactionContext(ctx, &sql.TxOptions{}, func(tx *reform.TX) error {
 		user = &dao.User{
-			UuidID:     uuid.New().String(),
+			UUIDID:     uuid.New().String(),
 			Email:      email,
 			Password:   password,
 			FirstName:  sql.NullString{String: firstName, Valid: true},
@@ -27,7 +27,8 @@ func (r r) CreateUser(ctx Ctx, email, password, firstName, secondName string, ro
 			Status:     int64(api.UserStatus_USER_ACTIVE),
 			CreatedAt:  time.Now().UTC(),
 		}
-		if err = tx.Save(user); err != nil {
+		err = tx.Save(user)
+		if err != nil {
 			return err
 		}
 		return nil
@@ -35,9 +36,9 @@ func (r r) CreateUser(ctx Ctx, email, password, firstName, secondName string, ro
 	return user, err
 }
 
-func (r r) UpdatePassword(ctx app.Ctx, userID int64, passwordHash string) error {
+func (r *r) UpdatePassword(ctx app.Ctx, userID int64, passwordHash string) error {
 	return r.ReformDB.InTransactionContext(ctx, &sql.TxOptions{}, func(tx *reform.TX) error {
-		user, err := r.GetUserById(userID)
+		user, err := r.GetUserByID(userID)
 		if err != nil {
 			return err
 		}
@@ -46,8 +47,8 @@ func (r r) UpdatePassword(ctx app.Ctx, userID int64, passwordHash string) error 
 	})
 }
 
-func (r r) UpdateProfile(ctx app.Ctx, userID int64, email, firstName, secondName string, role, status int64) error {
-	user, err := r.GetUserById(userID)
+func (r *r) UpdateProfile(ctx app.Ctx, userID int64, email, firstName, secondName string, role, status int64) error {
+	user, err := r.GetUserByID(userID)
 	if err != nil {
 		return err
 	}
@@ -60,7 +61,7 @@ func (r r) UpdateProfile(ctx app.Ctx, userID int64, email, firstName, secondName
 	return r.ReformDB.Save(user)
 }
 
-func (r r) GetUserByUserUUID(userUUID string) (*dao.User, error) {
+func (r *r) GetUserByUserUUID(userUUID string) (*dao.User, error) {
 	var user dao.User
 	err := r.ReformDB.FindOneTo(&user, "uuid_id", userUUID)
 	if err != nil {
@@ -69,7 +70,7 @@ func (r r) GetUserByUserUUID(userUUID string) (*dao.User, error) {
 	return &user, nil
 }
 
-func (r r) GetUserByEmail(email string) (*dao.User, error) {
+func (r *r) GetUserByEmail(email string) (*dao.User, error) {
 	var user dao.User
 	err := r.ReformDB.FindOneTo(&user, "email", email)
 	if err != nil {
@@ -78,7 +79,7 @@ func (r r) GetUserByEmail(email string) (*dao.User, error) {
 	return &user, nil
 }
 
-func (r r) GetUserById(id int64) (*dao.User, error) {
+func (r *r) GetUserByID(id int64) (*dao.User, error) {
 	var user dao.User
 	err := r.ReformDB.FindOneTo(&user, "id", id)
 	if err != nil {
@@ -87,9 +88,11 @@ func (r r) GetUserById(id int64) (*dao.User, error) {
 	return &user, nil
 }
 
-func (r r) GetUsers(ctx Ctx) ([]*dao.User, error) {
+func (r *r) GetUsers(ctx Ctx) ([]*dao.User, error) {
 	rows, err := r.DB.QueryContext(ctx, sqlSelectUsers)
 	if err != nil {
+		return nil, err
+	} else if rows.Err() != nil {
 		return nil, err
 	}
 	defer rows.Close()
@@ -97,7 +100,11 @@ func (r r) GetUsers(ctx Ctx) ([]*dao.User, error) {
 	var entities []*dao.User
 	for rows.Next() {
 		entity := new(dao.User)
-		err = rows.Scan(&entity.ID, &entity.UuidID, &entity.Email, &entity.FirstName, &entity.SecondName, &entity.Status, &entity.Role, &entity.CreatedAt, &entity.UpdatedAt)
+		err = rows.Scan(
+			&entity.ID, &entity.UUIDID, &entity.Email,
+			&entity.FirstName, &entity.SecondName, &entity.Status,
+			&entity.Role, &entity.CreatedAt, &entity.UpdatedAt,
+		)
 		if err != nil {
 			break
 		}
@@ -109,8 +116,8 @@ func (r r) GetUsers(ctx Ctx) ([]*dao.User, error) {
 	return entities, nil
 }
 
-func (r r) UpdateStatus(ctx app.Ctx, userID, status int64) error {
-	user, err := r.GetUserById(userID)
+func (r *r) UpdateStatus(ctx app.Ctx, userID, status int64) error {
+	user, err := r.GetUserByID(userID)
 	if err != nil {
 		return err
 	}

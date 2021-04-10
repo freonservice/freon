@@ -1,13 +1,21 @@
 package frontend
 
-import "github.com/MarcSky/freon/pkg/api"
+import "github.com/freonservice/freon/pkg/api"
+
+const (
+	userStatusNotActive = "not active"
+	userStatusBanned    = "banned"
+
+	userRoleModerator = "moderator"
+	userRoleAdmin     = "admin"
+)
 
 func getUserStatusByInteger(status api.UserStatus) string {
-	switch status {
+	switch status { //nolint:exhaustive
 	case api.UserStatus_USER_NOT_ACTIVE:
-		return "not active"
+		return userStatusNotActive
 	case api.UserStatus_USER_IS_BANNED:
-		return "banned"
+		return userStatusBanned
 	default:
 		return "active"
 	}
@@ -15,9 +23,9 @@ func getUserStatusByInteger(status api.UserStatus) string {
 
 func getUserStatusByString(status string) api.UserStatus {
 	switch status {
-	case "not active":
+	case userStatusNotActive:
 		return api.UserStatus_USER_NOT_ACTIVE
-	case "banned":
+	case userStatusBanned:
 		return api.UserStatus_USER_IS_BANNED
 	default:
 		return api.UserStatus_USER_ACTIVE
@@ -25,11 +33,11 @@ func getUserStatusByString(status string) api.UserStatus {
 }
 
 func getUserRoleByInteger(role api.UserRole) string {
-	switch role {
+	switch role { //nolint:exhaustive
 	case api.UserRole_USER_ROLE_ADMIN:
-		return "admin"
+		return userRoleAdmin
 	case api.UserRole_USER_ROLE_MODERATOR:
-		return "moderator"
+		return userRoleModerator
 	default:
 		return "translator"
 	}
@@ -37,9 +45,9 @@ func getUserRoleByInteger(role api.UserRole) string {
 
 func getUserRoleByString(role string) api.UserRole {
 	switch role {
-	case "admin":
+	case userRoleAdmin:
 		return api.UserRole_USER_ROLE_ADMIN
-	case "moderator":
+	case userRoleModerator:
 		return api.UserRole_USER_ROLE_MODERATOR
 	default:
 		return api.UserRole_USER_ROLE_TRANSLATOR

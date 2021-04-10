@@ -4,11 +4,11 @@ import (
 	"database/sql"
 	"time"
 
-	"github.com/MarcSky/freon/internal/app"
-	"github.com/MarcSky/freon/internal/dao"
+	"github.com/freonservice/freon/internal/app"
+	"github.com/freonservice/freon/internal/dao"
 )
 
-func (r r) CreateCategory(ctx Ctx, name string) error {
+func (r *r) CreateCategory(ctx Ctx, name string) error {
 	entity := &dao.Category{
 		Name:      name,
 		CreatedAt: time.Now().UTC(),
@@ -22,9 +22,11 @@ func (r r) CreateCategory(ctx Ctx, name string) error {
 	return nil
 }
 
-func (r r) GetCategories(ctx Ctx) ([]*dao.Category, error) {
+func (r *r) GetCategories(ctx Ctx) ([]*dao.Category, error) {
 	rows, err := r.ReformDB.QueryContext(ctx, sqlSelectCategories)
 	if err != nil {
+		return nil, err
+	} else if rows.Err() != nil {
 		return nil, err
 	}
 	defer rows.Close()
@@ -44,17 +46,17 @@ func (r r) GetCategories(ctx Ctx) ([]*dao.Category, error) {
 	return entities, nil
 }
 
-func (r r) DeleteCategory(ctx Ctx, id int64) error {
+func (r *r) DeleteCategory(ctx Ctx, id int64) error {
 	_, err := r.ReformDB.ExecContext(ctx, sqlDeleteCategory, id)
 	return err
 }
 
-func (r r) UpdateCategory(ctx app.Ctx, id int64, name string) error {
+func (r *r) UpdateCategory(ctx app.Ctx, id int64, name string) error {
 	_, err := r.ReformDB.ExecContext(ctx, sqlUpdateNameCategory, name, id)
 	return err
 }
 
-func (r r) GetCategory(id int64) (*dao.Category, error) {
+func (r *r) GetCategory(id int64) (*dao.Category, error) {
 	var entity dao.Category
 	err := r.ReformDB.FindOneTo(&entity, "id", id)
 	if err != nil {

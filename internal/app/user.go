@@ -1,9 +1,9 @@
 package app
 
 import (
-	"github.com/MarcSky/freon/pkg/api"
-	"github.com/google/uuid"
+	"github.com/freonservice/freon/pkg/api"
 
+	"github.com/google/uuid"
 	"gopkg.in/reform.v1"
 )
 
@@ -27,7 +27,7 @@ func (a *appl) AuthorizeUser(ctx Ctx, email, password string) (AccessToken, *Use
 		return "", nil, ErrWrongPassword
 	}
 
-	userID, err := uuid.Parse(user.UuidID)
+	userID, err := uuid.Parse(user.UUIDID)
 	if err != nil {
 		return "", nil, err
 	}
@@ -63,8 +63,8 @@ func (a *appl) RegisterUser(ctx Ctx, email, password, firstName, secondName stri
 	return mappingUser(newUser), nil
 }
 
-func (a *appl) GetUserByUUID(ctx Ctx, uuid string) (*User, error) {
-	user, err := a.repo.GetUserByUserUUID(uuid)
+func (a *appl) GetUserByUUID(ctx Ctx, userUUID string) (*User, error) {
+	user, err := a.repo.GetUserByUserUUID(userUUID)
 	if err != nil {
 		return nil, err
 	}
@@ -72,7 +72,7 @@ func (a *appl) GetUserByUUID(ctx Ctx, uuid string) (*User, error) {
 }
 
 func (a *appl) GetUserByID(ctx Ctx, userID int64) (*User, error) {
-	user, err := a.repo.GetUserById(userID)
+	user, err := a.repo.GetUserByID(userID)
 	if err != nil {
 		return nil, err
 	}
@@ -92,7 +92,7 @@ func (a *appl) LogoutUser(ctx Ctx, token string) error {
 }
 
 func (a *appl) UpdatePassword(ctx Ctx, userID int64, changePassword ChangePassword) error {
-	user, err := a.repo.GetUserById(userID)
+	user, err := a.repo.GetUserByID(userID)
 	if err != nil {
 		return err
 	}

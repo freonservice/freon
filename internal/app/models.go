@@ -8,7 +8,7 @@ type User struct {
 	Password   string
 	FirstName  string
 	SecondName string
-	UuidID     string
+	UUIDID     string
 	Role       int64
 	Status     int64
 	CreatedAt  time.Time

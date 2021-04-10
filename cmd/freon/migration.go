@@ -3,11 +3,11 @@ package main
 import (
 	"context"
 	"fmt"
-	"github.com/MarcSky/freon/internal/app"
 	"io/ioutil"
 	"time"
 
-	"github.com/MarcSky/freon/internal/config"
+	"github.com/freonservice/freon/internal/app"
+	"github.com/freonservice/freon/internal/config"
 
 	"github.com/jmoiron/sqlx"
 	"github.com/pkg/errors"
@@ -42,10 +42,10 @@ func migrationDB(db *sqlx.DB) error {
 }
 
 func (srv *service) createFirstAdmin() error {
-	if len(config.DefaultAdminPass) == 0 || len(config.DefaultAdminPass) == 0 {
+	if config.DefaultAdminEmail == "" || config.DefaultAdminPass == "" {
 		return nil
 	}
-	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second) //nolint:gomnd
 	defer cancel()
 	_, err := srv.appl.RegisterUser(ctx, config.DefaultAdminEmail, config.DefaultAdminPass, "Freon", "Administrator", 0)
 	if err != nil && err != app.ErrEmailIsUsed {

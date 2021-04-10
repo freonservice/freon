@@ -17,7 +17,7 @@ func (item Item) Expired() bool {
 	if item.Expiration == 0 {
 		return false
 	}
-	return time.Now().Unix() > item.Expiration
+	return time.Now().UTC().Unix() > item.Expiration
 }
 
 // Storage mechanism for caching strings in memory
@@ -35,7 +35,7 @@ func NewStorage() *Storage {
 }
 
 // Get a cached content by key
-func (s Storage) Get(key string) *Item {
+func (s *Storage) Get(key string) *Item {
 	s.mu.RLock()
 	defer s.mu.RUnlock()
 
@@ -53,7 +53,7 @@ func (s Storage) Get(key string) *Item {
 }
 
 // Set a cached content by key
-func (s Storage) Set(key string, item Item) {
+func (s *Storage) Set(key string, item Item) {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 

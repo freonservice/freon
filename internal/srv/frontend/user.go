@@ -1,18 +1,18 @@
 package frontend
 
 import (
-	"github.com/MarcSky/freon/api/openapi/frontend/restapi/op"
-	"github.com/MarcSky/freon/internal/app"
+	"github.com/freonservice/freon/api/openapi/frontend/restapi/op"
+	"github.com/freonservice/freon/internal/app"
 
 	"github.com/go-openapi/swag"
 	"github.com/pkg/errors"
 )
 
 func (srv *server) regUser(params op.RegUserParams, session *app.UserSession) op.RegUserResponder {
-	ctx, log := fromRequest(params.HTTPRequest, nil)
+	ctx, log := fromRequest(params.HTTPRequest, session)
 
 	if params.Args.Password.String() != params.Args.RepeatPassword.String() {
-		return errRegUser(log, errors.New("Passwords not equals"), codePasswordsNotEquals)
+		return errRegUser(log, errors.New("passwords not equals"), codePasswordsNotEquals)
 	}
 	_, err := srv.app.RegisterUser(
 		ctx,
@@ -35,7 +35,7 @@ func (srv *server) regUser(params op.RegUserParams, session *app.UserSession) op
 }
 
 func (srv *server) userMe(params op.UserMeParams, session *app.UserSession) op.UserMeResponder {
-	ctx, log := fromRequest(params.HTTPRequest, nil)
+	ctx, log := fromRequest(params.HTTPRequest, session)
 
 	user, err := srv.app.GetUserByID(ctx, session.UserID)
 	switch errors.Cause(err) {
@@ -51,7 +51,7 @@ func (srv *server) userMe(params op.UserMeParams, session *app.UserSession) op.U
 }
 
 func (srv *server) userChangePassword(params op.UserChangePasswordParams, session *app.UserSession) op.UserChangePasswordResponder {
-	ctx, log := fromRequest(params.HTTPRequest, nil)
+	ctx, log := fromRequest(params.HTTPRequest, session)
 
 	newPass := swag.StringValue(params.Args.NewPassword)
 	repeatPass := swag.StringValue(params.Args.RepeatPassword)
@@ -76,7 +76,7 @@ func (srv *server) userChangePassword(params op.UserChangePasswordParams, sessio
 }
 
 func (srv *server) userChangeProfile(params op.UserChangeProfileParams, session *app.UserSession) op.UserChangeProfileResponder {
-	ctx, log := fromRequest(params.HTTPRequest, nil)
+	ctx, log := fromRequest(params.HTTPRequest, session)
 
 	id := params.Args.UserID
 	if id <= 0 {
@@ -104,7 +104,7 @@ func (srv *server) userChangeProfile(params op.UserChangeProfileParams, session 
 }
 
 func (srv *server) listUser(params op.ListUserParams, session *app.UserSession) op.ListUserResponder {
-	ctx, log := fromRequest(params.HTTPRequest, nil)
+	ctx, log := fromRequest(params.HTTPRequest, session)
 
 	entities, err := srv.app.GetUsers(ctx)
 	switch errors.Cause(err) {

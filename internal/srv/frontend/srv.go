@@ -6,11 +6,11 @@ import (
 	"net"
 	"net/http"
 
-	"github.com/MarcSky/freon/api/openapi/frontend/restapi"
-	"github.com/MarcSky/freon/api/openapi/frontend/restapi/op"
-	"github.com/MarcSky/freon/internal/app"
-	"github.com/MarcSky/freon/pkg/def"
-	"github.com/MarcSky/freon/pkg/netx"
+	"github.com/freonservice/freon/api/openapi/frontend/restapi"
+	"github.com/freonservice/freon/api/openapi/frontend/restapi/op"
+	"github.com/freonservice/freon/internal/app"
+	"github.com/freonservice/freon/pkg/def"
+	"github.com/freonservice/freon/pkg/netx"
 
 	"github.com/go-openapi/loads"
 	"github.com/go-openapi/runtime/middleware"

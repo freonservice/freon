@@ -1,0 +1,15 @@
+syntax = "proto3";
+package api;
+option go_package = "pb;api";
+
+import "localization.proto";
+
+service FreonService {
+  rpc GetLocalizations (GetLocalizationsReq) returns (GetLocalizationsRes);
+//  rpc GetTransactionsByAddress (GetTransactionsByAddressReq) returns (GetTransactionsRes);
+//  rpc GetTransactionByHash (GetTransactionByHashReq) returns (GetTransactionRes);
+}
+
+// get localizations - full list localizations code
+// get translations by localization id
+// get translation by id/localizartion

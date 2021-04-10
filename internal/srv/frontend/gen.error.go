@@ -7,13 +7,13 @@ package frontend
 import (
 	"net/http"
 
-	"github.com/MarcSky/freon/api/openapi/frontend/model"
-	"github.com/MarcSky/freon/api/openapi/frontend/restapi/op"
-	"github.com/MarcSky/freon/pkg/def"
+	"github.com/freonservice/freon/api/openapi/frontend/model"
+	"github.com/freonservice/freon/api/openapi/frontend/restapi/op"
+	"github.com/freonservice/freon/pkg/def"
 	"github.com/go-openapi/swag"
 )
 
-func errLogin(log Log, err error, code errCode) op.LoginResponder {
+func errLogin(log Log, err error, code errCode) op.LoginResponder { //nolint:dupl
 	if code.status < http.StatusInternalServerError {
 		log.Info("client error", def.LogHTTPStatus, code.status, "code", code.status, "err", err)
 	} else {
@@ -22,7 +22,7 @@ func errLogin(log Log, err error, code errCode) op.LoginResponder {
 
 	msg := err.Error()
 	if code.status == http.StatusInternalServerError {
-		msg = "internal error" //nolint:goconst // Duplicated by go:generate.
+		msg = "internal error"
 	}
 
 	return op.NewLoginDefault(code.status).WithPayload(&model.Error{
@@ -31,7 +31,7 @@ func errLogin(log Log, err error, code errCode) op.LoginResponder {
 	})
 }
 
-func errLogoutUser(log Log, err error, code errCode) op.LogoutUserResponder {
+func errLogoutUser(log Log, err error, code errCode) op.LogoutUserResponder { //nolint:dupl
 	if code.status < http.StatusInternalServerError {
 		log.Info("client error", def.LogHTTPStatus, code.status, "code", code.status, "err", err)
 	} else {
@@ -40,7 +40,7 @@ func errLogoutUser(log Log, err error, code errCode) op.LogoutUserResponder {
 
 	msg := err.Error()
 	if code.status == http.StatusInternalServerError {
-		msg = "internal error" //nolint:goconst // Duplicated by go:generate.
+		msg = "internal error"
 	}
 
 	return op.NewLogoutUserDefault(code.status).WithPayload(&model.Error{
@@ -49,7 +49,7 @@ func errLogoutUser(log Log, err error, code errCode) op.LogoutUserResponder {
 	})
 }
 
-func errRegUser(log Log, err error, code errCode) op.RegUserResponder {
+func errRegUser(log Log, err error, code errCode) op.RegUserResponder { //nolint:dupl
 	if code.status < http.StatusInternalServerError {
 		log.Info("client error", def.LogHTTPStatus, code.status, "code", code.status, "err", err)
 	} else {
@@ -58,7 +58,7 @@ func errRegUser(log Log, err error, code errCode) op.RegUserResponder {
 
 	msg := err.Error()
 	if code.status == http.StatusInternalServerError {
-		msg = "internal error" //nolint:goconst // Duplicated by go:generate.
+		msg = "internal error"
 	}
 
 	return op.NewRegUserDefault(code.status).WithPayload(&model.Error{
@@ -67,7 +67,7 @@ func errRegUser(log Log, err error, code errCode) op.RegUserResponder {
 	})
 }
 
-func errCreateLocalization(log Log, err error, code errCode) op.CreateLocalizationResponder {
+func errCreateLocalization(log Log, err error, code errCode) op.CreateLocalizationResponder { //nolint:dupl
 	if code.status < http.StatusInternalServerError {
 		log.Info("client error", def.LogHTTPStatus, code.status, "code", code.status, "err", err)
 	} else {
@@ -76,7 +76,7 @@ func errCreateLocalization(log Log, err error, code errCode) op.CreateLocalizati
 
 	msg := err.Error()
 	if code.status == http.StatusInternalServerError {
-		msg = "internal error" //nolint:goconst // Duplicated by go:generate.
+		msg = "internal error"
 	}
 
 	return op.NewCreateLocalizationDefault(code.status).WithPayload(&model.Error{
@@ -85,7 +85,7 @@ func errCreateLocalization(log Log, err error, code errCode) op.CreateLocalizati
 	})
 }
 
-func errUserMe(log Log, err error, code errCode) op.UserMeResponder {
+func errUserMe(log Log, err error, code errCode) op.UserMeResponder { //nolint:dupl
 	if code.status < http.StatusInternalServerError {
 		log.Info("client error", def.LogHTTPStatus, code.status, "code", code.status, "err", err)
 	} else {
@@ -94,7 +94,7 @@ func errUserMe(log Log, err error, code errCode) op.UserMeResponder {
 
 	msg := err.Error()
 	if code.status == http.StatusInternalServerError {
-		msg = "internal error" //nolint:goconst // Duplicated by go:generate.
+		msg = "internal error"
 	}
 
 	return op.NewUserMeDefault(code.status).WithPayload(&model.Error{
@@ -103,7 +103,7 @@ func errUserMe(log Log, err error, code errCode) op.UserMeResponder {
 	})
 }
 
-func errListLocalization(log Log, err error, code errCode) op.ListLocalizationResponder {
+func errListLocalization(log Log, err error, code errCode) op.ListLocalizationResponder { //nolint:dupl
 	if code.status < http.StatusInternalServerError {
 		log.Info("client error", def.LogHTTPStatus, code.status, "code", code.status, "err", err)
 	} else {
@@ -112,7 +112,7 @@ func errListLocalization(log Log, err error, code errCode) op.ListLocalizationRe
 
 	msg := err.Error()
 	if code.status == http.StatusInternalServerError {
-		msg = "internal error" //nolint:goconst // Duplicated by go:generate.
+		msg = "internal error"
 	}
 
 	return op.NewListLocalizationDefault(code.status).WithPayload(&model.Error{
@@ -121,7 +121,7 @@ func errListLocalization(log Log, err error, code errCode) op.ListLocalizationRe
 	})
 }
 
-func errDeleteLocalization(log Log, err error, code errCode) op.DeleteLocalizationResponder {
+func errDeleteLocalization(log Log, err error, code errCode) op.DeleteLocalizationResponder { //nolint:dupl
 	if code.status < http.StatusInternalServerError {
 		log.Info("client error", def.LogHTTPStatus, code.status, "code", code.status, "err", err)
 	} else {
@@ -130,7 +130,7 @@ func errDeleteLocalization(log Log, err error, code errCode) op.DeleteLocalizati
 
 	msg := err.Error()
 	if code.status == http.StatusInternalServerError {
-		msg = "internal error" //nolint:goconst // Duplicated by go:generate.
+		msg = "internal error"
 	}
 
 	return op.NewDeleteLocalizationDefault(code.status).WithPayload(&model.Error{
@@ -139,7 +139,7 @@ func errDeleteLocalization(log Log, err error, code errCode) op.DeleteLocalizati
 	})
 }
 
-func errCreateIdentifier(log Log, err error, code errCode) op.CreateIdentifierResponder {
+func errCreateIdentifier(log Log, err error, code errCode) op.CreateIdentifierResponder { //nolint:dupl
 	if code.status < http.StatusInternalServerError {
 		log.Info("client error", def.LogHTTPStatus, code.status, "code", code.status, "err", err)
 	} else {
@@ -148,7 +148,7 @@ func errCreateIdentifier(log Log, err error, code errCode) op.CreateIdentifierRe
 
 	msg := err.Error()
 	if code.status == http.StatusInternalServerError {
-		msg = "internal error" //nolint:goconst // Duplicated by go:generate.
+		msg = "internal error"
 	}
 
 	return op.NewCreateIdentifierDefault(code.status).WithPayload(&model.Error{
@@ -157,7 +157,7 @@ func errCreateIdentifier(log Log, err error, code errCode) op.CreateIdentifierRe
 	})
 }
 
-func errListIdentifiers(log Log, err error, code errCode) op.ListIdentifiersResponder {
+func errListIdentifiers(log Log, err error, code errCode) op.ListIdentifiersResponder { //nolint:dupl
 	if code.status < http.StatusInternalServerError {
 		log.Info("client error", def.LogHTTPStatus, code.status, "code", code.status, "err", err)
 	} else {
@@ -166,7 +166,7 @@ func errListIdentifiers(log Log, err error, code errCode) op.ListIdentifiersResp
 
 	msg := err.Error()
 	if code.status == http.StatusInternalServerError {
-		msg = "internal error" //nolint:goconst // Duplicated by go:generate.
+		msg = "internal error"
 	}
 
 	return op.NewListIdentifiersDefault(code.status).WithPayload(&model.Error{
@@ -175,7 +175,7 @@ func errListIdentifiers(log Log, err error, code errCode) op.ListIdentifiersResp
 	})
 }
 
-func errDeleteIdentifier(log Log, err error, code errCode) op.DeleteIdentifierResponder {
+func errDeleteIdentifier(log Log, err error, code errCode) op.DeleteIdentifierResponder { //nolint:dupl
 	if code.status < http.StatusInternalServerError {
 		log.Info("client error", def.LogHTTPStatus, code.status, "code", code.status, "err", err)
 	} else {
@@ -184,7 +184,7 @@ func errDeleteIdentifier(log Log, err error, code errCode) op.DeleteIdentifierRe
 
 	msg := err.Error()
 	if code.status == http.StatusInternalServerError {
-		msg = "internal error" //nolint:goconst // Duplicated by go:generate.
+		msg = "internal error"
 	}
 
 	return op.NewDeleteIdentifierDefault(code.status).WithPayload(&model.Error{
@@ -193,7 +193,7 @@ func errDeleteIdentifier(log Log, err error, code errCode) op.DeleteIdentifierRe
 	})
 }
 
-func errCreateCategory(log Log, err error, code errCode) op.CreateCategoryResponder {
+func errCreateCategory(log Log, err error, code errCode) op.CreateCategoryResponder { //nolint:dupl
 	if code.status < http.StatusInternalServerError {
 		log.Info("client error", def.LogHTTPStatus, code.status, "code", code.status, "err", err)
 	} else {
@@ -202,7 +202,7 @@ func errCreateCategory(log Log, err error, code errCode) op.CreateCategoryRespon
 
 	msg := err.Error()
 	if code.status == http.StatusInternalServerError {
-		msg = "internal error" //nolint:goconst // Duplicated by go:generate.
+		msg = "internal error"
 	}
 
 	return op.NewCreateCategoryDefault(code.status).WithPayload(&model.Error{
@@ -211,7 +211,7 @@ func errCreateCategory(log Log, err error, code errCode) op.CreateCategoryRespon
 	})
 }
 
-func errListCategories(log Log, err error, code errCode) op.ListCategoriesResponder {
+func errListCategories(log Log, err error, code errCode) op.ListCategoriesResponder { //nolint:dupl
 	if code.status < http.StatusInternalServerError {
 		log.Info("client error", def.LogHTTPStatus, code.status, "code", code.status, "err", err)
 	} else {
@@ -220,7 +220,7 @@ func errListCategories(log Log, err error, code errCode) op.ListCategoriesRespon
 
 	msg := err.Error()
 	if code.status == http.StatusInternalServerError {
-		msg = "internal error" //nolint:goconst // Duplicated by go:generate.
+		msg = "internal error"
 	}
 
 	return op.NewListCategoriesDefault(code.status).WithPayload(&model.Error{
@@ -229,7 +229,7 @@ func errListCategories(log Log, err error, code errCode) op.ListCategoriesRespon
 	})
 }
 
-func errDeleteCategory(log Log, err error, code errCode) op.DeleteCategoryResponder {
+func errDeleteCategory(log Log, err error, code errCode) op.DeleteCategoryResponder { //nolint:dupl
 	if code.status < http.StatusInternalServerError {
 		log.Info("client error", def.LogHTTPStatus, code.status, "code", code.status, "err", err)
 	} else {
@@ -238,7 +238,7 @@ func errDeleteCategory(log Log, err error, code errCode) op.DeleteCategoryRespon
 
 	msg := err.Error()
 	if code.status == http.StatusInternalServerError {
-		msg = "internal error" //nolint:goconst // Duplicated by go:generate.
+		msg = "internal error"
 	}
 
 	return op.NewDeleteCategoryDefault(code.status).WithPayload(&model.Error{
@@ -247,7 +247,7 @@ func errDeleteCategory(log Log, err error, code errCode) op.DeleteCategoryRespon
 	})
 }
 
-func errUpdateCategory(log Log, err error, code errCode) op.UpdateCategoryResponder {
+func errUpdateCategory(log Log, err error, code errCode) op.UpdateCategoryResponder { //nolint:dupl
 	if code.status < http.StatusInternalServerError {
 		log.Info("client error", def.LogHTTPStatus, code.status, "code", code.status, "err", err)
 	} else {
@@ -256,7 +256,7 @@ func errUpdateCategory(log Log, err error, code errCode) op.UpdateCategoryRespon
 
 	msg := err.Error()
 	if code.status == http.StatusInternalServerError {
-		msg = "internal error" //nolint:goconst // Duplicated by go:generate.
+		msg = "internal error"
 	}
 
 	return op.NewUpdateCategoryDefault(code.status).WithPayload(&model.Error{
@@ -265,7 +265,7 @@ func errUpdateCategory(log Log, err error, code errCode) op.UpdateCategoryRespon
 	})
 }
 
-func errUpdateIdentifier(log Log, err error, code errCode) op.UpdateIdentifierResponder {
+func errUpdateIdentifier(log Log, err error, code errCode) op.UpdateIdentifierResponder { //nolint:dupl
 	if code.status < http.StatusInternalServerError {
 		log.Info("client error", def.LogHTTPStatus, code.status, "code", code.status, "err", err)
 	} else {
@@ -274,7 +274,7 @@ func errUpdateIdentifier(log Log, err error, code errCode) op.UpdateIdentifierRe
 
 	msg := err.Error()
 	if code.status == http.StatusInternalServerError {
-		msg = "internal error" //nolint:goconst // Duplicated by go:generate.
+		msg = "internal error"
 	}
 
 	return op.NewUpdateIdentifierDefault(code.status).WithPayload(&model.Error{
@@ -283,7 +283,7 @@ func errUpdateIdentifier(log Log, err error, code errCode) op.UpdateIdentifierRe
 	})
 }
 
-func errCreateTranslation(log Log, err error, code errCode) op.CreateTranslationResponder {
+func errCreateTranslation(log Log, err error, code errCode) op.CreateTranslationResponder { //nolint:dupl
 	if code.status < http.StatusInternalServerError {
 		log.Info("client error", def.LogHTTPStatus, code.status, "code", code.status, "err", err)
 	} else {
@@ -292,7 +292,7 @@ func errCreateTranslation(log Log, err error, code errCode) op.CreateTranslation
 
 	msg := err.Error()
 	if code.status == http.StatusInternalServerError {
-		msg = "internal error" //nolint:goconst // Duplicated by go:generate.
+		msg = "internal error"
 	}
 
 	return op.NewCreateTranslationDefault(code.status).WithPayload(&model.Error{
@@ -301,7 +301,7 @@ func errCreateTranslation(log Log, err error, code errCode) op.CreateTranslation
 	})
 }
 
-func errListTranslations(log Log, err error, code errCode) op.ListTranslationsResponder {
+func errListTranslations(log Log, err error, code errCode) op.ListTranslationsResponder { //nolint:dupl
 	if code.status < http.StatusInternalServerError {
 		log.Info("client error", def.LogHTTPStatus, code.status, "code", code.status, "err", err)
 	} else {
@@ -310,7 +310,7 @@ func errListTranslations(log Log, err error, code errCode) op.ListTranslationsRe
 
 	msg := err.Error()
 	if code.status == http.StatusInternalServerError {
-		msg = "internal error" //nolint:goconst // Duplicated by go:generate.
+		msg = "internal error"
 	}
 
 	return op.NewListTranslationsDefault(code.status).WithPayload(&model.Error{
@@ -319,7 +319,7 @@ func errListTranslations(log Log, err error, code errCode) op.ListTranslationsRe
 	})
 }
 
-func errDeleteTranslation(log Log, err error, code errCode) op.DeleteTranslationResponder {
+func errDeleteTranslation(log Log, err error, code errCode) op.DeleteTranslationResponder { //nolint:dupl
 	if code.status < http.StatusInternalServerError {
 		log.Info("client error", def.LogHTTPStatus, code.status, "code", code.status, "err", err)
 	} else {
@@ -328,7 +328,7 @@ func errDeleteTranslation(log Log, err error, code errCode) op.DeleteTranslation
 
 	msg := err.Error()
 	if code.status == http.StatusInternalServerError {
-		msg = "internal error" //nolint:goconst // Duplicated by go:generate.
+		msg = "internal error"
 	}
 
 	return op.NewDeleteTranslationDefault(code.status).WithPayload(&model.Error{
@@ -337,7 +337,7 @@ func errDeleteTranslation(log Log, err error, code errCode) op.DeleteTranslation
 	})
 }
 
-func errUpdateTranslation(log Log, err error, code errCode) op.UpdateTranslationResponder {
+func errUpdateTranslation(log Log, err error, code errCode) op.UpdateTranslationResponder { //nolint:dupl
 	if code.status < http.StatusInternalServerError {
 		log.Info("client error", def.LogHTTPStatus, code.status, "code", code.status, "err", err)
 	} else {
@@ -346,7 +346,7 @@ func errUpdateTranslation(log Log, err error, code errCode) op.UpdateTranslation
 
 	msg := err.Error()
 	if code.status == http.StatusInternalServerError {
-		msg = "internal error" //nolint:goconst // Duplicated by go:generate.
+		msg = "internal error"
 	}
 
 	return op.NewUpdateTranslationDefault(code.status).WithPayload(&model.Error{
@@ -355,7 +355,7 @@ func errUpdateTranslation(log Log, err error, code errCode) op.UpdateTranslation
 	})
 }
 
-func errHideTranslation(log Log, err error, code errCode) op.HideTranslationResponder {
+func errHideTranslation(log Log, err error, code errCode) op.HideTranslationResponder { //nolint:dupl
 	if code.status < http.StatusInternalServerError {
 		log.Info("client error", def.LogHTTPStatus, code.status, "code", code.status, "err", err)
 	} else {
@@ -364,7 +364,7 @@ func errHideTranslation(log Log, err error, code errCode) op.HideTranslationResp
 
 	msg := err.Error()
 	if code.status == http.StatusInternalServerError {
-		msg = "internal error" //nolint:goconst // Duplicated by go:generate.
+		msg = "internal error"
 	}
 
 	return op.NewHideTranslationDefault(code.status).WithPayload(&model.Error{
@@ -373,7 +373,7 @@ func errHideTranslation(log Log, err error, code errCode) op.HideTranslationResp
 	})
 }
 
-func errUserChangePassword(log Log, err error, code errCode) op.UserChangePasswordResponder {
+func errUserChangePassword(log Log, err error, code errCode) op.UserChangePasswordResponder { //nolint:dupl
 	if code.status < http.StatusInternalServerError {
 		log.Info("client error", def.LogHTTPStatus, code.status, "code", code.status, "err", err)
 	} else {
@@ -382,7 +382,7 @@ func errUserChangePassword(log Log, err error, code errCode) op.UserChangePasswo
 
 	msg := err.Error()
 	if code.status == http.StatusInternalServerError {
-		msg = "internal error" //nolint:goconst // Duplicated by go:generate.
+		msg = "internal error"
 	}
 
 	return op.NewUserChangePasswordDefault(code.status).WithPayload(&model.Error{
@@ -391,7 +391,7 @@ func errUserChangePassword(log Log, err error, code errCode) op.UserChangePasswo
 	})
 }
 
-func errUserChangeProfile(log Log, err error, code errCode) op.UserChangeProfileResponder {
+func errUserChangeProfile(log Log, err error, code errCode) op.UserChangeProfileResponder { //nolint:dupl
 	if code.status < http.StatusInternalServerError {
 		log.Info("client error", def.LogHTTPStatus, code.status, "code", code.status, "err", err)
 	} else {
@@ -400,7 +400,7 @@ func errUserChangeProfile(log Log, err error, code errCode) op.UserChangeProfile
 
 	msg := err.Error()
 	if code.status == http.StatusInternalServerError {
-		msg = "internal error" //nolint:goconst // Duplicated by go:generate.
+		msg = "internal error"
 	}
 
 	return op.NewUserChangeProfileDefault(code.status).WithPayload(&model.Error{
@@ -409,7 +409,7 @@ func errUserChangeProfile(log Log, err error, code errCode) op.UserChangeProfile
 	})
 }
 
-func errListUser(log Log, err error, code errCode) op.ListUserResponder {
+func errListUser(log Log, err error, code errCode) op.ListUserResponder { //nolint:dupl
 	if code.status < http.StatusInternalServerError {
 		log.Info("client error", def.LogHTTPStatus, code.status, "code", code.status, "err", err)
 	} else {
@@ -418,7 +418,7 @@ func errListUser(log Log, err error, code errCode) op.ListUserResponder {
 
 	msg := err.Error()
 	if code.status == http.StatusInternalServerError {
-		msg = "internal error" //nolint:goconst // Duplicated by go:generate.
+		msg = "internal error"
 	}
 
 	return op.NewListUserDefault(code.status).WithPayload(&model.Error{
@@ -427,7 +427,7 @@ func errListUser(log Log, err error, code errCode) op.ListUserResponder {
 	})
 }
 
-func errStatistic(log Log, err error, code errCode) op.StatisticResponder {
+func errStatistic(log Log, err error, code errCode) op.StatisticResponder { //nolint:dupl
 	if code.status < http.StatusInternalServerError {
 		log.Info("client error", def.LogHTTPStatus, code.status, "code", code.status, "err", err)
 	} else {
@@ -436,7 +436,7 @@ func errStatistic(log Log, err error, code errCode) op.StatisticResponder {
 
 	msg := err.Error()
 	if code.status == http.StatusInternalServerError {
-		msg = "internal error" //nolint:goconst // Duplicated by go:generate.
+		msg = "internal error"
 	}
 
 	return op.NewStatisticDefault(code.status).WithPayload(&model.Error{

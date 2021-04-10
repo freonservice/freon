@@ -2,22 +2,18 @@ package main
 
 import (
 	"context"
-	"net/http"
-	"os"
-	"path"
-	"strings"
 
-	"github.com/MarcSky/freon/api/openapi/frontend/restapi"
-	"github.com/MarcSky/freon/internal/app"
-	"github.com/MarcSky/freon/internal/auth"
-	"github.com/MarcSky/freon/internal/config"
-	"github.com/MarcSky/freon/internal/dal"
-	"github.com/MarcSky/freon/internal/password"
-	"github.com/MarcSky/freon/internal/srv/frontend"
-	"github.com/MarcSky/freon/pkg/concurrent"
-	"github.com/MarcSky/freon/pkg/netx"
-	"github.com/MarcSky/freon/pkg/repo"
-	"github.com/MarcSky/freon/pkg/serve"
+	"github.com/freonservice/freon/api/openapi/frontend/restapi"
+	"github.com/freonservice/freon/internal/app"
+	"github.com/freonservice/freon/internal/auth"
+	"github.com/freonservice/freon/internal/config"
+	"github.com/freonservice/freon/internal/dal"
+	"github.com/freonservice/freon/internal/password"
+	"github.com/freonservice/freon/internal/srv/frontend"
+	"github.com/freonservice/freon/pkg/concurrent"
+	"github.com/freonservice/freon/pkg/netx"
+	"github.com/freonservice/freon/pkg/repo"
+	"github.com/freonservice/freon/pkg/serve"
 
 	"github.com/powerman/structlog"
 )
@@ -59,12 +55,13 @@ func (srv *service) runServe(ctxShutdown Ctx, shutdown func()) (err error) {
 		return log.Err("failed to frontend.NewServer", "err", err)
 	}
 
-	//go func() {
+	// nolint:gocritic
+	// go func() {
 	//	err = srv.reactStatic(ctxShutdown)
 	//	if err != nil {
 	//		_ = log.Err("failed to reactStatic", "err", err)
 	//	}
-	//}()
+	// }()
 
 	err = concurrent.Serve(ctxShutdown, shutdown,
 		srv.serveFrontendOpenAPI,
@@ -77,7 +74,7 @@ func (srv *service) runServe(ctxShutdown Ctx, shutdown func()) (err error) {
 }
 
 func (srv *service) connectRepo(ctx Ctx) (app.Repo, error) {
-	return dal.New(ctx, repo.Config{
+	return dal.New(ctx, &repo.Config{
 		Host:        config.DBHost,
 		Port:        config.DBPort,
 		User:        config.DBUser,
@@ -92,21 +89,21 @@ func (srv *service) serveFrontendOpenAPI(ctx Ctx) error {
 	return serve.OpenAPI(ctx, srv.frontendSrv, "frontendApi")
 }
 
-func (srv *service) reactStatic(ctx Ctx) error {
-	const FSPATH = "./client/dist/"
-	fs := http.FileServer(http.Dir(FSPATH))
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		if r.URL.Path != "/" {
-			fullPath := FSPATH + strings.TrimPrefix(path.Clean(r.URL.Path), "/")
-			_, err := os.Stat(fullPath)
-			if err != nil {
-				if !os.IsNotExist(err) {
-					log.Fatal(err)
-				}
-				r.URL.Path = "/"
-			}
-		}
-		fs.ServeHTTP(w, r)
-	})
-	return http.ListenAndServe(":4200", nil)
-}
+// func (srv *service) reactStatic(ctx Ctx) error {
+//	const FSPATH = "./client/dist/"
+//	fs := http.FileServer(http.Dir(FSPATH))
+//	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+//		if r.URL.Path != "/" {
+//			fullPath := FSPATH + strings.TrimPrefix(path.Clean(r.URL.Path), "/")
+//			_, err := os.Stat(fullPath)
+//			if err != nil {
+//				if !os.IsNotExist(err) {
+//					log.Fatal(err)
+//				}
+//				r.URL.Path = "/"
+//			}
+//		}
+//		fs.ServeHTTP(w, r)
+//	})
+//	return http.ListenAndServe(":4200", nil)
+// }

@@ -3,7 +3,7 @@ package password_test
 import (
 	"testing"
 
-	"github.com/MarcSky/freon/internal/password"
+	"github.com/freonservice/freon/internal/password"
 
 	"github.com/stretchr/testify/assert"
 )

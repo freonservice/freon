@@ -1,19 +1,16 @@
-//go:generate genny -in=$GOFILE -out=gen.$GOFILE gen "HealthCheck=Login,LogoutUser,RegUser,CreateLocalization,UserMe,ListLocalization,DeleteLocalization,CreateIdentifier,ListIdentifiers,DeleteIdentifier,CreateCategory,ListCategories,DeleteCategory,UpdateCategory,UpdateIdentifier,CreateTranslation,ListTranslations,DeleteTranslation,UpdateTranslation,HideTranslation,UserChangePassword,UserChangeProfile,ListUser,Statistic"
-//go:generate sed -i -e "\\,^//go:generate,d" gen.$GOFILE
-
 package frontend
 
 import (
 	"net/http"
 
-	"github.com/MarcSky/freon/api/openapi/frontend/model"
-	"github.com/MarcSky/freon/api/openapi/frontend/restapi/op"
-	"github.com/MarcSky/freon/pkg/def"
+	"github.com/freonservice/freon/api/openapi/frontend/model"
+	"github.com/freonservice/freon/api/openapi/frontend/restapi/op"
+	"github.com/freonservice/freon/pkg/def"
 
 	"github.com/go-openapi/swag"
 )
 
-func errHealthCheck(log Log, err error, code errCode) op.HealthCheckResponder {
+func errHealthCheck(log Log, err error, code errCode) op.HealthCheckResponder { //nolint:dupl
 	if code.status < http.StatusInternalServerError {
 		log.Info("client error", def.LogHTTPStatus, code.status, "code", code.status, "err", err)
 	} else {
@@ -22,7 +19,7 @@ func errHealthCheck(log Log, err error, code errCode) op.HealthCheckResponder {
 
 	msg := err.Error()
 	if code.status == http.StatusInternalServerError {
-		msg = "internal error" //nolint:goconst // Duplicated by go:generate.
+		msg = "internal error" //nolint:goconst
 	}
 
 	return op.NewHealthCheckDefault(code.status).WithPayload(&model.Error{

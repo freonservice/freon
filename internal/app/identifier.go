@@ -4,12 +4,18 @@ import (
 	"fmt"
 	"sort"
 
-	"github.com/MarcSky/freon/internal/dao"
-	"github.com/MarcSky/freon/pkg/api"
+	"github.com/freonservice/freon/internal/dao"
+	"github.com/freonservice/freon/pkg/api"
 )
 
-func (a *appl) CreateIdentifier(ctx Ctx, creatorID, categoryID, parentID int64, name, description, exampleText string, platforms, namedList []string) error {
-	return a.repo.CreateIdentifier(ctx, creatorID, categoryID, parentID, name, description, exampleText, createConcatenatedString(platforms), createConcatenatedString(namedList))
+func (a *appl) CreateIdentifier(
+	ctx Ctx, creatorID, categoryID, parentID int64, name, description, exampleText string,
+	platforms, namedList []string,
+) error {
+	return a.repo.CreateIdentifier(
+		ctx, creatorID, categoryID, parentID, name, description, exampleText,
+		createConcatenatedString(platforms), createConcatenatedString(namedList),
+	)
 }
 
 func (a *appl) GetIdentifiers(ctx Ctx, categoryID int64) ([]*Identifier, error) {
@@ -28,8 +34,14 @@ func (a *appl) DeleteIdentifier(ctx Ctx, id int64) error {
 	return a.repo.DeleteIdentifier(ctx, id)
 }
 
-func (a *appl) UpdateIdentifier(ctx Ctx, id, categoryID, parentID int64, name, description, exampleText string, platforms, namedList []string) error {
-	return a.repo.UpdateIdentifier(ctx, id, categoryID, parentID, name, description, exampleText, createConcatenatedString(platforms), createConcatenatedString(namedList))
+func (a *appl) UpdateIdentifier(
+	ctx Ctx, id, categoryID, parentID int64, name, description, exampleText string,
+	platforms, namedList []string,
+) error {
+	return a.repo.UpdateIdentifier(
+		ctx, id, categoryID, parentID, name, description, exampleText,
+		createConcatenatedString(platforms), createConcatenatedString(namedList),
+	)
 }
 
 func uniqueStringSlice(intSlice []string) []string {

@@ -1,0 +1,4 @@
+vendor binary
+*.go text eol=lf linguist-language=Go
+go.mod text eol=lf linguist-detectable=false
+go.sum linguist-generated=true linguist-vendored=true -diff

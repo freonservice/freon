@@ -2,6 +2,7 @@ version: '3.8'
 
 volumes:
   freon-db:
+  freon-docs:
 
 services:
   freon-db:
@@ -44,3 +45,5 @@ services:
       timeout: 10s
       retries: 3
       start_period: 10s
+    volumes:
+      - freon-docs:/translations

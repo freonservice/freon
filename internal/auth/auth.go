@@ -6,11 +6,11 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/MarcSky/freon/internal/app"
-	"github.com/MarcSky/freon/internal/auth/cache"
-	"github.com/MarcSky/freon/internal/auth/cache/memory"
-	"github.com/MarcSky/freon/internal/config"
-	"github.com/MarcSky/freon/pkg/api"
+	"github.com/freonservice/freon/internal/app"
+	"github.com/freonservice/freon/internal/auth/cache"
+	"github.com/freonservice/freon/internal/auth/cache/memory"
+	"github.com/freonservice/freon/internal/config"
+	"github.com/freonservice/freon/pkg/api"
 
 	"github.com/dgrijalva/jwt-go"
 	openapierrors "github.com/go-openapi/errors"
@@ -21,7 +21,7 @@ import (
 
 const (
 	audienceToken = "freon"
-	issuerToken   = "auth-freon"
+	issuerToken   = "auth-freon" //nolint:gosec // this is not secret
 	sessionExpire = 10 * time.Second
 )
 
@@ -110,8 +110,8 @@ func (a *auth) GenerateAuthToken(uID uuid.UUID) (string, error) {
 	return jwt.NewWithClaims(jwt.SigningMethodHS256, &claims).SignedString(a.secretKey)
 }
 
-func (a *auth) session(uuid, token string) (*session, error) {
-	item := a.storage.Get(uuid)
+func (a *auth) session(userUUID, token string) (*session, error) {
+	item := a.storage.Get(userUUID)
 	if item != nil {
 		return &session{
 			UserID: item.UserID,
@@ -119,7 +119,7 @@ func (a *auth) session(uuid, token string) (*session, error) {
 		}, nil
 	}
 
-	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second) //nolint:gomnd
 	defer cancel()
 	sess, err := a.repo.SessionByAccessToken(ctx, token)
 	if err != nil {
@@ -127,7 +127,7 @@ func (a *auth) session(uuid, token string) (*session, error) {
 		return nil, ErrTokenInvalid
 	}
 
-	a.storage.Set(uuid, memory.Item{
+	a.storage.Set(userUUID, memory.Item{
 		UserID:     sess.UserID,
 		Status:     sess.User.Status,
 		Expiration: time.Now().Add(sessionExpire).Unix(),

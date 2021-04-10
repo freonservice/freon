@@ -1,7 +1,7 @@
 package app
 
 import (
-	"github.com/MarcSky/freon/internal/dao"
+	"github.com/freonservice/freon/internal/dao"
 )
 
 func (a *appl) CreateTranslation(ctx Ctx, creatorID, localizationID, identifierID int64, text string) error {

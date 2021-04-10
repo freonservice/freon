@@ -1,5 +1,6 @@
 syntax = "proto3";
 package api;
+option go_package = "pb;api";
 
 enum UserStatus {
   USER_ACTIVE = 0;

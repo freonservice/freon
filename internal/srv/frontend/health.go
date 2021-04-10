@@ -1,7 +1,7 @@
 package frontend
 
 import (
-	"github.com/MarcSky/freon/api/openapi/frontend/restapi/op"
+	"github.com/freonservice/freon/api/openapi/frontend/restapi/op"
 )
 
 func (srv *server) HealthCheck(params op.HealthCheckParams) op.HealthCheckResponder {

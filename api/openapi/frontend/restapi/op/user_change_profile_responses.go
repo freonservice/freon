@@ -11,7 +11,7 @@ import (
 	"github.com/go-openapi/runtime"
 	"github.com/go-openapi/runtime/middleware"
 
-	"github.com/MarcSky/freon/api/openapi/frontend/model"
+	"github.com/freonservice/freon/api/openapi/frontend/model"
 )
 
 // UserChangeProfileNoContentCode is the HTTP code returned for type UserChangeProfileNoContent

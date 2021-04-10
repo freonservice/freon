@@ -10,7 +10,7 @@ import (
 
 	"github.com/go-openapi/runtime/middleware"
 
-	"github.com/MarcSky/freon/internal/app"
+	"github.com/freonservice/freon/internal/app"
 )
 
 // DeleteTranslationHandlerFunc turns a function with the right signature into a delete translation handler

@@ -1,12 +1,12 @@
 package frontend
 
 import (
-	"github.com/MarcSky/freon/api/openapi/frontend/restapi/op"
-	"github.com/MarcSky/freon/internal/app"
+	"github.com/freonservice/freon/api/openapi/frontend/restapi/op"
+	"github.com/freonservice/freon/internal/app"
 )
 
 func (srv *server) statistic(params op.StatisticParams, session *app.UserSession) op.StatisticResponder {
-	ctx, log := fromRequest(params.HTTPRequest, nil)
+	ctx, log := fromRequest(params.HTTPRequest, session)
 	stat, err := srv.app.GetStatistic(ctx)
 	switch {
 	default:

@@ -3,7 +3,7 @@ package app
 import (
 	"strings"
 
-	"github.com/MarcSky/freon/internal/dao"
+	"github.com/freonservice/freon/internal/dao"
 
 	"github.com/AlekSi/pointer"
 )
@@ -15,7 +15,7 @@ func mappingUser(user *dao.User) *User {
 		Password:   user.Password,
 		FirstName:  user.FirstName.String,
 		SecondName: user.SecondName.String,
-		UuidID:     user.UuidID,
+		UUIDID:     user.UUIDID,
 		Role:       user.Role,
 		Status:     user.Status,
 		CreatedAt:  user.CreatedAt,

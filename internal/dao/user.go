@@ -11,7 +11,7 @@ import (
 // reform:users
 type User struct {
 	ID         int64          `reform:"id,pk"`
-	UuidID     string         `reform:"uuid_id"`
+	UUIDID     string         `reform:"uuid_id"`
 	Email      string         `reform:"email"`
 	Password   string         `reform:"password"`
 	FirstName  sql.NullString `reform:"first_name"`
@@ -36,14 +36,14 @@ func (u *User) BeforeUpdate() error {
 	return nil
 }
 
-//func (u *User) IsBanned() bool {
+// func (u *User) IsBanned() bool {
 //	return u.Status == status.UserBanned
-//}
+// }
 //
-//func (u *User) IsActive() bool {
+// func (u *User) IsActive() bool {
 //	return u.Status == status.UserActive
-//}
+// }
 //
-//func (u *User) IsNotConfirmed() bool {
+// func (u *User) IsNotConfirmed() bool {
 //	return u.Status == status.UserNotConfirmed
-//}
+// }

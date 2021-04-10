@@ -1,16 +1,16 @@
 package frontend
 
 import (
-	"github.com/MarcSky/freon/api/openapi/frontend/restapi/op"
-	"github.com/MarcSky/freon/internal/app"
-	"github.com/MarcSky/freon/pkg/api"
+	"github.com/freonservice/freon/api/openapi/frontend/restapi/op"
+	"github.com/freonservice/freon/internal/app"
+	"github.com/freonservice/freon/pkg/api"
 
 	"github.com/go-openapi/swag"
 	"github.com/pkg/errors"
 )
 
 func (srv *server) createTranslation(params op.CreateTranslationParams, session *app.UserSession) op.CreateTranslationResponder {
-	ctx, log := fromRequest(params.HTTPRequest, nil)
+	ctx, log := fromRequest(params.HTTPRequest, session)
 
 	err := srv.app.CreateTranslation(
 		ctx,
@@ -30,7 +30,7 @@ func (srv *server) createTranslation(params op.CreateTranslationParams, session 
 }
 
 func (srv *server) listTranslations(params op.ListTranslationsParams, session *app.UserSession) op.ListTranslationsResponder {
-	ctx, log := fromRequest(params.HTTPRequest, nil)
+	ctx, log := fromRequest(params.HTTPRequest, session)
 
 	entities, err := srv.app.GetTranslations(
 		ctx,
@@ -47,7 +47,7 @@ func (srv *server) listTranslations(params op.ListTranslationsParams, session *a
 }
 
 func (srv *server) deleteTranslation(params op.DeleteTranslationParams, session *app.UserSession) op.DeleteTranslationResponder {
-	ctx, log := fromRequest(params.HTTPRequest, nil)
+	ctx, log := fromRequest(params.HTTPRequest, session)
 
 	err := srv.app.DeleteTranslation(ctx, params.ID)
 	switch errors.Cause(err) {
@@ -61,7 +61,7 @@ func (srv *server) deleteTranslation(params op.DeleteTranslationParams, session 
 }
 
 func (srv *server) updateTranslation(params op.UpdateTranslationParams, session *app.UserSession) op.UpdateTranslationResponder {
-	ctx, log := fromRequest(params.HTTPRequest, nil)
+	ctx, log := fromRequest(params.HTTPRequest, session)
 
 	err := srv.app.UpdateTranslation(
 		ctx,
@@ -79,7 +79,7 @@ func (srv *server) updateTranslation(params op.UpdateTranslationParams, session 
 }
 
 func (srv *server) hideTranslation(params op.HideTranslationParams, session *app.UserSession) op.HideTranslationResponder {
-	ctx, log := fromRequest(params.HTTPRequest, nil)
+	ctx, log := fromRequest(params.HTTPRequest, session)
 
 	err := srv.app.HideTranslation(ctx, params.ID, params.Hide)
 	switch errors.Cause(err) {
@@ -93,7 +93,7 @@ func (srv *server) hideTranslation(params op.HideTranslationParams, session *app
 }
 
 func getTranslationStatus(status api.TranslationStatus) string {
-	switch status {
+	switch status { //nolint:exhaustive
 	case api.TranslationStatus_TRANSLATION_ACTIVE:
 		return "Active"
 	default:

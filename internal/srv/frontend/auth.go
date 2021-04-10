@@ -1,8 +1,8 @@
 package frontend
 
 import (
-	"github.com/MarcSky/freon/api/openapi/frontend/restapi/op"
-	"github.com/MarcSky/freon/internal/app"
+	"github.com/freonservice/freon/api/openapi/frontend/restapi/op"
+	"github.com/freonservice/freon/internal/app"
 
 	"github.com/go-openapi/swag"
 	"github.com/pkg/errors"
@@ -35,14 +35,14 @@ func (srv *server) authorize(params op.LoginParams) op.LoginResponder {
 				FirstName:  &user.FirstName,
 				Role:       &user.Role,
 				SecondName: &user.SecondName,
-				UUIDID:     &user.UuidID,
+				UUIDID:     &user.UUIDID,
 			},
 		},
 	)
 }
 
 func (srv *server) logout(params op.LogoutUserParams, session *app.UserSession) op.LogoutUserResponder {
-	ctx, log := fromRequest(params.HTTPRequest, nil)
+	ctx, log := fromRequest(params.HTTPRequest, session)
 
 	err := srv.app.LogoutUser(
 		ctx,
