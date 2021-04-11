@@ -22,4 +22,4 @@ else
   echo "Tests completed successful"
 fi
 
-echo "Start pushing committed code"
+echo "Code is successful committed"
