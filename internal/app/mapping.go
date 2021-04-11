@@ -121,6 +121,29 @@ func mappingArrayTranslation(translations []*dao.Translation) []*Translation {
 	return entities
 }
 
+func mappingGroupedTranslations(locale string, trxs []*dao.Translation) *GroupedTranslations {
+	entity := &GroupedTranslations{
+		Locale: locale,
+	}
+	var entities = make([]*Translation, len(trxs))
+	for i, l := range trxs {
+		entities[i] = mappingTranslation(l)
+	}
+	entity.Translations = entities
+
+	return entity
+}
+
+func mappingArrayGroupedTranslations(gts map[string][]*dao.Translation) []*GroupedTranslations {
+	var entities = make([]*GroupedTranslations, len(gts))
+	index := 0
+	for k, v := range gts {
+		entities[index] = mappingGroupedTranslations(k, v)
+		index++
+	}
+	return entities
+}
+
 func mappingStatistic(statistic *dao.Statistic) *Statistic {
 	return &Statistic{
 		CountUsers:         statistic.CountUsers,

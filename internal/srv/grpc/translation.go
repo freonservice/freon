@@ -4,7 +4,6 @@ import (
 	"context"
 
 	"github.com/freonservice/freon/internal/app"
-
 	"github.com/freonservice/freon/internal/filter"
 	"github.com/freonservice/freon/pkg/api"
 
@@ -17,15 +16,23 @@ import (
 func (s *service) GetListTranslations(ctx context.Context, req *api.GetListTranslationsReq) (*api.GetListTranslationsRes, error) {
 	logger := structlog.FromContext(ctx, nil)
 
-	trxs, err := s.app.GetTranslations(ctx, filter.TranslationFilter{Locale: req.Locale})
+	entities, err := s.app.GetGroupedTranslations(ctx, filter.GroupedTranslationFilter{Locales: req.Locales})
 	switch errors.Cause(err) {
 	default:
 		return nil, status.Error(codes.Internal, "failed -> "+logger.Err(err).Error())
 	case nil:
 	}
 
+	gts := make([]*api.GroupedTranslations, len(entities))
+	for i, v := range entities {
+		gts[i] = &api.GroupedTranslations{
+			Locale:       v.Locale,
+			Translations: mappingTranslations(v.Translations),
+		}
+	}
+
 	return &api.GetListTranslationsRes{
-		Translations: mappingTranslations(trxs),
+		GroupedTranslations: gts,
 	}, nil
 }
 

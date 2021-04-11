@@ -36,3 +36,8 @@ func (u *Translation) BeforeUpdate() error {
 	u.UpdatedAt = pointer.ToTime(u.UpdatedAt.UTC().Truncate(time.Second).AddDate(0, 0, 0))
 	return nil
 }
+
+type GroupedTranslations struct {
+	Locale       string
+	Translations []*Translation
+}

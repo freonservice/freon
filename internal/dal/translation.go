@@ -111,3 +111,35 @@ func (r *Repo) GetTranslation(ctx app.Ctx, locale, identifierName string) (*dao.
 
 	return entity, nil
 }
+
+func (r *Repo) GetGroupedTranslations(ctx Ctx, f filter.GroupedTranslationFilter) (map[string][]*dao.Translation, error) {
+	rows, err := f.CreateRows(ctx, r.DB)
+	if err != nil {
+		return nil, err
+	} else if rows.Err() != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var gts = make(map[string][]*dao.Translation)
+	for rows.Next() {
+		entity := new(dao.Translation)
+		entity.Localization = new(dao.Localization)
+		entity.Identifier = new(dao.Identifier)
+		err = rows.Scan(
+			&entity.ID, &entity.Text, &entity.Status, &entity.CreatedAt,
+			&entity.Localization.ID, &entity.Localization.Locale, &entity.Localization.LanguageName,
+			&entity.Identifier.ID, &entity.Identifier.Name, &entity.Identifier.Description,
+			&entity.Identifier.ExampleText, &entity.Identifier.Platforms, &entity.Identifier.NamedList,
+		)
+		if err != nil {
+			break
+		}
+		gts[entity.Localization.Locale] = append(gts[entity.Localization.Locale], entity)
+	}
+	if err != nil && err != sql.ErrNoRows {
+		return nil, err
+	}
+
+	return gts, nil
+}

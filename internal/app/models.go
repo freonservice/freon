@@ -73,6 +73,11 @@ type Translation struct {
 	UpdatedAt    time.Time
 }
 
+type GroupedTranslations struct {
+	Locale       string
+	Translations []*Translation
+}
+
 type StatTranslation struct {
 	LangName   string
 	Percentage float64

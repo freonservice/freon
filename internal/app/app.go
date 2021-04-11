@@ -52,6 +52,7 @@ type (
 		UpdateTranslation(ctx Ctx, id int64, text string) error
 		HideTranslation(ctx Ctx, id int64, hide bool) error
 		GetTranslation(ctx Ctx, locale, identifierName string) (*Translation, error)
+		GetGroupedTranslations(ctx Ctx, f filter.GroupedTranslationFilter) ([]*GroupedTranslations, error)
 
 		GetStatistic(ctx Ctx) (*Statistic, error)
 
@@ -104,6 +105,7 @@ type (
 		DeleteTranslation(ctx Ctx, id int64) error
 		UpdateTranslation(ctx Ctx, id int64, text string) error
 		GetTranslation(ctx Ctx, locale, identifierName string) (*dao.Translation, error)
+		GetGroupedTranslations(ctx Ctx, f filter.GroupedTranslationFilter) (map[string][]*dao.Translation, error)
 
 		GetStatistic(ctx Ctx) (*dao.Statistic, error)
 	}

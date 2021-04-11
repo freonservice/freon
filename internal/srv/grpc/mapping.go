@@ -34,7 +34,11 @@ func mappingTranslations(ts []*app.Translation) []*api.Translation {
 }
 
 func mappingTranslation(entity *app.Translation) *api.Translation {
-	return &api.Translation{
+	trx := &api.Translation{
 		Text: entity.Text,
 	}
+	if entity.Identifier != nil {
+		trx.IdentifierName = entity.Identifier.Name
+	}
+	return trx
 }

@@ -29,3 +29,8 @@ func (a *appl) GetTranslation(ctx Ctx, locale, identifierName string) (*Translat
 	t, err := a.repo.GetTranslation(ctx, locale, identifierName)
 	return mappingTranslation(t), err
 }
+
+func (a *appl) GetGroupedTranslations(ctx Ctx, f filter.GroupedTranslationFilter) ([]*GroupedTranslations, error) {
+	gts, err := a.repo.GetGroupedTranslations(ctx, f)
+	return mappingArrayGroupedTranslations(gts), err
+}
