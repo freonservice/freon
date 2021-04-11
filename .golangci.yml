@@ -139,5 +139,5 @@ run:
     - cmd/client
     - api/openapi
     - client
-
+    - statik
   skip-dirs-use-default: true

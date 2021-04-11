@@ -28,20 +28,21 @@ services:
     ports:
       - 4000:4000
     environment:
-      JWT_SECRET_KEY: smeshno
+      JWT_SECRET_KEY: my_secret_key
       DB_HOST: freon-db
       DB_PORT: 5432
       DB_USER: "root"
       DB_PASS: "password"
       DB_NAME: "freon"
       MIGRATION_PATH: "/migrations"
-      F_SERVICE_HOST: "0.0.0.0"
-      F_SERVICE_PORT: 4000
+      SERVICE_HOST: "0.0.0.0"
+      API_SERVICE_PORT: 4000
       GRPC_SERVICE_PORT: 4001
+      STATIK_SERVICE_PORT: 4002
     depends_on:
       - freon-db
     healthcheck:
-      test: [ "CMD", "curl", "-f", "http://127.0.0.1:4000/api/internal/health-check" ]
+      test: [ "CMD", "curl", "-f", "http://localhost:4000/api/internal/health-check" ]
       interval: 1m
       timeout: 10s
       retries: 3

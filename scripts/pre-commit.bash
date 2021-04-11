@@ -1,25 +1,19 @@
 #!/usr/bin/env bash
 
 echo "Running golangci-lint"
-golangci-lint run
-
-# $? stores exit value of the last command
-if [ $? -ne 0 ]; then
+if golangci-lint run; then
+  echo "Golangci-lint completed successful"
+else
   echo "Golangci-lint must pass before commit!"
   exit 1
-else
-  echo "Golangci-lint completed successful"
 fi
 
 echo "Running tests"
-go test -v ./...
-
-# $? stores exit value of the last command
-if [ $? -ne 0 ]; then
+if go test -v ./...; then
+  echo "Tests completed successful"
+else
   echo "Tests must pass before commit!"
   exit 1
-else
-  echo "Tests completed successful"
 fi
 
 echo "Code is successful committed"
