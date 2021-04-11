@@ -2,6 +2,7 @@
 client
 .DS_Store
 .gitignore
+scripts
 README.md
 proto_files
 coverage.out

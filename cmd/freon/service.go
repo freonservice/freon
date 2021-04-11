@@ -15,6 +15,7 @@ import (
 	"github.com/freonservice/freon/pkg/concurrent"
 	"github.com/freonservice/freon/pkg/netx"
 	"github.com/freonservice/freon/pkg/serve"
+	_ "github.com/freonservice/freon/statik"
 
 	"github.com/pkg/errors"
 	"google.golang.org/grpc"
@@ -45,18 +46,10 @@ func runServe(repo *dal.Repo, ctxShutdown Ctx, shutdown func()) error {
 	}
 
 	srv.grpcSrv = grpcServer.NewServer(appl)
-
-	// nolint:gocritic
-	// go func() {
-	//	err = srv.reactStatic(ctxShutdown)
-	//	if err != nil {
-	//		_ = log.Err("failed to reactStatic", "err", err)
-	//	}
-	// }()
-
 	err = concurrent.Serve(ctxShutdown, shutdown,
 		srv.serveFrontendOpenAPI,
 		srv.serveGRPC,
+		srv.serverStatik,
 	)
 	if err != nil {
 		return errors.Wrap(err, "failed to serve")
@@ -74,24 +67,10 @@ func (srv *service) serveGRPC(ctx Ctx) error {
 	return serve.ServerGRPC(ctx, addr, srv.grpcSrv)
 }
 
-// func (srv *service) reactStatic(ctx Ctx) error {
-//	const FSPATH = "./client/dist/"
-//	fs := http.FileServer(http.Dir(FSPATH))
-//	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-//		if r.URL.Path != "/" {
-//			fullPath := FSPATH + strings.TrimPrefix(path.Clean(r.URL.Path), "/")
-//			_, err := os.Stat(fullPath)
-//			if err != nil {
-//				if !os.IsNotExist(err) {
-//					log.Fatal(err)
-//				}
-//				r.URL.Path = "/"
-//			}
-//		}
-//		fs.ServeHTTP(w, r)
-//	})
-//	return http.ListenAndServe(":4200", nil)
-// }
+func (srv *service) serverStatik(ctx Ctx) error {
+	addr := netx.NewAddr(cfg.serviceHost, cfg.statikPort)
+	return serve.ServerStatik(ctx, addr)
+}
 
 func createFirstAdmin(appl app.Appl) error {
 	if adminCred.email == "" || adminCred.password == "" {

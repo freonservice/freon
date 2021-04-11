@@ -15,3 +15,7 @@ build-freon:
 
 genny-generate:
 	genny -in=./internal/srv/frontend/error.go -out=./internal/srv/frontend/gen.error.go gen "HealthCheck=Login,LogoutUser,RegUser,CreateLocalization,UserMe,ListLocalization,DeleteLocalization,CreateIdentifier,ListIdentifiers,DeleteIdentifier,CreateCategory,ListCategories,DeleteCategory,UpdateCategory,UpdateIdentifier,CreateTranslation,ListTranslations,DeleteTranslation,UpdateTranslation,HideTranslation,UserChangePassword,UserChangeProfile,ListUser,Statistic"
+
+statik:
+	@rm -rf ./statik
+	statik -src=./client/dist -include=*.jpg,*.png,*.ico,*.svg,*.html,*.css,*.js,*.eot,*.ttf,*.woff,*.woff2

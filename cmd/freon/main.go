@@ -37,6 +37,7 @@ var (
 		logLevel      string
 		apiPort       int
 		grpcPort      int
+		statikPort    int
 		serviceHost   string
 		migrationPath string
 		jwtSecretPath string
@@ -60,6 +61,7 @@ func Init() {
 	flag.StringVar(&dbConf.pass, "db.pass", config.DBPass, "psql db pass is not specified")
 	flag.IntVar(&cfg.apiPort, "api.port", config.APIServicePort, "listen `api port` must be >0")
 	flag.IntVar(&cfg.grpcPort, "grpc.port", config.GrpcServicePort, "listen `grpc port` must be >0")
+	flag.IntVar(&cfg.statikPort, "statik.port", config.StatikServicePort, "listen `statik port` must be >0")
 	flag.StringVar(&cfg.serviceHost, "service.host", config.ServiceHost, "listen `service host`")
 	flag.StringVar(&cfg.migrationPath, "migration_path", config.MigrationPath, "migration path cant be empty")
 	flag.StringVar(&cfg.jwtSecretPath, "jwt_secret_path", config.JwtSecretKey, "jwt secret path cant be empty")

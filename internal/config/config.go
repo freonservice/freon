@@ -5,9 +5,10 @@ import (
 )
 
 var (
-	ServiceHost       = environ.GetStrEnv("SERVICE_HOST", "")        // frontend service host
-	APIServicePort    = environ.GetIntEnv("API_SERVICE_PORT", 4000)  // frontend service port
-	GrpcServicePort   = environ.GetIntEnv("GRPC_SERVICE_PORT", 4001) // grpc service port
+	ServiceHost       = environ.GetStrEnv("SERVICE_HOST", "")          // frontend service host
+	APIServicePort    = environ.GetIntEnv("API_SERVICE_PORT", 4000)    // frontend service port
+	GrpcServicePort   = environ.GetIntEnv("GRPC_SERVICE_PORT", 4001)   // grpc service port
+	StatikServicePort = environ.GetIntEnv("STATIK_SERVICE_PORT", 4002) // statik service port
 	DBHost            = environ.MustGetString("DB_HOST")
 	DBPort            = environ.GetIntEnv("DB_PORT", 5432)
 	DBUser            = environ.MustGetString("DB_USER")

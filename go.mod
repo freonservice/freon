@@ -25,6 +25,7 @@ require (
 	github.com/powerman/must v0.1.0
 	github.com/powerman/structlog v0.7.1
 	github.com/pressly/goose v2.7.0+incompatible
+	github.com/rakyll/statik v0.1.7
 	github.com/rs/cors v1.7.0
 	github.com/sebest/xff v0.0.0-20210106013422-671bd2870b3a
 	github.com/stretchr/testify v1.7.0
