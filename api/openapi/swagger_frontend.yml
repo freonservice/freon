@@ -233,7 +233,7 @@ paths:
                 maxLength: 100
               role:
                 type: string
-                enum: [ admin,moderator,translator ]
+                enum: [ admin,moderator,translator,user ]
                 default: translator
               status:
                 type: string

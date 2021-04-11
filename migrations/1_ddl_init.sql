@@ -131,7 +131,6 @@ DROP INDEX categories_name_uindex;
 
 DROP TABLE identifiers;
 DROP INDEX identifiers_name_uindex;
-DROP INDEX identifiers_parent_path_idx;
 
 DROP TABLE localizations;
 DROP INDEX localizations_locale_uindex;

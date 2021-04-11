@@ -30,8 +30,9 @@ type Localization struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Locale   string `protobuf:"bytes,1,opt,name=locale,proto3" json:"locale,omitempty"`
-	LangName string `protobuf:"bytes,2,opt,name=lang_name,json=langName,proto3" json:"lang_name,omitempty"`
+	Id       int64  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	Locale   string `protobuf:"bytes,2,opt,name=locale,proto3" json:"locale,omitempty"`
+	LangName string `protobuf:"bytes,3,opt,name=lang_name,json=langName,proto3" json:"lang_name,omitempty"`
 }
 
 func (x *Localization) Reset() {
@@ -66,6 +67,13 @@ func (*Localization) Descriptor() ([]byte, []int) {
 	return file_localization_proto_rawDescGZIP(), []int{0}
 }
 
+func (x *Localization) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
 func (x *Localization) GetLocale() string {
 	if x != nil {
 		return x.Locale
@@ -80,14 +88,14 @@ func (x *Localization) GetLangName() string {
 	return ""
 }
 
-type GetLocalizationsReq struct {
+type GetListLocalizationsReq struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 }
 
-func (x *GetLocalizationsReq) Reset() {
-	*x = GetLocalizationsReq{}
+func (x *GetListLocalizationsReq) Reset() {
+	*x = GetListLocalizationsReq{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_localization_proto_msgTypes[1]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -95,13 +103,13 @@ func (x *GetLocalizationsReq) Reset() {
 	}
 }
 
-func (x *GetLocalizationsReq) String() string {
+func (x *GetListLocalizationsReq) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*GetLocalizationsReq) ProtoMessage() {}
+func (*GetListLocalizationsReq) ProtoMessage() {}
 
-func (x *GetLocalizationsReq) ProtoReflect() protoreflect.Message {
+func (x *GetListLocalizationsReq) ProtoReflect() protoreflect.Message {
 	mi := &file_localization_proto_msgTypes[1]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -113,12 +121,12 @@ func (x *GetLocalizationsReq) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use GetLocalizationsReq.ProtoReflect.Descriptor instead.
-func (*GetLocalizationsReq) Descriptor() ([]byte, []int) {
+// Deprecated: Use GetListLocalizationsReq.ProtoReflect.Descriptor instead.
+func (*GetListLocalizationsReq) Descriptor() ([]byte, []int) {
 	return file_localization_proto_rawDescGZIP(), []int{1}
 }
 
-type GetLocalizationsRes struct {
+type GetListLocalizationsRes struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
@@ -126,8 +134,8 @@ type GetLocalizationsRes struct {
 	Localizations []*Localization `protobuf:"bytes,1,rep,name=localizations,proto3" json:"localizations,omitempty"`
 }
 
-func (x *GetLocalizationsRes) Reset() {
-	*x = GetLocalizationsRes{}
+func (x *GetListLocalizationsRes) Reset() {
+	*x = GetListLocalizationsRes{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_localization_proto_msgTypes[2]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -135,13 +143,13 @@ func (x *GetLocalizationsRes) Reset() {
 	}
 }
 
-func (x *GetLocalizationsRes) String() string {
+func (x *GetListLocalizationsRes) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*GetLocalizationsRes) ProtoMessage() {}
+func (*GetListLocalizationsRes) ProtoMessage() {}
 
-func (x *GetLocalizationsRes) ProtoReflect() protoreflect.Message {
+func (x *GetListLocalizationsRes) ProtoReflect() protoreflect.Message {
 	mi := &file_localization_proto_msgTypes[2]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -153,12 +161,12 @@ func (x *GetLocalizationsRes) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use GetLocalizationsRes.ProtoReflect.Descriptor instead.
-func (*GetLocalizationsRes) Descriptor() ([]byte, []int) {
+// Deprecated: Use GetListLocalizationsRes.ProtoReflect.Descriptor instead.
+func (*GetListLocalizationsRes) Descriptor() ([]byte, []int) {
 	return file_localization_proto_rawDescGZIP(), []int{2}
 }
 
-func (x *GetLocalizationsRes) GetLocalizations() []*Localization {
+func (x *GetListLocalizationsRes) GetLocalizations() []*Localization {
 	if x != nil {
 		return x.Localizations
 	}
@@ -169,19 +177,20 @@ var File_localization_proto protoreflect.FileDescriptor
 
 var file_localization_proto_rawDesc = []byte{
 	0x0a, 0x12, 0x6c, 0x6f, 0x63, 0x61, 0x6c, 0x69, 0x7a, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x2e, 0x70,
-	0x72, 0x6f, 0x74, 0x6f, 0x12, 0x03, 0x61, 0x70, 0x69, 0x22, 0x43, 0x0a, 0x0c, 0x4c, 0x6f, 0x63,
-	0x61, 0x6c, 0x69, 0x7a, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x16, 0x0a, 0x06, 0x6c, 0x6f, 0x63,
-	0x61, 0x6c, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x6c, 0x6f, 0x63, 0x61, 0x6c,
-	0x65, 0x12, 0x1b, 0x0a, 0x09, 0x6c, 0x61, 0x6e, 0x67, 0x5f, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x02,
-	0x20, 0x01, 0x28, 0x09, 0x52, 0x08, 0x6c, 0x61, 0x6e, 0x67, 0x4e, 0x61, 0x6d, 0x65, 0x22, 0x15,
-	0x0a, 0x13, 0x47, 0x65, 0x74, 0x4c, 0x6f, 0x63, 0x61, 0x6c, 0x69, 0x7a, 0x61, 0x74, 0x69, 0x6f,
-	0x6e, 0x73, 0x52, 0x65, 0x71, 0x22, 0x4e, 0x0a, 0x13, 0x47, 0x65, 0x74, 0x4c, 0x6f, 0x63, 0x61,
-	0x6c, 0x69, 0x7a, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x52, 0x65, 0x73, 0x12, 0x37, 0x0a, 0x0d,
-	0x6c, 0x6f, 0x63, 0x61, 0x6c, 0x69, 0x7a, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x18, 0x01, 0x20,
-	0x03, 0x28, 0x0b, 0x32, 0x11, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x4c, 0x6f, 0x63, 0x61, 0x6c, 0x69,
-	0x7a, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x0d, 0x6c, 0x6f, 0x63, 0x61, 0x6c, 0x69, 0x7a, 0x61,
-	0x74, 0x69, 0x6f, 0x6e, 0x73, 0x42, 0x08, 0x5a, 0x06, 0x70, 0x62, 0x3b, 0x61, 0x70, 0x69, 0x62,
-	0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x72, 0x6f, 0x74, 0x6f, 0x12, 0x03, 0x61, 0x70, 0x69, 0x22, 0x53, 0x0a, 0x0c, 0x4c, 0x6f, 0x63,
+	0x61, 0x6c, 0x69, 0x7a, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18,
+	0x01, 0x20, 0x01, 0x28, 0x03, 0x52, 0x02, 0x69, 0x64, 0x12, 0x16, 0x0a, 0x06, 0x6c, 0x6f, 0x63,
+	0x61, 0x6c, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x6c, 0x6f, 0x63, 0x61, 0x6c,
+	0x65, 0x12, 0x1b, 0x0a, 0x09, 0x6c, 0x61, 0x6e, 0x67, 0x5f, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x03,
+	0x20, 0x01, 0x28, 0x09, 0x52, 0x08, 0x6c, 0x61, 0x6e, 0x67, 0x4e, 0x61, 0x6d, 0x65, 0x22, 0x19,
+	0x0a, 0x17, 0x47, 0x65, 0x74, 0x4c, 0x69, 0x73, 0x74, 0x4c, 0x6f, 0x63, 0x61, 0x6c, 0x69, 0x7a,
+	0x61, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x52, 0x65, 0x71, 0x22, 0x52, 0x0a, 0x17, 0x47, 0x65, 0x74,
+	0x4c, 0x69, 0x73, 0x74, 0x4c, 0x6f, 0x63, 0x61, 0x6c, 0x69, 0x7a, 0x61, 0x74, 0x69, 0x6f, 0x6e,
+	0x73, 0x52, 0x65, 0x73, 0x12, 0x37, 0x0a, 0x0d, 0x6c, 0x6f, 0x63, 0x61, 0x6c, 0x69, 0x7a, 0x61,
+	0x74, 0x69, 0x6f, 0x6e, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x11, 0x2e, 0x61, 0x70,
+	0x69, 0x2e, 0x4c, 0x6f, 0x63, 0x61, 0x6c, 0x69, 0x7a, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x0d,
+	0x6c, 0x6f, 0x63, 0x61, 0x6c, 0x69, 0x7a, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x42, 0x08, 0x5a,
+	0x06, 0x70, 0x62, 0x3b, 0x61, 0x70, 0x69, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -198,12 +207,12 @@ func file_localization_proto_rawDescGZIP() []byte {
 
 var file_localization_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
 var file_localization_proto_goTypes = []interface{}{
-	(*Localization)(nil),        // 0: api.Localization
-	(*GetLocalizationsReq)(nil), // 1: api.GetLocalizationsReq
-	(*GetLocalizationsRes)(nil), // 2: api.GetLocalizationsRes
+	(*Localization)(nil),            // 0: api.Localization
+	(*GetListLocalizationsReq)(nil), // 1: api.GetListLocalizationsReq
+	(*GetListLocalizationsRes)(nil), // 2: api.GetListLocalizationsRes
 }
 var file_localization_proto_depIdxs = []int32{
-	0, // 0: api.GetLocalizationsRes.localizations:type_name -> api.Localization
+	0, // 0: api.GetListLocalizationsRes.localizations:type_name -> api.Localization
 	1, // [1:1] is the sub-list for method output_type
 	1, // [1:1] is the sub-list for method input_type
 	1, // [1:1] is the sub-list for extension type_name
@@ -230,7 +239,7 @@ func file_localization_proto_init() {
 			}
 		}
 		file_localization_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*GetLocalizationsReq); i {
+			switch v := v.(*GetListLocalizationsReq); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -242,7 +251,7 @@ func file_localization_proto_init() {
 			}
 		}
 		file_localization_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*GetLocalizationsRes); i {
+			switch v := v.(*GetListLocalizationsRes); i {
 			case 0:
 				return &v.state
 			case 1:

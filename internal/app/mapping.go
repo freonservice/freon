@@ -99,12 +99,16 @@ func mappingArrayCategory(categories []*dao.Category) []*Category {
 
 func mappingTranslation(translation *dao.Translation) *Translation {
 	entity := &Translation{
-		ID:           translation.ID,
-		Text:         translation.Text,
-		Localization: mappingLocalization(translation.Localization),
-		Identifier:   mappingIdentifier(translation.Identifier),
-		Status:       translation.Status,
-		CreatedAt:    translation.CreatedAt,
+		ID:        translation.ID,
+		Text:      translation.Text,
+		Status:    translation.Status,
+		CreatedAt: translation.CreatedAt,
+	}
+	if translation.Localization != nil {
+		entity.Localization = mappingLocalization(translation.Localization)
+	}
+	if translation.Identifier != nil {
+		entity.Identifier = mappingIdentifier(translation.Identifier)
 	}
 	return entity
 }

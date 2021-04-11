@@ -4,6 +4,8 @@ import (
 	"github.com/freonservice/freon/api/openapi/frontend/restapi/op"
 	"github.com/freonservice/freon/internal/app"
 	"github.com/freonservice/freon/internal/dal"
+	"github.com/freonservice/freon/internal/filter"
+	"github.com/freonservice/freon/pkg/api"
 
 	"github.com/go-openapi/swag"
 	"github.com/pkg/errors"
@@ -44,7 +46,10 @@ func (srv *server) listIdentifiers(
 
 	entities, err := srv.app.GetIdentifiers(
 		ctx,
-		swag.Int64Value(params.CategoryID),
+		filter.IdentifierFilter{
+			CategoryID: swag.Int64Value(params.CategoryID),
+			Status:     int64(api.IdentifierStatus_IDENTIFIER_ACTIVE),
+		},
 	)
 	switch errors.Cause(err) {
 	default:

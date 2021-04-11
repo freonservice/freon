@@ -4,15 +4,18 @@ import (
 	"database/sql"
 	"time"
 
+	"github.com/freonservice/freon/internal/app"
 	"github.com/freonservice/freon/internal/dao"
+	"github.com/freonservice/freon/internal/filter"
 	"github.com/freonservice/freon/pkg/api"
 
 	"github.com/AlekSi/pointer"
 	"github.com/jmoiron/sqlx"
+	"github.com/pkg/errors"
 	"gopkg.in/reform.v1"
 )
 
-func (r *r) CreateTranslation(ctx Ctx, creatorID, localizationID, identifierID int64, text string) error {
+func (r *Repo) CreateTranslation(ctx Ctx, creatorID, localizationID, identifierID int64, text string) error {
 	entity := new(dao.Translation)
 	return r.ReformDB.InTransactionContext(ctx, &sql.TxOptions{}, func(tx *reform.TX) error {
 		entity = &dao.Translation{
@@ -29,7 +32,7 @@ func (r *r) CreateTranslation(ctx Ctx, creatorID, localizationID, identifierID i
 	})
 }
 
-func (r *r) GetTranslations(ctx Ctx, f dao.TranslationFilter) ([]*dao.Translation, error) {
+func (r *Repo) GetTranslations(ctx Ctx, f filter.TranslationFilter) ([]*dao.Translation, error) {
 	rows, err := f.CreateRows(ctx, r.ReformDB)
 	if err != nil {
 		return nil, err
@@ -60,7 +63,7 @@ func (r *r) GetTranslations(ctx Ctx, f dao.TranslationFilter) ([]*dao.Translatio
 	return entities, nil
 }
 
-func (r *r) UpdateTranslation(ctx Ctx, id int64, text string) error {
+func (r *Repo) UpdateTranslation(ctx Ctx, id int64, text string) error {
 	var t dao.Translation
 	err := r.ReformDB.FindOneTo(&t, "id", id)
 	if err != nil {
@@ -73,7 +76,7 @@ func (r *r) UpdateTranslation(ctx Ctx, id int64, text string) error {
 	return r.ReformDB.Save(&t)
 }
 
-func (r *r) DeleteTranslation(ctx Ctx, id int64) error {
+func (r *Repo) DeleteTranslation(ctx Ctx, id int64) error {
 	return r.Tx(ctx, &sql.TxOptions{}, func(tx *sqlx.Tx) error {
 		var err error
 		_, err = tx.ExecContext(ctx, sqlDeleteTranslation, id)
@@ -81,7 +84,7 @@ func (r *r) DeleteTranslation(ctx Ctx, id int64) error {
 	})
 }
 
-func (r *r) UpdateHideStatusTranslation(ctx Ctx, id int64, hide bool) error {
+func (r *Repo) UpdateHideStatusTranslation(ctx Ctx, id int64, hide bool) error {
 	status := api.TranslationStatus_TRANSLATION_HIDDEN
 	if !hide {
 		status = api.TranslationStatus_TRANSLATION_ACTIVE
@@ -91,4 +94,20 @@ func (r *r) UpdateHideStatusTranslation(ctx Ctx, id int64, hide bool) error {
 		_, err = tx.ExecContext(ctx, sqlUpdateHideStatusTranslation, status, id)
 		return err
 	})
+}
+
+func (r *Repo) GetTranslation(ctx app.Ctx, locale, identifierName string) (*dao.Translation, error) {
+	entity := new(dao.Translation)
+
+	row := r.DB.QueryRowContext(ctx, sqlSelectTranslation, locale, identifierName)
+	err := row.Scan(&entity.Text)
+	switch errors.Cause(err) {
+	default:
+		return nil, err
+	case sql.ErrNoRows:
+		return nil, app.ErrNotFound
+	case nil:
+	}
+
+	return entity, nil
 }

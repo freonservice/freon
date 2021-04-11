@@ -6,9 +6,11 @@ import (
 	"net"
 
 	"github.com/freonservice/freon/pkg/def"
+	"github.com/freonservice/freon/pkg/netx"
 
 	"github.com/powerman/must"
 	"github.com/powerman/structlog"
+	"google.golang.org/grpc"
 )
 
 type Ctx = context.Context
@@ -41,5 +43,30 @@ func OpenAPI(ctx Ctx, srv OpenAPIServer, service string) error {
 		return log.Err("failed to serve", "err", err)
 	}
 	log.Info("shutdown", "service name", service)
+	return nil
+}
+
+func ServerGRPC(ctx Ctx, addr netx.Addr, srv *grpc.Server) error {
+	log := structlog.FromContext(ctx, nil).New(def.LogServer, addr.String())
+
+	listen, err := net.Listen("tcp", addr.String())
+	if err != nil {
+		return err
+	}
+
+	log.Info("serve", "service", "grpc", "addr", addr.String())
+	errc := make(chan error, 1)
+	go func() { errc <- srv.Serve(listen) }()
+
+	select {
+	case err = <-errc:
+	case <-ctx.Done():
+		log.Info("Stopping GRPC server")
+		_ = srv.Stop
+	}
+	if err != nil {
+		return log.Err("failed to serve grpc", "err", err)
+	}
+	log.Info("shutdown")
 	return nil
 }

@@ -920,7 +920,8 @@ func init() {
                   "enum": [
                     "admin",
                     "moderator",
-                    "translator"
+                    "translator",
+                    "user"
                   ]
                 },
                 "second_name": {
@@ -2293,7 +2294,8 @@ func init() {
                   "enum": [
                     "admin",
                     "moderator",
-                    "translator"
+                    "translator",
+                    "user"
                   ]
                 },
                 "second_name": {

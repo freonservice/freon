@@ -17,6 +17,7 @@ require (
 	github.com/go-openapi/validate v0.20.2
 	github.com/golang/protobuf v1.5.2
 	github.com/google/uuid v1.2.0
+	github.com/grpc-ecosystem/go-grpc-middleware v1.2.2
 	github.com/jessevdk/go-flags v1.5.0
 	github.com/jmoiron/sqlx v1.3.3
 	github.com/lib/pq v1.10.0

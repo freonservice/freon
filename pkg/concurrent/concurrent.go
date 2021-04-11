@@ -1,5 +1,3 @@
-// Package concurrent provide a helpers to setup, start and shutdown a lot
-// of services in parallel.
 package concurrent
 
 import (

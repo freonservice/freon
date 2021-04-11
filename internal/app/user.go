@@ -2,6 +2,7 @@ package app
 
 import (
 	"github.com/freonservice/freon/pkg/api"
+	"github.com/pkg/errors"
 
 	"github.com/google/uuid"
 	"gopkg.in/reform.v1"
@@ -17,10 +18,12 @@ func (a *appl) AuthorizeUser(ctx Ctx, email, password string) (AccessToken, *Use
 	case nil:
 	}
 
-	if user.Status == int64(api.UserStatus_USER_NOT_ACTIVE) {
+	switch user.Status {
+	case int64(api.UserStatus_USER_NOT_ACTIVE):
 		return "", nil, ErrUserNotActive
-	} else if user.Status == int64(api.UserStatus_USER_IS_BANNED) {
+	case int64(api.UserStatus_USER_IS_BANNED):
 		return "", nil, ErrUserIsBanned
+	case int64(api.UserStatus_USER_ACTIVE):
 	}
 
 	if !a.pass.Compare([]byte(user.Password), []byte(password)) {
@@ -29,17 +32,17 @@ func (a *appl) AuthorizeUser(ctx Ctx, email, password string) (AccessToken, *Use
 
 	userID, err := uuid.Parse(user.UUIDID)
 	if err != nil {
-		return "", nil, err
+		return "", nil, errors.Wrap(err, "app.AuthorizeUser uuid parsing error")
 	}
 
 	token, err := a.auth.GenerateAuthToken(userID)
 	if err != nil {
-		return "", nil, err
+		return "", nil, errors.Wrap(err, "app.AuthorizeUser generation auth token error")
 	}
 
 	err = a.repo.SaveSession(ctx, user.ID, token)
 	if err != nil {
-		return "", nil, err
+		return "", nil, errors.Wrap(err, "app.AuthorizeUser save session error")
 	}
 
 	return token, mappingUser(user), nil
@@ -53,12 +56,12 @@ func (a *appl) RegisterUser(ctx Ctx, email, password, firstName, secondName stri
 
 	passwordHash, err := a.pass.Hashing(password)
 	if err != nil {
-		return nil, err
+		return nil, errors.Wrap(err, "app.RegisterUser hashing password error")
 	}
 
 	newUser, err := a.repo.CreateUser(ctx, email, string(passwordHash), firstName, secondName, role)
 	if err != nil {
-		return nil, err
+		return nil, errors.Wrap(err, "app.RegisterUser create user error")
 	}
 	return mappingUser(newUser), nil
 }
@@ -118,7 +121,7 @@ func (a *appl) GetUsers(ctx Ctx) ([]*User, error) {
 	if err != nil {
 		return nil, err
 	}
-	return mappingArrayUser(u), err
+	return mappingArrayUser(u), nil
 }
 
 func (a *appl) UpdateStatus(ctx Ctx, userID, status int64) error {

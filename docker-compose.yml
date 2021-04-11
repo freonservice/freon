@@ -37,10 +37,11 @@ services:
       MIGRATION_PATH: "/migrations"
       F_SERVICE_HOST: "0.0.0.0"
       F_SERVICE_PORT: 4000
+      GRPC_SERVICE_PORT: 4001
     depends_on:
       - freon-db
     healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:4000/api/internal/health-check" ]
+      test: [ "CMD", "curl", "-f", "http://127.0.0.1:4000/api/internal/health-check" ]
       interval: 1m
       timeout: 10s
       retries: 3

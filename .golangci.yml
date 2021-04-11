@@ -136,6 +136,8 @@ run:
   tests: false
   timeout: 5m
   skip-dirs:
+    - cmd/client
     - api/openapi
     - client
+
   skip-dirs-use-default: true

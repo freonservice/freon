@@ -13,7 +13,7 @@ import (
 // count completed translations by localizations
 // count categories
 
-func (r *r) GetStatistic(ctx Ctx) (*dao.Statistic, error) {
+func (r *Repo) GetStatistic(ctx Ctx) (*dao.Statistic, error) {
 	var stat dao.Statistic
 	_ = r.DB.QueryRowContext(ctx, sqlStatCountCategories).Scan(&stat.CountCategories)
 	_ = r.DB.QueryRowContext(ctx, sqlStatCountUsers, api.Status_ACTIVE).Scan(&stat.CountUsers)

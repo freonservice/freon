@@ -96,7 +96,7 @@ type UserChangeProfileBody struct {
 	FirstName *string `json:"first_name"`
 
 	// role
-	// Enum: [admin moderator translator]
+	// Enum: [admin moderator translator user]
 	Role *string `json:"role,omitempty"`
 
 	// second name
@@ -130,7 +130,7 @@ func (o *UserChangeProfileBody) UnmarshalJSON(data []byte) error {
 		FirstName *string `json:"first_name"`
 
 		// role
-		// Enum: [admin moderator translator]
+		// Enum: [admin moderator translator user]
 		Role *string `json:"role,omitempty"`
 
 		// second name
@@ -230,7 +230,7 @@ var userChangeProfileBodyTypeRolePropEnum []interface{}
 
 func init() {
 	var res []string
-	if err := json.Unmarshal([]byte(`["admin","moderator","translator"]`), &res); err != nil {
+	if err := json.Unmarshal([]byte(`["admin","moderator","translator","user"]`), &res); err != nil {
 		panic(err)
 	}
 	for _, v := range res {
@@ -248,6 +248,9 @@ const (
 
 	// UserChangeProfileBodyRoleTranslator captures enum value "translator"
 	UserChangeProfileBodyRoleTranslator string = "translator"
+
+	// UserChangeProfileBodyRoleUser captures enum value "user"
+	UserChangeProfileBodyRoleUser string = "user"
 )
 
 // prop value enum

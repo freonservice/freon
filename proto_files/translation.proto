@@ -1,0 +1,24 @@
+syntax = "proto3";
+package api;
+option go_package = "pb;api";
+
+message Translation {
+  string text = 1;
+}
+
+message GetListTranslationsReq {
+  string locale = 1; // localization local
+}
+
+message GetListTranslationsRes {
+  repeated Translation translations = 1;
+}
+
+message GetTranslationReq {
+  string locale = 1; // localization local
+  string identifier_name = 2; // identifier name
+}
+
+message GetTranslationRes {
+  Translation translation = 1;
+}

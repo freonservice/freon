@@ -3,13 +3,12 @@ package api;
 option go_package = "pb;api";
 
 import "localization.proto";
+import "translation.proto";
 
 // GRPC server working only with read operations from external clients
 // They can not update, delete or insert data
 service FreonService {
-  rpc GetLocalizations (GetLocalizationsReq) returns (GetLocalizationsRes);
+  rpc GetListLocalizations (GetListLocalizationsReq) returns (GetListLocalizationsRes);
+  rpc GetListTranslations(GetListTranslationsReq) returns (GetListTranslationsRes);
+  rpc GetTranslation(GetTranslationReq) returns (GetTranslationRes);
 }
-
-// get localizations - full list localizations code
-// get translations by localization id
-// get translation by id/localizartion

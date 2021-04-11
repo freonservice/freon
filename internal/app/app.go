@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/freonservice/freon/internal/dao"
+	"github.com/freonservice/freon/internal/filter"
 
 	"github.com/google/uuid"
 	"github.com/jmoiron/sqlx"
@@ -33,7 +34,7 @@ type (
 			ctx Ctx, creatorID, categoryID, parentID int64, name, description, exampleText string,
 			platforms, namedList []string,
 		) error
-		GetIdentifiers(ctx Ctx, categoryID int64) ([]*Identifier, error)
+		GetIdentifiers(ctx Ctx, f filter.IdentifierFilter) ([]*Identifier, error)
 		DeleteIdentifier(ctx Ctx, id int64) error
 		UpdateIdentifier(
 			ctx Ctx, id, categoryID, parentID int64, name, description, exampleText string,
@@ -46,10 +47,11 @@ type (
 		UpdateCategory(ctx Ctx, id int64, name string) error
 
 		CreateTranslation(ctx Ctx, creatorID, localizationID, identifierID int64, text string) error
-		GetTranslations(ctx Ctx, localizationID int64) ([]*Translation, error)
+		GetTranslations(ctx Ctx, f filter.TranslationFilter) ([]*Translation, error)
 		DeleteTranslation(ctx Ctx, id int64) error
 		UpdateTranslation(ctx Ctx, id int64, text string) error
 		HideTranslation(ctx Ctx, id int64, hide bool) error
+		GetTranslation(ctx Ctx, locale, identifierName string) (*Translation, error)
 
 		GetStatistic(ctx Ctx) (*Statistic, error)
 
@@ -86,7 +88,7 @@ type (
 			ctx Ctx, createID, categoryID, parentID int64,
 			name, description, exampleText, platforms, namedList string,
 		) error
-		GetIdentifiers(ctx Ctx, filter dao.IdentifierFilter) ([]*dao.Identifier, error)
+		GetIdentifiers(ctx Ctx, f filter.IdentifierFilter) ([]*dao.Identifier, error)
 		DeleteIdentifier(ctx Ctx, id int64) error
 		UpdateIdentifier(
 			ctx Ctx, id, categoryID, parentID int64, name, description, exampleText, platforms, namedList string) error
@@ -98,9 +100,10 @@ type (
 		UpdateCategory(ctx Ctx, id int64, name string) error
 
 		CreateTranslation(ctx Ctx, creatorID, localizationID, identifierID int64, text string) error
-		GetTranslations(ctx Ctx, filter dao.TranslationFilter) ([]*dao.Translation, error)
+		GetTranslations(ctx Ctx, f filter.TranslationFilter) ([]*dao.Translation, error)
 		DeleteTranslation(ctx Ctx, id int64) error
 		UpdateTranslation(ctx Ctx, id int64, text string) error
+		GetTranslation(ctx Ctx, locale, identifierName string) (*dao.Translation, error)
 
 		GetStatistic(ctx Ctx) (*dao.Statistic, error)
 	}

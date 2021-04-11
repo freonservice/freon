@@ -3,64 +3,40 @@ package repo
 import (
 	"context"
 	"database/sql"
-	"errors"
-	"fmt"
+	"io/ioutil"
 
 	"github.com/cenkalti/backoff/v4"
 	"github.com/jmoiron/sqlx"
 	"github.com/powerman/structlog"
+	"github.com/pressly/goose"
 	"gopkg.in/reform.v1"
 	"gopkg.in/reform.v1/dialects/postgresql"
 )
 
 type Ctx = context.Context
 
-var (
-	ErrSchemaVer = errors.New("unsupported DB schema version")
-)
-
-type Config struct {
-	Host        string
-	Port        int
-	User        string
-	Pass        string
-	Name        string
-	MaxIdleConn int
-	MaxOpenConn int
-}
-
 type Repo struct {
 	DB       *sqlx.DB
 	ReformDB *reform.DB
-	log      *structlog.Logger
+	logger   *structlog.Logger
 }
 
-func New(ctx Ctx, cfg *Config) (*Repo, error) {
-	log := structlog.FromContext(ctx, nil)
-
-	dbDsnString := fmt.Sprintf(
-		"host=%s port=%d user=%s password=%s dbname=%s sslmode=disable",
-		cfg.Host,
-		cfg.Port,
-		cfg.User,
-		cfg.Pass,
-		cfg.Name,
-	)
-	db, err := sqlx.Connect("postgres", dbDsnString)
+func New(cfg *Config, logger *structlog.Logger) (*Repo, error) {
+	db, err := sqlx.Connect("postgres", cfg.FormatDSN())
 	if err != nil {
 		return nil, err
 	}
 
-	db.SetMaxIdleConns(cfg.MaxIdleConn)
-	db.SetMaxOpenConns(cfg.MaxOpenConn)
+	db.SetMaxIdleConns(cfg.MaxIdleConns)
+	db.SetMaxOpenConns(cfg.MaxOpenConns)
 
 	var pingDB backoff.Operation = func() error {
 		err = db.Ping()
 		if err != nil {
-			log.Println("DB is not ready...backing off...")
+			logger.Println("DB is not ready...backing off...")
 			return err
 		}
-		log.Println("DB is ready!")
+		logger.Println("DB is ready!")
 		return nil
 	}
 
@@ -69,16 +45,52 @@ func New(ctx Ctx, cfg *Config) (*Repo, error) {
 		return nil, err
 	}
 
+	err = migrationDB(db, cfg.MigrationPath)
+	if err != nil {
+		return nil, err
+	}
+
 	return &Repo{
 		DB:       db,
 		ReformDB: reform.NewDB(db.DB, postgresql.Dialect, nil),
-		log:      log,
+		logger:   logger,
 	}, nil
 }
 
 // Close closes connection to DB.
 func (r *Repo) Close() {
-	r.log.WarnIfFail(r.DB.Close)
+	r.logger.WarnIfFail(r.DB.Close)
+}
+
+func migrationDB(db *sqlx.DB, migrationPath string) error {
+	var err error
+
+	err = goose.SetDialect("postgres")
+	if err != nil {
+		return err
+	}
+
+	current, err := goose.EnsureDBVersion(db.DB)
+	if err != nil {
+		return err
+	}
+	files, err := ioutil.ReadDir(migrationPath)
+	if err != nil {
+		return err
+	}
+
+	migrations, err := goose.CollectMigrations(migrationPath, current, int64(len(files)))
+	if err != nil {
+		return err
+	}
+
+	for _, m := range migrations {
+		if err := m.Up(db.DB); err != nil {
+			return err
+		}
+	}
+
+	return nil
 }
 
 func (r *Repo) Tx(ctx Ctx, opts *sql.TxOptions, f func(*sqlx.Tx) error) (err error) {

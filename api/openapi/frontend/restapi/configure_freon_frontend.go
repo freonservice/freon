@@ -6,11 +6,11 @@ import (
 	"crypto/tls"
 	"net/http"
 
-	"github.com/go-openapi/errors"
-	"github.com/go-openapi/runtime"
-
 	"github.com/freonservice/freon/api/openapi/frontend/restapi/op"
 	"github.com/freonservice/freon/internal/app"
+
+	"github.com/go-openapi/errors"
+	"github.com/go-openapi/runtime"
 )
 
 func configureFlags(api *op.FreonFrontendAPI) {

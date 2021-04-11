@@ -2,58 +2,49 @@ package main
 
 import (
 	"context"
+	"time"
 
 	"github.com/freonservice/freon/api/openapi/frontend/restapi"
 	"github.com/freonservice/freon/internal/app"
 	"github.com/freonservice/freon/internal/auth"
-	"github.com/freonservice/freon/internal/config"
 	"github.com/freonservice/freon/internal/dal"
 	"github.com/freonservice/freon/internal/password"
 	"github.com/freonservice/freon/internal/srv/frontend"
+	grpcServer "github.com/freonservice/freon/internal/srv/grpc"
+	"github.com/freonservice/freon/pkg/api"
 	"github.com/freonservice/freon/pkg/concurrent"
 	"github.com/freonservice/freon/pkg/netx"
-	"github.com/freonservice/freon/pkg/repo"
 	"github.com/freonservice/freon/pkg/serve"
 
-	"github.com/powerman/structlog"
+	"github.com/pkg/errors"
+	"google.golang.org/grpc"
 )
 
 type Ctx = context.Context
 
 type service struct {
-	repo        app.Repo
-	appl        app.Appl
-	auth        app.Auth
 	frontendSrv *restapi.Server
+	grpcSrv     *grpc.Server
 }
 
-func (srv *service) runServe(ctxShutdown Ctx, shutdown func()) (err error) {
-	log := structlog.FromContext(ctxShutdown, nil)
+func runServe(repo *dal.Repo, ctxShutdown Ctx, shutdown func()) error {
+	authorization := auth.NewAuth(cfg.jwtSecretPath, repo, log)
+	appl := app.New(repo, authorization, password.New())
 
-	srv.repo, err = srv.connectRepo(context.Background())
+	err := createFirstAdmin(appl)
 	if err != nil {
-		return log.Err("failed to connect repo", "err", err)
+		return errors.Wrap(err, "failed create admin")
 	}
 
-	err = migrationDB(srv.repo.GetDB())
-	if err != nil {
-		return log.Err("failed to migrate", "err", err)
-	}
-
-	srv.auth = auth.NewAuth(config.JwtSecretKey, srv.repo, log)
-	srv.appl = app.New(srv.repo, srv.auth, password.New())
-
-	err = srv.createFirstAdmin()
-	if err != nil {
-		return log.Err("failed create admin", "err", err)
-	}
-
-	srv.frontendSrv, err = frontend.NewServer(srv.auth, srv.appl, frontend.Config{
-		Addr: netx.NewAddr(config.FServiceHost, config.FServicePort),
+	srv := service{}
+	srv.frontendSrv, err = frontend.NewServer(authorization, appl, frontend.Config{
+		Addr: netx.NewAddr(cfg.serviceHost, cfg.apiPort),
 	})
 	if err != nil {
-		return log.Err("failed to frontend.NewServer", "err", err)
+		return errors.Wrap(err, "failed to frontend.NewServer")
 	}
+
+	srv.grpcSrv = grpcServer.NewServer(appl)
 
 	// nolint:gocritic
 	// go func() {
@@ -65,28 +56,22 @@ func (srv *service) runServe(ctxShutdown Ctx, shutdown func()) (err error) {
 
 	err = concurrent.Serve(ctxShutdown, shutdown,
 		srv.serveFrontendOpenAPI,
+		srv.serveGRPC,
 	)
 	if err != nil {
-		return log.Err("failed to serve", "err", err)
+		return errors.Wrap(err, "failed to serve")
 	}
 
 	return nil
 }
 
-func (srv *service) connectRepo(ctx Ctx) (app.Repo, error) {
-	return dal.New(ctx, &repo.Config{
-		Host:        config.DBHost,
-		Port:        config.DBPort,
-		User:        config.DBUser,
-		Pass:        config.DBPass,
-		Name:        config.DBName,
-		MaxIdleConn: config.DBMaxIdleConn,
-		MaxOpenConn: config.DBMaxOpenConn,
-	})
-}
-
 func (srv *service) serveFrontendOpenAPI(ctx Ctx) error {
 	return serve.OpenAPI(ctx, srv.frontendSrv, "frontendApi")
+}
+
+func (srv *service) serveGRPC(ctx Ctx) error {
+	addr := netx.NewAddr(cfg.serviceHost, cfg.grpcPort)
+	return serve.ServerGRPC(ctx, addr, srv.grpcSrv)
 }
 
 // func (srv *service) reactStatic(ctx Ctx) error {
@@ -107,3 +92,23 @@ func (srv *service) serveFrontendOpenAPI(ctx Ctx) error {
 //	})
 //	return http.ListenAndServe(":4200", nil)
 // }
+
+func createFirstAdmin(appl app.Appl) error {
+	if adminCred.email == "" || adminCred.password == "" {
+		return nil
+	}
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second) //nolint:gomnd
+	defer cancel()
+	_, err := appl.RegisterUser(
+		ctx,
+		adminCred.email,
+		adminCred.password,
+		"Freon",
+		"Administrator",
+		int64(api.UserRole_USER_ROLE_ADMIN),
+	)
+	if err != nil && err != app.ErrEmailIsUsed {
+		return err
+	}
+	return nil
+}

@@ -4,8 +4,7 @@ import (
 	"fmt"
 	"sort"
 
-	"github.com/freonservice/freon/internal/dao"
-	"github.com/freonservice/freon/pkg/api"
+	"github.com/freonservice/freon/internal/filter"
 )
 
 func (a *appl) CreateIdentifier(
@@ -18,12 +17,8 @@ func (a *appl) CreateIdentifier(
 	)
 }
 
-func (a *appl) GetIdentifiers(ctx Ctx, categoryID int64) ([]*Identifier, error) {
-	filter := dao.IdentifierFilter{
-		CategoryID: categoryID,
-		Status:     int64(api.IdentifierStatus_IDENTIFIER_ACTIVE),
-	}
-	l, err := a.repo.GetIdentifiers(ctx, filter)
+func (a *appl) GetIdentifiers(ctx Ctx, f filter.IdentifierFilter) ([]*Identifier, error) {
+	l, err := a.repo.GetIdentifiers(ctx, f)
 	if err != nil {
 		return nil, err
 	}

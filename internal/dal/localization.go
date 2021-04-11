@@ -11,7 +11,7 @@ import (
 	"gopkg.in/reform.v1"
 )
 
-func (r *r) CreateLocalization(ctx Ctx, creatorID int64, locale, languageName, icon string) (*dao.Localization, error) {
+func (r *Repo) CreateLocalization(ctx Ctx, creatorID int64, locale, languageName, icon string) (*dao.Localization, error) {
 	var err error
 	entity := new(dao.Localization)
 	err = r.ReformDB.InTransactionContext(ctx, &sql.TxOptions{}, func(tx *reform.TX) error {
@@ -65,7 +65,7 @@ func (r *r) CreateLocalization(ctx Ctx, creatorID int64, locale, languageName, i
 	return entity, err
 }
 
-func (r *r) GetLocalizations(ctx Ctx) ([]*dao.Localization, error) {
+func (r *Repo) GetLocalizations(ctx Ctx) ([]*dao.Localization, error) {
 	rows, err := r.ReformDB.SelectRows(
 		dao.LocalizationTable, "WHERE status = $1 ORDER BY id DESC", api.LocalizationStatus_LOCALIZATION_ACTIVE,
 	)
@@ -90,7 +90,7 @@ func (r *r) GetLocalizations(ctx Ctx) ([]*dao.Localization, error) {
 	return entities, nil
 }
 
-func (r *r) DeleteLocalization(ctx Ctx, id int64) error {
+func (r *Repo) DeleteLocalization(ctx Ctx, id int64) error {
 	return r.Tx(ctx, &sql.TxOptions{}, func(tx *sqlx.Tx) error {
 		var err error
 		_, err = tx.ExecContext(ctx, sqlDeleteLocalization, id)
@@ -98,7 +98,7 @@ func (r *r) DeleteLocalization(ctx Ctx, id int64) error {
 	})
 }
 
-func (r *r) SelectIdentifierListID(ctx Ctx, tx *reform.TX) ([]int64, error) {
+func (r *Repo) SelectIdentifierListID(ctx Ctx, tx *reform.TX) ([]int64, error) {
 	rows, err := tx.QueryContext(ctx, sqlSelectIdentifierListID, api.IdentifierStatus_IDENTIFIER_ACTIVE)
 	if err != nil {
 		return nil, err

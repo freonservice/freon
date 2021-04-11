@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/freonservice/freon/internal/filter"
+
 	"github.com/freonservice/freon/internal/app"
 	"github.com/freonservice/freon/internal/dao"
 	"github.com/freonservice/freon/pkg/api"
@@ -14,7 +16,7 @@ import (
 	"gopkg.in/reform.v1"
 )
 
-func (r *r) CreateIdentifier(
+func (r *Repo) CreateIdentifier(
 	ctx Ctx, creatorID, categoryID, parentID int64,
 	name, description, exampleText, platforms, namedList string,
 ) error {
@@ -90,7 +92,7 @@ func (r *r) CreateIdentifier(
 	})
 }
 
-func (r *r) GetIdentifiers(ctx Ctx, f dao.IdentifierFilter) ([]*dao.Identifier, error) {
+func (r *Repo) GetIdentifiers(ctx Ctx, f filter.IdentifierFilter) ([]*dao.Identifier, error) {
 	rows, err := f.CreateRows(ctx, r.ReformDB)
 	if err != nil {
 		return nil, err
@@ -123,7 +125,7 @@ func (r *r) GetIdentifiers(ctx Ctx, f dao.IdentifierFilter) ([]*dao.Identifier, 
 	return entities, nil
 }
 
-func (r *r) DeleteIdentifier(ctx Ctx, id int64) error {
+func (r *Repo) DeleteIdentifier(ctx Ctx, id int64) error {
 	return r.Tx(ctx, &sql.TxOptions{}, func(tx *sqlx.Tx) error {
 		var err error
 		_, err = tx.ExecContext(ctx, sqlDeleteIdentifier, id)
@@ -131,7 +133,7 @@ func (r *r) DeleteIdentifier(ctx Ctx, id int64) error {
 	})
 }
 
-func (r *r) SelectLocalizationListID(ctx Ctx, tx *reform.TX) ([]int64, error) {
+func (r *Repo) SelectLocalizationListID(ctx Ctx, tx *reform.TX) ([]int64, error) {
 	rows, err := tx.QueryContext(ctx, sqlSelectLocalizationListID)
 	if err != nil {
 		return nil, err
@@ -155,7 +157,7 @@ func (r *r) SelectLocalizationListID(ctx Ctx, tx *reform.TX) ([]int64, error) {
 	return ids, nil
 }
 
-func (r *r) GetIdentifierByID(tx *reform.TX, id int64) (*dao.Identifier, error) {
+func (r *Repo) GetIdentifierByID(tx *reform.TX, id int64) (*dao.Identifier, error) {
 	var i dao.Identifier
 	err := tx.FindOneTo(&i, "id", id)
 	if err != nil {
@@ -164,7 +166,7 @@ func (r *r) GetIdentifierByID(tx *reform.TX, id int64) (*dao.Identifier, error) 
 	return &i, err
 }
 
-func (r *r) UpdateIdentifier(
+func (r *Repo) UpdateIdentifier(
 	ctx app.Ctx, id, categoryID, parentID int64,
 	name, description, exampleText, platforms, namedList string,
 ) error {

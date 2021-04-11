@@ -35,6 +35,11 @@ const (
 	SELECT COUNT(t.id) AS c, l.lang_name FROM translations AS t 
 	JOIN localizations AS l ON t.localization_id=l.id 
 	WHERE t.status = $1  
-	GROUP BY l.lang_name
-	`
+	GROUP BY l.lang_name`
+	sqlSelectTranslation = `
+	SELECT t.text FROM translations AS t 
+	JOIN localizations AS l ON t.localization_id=l.id  
+	JOIN identifiers AS i ON t.identifier_id=i.id  
+	WHERE l.locale = $1 AND i.name = $2   
+	ORDER BY t.id DESC LIMIT 1`
 )

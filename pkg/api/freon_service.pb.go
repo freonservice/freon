@@ -33,25 +33,44 @@ var File_freon_service_proto protoreflect.FileDescriptor
 var file_freon_service_proto_rawDesc = []byte{
 	0x0a, 0x13, 0x66, 0x72, 0x65, 0x6f, 0x6e, 0x5f, 0x73, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x2e,
 	0x70, 0x72, 0x6f, 0x74, 0x6f, 0x12, 0x03, 0x61, 0x70, 0x69, 0x1a, 0x12, 0x6c, 0x6f, 0x63, 0x61,
-	0x6c, 0x69, 0x7a, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x32, 0x56,
-	0x0a, 0x0c, 0x46, 0x72, 0x65, 0x6f, 0x6e, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x12, 0x46,
-	0x0a, 0x10, 0x47, 0x65, 0x74, 0x4c, 0x6f, 0x63, 0x61, 0x6c, 0x69, 0x7a, 0x61, 0x74, 0x69, 0x6f,
-	0x6e, 0x73, 0x12, 0x18, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x47, 0x65, 0x74, 0x4c, 0x6f, 0x63, 0x61,
-	0x6c, 0x69, 0x7a, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x52, 0x65, 0x71, 0x1a, 0x18, 0x2e, 0x61,
-	0x70, 0x69, 0x2e, 0x47, 0x65, 0x74, 0x4c, 0x6f, 0x63, 0x61, 0x6c, 0x69, 0x7a, 0x61, 0x74, 0x69,
-	0x6f, 0x6e, 0x73, 0x52, 0x65, 0x73, 0x42, 0x08, 0x5a, 0x06, 0x70, 0x62, 0x3b, 0x61, 0x70, 0x69,
-	0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x6c, 0x69, 0x7a, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x1a, 0x11,
+	0x74, 0x72, 0x61, 0x6e, 0x73, 0x6c, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x2e, 0x70, 0x72, 0x6f, 0x74,
+	0x6f, 0x32, 0xf5, 0x01, 0x0a, 0x0c, 0x46, 0x72, 0x65, 0x6f, 0x6e, 0x53, 0x65, 0x72, 0x76, 0x69,
+	0x63, 0x65, 0x12, 0x52, 0x0a, 0x14, 0x47, 0x65, 0x74, 0x4c, 0x69, 0x73, 0x74, 0x4c, 0x6f, 0x63,
+	0x61, 0x6c, 0x69, 0x7a, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x12, 0x1c, 0x2e, 0x61, 0x70, 0x69,
+	0x2e, 0x47, 0x65, 0x74, 0x4c, 0x69, 0x73, 0x74, 0x4c, 0x6f, 0x63, 0x61, 0x6c, 0x69, 0x7a, 0x61,
+	0x74, 0x69, 0x6f, 0x6e, 0x73, 0x52, 0x65, 0x71, 0x1a, 0x1c, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x47,
+	0x65, 0x74, 0x4c, 0x69, 0x73, 0x74, 0x4c, 0x6f, 0x63, 0x61, 0x6c, 0x69, 0x7a, 0x61, 0x74, 0x69,
+	0x6f, 0x6e, 0x73, 0x52, 0x65, 0x73, 0x12, 0x4f, 0x0a, 0x13, 0x47, 0x65, 0x74, 0x4c, 0x69, 0x73,
+	0x74, 0x54, 0x72, 0x61, 0x6e, 0x73, 0x6c, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x12, 0x1b, 0x2e,
+	0x61, 0x70, 0x69, 0x2e, 0x47, 0x65, 0x74, 0x4c, 0x69, 0x73, 0x74, 0x54, 0x72, 0x61, 0x6e, 0x73,
+	0x6c, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x52, 0x65, 0x71, 0x1a, 0x1b, 0x2e, 0x61, 0x70, 0x69,
+	0x2e, 0x47, 0x65, 0x74, 0x4c, 0x69, 0x73, 0x74, 0x54, 0x72, 0x61, 0x6e, 0x73, 0x6c, 0x61, 0x74,
+	0x69, 0x6f, 0x6e, 0x73, 0x52, 0x65, 0x73, 0x12, 0x40, 0x0a, 0x0e, 0x47, 0x65, 0x74, 0x54, 0x72,
+	0x61, 0x6e, 0x73, 0x6c, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x16, 0x2e, 0x61, 0x70, 0x69, 0x2e,
+	0x47, 0x65, 0x74, 0x54, 0x72, 0x61, 0x6e, 0x73, 0x6c, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65,
+	0x71, 0x1a, 0x16, 0x2e, 0x61, 0x70, 0x69, 0x2e, 0x47, 0x65, 0x74, 0x54, 0x72, 0x61, 0x6e, 0x73,
+	0x6c, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x73, 0x42, 0x08, 0x5a, 0x06, 0x70, 0x62, 0x3b,
+	0x61, 0x70, 0x69, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var file_freon_service_proto_goTypes = []interface{}{
-	(*GetLocalizationsReq)(nil), // 0: api.GetLocalizationsReq
-	(*GetLocalizationsRes)(nil), // 1: api.GetLocalizationsRes
+	(*GetListLocalizationsReq)(nil), // 0: api.GetListLocalizationsReq
+	(*GetListTranslationsReq)(nil),  // 1: api.GetListTranslationsReq
+	(*GetTranslationReq)(nil),       // 2: api.GetTranslationReq
+	(*GetListLocalizationsRes)(nil), // 3: api.GetListLocalizationsRes
+	(*GetListTranslationsRes)(nil),  // 4: api.GetListTranslationsRes
+	(*GetTranslationRes)(nil),       // 5: api.GetTranslationRes
 }
 var file_freon_service_proto_depIdxs = []int32{
-	0, // 0: api.FreonService.GetLocalizations:input_type -> api.GetLocalizationsReq
-	1, // 1: api.FreonService.GetLocalizations:output_type -> api.GetLocalizationsRes
-	1, // [1:2] is the sub-list for method output_type
-	0, // [0:1] is the sub-list for method input_type
+	0, // 0: api.FreonService.GetListLocalizations:input_type -> api.GetListLocalizationsReq
+	1, // 1: api.FreonService.GetListTranslations:input_type -> api.GetListTranslationsReq
+	2, // 2: api.FreonService.GetTranslation:input_type -> api.GetTranslationReq
+	3, // 3: api.FreonService.GetListLocalizations:output_type -> api.GetListLocalizationsRes
+	4, // 4: api.FreonService.GetListTranslations:output_type -> api.GetListTranslationsRes
+	5, // 5: api.FreonService.GetTranslation:output_type -> api.GetTranslationRes
+	3, // [3:6] is the sub-list for method output_type
+	0, // [0:3] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
 	0, // [0:0] is the sub-list for extension extendee
 	0, // [0:0] is the sub-list for field type_name
@@ -63,6 +82,7 @@ func file_freon_service_proto_init() {
 		return
 	}
 	file_localization_proto_init()
+	file_translation_proto_init()
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
@@ -94,7 +114,9 @@ const _ = grpc.SupportPackageIsVersion6
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type FreonServiceClient interface {
-	GetLocalizations(ctx context.Context, in *GetLocalizationsReq, opts ...grpc.CallOption) (*GetLocalizationsRes, error)
+	GetListLocalizations(ctx context.Context, in *GetListLocalizationsReq, opts ...grpc.CallOption) (*GetListLocalizationsRes, error)
+	GetListTranslations(ctx context.Context, in *GetListTranslationsReq, opts ...grpc.CallOption) (*GetListTranslationsRes, error)
+	GetTranslation(ctx context.Context, in *GetTranslationReq, opts ...grpc.CallOption) (*GetTranslationRes, error)
 }
 
 type freonServiceClient struct {
@@ -105,9 +127,27 @@ func NewFreonServiceClient(cc grpc.ClientConnInterface) FreonServiceClient {
 	return &freonServiceClient{cc}
 }
 
-func (c *freonServiceClient) GetLocalizations(ctx context.Context, in *GetLocalizationsReq, opts ...grpc.CallOption) (*GetLocalizationsRes, error) {
-	out := new(GetLocalizationsRes)
-	err := c.cc.Invoke(ctx, "/api.FreonService/GetLocalizations", in, out, opts...)
+func (c *freonServiceClient) GetListLocalizations(ctx context.Context, in *GetListLocalizationsReq, opts ...grpc.CallOption) (*GetListLocalizationsRes, error) {
+	out := new(GetListLocalizationsRes)
+	err := c.cc.Invoke(ctx, "/api.FreonService/GetListLocalizations", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *freonServiceClient) GetListTranslations(ctx context.Context, in *GetListTranslationsReq, opts ...grpc.CallOption) (*GetListTranslationsRes, error) {
+	out := new(GetListTranslationsRes)
+	err := c.cc.Invoke(ctx, "/api.FreonService/GetListTranslations", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *freonServiceClient) GetTranslation(ctx context.Context, in *GetTranslationReq, opts ...grpc.CallOption) (*GetTranslationRes, error) {
+	out := new(GetTranslationRes)
+	err := c.cc.Invoke(ctx, "/api.FreonService/GetTranslation", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -116,35 +156,79 @@ func (c *freonServiceClient) GetLocalizations(ctx context.Context, in *GetLocali
 
 // FreonServiceServer is the server API for FreonService service.
 type FreonServiceServer interface {
-	GetLocalizations(context.Context, *GetLocalizationsReq) (*GetLocalizationsRes, error)
+	GetListLocalizations(context.Context, *GetListLocalizationsReq) (*GetListLocalizationsRes, error)
+	GetListTranslations(context.Context, *GetListTranslationsReq) (*GetListTranslationsRes, error)
+	GetTranslation(context.Context, *GetTranslationReq) (*GetTranslationRes, error)
 }
 
 // UnimplementedFreonServiceServer can be embedded to have forward compatible implementations.
 type UnimplementedFreonServiceServer struct {
 }
 
-func (*UnimplementedFreonServiceServer) GetLocalizations(context.Context, *GetLocalizationsReq) (*GetLocalizationsRes, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetLocalizations not implemented")
+func (*UnimplementedFreonServiceServer) GetListLocalizations(context.Context, *GetListLocalizationsReq) (*GetListLocalizationsRes, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetListLocalizations not implemented")
+}
+func (*UnimplementedFreonServiceServer) GetListTranslations(context.Context, *GetListTranslationsReq) (*GetListTranslationsRes, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetListTranslations not implemented")
+}
+func (*UnimplementedFreonServiceServer) GetTranslation(context.Context, *GetTranslationReq) (*GetTranslationRes, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetTranslation not implemented")
 }
 
 func RegisterFreonServiceServer(s *grpc.Server, srv FreonServiceServer) {
 	s.RegisterService(&_FreonService_serviceDesc, srv)
 }
 
-func _FreonService_GetLocalizations_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetLocalizationsReq)
+func _FreonService_GetListLocalizations_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetListLocalizationsReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(FreonServiceServer).GetLocalizations(ctx, in)
+		return srv.(FreonServiceServer).GetListLocalizations(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/api.FreonService/GetLocalizations",
+		FullMethod: "/api.FreonService/GetListLocalizations",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(FreonServiceServer).GetLocalizations(ctx, req.(*GetLocalizationsReq))
+		return srv.(FreonServiceServer).GetListLocalizations(ctx, req.(*GetListLocalizationsReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _FreonService_GetListTranslations_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetListTranslationsReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(FreonServiceServer).GetListTranslations(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/api.FreonService/GetListTranslations",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(FreonServiceServer).GetListTranslations(ctx, req.(*GetListTranslationsReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _FreonService_GetTranslation_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetTranslationReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(FreonServiceServer).GetTranslation(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/api.FreonService/GetTranslation",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(FreonServiceServer).GetTranslation(ctx, req.(*GetTranslationReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -154,8 +238,16 @@ var _FreonService_serviceDesc = grpc.ServiceDesc{
 	HandlerType: (*FreonServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "GetLocalizations",
-			Handler:    _FreonService_GetLocalizations_Handler,
+			MethodName: "GetListLocalizations",
+			Handler:    _FreonService_GetListLocalizations_Handler,
+		},
+		{
+			MethodName: "GetListTranslations",
+			Handler:    _FreonService_GetListTranslations_Handler,
+		},
+		{
+			MethodName: "GetTranslation",
+			Handler:    _FreonService_GetTranslation_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

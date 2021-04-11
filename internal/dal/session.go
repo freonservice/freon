@@ -11,7 +11,7 @@ import (
 	"gopkg.in/reform.v1"
 )
 
-func (r *r) SaveSession(ctx Ctx, userID int64, token string) error {
+func (r *Repo) SaveSession(ctx Ctx, userID int64, token string) error {
 	return r.ReformDB.InTransactionContext(ctx, &sql.TxOptions{}, func(tx *reform.TX) error {
 		session := &dao.UserSession{
 			UserID:    userID,
@@ -26,7 +26,7 @@ func (r *r) SaveSession(ctx Ctx, userID int64, token string) error {
 	})
 }
 
-func (r *r) SessionByAccessToken(ctx Ctx, token string) (*dao.UserSession, error) {
+func (r *Repo) SessionByAccessToken(ctx Ctx, token string) (*dao.UserSession, error) {
 	session := &dao.UserSession{}
 	err := r.Tx(ctx, &sql.TxOptions{}, func(tx *sqlx.Tx) error {
 		session.User = &dao.User{}
@@ -46,7 +46,7 @@ func (r *r) SessionByAccessToken(ctx Ctx, token string) (*dao.UserSession, error
 	return session, err
 }
 
-func (r *r) DeleteSession(ctx Ctx, token string) error {
+func (r *Repo) DeleteSession(ctx Ctx, token string) error {
 	return r.Tx(ctx, &sql.TxOptions{}, func(tx *sqlx.Tx) error {
 		var err error
 		_, err = tx.ExecContext(ctx, sqlUpdateUserSession, token)

@@ -481,3 +481,4 @@ healthchecksdb
 MigrationBackup/
 
 translations
+cmd/client

@@ -3,14 +3,15 @@ package api;
 option go_package = "pb;api";
 
 message Localization {
-  string locale = 1;
-  string lang_name = 2;
+  int64 id = 1;
+  string locale = 2;
+  string lang_name = 3;
 }
 
-message GetLocalizationsReq {
+message GetListLocalizationsReq {
 }
 
-message GetLocalizationsRes {
+message GetListLocalizationsRes {
   repeated Localization localizations = 1;
 }
 

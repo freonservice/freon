@@ -1,21 +1,15 @@
 package app
 
 import (
-	"github.com/freonservice/freon/internal/dao"
+	"github.com/freonservice/freon/internal/filter"
 )
 
 func (a *appl) CreateTranslation(ctx Ctx, creatorID, localizationID, identifierID int64, text string) error {
 	return a.repo.CreateTranslation(ctx, creatorID, localizationID, identifierID, text)
 }
 
-func (a *appl) GetTranslations(ctx Ctx, localizationID int64) ([]*Translation, error) {
-	filter := dao.TranslationFilter{
-		LocalizationID: localizationID,
-	}
-	translations, err := a.repo.GetTranslations(ctx, filter)
-	if err != nil {
-		return nil, err
-	}
+func (a *appl) GetTranslations(ctx Ctx, f filter.TranslationFilter) ([]*Translation, error) {
+	translations, err := a.repo.GetTranslations(ctx, f)
 	return mappingArrayTranslation(translations), err
 }
 
@@ -29,4 +23,9 @@ func (a *appl) UpdateTranslation(ctx Ctx, id int64, text string) error {
 
 func (a *appl) HideTranslation(ctx Ctx, id int64, hide bool) error {
 	return a.repo.UpdateHideStatusTranslation(ctx, id, hide)
+}
+
+func (a *appl) GetTranslation(ctx Ctx, locale, identifierName string) (*Translation, error) {
+	t, err := a.repo.GetTranslation(ctx, locale, identifierName)
+	return mappingTranslation(t), err
 }

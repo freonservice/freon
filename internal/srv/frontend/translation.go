@@ -3,6 +3,7 @@ package frontend
 import (
 	"github.com/freonservice/freon/api/openapi/frontend/restapi/op"
 	"github.com/freonservice/freon/internal/app"
+	"github.com/freonservice/freon/internal/filter"
 	"github.com/freonservice/freon/pkg/api"
 
 	"github.com/go-openapi/swag"
@@ -34,7 +35,9 @@ func (srv *server) listTranslations(params op.ListTranslationsParams, session *a
 
 	entities, err := srv.app.GetTranslations(
 		ctx,
-		swag.Int64Value(params.LocalizationID),
+		filter.TranslationFilter{
+			LocalizationID: swag.Int64Value(params.LocalizationID),
+		},
 	)
 	switch errors.Cause(err) {
 	default:
