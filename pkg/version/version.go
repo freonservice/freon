@@ -16,14 +16,17 @@ type Info struct {
 var (
 	gitVersion = "NoExecutable"
 	buildDate  = "NoExecutable"
+	goVersion  = runtime.Version()
+	compiler   = runtime.Compiler
+	platform   = fmt.Sprintf("%s/%s", runtime.GOOS, runtime.GOARCH)
 )
 
 func Get() Info {
 	return Info{
 		GitVersion: gitVersion,
 		BuildDate:  buildDate,
-		GoVersion:  runtime.Version(),
-		Compiler:   runtime.Compiler,
-		Platform:   fmt.Sprintf("%s/%s", runtime.GOOS, runtime.GOARCH),
+		GoVersion:  goVersion,
+		Compiler:   compiler,
+		Platform:   platform,
 	}
 }

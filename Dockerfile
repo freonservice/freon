@@ -30,7 +30,7 @@ WORKDIR /src
 COPY ./ ./
 
 # test before build
-RUN test -z "$(goimports -d $(find . -type f -name '*.go'|grep -v -f .goimportsignore) 2>&1 | tee /dev/fd/2)" && golangci-lint run && go test -race -v ./...
+RUN test -z "$(goimports -d $(find . -type f -name '*.go'|grep -v -f .goimportsignore) 2>&1 | tee /dev/fd/2)" && golangci-lint run && go test -v ./...
 
 # make build
 RUN make build-freon
