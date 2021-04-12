@@ -1,0 +1,37 @@
+{
+  "parser": "babel-eslint",
+  "plugins": [
+    "react"
+  ],
+  "parserOptions": {
+    "ecmaVersion": 6,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true,
+      "experimentalObjectRestSpread": true
+    }
+  },
+  "env": {
+    "es6":     true,
+    "browser": true,
+    "node":    true,
+    "mocha":   true
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended"
+  ],
+  "rules": {
+    "react/jsx-no-bind": 0,
+//    "no-danger": "warn",
+//    "no-find-dom-node": "warn",
+//    "jsx-no-script-url": "warn",
+//    "jsx-no-target-blank": "warn",
+//    "jsx-props-no-spreading": "warn",
+//    // https://github.com/snyk-labs/eslint-plugin-react-security
+//    "no-refs": "warn",
+//    // https://github.com/mozilla/eslint-plugin-no-unsanitized
+//    "no-unsanitized/method": "error",
+//    "no-unsanitized/property": "error"
+  }
+}

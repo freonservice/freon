@@ -1,0 +1,853 @@
+swagger: '2.0'
+
+info:
+  title: Freon Frontend
+  version: 0.0.1
+  description: Frontend Server for rest api
+basePath: /api/internal
+schemes:
+  - http
+
+securityDefinitions:
+  JWTBearer:
+    type: apiKey
+    name: Authorization
+    in: header
+
+consumes:
+  - application/json
+produces:
+  - application/json
+
+paths:
+  /health-check:
+    get:
+      operationId: healthCheck
+      description: Returns 200 if service works okay.
+      responses:
+        '200':
+          description: Freon internal health-check
+          schema:
+            type: object
+            additionalProperties: true
+        default: { $ref: '#/responses/Error' }
+
+  /login:
+    post:
+      operationId: login
+      summary: login user by email and password
+      parameters:
+        - name: args
+          in: body
+          required: true
+          schema:
+            type: object
+            required:
+              - email
+              - password
+            properties:
+              email:
+                type: string
+                pattern: '^[\x21-\x7F]{1,64}@[\x21-\x3F\x41-\x7F]+$'
+                minLength: 1
+                maxLength: 255
+              password:
+                type: string
+                format: password
+                minLength: 6
+                maxLength: 100
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: object
+            required:
+              - token
+              - user
+            properties:
+              token:
+                type: string
+                format: string
+              user:
+                type: object
+                required:
+                  - first_name
+                  - second_name
+                  - email
+                  - uuid_id
+                  - role
+                properties:
+                  first_name:
+                    type: string
+                    format: string
+                  second_name:
+                    type: string
+                    format: string
+                  email:
+                    type: string
+                    format: string
+                  uuid_id:
+                    type: string
+                    format: string
+                  role:
+                    type: integer
+        default:
+          $ref: '#/responses/Error'
+
+  /logout:
+    post:
+      operationId: logoutUser
+      summary: logout user, remove jwt session
+      security:
+        - JWTBearer: [ ]
+      responses:
+        '204': { $ref: '#/responses/NoContent' }
+        default:
+          $ref: '#/responses/Error'
+
+  /user/register:
+    post:
+      operationId: regUser
+      summary: registration new user
+      security:
+        - JWTBearer: [ ]
+      parameters:
+        - name: args
+          in: body
+          required: true
+          schema:
+            type: object
+            required:
+              - email
+              - first_name
+              - second_name
+              - password
+              - repeat_password
+              - role
+            properties:
+              email:
+                type: string
+                pattern: '^[\x21-\x7F]{1,64}@[\x21-\x3F\x41-\x7F]+$'
+                minLength: 1
+                maxLength: 255
+              password:
+                type: string
+                format: password
+                minLength: 8
+                maxLength: 100
+              repeat_password:
+                type: string
+                format: password
+                minLength: 8
+                maxLength: 100
+              first_name:
+                type: string
+                minLength: 1
+                maxLength: 100
+              second_name:
+                type: string
+                minLength: 1
+                maxLength: 100
+              role:
+                type: string
+      responses:
+        '204': { $ref: '#/responses/NoContent' }
+        default:
+          $ref: '#/responses/Error'
+
+  /user/me:
+    get:
+      operationId: userMe
+      summary: get own user information
+      security:
+        - JWTBearer: [ ]
+      responses:
+        '200': { $ref: '#/responses/User' }
+        default:
+          $ref: '#/responses/Error'
+
+  /user/change-password:
+    put:
+      operationId: userChangePassword
+      summary: user change password
+      security:
+        - JWTBearer: [ ]
+      parameters:
+        - name: args
+          in: body
+          required: true
+          schema:
+            type: object
+            required:
+              - old_password
+              - new_password
+              - repeat_password
+            properties:
+              old_password:
+                type: string
+                minLength: 8
+                maxLength: 100
+              new_password:
+                type: string
+                minLength: 8
+                maxLength: 100
+              repeat_password:
+                type: string
+                minLength: 8
+                maxLength: 100
+      responses:
+        '204': { $ref: '#/responses/NoContent' }
+        default:
+          $ref: '#/responses/Error'
+
+  /user/change-profile:
+    put:
+      operationId: userChangeProfile
+      summary: user change profile
+      security:
+        - JWTBearer: [ ]
+      parameters:
+        - name: args
+          in: body
+          required: true
+          schema:
+            type: object
+            required:
+              - email
+              - first_name
+              - second_name
+            properties:
+              user_id:
+                type: integer
+              email:
+                type: string
+                minLength: 1
+                maxLength: 100
+              first_name:
+                type: string
+                minLength: 1
+                maxLength: 100
+              second_name:
+                type: string
+                minLength: 1
+                maxLength: 100
+              role:
+                type: string
+                enum: [ admin,moderator,translator,user ]
+                default: translator
+              status:
+                type: string
+                enum: [ active, not active, banned ]
+                default: active
+      responses:
+        '204': { $ref: '#/responses/NoContent' }
+        default:
+          $ref: '#/responses/Error'
+
+  /user/change-status:
+    put:
+      operationId: userChangeStatus
+      summary: user change status
+      security:
+        - JWTBearer: [ ]
+      parameters:
+        - name: args
+          in: body
+          required: true
+          schema:
+            type: object
+            required:
+              - user_id
+              - status
+            properties:
+              user_id:
+                type: integer
+              status:
+                type: integer
+      responses:
+        '204': { $ref: '#/responses/NoContent' }
+        default:
+          $ref: '#/responses/Error'
+
+  /users:
+    get:
+      operationId: listUser
+      summary: get list user
+      security:
+        - JWTBearer: [ ]
+      responses:
+        '200':
+          description: List of all registred users
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/User'
+        default:
+          $ref: '#/responses/Error'
+
+  /localization:
+    post:
+      operationId: createLocalization
+      summary: create new localization type
+      security:
+        - JWTBearer: [ ]
+      parameters:
+        - name: args
+          in: body
+          required: true
+          schema:
+            type: object
+            required:
+              - locale
+              - lang_name
+            properties:
+              locale:
+                type: string
+                minLength: 2
+                maxLength: 10
+              lang_name:
+                type: string
+                minLength: 1
+                maxLength: 255
+              icon:
+                type: string
+      responses:
+        '204': { $ref: '#/responses/NoContent' }
+        default:
+          $ref: '#/responses/Error'
+
+  /localizations:
+    get:
+      operationId: listLocalization
+      summary: get list localization sorted by user permission
+      security:
+        - JWTBearer: [ ]
+      responses:
+        '200':
+          description: List of localizations available for current user
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Localization'
+        default:
+          $ref: '#/responses/Error'
+
+  /localization/{id}:
+    delete:
+      operationId: deleteLocalization
+      summary: delete localization by id
+      security:
+        - JWTBearer: [ ]
+      parameters:
+        - in: path
+          name: id
+          type: integer
+          minimum: 1
+          required: true
+      responses:
+        '204': { $ref: '#/responses/NoContent' }
+        default:
+          $ref: '#/responses/Error'
+
+  /identifier:
+    post:
+      operationId: createIdentifier
+      summary: create new identifier
+      security:
+        - JWTBearer: [ ]
+      parameters:
+        - name: args
+          in: body
+          required: true
+          schema:
+            type: object
+            required:
+              - name
+            properties:
+              name:
+                type: string
+                minLength: 1
+                maxLength: 255
+              category_id:
+                type: integer
+              parent_id:
+                type: integer
+              description:
+                type: string
+              example_text:
+                type: string
+              platforms:
+                type: array
+                items:
+                  type: string
+              named_list:
+                type: array
+                items:
+                  type: string
+      responses:
+        '204': { $ref: '#/responses/NoContent' }
+        default:
+          $ref: '#/responses/Error'
+
+  /identifiers:
+    get:
+      operationId: listIdentifiers
+      summary: get full list of available identifiers
+      security:
+        - JWTBearer: [ ]
+      parameters:
+        - in: query
+          name: category_id
+          type: integer
+          minimum: 1
+      responses:
+        '200':
+          description: List with all identifiers
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Identifier'
+        default:
+          $ref: '#/responses/Error'
+
+  /identifier/{id}:
+    delete:
+      operationId: deleteIdentifier
+      summary: delete identifier by id only if he dosent use in localizations otherwise error
+      security:
+        - JWTBearer: [ ]
+      parameters:
+        - in: path
+          name: id
+          type: integer
+          minimum: 1
+          required: true
+      responses:
+        '204': { $ref: '#/responses/NoContent' }
+        default:
+          $ref: '#/responses/Error'
+
+    put:
+      operationId: updateIdentifier
+      summary: update identifier fields
+      security:
+        - JWTBearer: [ ]
+      parameters:
+        - in: path
+          name: id
+          type: integer
+          minimum: 1
+          required: true
+        - name: args
+          in: body
+          required: true
+          schema:
+            type: object
+            required:
+              - name
+            properties:
+              name:
+                type: string
+                minLength: 1
+                maxLength: 255
+              category_id:
+                type: integer
+              parent_id:
+                type: integer
+              description:
+                type: string
+              example_text:
+                type: string
+              platforms:
+                type: array
+                items:
+                  type: string
+              named_list:
+                type: array
+                items:
+                  type: string
+      responses:
+        '204': { $ref: '#/responses/NoContent' }
+        default:
+          $ref: '#/responses/Error'
+
+  /category:
+    post:
+      operationId: createCategory
+      summary: create new category
+      security:
+        - JWTBearer: [ ]
+      parameters:
+        - name: args
+          in: body
+          required: true
+          schema:
+            type: object
+            required:
+              - name
+            properties:
+              name:
+                type: string
+                minLength: 1
+                maxLength: 255
+      responses:
+        '204': { $ref: '#/responses/NoContent' }
+        default:
+          $ref: '#/responses/Error'
+
+  /categories:
+    get:
+      operationId: listCategories
+      summary: get full list of available categories
+      security:
+        - JWTBearer: [ ]
+      responses:
+        '200':
+          description: List with all categories
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Category'
+        default:
+          $ref: '#/responses/Error'
+
+  /category/{id}:
+    delete:
+      operationId: deleteCategory
+      summary: delete category
+      security:
+        - JWTBearer: [ ]
+      parameters:
+        - in: path
+          name: id
+          type: integer
+          minimum: 1
+          required: true
+      responses:
+        '204': { $ref: '#/responses/NoContent' }
+        default:
+          $ref: '#/responses/Error'
+    put:
+      operationId: updateCategory
+      summary: update category
+      security:
+        - JWTBearer: [ ]
+      parameters:
+        - in: path
+          name: id
+          type: integer
+          minimum: 1
+          required: true
+        - name: args
+          in: body
+          required: true
+          schema:
+            type: object
+            required:
+              - name
+            properties:
+              name:
+                type: string
+                minLength: 1
+                maxLength: 255
+      responses:
+        '204': { $ref: '#/responses/NoContent' }
+        default:
+          $ref: '#/responses/Error'
+
+  /translation:
+    post:
+      operationId: createTranslation
+      summary: create new translation
+      security:
+        - JWTBearer: [ ]
+      parameters:
+        - name: args
+          in: body
+          required: true
+          schema:
+            type: object
+            required:
+              - localization_id
+              - identifier_id
+              - text
+            properties:
+              localization_id:
+                type: integer
+              identifier_id:
+                type: integer
+              text:
+                type: string
+      responses:
+        '204': { $ref: '#/responses/NoContent' }
+        default:
+          $ref: '#/responses/Error'
+
+  /translation/hide/{id}/{hide}:
+    put:
+      operationId: hideTranslation
+      summary: hide translation
+      security:
+        - JWTBearer: [ ]
+      parameters:
+        - in: path
+          name: id
+          type: integer
+          minimum: 1
+          required: true
+        - in: path
+          name: hide
+          type: boolean
+          default: true
+          required: true
+      responses:
+        '204': { $ref: '#/responses/NoContent' }
+        default:
+          $ref: '#/responses/Error'
+
+  /translations:
+    get:
+      operationId: listTranslations
+      summary: get full list of available translations
+      security:
+        - JWTBearer: [ ]
+      parameters:
+        - in: query
+          name: localization_id
+          type: integer
+          minimum: 1
+      responses:
+        '200':
+          description: List with all translations
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Translation'
+        default:
+          $ref: '#/responses/Error'
+
+  /statistic:
+    get:
+      operationId: statistic
+      summary: get service statistic
+      security:
+        - JWTBearer: [ ]
+      responses:
+        '200':
+          description: get service statistic
+          schema:
+            type: object
+            required:
+              - count_categories
+              - count_users
+              - count_identifiers
+              - count_localizations
+              - stat_completed_translations
+            properties:
+              count_categories:
+                type: integer
+                minimum: 0
+              count_users:
+                type: integer
+                minimum: 0
+              count_identifiers:
+                type: integer
+                minimum: 0
+              count_localizations:
+                type: integer
+                minimum: 0
+              stat_completed_translations:
+                type: array
+                items:
+                  type: object
+                  required:
+                    - lang_name
+                    - percentage
+                  properties:
+                    lang_name:
+                      type: string
+                    percentage:
+                      type: number
+        default:
+          $ref: '#/responses/Error'
+
+  /translation/{id}:
+    delete:
+      operationId: deleteTranslation
+      summary: delete translation
+      security:
+        - JWTBearer: [ ]
+      parameters:
+        - in: path
+          name: id
+          type: integer
+          minimum: 1
+          required: true
+      responses:
+        '204': { $ref: '#/responses/NoContent' }
+        default:
+          $ref: '#/responses/Error'
+    put:
+      operationId: updateTranslation
+      summary: update translation
+      security:
+        - JWTBearer: [ ]
+      parameters:
+        - in: path
+          name: id
+          type: integer
+          minimum: 1
+          required: true
+        - name: args
+          in: body
+          required: true
+          schema:
+            type: object
+            required:
+              - text
+            properties:
+              text:
+                type: string
+      responses:
+        '204': { $ref: '#/responses/NoContent' }
+        default:
+          $ref: '#/responses/Error'
+
+definitions:
+  Error:
+    type: object
+    required:
+      - code
+      - message
+    properties:
+      code:
+        description: HTTP status
+        type: integer
+        format: int32
+      message:
+        type: string
+
+  User:
+    type: object
+    required:
+      - id
+      - email
+      - uuid_id
+      - role
+      - status
+      - created_at
+    properties:
+      id:
+        type: integer
+      email:
+        type: string
+      first_name:
+        type: string
+      second_name:
+        type: string
+      uuid_id:
+        type: string
+      role:
+        type: string
+      status:
+        type: string
+      created_at:
+        type: integer
+
+  Localization:
+    type: object
+    required:
+      - id
+      - locale
+      - lang_name
+      - created_at
+    properties:
+      id:
+        type: integer
+      locale:
+        type: string
+      lang_name:
+        type: string
+      icon:
+        type: string
+      created_at:
+        type: integer
+
+  Identifier:
+    type: object
+    required:
+      - id
+      - name
+      - platforms
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+        minLength: 1
+        maxLength: 255
+      description:
+        type: string
+      example_text:
+        type: string
+      category:
+        $ref: '#/definitions/Category'
+      platforms:
+        type: array
+        default: [ ]
+        items:
+          type: string
+      named_list:
+        type: array
+        default: [ ]
+        items:
+          type: string
+
+  Category:
+    type: object
+    required:
+      - id
+      - name
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+        minLength: 1
+        maxLength: 255
+
+  Translation:
+    type: object
+    required:
+      - id
+      - localization
+      - identifier
+      - text
+      - created_at
+    properties:
+      id:
+        type: integer
+      localization:
+        $ref: '#/definitions/Localization'
+      identifier:
+        $ref: '#/definitions/Identifier'
+      text:
+        type: string
+      status:
+        type: string
+      created_at:
+        type: integer
+
+responses:
+  Error:
+    description: General errors using same model as used by go-swagger for validation errors.
+    schema:
+      $ref: '#/definitions/Error'
+
+  User:
+    description: user model
+    schema:
+      $ref: '#/definitions/User'
+
+  NoContent:
+    description: No content in answer

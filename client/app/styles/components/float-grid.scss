@@ -1,0 +1,90 @@
+@import './../variables.scss';
+@import '~bootstrap/scss/mixins/breakpoints';
+
+.float-grid-parent {
+  margin: 0 auto;
+  padding-left: $grid-gutter-width / 2;
+  padding-right: $grid-gutter-width / 2;
+
+  &.float-grid-parent__static {
+    @media (min-width: breakpoint-min('sm', $grid-breakpoints)) {
+      width: map-get($container-max-widths, 'sm');
+    }
+    @media (min-width: breakpoint-min('md', $grid-breakpoints)) {
+      width: map-get($container-max-widths, 'md');
+    }
+    @media (min-width: breakpoint-min('lg', $grid-breakpoints)) {
+      width: map-get($container-max-widths, 'lg');
+    }
+    @media (min-width: breakpoint-min('xl', $grid-breakpoints)) {
+      width: map-get($container-max-widths, 'xl');
+    }
+  }
+}
+
+.float-col {
+  padding-left: $grid-gutter-width / 2;
+  padding-right: $grid-gutter-width / 2;
+}
+
+$primary-color: #1df9ba;
+$primary-bg-color: #f1f1f1;
+$primary-text-color: #222;
+$primary-border-color: #e1e1e1;
+
+.tags-input {
+  margin-bottom: 15px;
+
+  &.active {
+
+    .tags-input__wrapper {
+      border-color: $primary-text-color;
+    }
+  }
+
+  label {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 5px;
+  }
+
+  &__wrapper {
+    border: 1px solid $primary-border-color;
+    padding: 4px 4px 0;
+    border-radius: 4px;
+    transition: border-color .3s ease;
+  }
+
+  &__tags {
+    display: flex;
+    flex-wrap: wrap;
+
+    .tag {
+      background-color: $primary-bg-color;
+      padding: 5px 10px;
+      border-radius: 4px;
+      font-size: 12px;
+      margin-right: 5px;
+      margin-bottom: 5px;
+      transition: background-color .3s ease;
+
+      i {
+        margin-left: 5px;
+        cursor: pointer;
+      }
+
+      &:hover {
+        background-color: darken($primary-bg-color, 10);
+      }
+    }
+
+    input {
+      border: 0;
+      outline: 0;
+      margin-bottom: 5px;
+      padding: 5px;
+      flex: 1;
+      min-width: 80px;
+    }
+  }
+}
