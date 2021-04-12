@@ -8,12 +8,10 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-var (
-	pass = "pass"
-)
-
 func TestPassword(t *testing.T) {
-	t.Parallel()
+	var (
+		pass = "pass"
+	)
 
 	passwords := password.New()
 	hashPass, err := passwords.Hashing(pass)

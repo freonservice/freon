@@ -9,7 +9,7 @@ else
 fi
 
 echo "Running tests"
-if go test -v ./...; then
+if go test -race -v ./...; then
   echo "Tests completed successful"
 else
   echo "Tests must pass before commit!"

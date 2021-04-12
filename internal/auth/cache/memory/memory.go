@@ -36,8 +36,8 @@ func NewStorage() *Storage {
 
 // Get a cached content by key
 func (s *Storage) Get(key string) *Item {
-	s.mu.RLock()
-	defer s.mu.RUnlock()
+	s.mu.Lock()
+	defer s.mu.Unlock()
 
 	item, ok := s.items[key]
 	if !ok {

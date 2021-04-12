@@ -19,3 +19,6 @@ genny-generate:
 statik:
 	@rm -rf ./statik
 	statik -src=./client/dist -include=*.jpg,*.png,*.ico,*.svg,*.html,*.css,*.js,*.eot,*.ttf,*.woff,*.woff2
+
+mockgen-create:
+	mockgen -package=app -source=./internal/app/app.go -destination=./internal/app/mock.go Appl,Auth,Repo,Password

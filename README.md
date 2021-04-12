@@ -13,13 +13,19 @@ Development
 
 ## Overview
 
-###  Pre-built Binaries
+### Pre-built Binaries
 
 ### Building
 
-## Contributing
+### Developing
+If you liked this project, we will be happy to welcome you to our team.
+To maintain a consistent style code, we ask you to use our *linter* and *tests* before each pull requests.
 
-Please see our [contributing guidlines](https://github.com/Joystream/joystream#contribute) for details on our code of conduct, and the process for submitting pull requests to us.
+You can install *git hooks* for convenient work:
+
+`./scripts/install-hooks.bash`
+
+## Contributing
 
 ## License
 

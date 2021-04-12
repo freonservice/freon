@@ -12,7 +12,7 @@ func (a *appl) GetStatistic(ctx Ctx) (*Statistic, error) {
 	for i := 0; i < sizeStatTranslations; i++ {
 		stat.StatTranslations[i] = &StatTranslation{
 			LangName:   s.StatTranslations[i].LangName,
-			Percentage: float64(s.StatTranslations[i].Count/s.CountIdentifiers) * 100,
+			Percentage: float64(s.StatTranslations[i].Count) / float64(s.CountIdentifiers) * 100,
 		}
 	}
 

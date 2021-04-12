@@ -21,11 +21,13 @@ import (
 
 type (
 	dbConfig struct {
-		host string
-		port int
-		user string
-		pass string
-		name string
+		host         string
+		port         int
+		user         string
+		pass         string
+		name         string
+		maxIdleConns int
+		maxOpenConns int
 	}
 )
 
@@ -59,6 +61,8 @@ func Init() {
 	flag.StringVar(&dbConf.user, "db.user", config.DBUser, "psql db user is not specified")
 	flag.StringVar(&dbConf.name, "db.name", config.DBName, "psql db name is not specified")
 	flag.StringVar(&dbConf.pass, "db.pass", config.DBPass, "psql db pass is not specified")
+	flag.IntVar(&dbConf.maxIdleConns, "db.port", config.DBMaxIdleConns, "db max idle conns must be set")
+	flag.IntVar(&dbConf.maxOpenConns, "db.port", config.DBMaxOpenConns, "db max open conns must be set")
 	flag.IntVar(&cfg.apiPort, "api.port", config.APIServicePort, "listen `api port` must be >0")
 	flag.IntVar(&cfg.grpcPort, "grpc.port", config.GrpcServicePort, "listen `grpc port` must be >0")
 	flag.IntVar(&cfg.statikPort, "statik.port", config.StatikServicePort, "listen `statik port` must be >0")
@@ -85,8 +89,8 @@ func main() {
 		Name:          dbConf.name,
 		User:          dbConf.user,
 		Pass:          dbConf.pass,
-		MaxIdleConns:  config.DBMaxIdleConn,
-		MaxOpenConns:  config.DBMaxOpenConn,
+		MaxIdleConns:  dbConf.maxIdleConns,
+		MaxOpenConns:  dbConf.maxOpenConns,
 		MigrationPath: cfg.migrationPath,
 	}, log)
 	if err != nil {

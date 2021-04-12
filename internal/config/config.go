@@ -19,6 +19,6 @@ var (
 	JwtSecretKey      = environ.MustGetString("JWT_SECRET_KEY")
 	JwtTokenLifetime  = environ.GetTimeDurationEnv("JWT_TOKEN_LIFETIME", "24h")
 	MigrationPath     = environ.MustGetString("MIGRATION_PATH")
-	DBMaxOpenConn     = environ.GetIntEnv("DB_MAX_OPEN_CONN", 10)
-	DBMaxIdleConn     = environ.GetIntEnv("DB_MAX_IDLE_CONN", 10)
+	DBMaxOpenConns    = environ.GetIntEnv("DB_MAX_OPEN_CONNS", 10)
+	DBMaxIdleConns    = environ.GetIntEnv("DB_MAX_IDLE_CONNS", 10)
 )
