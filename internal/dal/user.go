@@ -26,6 +26,7 @@ func (r *Repo) CreateUser(ctx Ctx, email, password, firstName, secondName string
 			Role:       role,
 			Status:     int64(api.UserStatus_USER_ACTIVE),
 			CreatedAt:  time.Now().UTC(),
+			UpdatedAt:  pointer.ToTime(time.Now().UTC()),
 		}
 		err = tx.Save(user)
 		if err != nil {
@@ -93,7 +94,7 @@ func (r *Repo) GetUsers(ctx Ctx) ([]*dao.User, error) {
 	if err != nil {
 		return nil, err
 	} else if rows.Err() != nil {
-		return nil, err
+		return nil, rows.Err()
 	}
 	defer rows.Close()
 

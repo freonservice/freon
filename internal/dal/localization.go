@@ -7,6 +7,7 @@ import (
 	"github.com/freonservice/freon/internal/dao"
 	"github.com/freonservice/freon/pkg/api"
 
+	"github.com/AlekSi/pointer"
 	"github.com/jmoiron/sqlx"
 	"gopkg.in/reform.v1"
 )
@@ -21,6 +22,7 @@ func (r *Repo) CreateLocalization(ctx Ctx, creatorID int64, locale, languageName
 			LanguageName: languageName,
 			Icon:         icon,
 			CreatedAt:    time.Now().UTC(),
+			UpdatedAt:    pointer.ToTime(time.Now().UTC()),
 		}
 		err = tx.Save(entity)
 		if err != nil {
@@ -39,7 +41,7 @@ func (r *Repo) CreateLocalization(ctx Ctx, creatorID int64, locale, languageName
 			localizationIdentifier := &dao.LocalizationIdentifier{
 				LocalizationID: entity.ID,
 				IdentifierID:   id,
-				Status:         int64(api.LocalizationIdentifierStatus_LOCALIZATION_IDENTIFIER_ACTIVE),
+				Status:         int64(api.Status_ACTIVE),
 				CreatedAt:      time.Now().UTC(),
 			}
 			err = tx.Save(localizationIdentifier)
@@ -51,7 +53,7 @@ func (r *Repo) CreateLocalization(ctx Ctx, creatorID int64, locale, languageName
 				LocalizationID: entity.ID,
 				IdentifierID:   id,
 				CreatorID:      creatorID,
-				Status:         int64(api.TranslationStatus_TRANSLATION_ACTIVE),
+				Status:         int64(api.Status_ACTIVE),
 				CreatedAt:      time.Now().UTC(),
 			}
 			err = tx.Save(translation)
@@ -67,12 +69,12 @@ func (r *Repo) CreateLocalization(ctx Ctx, creatorID int64, locale, languageName
 
 func (r *Repo) GetLocalizations(ctx Ctx) ([]*dao.Localization, error) {
 	rows, err := r.ReformDB.SelectRows(
-		dao.LocalizationTable, "WHERE status = $1 ORDER BY id DESC", api.LocalizationStatus_LOCALIZATION_ACTIVE,
+		dao.LocalizationTable, "WHERE status = $1 ORDER BY id DESC", api.Status_ACTIVE,
 	)
 	if err != nil {
 		return nil, err
 	} else if rows.Err() != nil {
-		return nil, err
+		return nil, rows.Err()
 	}
 	defer rows.Close()
 
@@ -99,11 +101,11 @@ func (r *Repo) DeleteLocalization(ctx Ctx, id int64) error {
 }
 
 func (r *Repo) SelectIdentifierListID(ctx Ctx, tx *reform.TX) ([]int64, error) {
-	rows, err := tx.QueryContext(ctx, sqlSelectIdentifierListID, api.IdentifierStatus_IDENTIFIER_ACTIVE)
+	rows, err := tx.QueryContext(ctx, sqlSelectIdentifierListID, api.Status_ACTIVE)
 	if err != nil {
 		return nil, err
 	} else if rows.Err() != nil {
-		return nil, err
+		return nil, rows.Err()
 	}
 	defer rows.Close()
 

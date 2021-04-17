@@ -54,6 +54,10 @@ type (
 		GetTranslation(ctx Ctx, locale, identifierName string) (*Translation, error)
 		GetGroupedTranslations(ctx Ctx, f filter.GroupedTranslationFilter) ([]*GroupedTranslations, error)
 
+		CreateTranslationFile(ctx Ctx, platform, storageType string, creatorID, localizationID int64) error
+		GetTranslationFiles(ctx Ctx, f filter.TranslationFileFilter) ([]*TranslationFile, error)
+		DeleteTranslationFile(ctx Ctx, id int64) error
+
 		GetStatistic(ctx Ctx) (*Statistic, error)
 
 		HealthCheck(Ctx) (interface{}, error)
@@ -106,6 +110,11 @@ type (
 		UpdateTranslation(ctx Ctx, id int64, text string) error
 		GetTranslation(ctx Ctx, locale, identifierName string) (*dao.Translation, error)
 		GetGroupedTranslations(ctx Ctx, f filter.GroupedTranslationFilter) (map[string][]*dao.Translation, error)
+
+		CreateTranslationFile(ctx Ctx, name, path string, platform, storageType, creatorID, localizationID int64) error
+		GetTranslationFile(ctx Ctx, id int64) (*dao.TranslationFile, error)
+		GetTranslationFiles(ctx Ctx, f filter.TranslationFileFilter) ([]*dao.TranslationFile, error)
+		DeleteTranslationFile(ctx Ctx, id int64) error
 
 		GetStatistic(ctx Ctx) (*dao.Statistic, error)
 	}

@@ -82,7 +82,7 @@ func ServerStatik(ctx Ctx, addr netx.Addr) error {
 		return err
 	}
 
-	http.Handle("/", http.StripPrefix("/", http.FileServer(statikFS)))
+	http.Handle("/*", http.StripPrefix("/*", http.FileServer(statikFS)))
 
 	log.Info("serve", "service", "statik", "addr", addr.String())
 	errc := make(chan error, 1)

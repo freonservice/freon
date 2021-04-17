@@ -24,6 +24,7 @@ func (r *Repo) CreateTranslation(ctx Ctx, creatorID, localizationID, identifierI
 			IdentifierID:   identifierID,
 			Text:           text,
 			CreatedAt:      time.Now().UTC(),
+			UpdatedAt:      pointer.ToTime(time.Now().UTC()),
 		}
 		if err := tx.Save(entity); err != nil {
 			return err
@@ -37,7 +38,7 @@ func (r *Repo) GetTranslations(ctx Ctx, f filter.TranslationFilter) ([]*dao.Tran
 	if err != nil {
 		return nil, err
 	} else if rows.Err() != nil {
-		return nil, err
+		return nil, rows.Err()
 	}
 	defer rows.Close()
 
@@ -70,6 +71,11 @@ func (r *Repo) UpdateTranslation(ctx Ctx, id int64, text string) error {
 		return err
 	}
 
+	if text == "" {
+		t.Status = int64(api.TranslationStatus_TRANSLATION_EMPTY)
+	} else {
+		t.Status = int64(api.TranslationStatus_TRANSLATION_ACTIVE)
+	}
 	t.Text = text
 	t.UpdatedAt = pointer.ToTime(time.Now().UTC())
 
@@ -85,7 +91,7 @@ func (r *Repo) DeleteTranslation(ctx Ctx, id int64) error {
 }
 
 func (r *Repo) UpdateHideStatusTranslation(ctx Ctx, id int64, hide bool) error {
-	status := api.TranslationStatus_TRANSLATION_HIDDEN
+	status := api.TranslationStatus_TRANSLATION_EMPTY
 	if !hide {
 		status = api.TranslationStatus_TRANSLATION_ACTIVE
 	}

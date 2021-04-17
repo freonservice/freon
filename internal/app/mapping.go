@@ -152,3 +152,25 @@ func mappingStatistic(statistic *dao.Statistic) *Statistic {
 		CountLocalizations: statistic.CountLocalizations,
 	}
 }
+
+func mappingTranslationFile(translationFile *dao.TranslationFile) *TranslationFile {
+	entity := &TranslationFile{
+		ID:        translationFile.ID,
+		Name:      translationFile.Name,
+		Path:      translationFile.Path,
+		Status:    translationFile.Status,
+		CreatedAt: translationFile.CreatedAt,
+	}
+	if translationFile.Localization != nil {
+		entity.Localization = mappingLocalization(translationFile.Localization)
+	}
+	return entity
+}
+
+func mappingArrayTranslationFile(translationFiles []*dao.TranslationFile) []*TranslationFile {
+	var entities = make([]*TranslationFile, len(translationFiles))
+	for i, l := range translationFiles {
+		entities[i] = mappingTranslationFile(l)
+	}
+	return entities
+}

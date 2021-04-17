@@ -56,6 +56,9 @@ func NewFreonFrontendAPI(spec *loads.Document) *FreonFrontendAPI {
 		CreateTranslationHandler: CreateTranslationHandlerFunc(func(params CreateTranslationParams, principal *app.UserSession) CreateTranslationResponder {
 			return CreateTranslationNotImplemented()
 		}),
+		CreateTranslationFilesHandler: CreateTranslationFilesHandlerFunc(func(params CreateTranslationFilesParams, principal *app.UserSession) CreateTranslationFilesResponder {
+			return CreateTranslationFilesNotImplemented()
+		}),
 		DeleteCategoryHandler: DeleteCategoryHandlerFunc(func(params DeleteCategoryParams, principal *app.UserSession) DeleteCategoryResponder {
 			return DeleteCategoryNotImplemented()
 		}),
@@ -67,6 +70,9 @@ func NewFreonFrontendAPI(spec *loads.Document) *FreonFrontendAPI {
 		}),
 		DeleteTranslationHandler: DeleteTranslationHandlerFunc(func(params DeleteTranslationParams, principal *app.UserSession) DeleteTranslationResponder {
 			return DeleteTranslationNotImplemented()
+		}),
+		DeleteTranslationFileHandler: DeleteTranslationFileHandlerFunc(func(params DeleteTranslationFileParams, principal *app.UserSession) DeleteTranslationFileResponder {
+			return DeleteTranslationFileNotImplemented()
 		}),
 		HealthCheckHandler: HealthCheckHandlerFunc(func(params HealthCheckParams) HealthCheckResponder {
 			return HealthCheckNotImplemented()
@@ -100,6 +106,9 @@ func NewFreonFrontendAPI(spec *loads.Document) *FreonFrontendAPI {
 		}),
 		StatisticHandler: StatisticHandlerFunc(func(params StatisticParams, principal *app.UserSession) StatisticResponder {
 			return StatisticNotImplemented()
+		}),
+		TranslationFilesHandler: TranslationFilesHandlerFunc(func(params TranslationFilesParams, principal *app.UserSession) TranslationFilesResponder {
+			return TranslationFilesNotImplemented()
 		}),
 		UpdateCategoryHandler: UpdateCategoryHandlerFunc(func(params UpdateCategoryParams, principal *app.UserSession) UpdateCategoryResponder {
 			return UpdateCategoryNotImplemented()
@@ -178,6 +187,8 @@ type FreonFrontendAPI struct {
 	CreateLocalizationHandler CreateLocalizationHandler
 	// CreateTranslationHandler sets the operation handler for the create translation operation
 	CreateTranslationHandler CreateTranslationHandler
+	// CreateTranslationFilesHandler sets the operation handler for the create translation files operation
+	CreateTranslationFilesHandler CreateTranslationFilesHandler
 	// DeleteCategoryHandler sets the operation handler for the delete category operation
 	DeleteCategoryHandler DeleteCategoryHandler
 	// DeleteIdentifierHandler sets the operation handler for the delete identifier operation
@@ -186,6 +197,8 @@ type FreonFrontendAPI struct {
 	DeleteLocalizationHandler DeleteLocalizationHandler
 	// DeleteTranslationHandler sets the operation handler for the delete translation operation
 	DeleteTranslationHandler DeleteTranslationHandler
+	// DeleteTranslationFileHandler sets the operation handler for the delete translation file operation
+	DeleteTranslationFileHandler DeleteTranslationFileHandler
 	// HealthCheckHandler sets the operation handler for the health check operation
 	HealthCheckHandler HealthCheckHandler
 	// HideTranslationHandler sets the operation handler for the hide translation operation
@@ -208,6 +221,8 @@ type FreonFrontendAPI struct {
 	RegUserHandler RegUserHandler
 	// StatisticHandler sets the operation handler for the statistic operation
 	StatisticHandler StatisticHandler
+	// TranslationFilesHandler sets the operation handler for the translation files operation
+	TranslationFilesHandler TranslationFilesHandler
 	// UpdateCategoryHandler sets the operation handler for the update category operation
 	UpdateCategoryHandler UpdateCategoryHandler
 	// UpdateIdentifierHandler sets the operation handler for the update identifier operation
@@ -314,6 +329,9 @@ func (o *FreonFrontendAPI) Validate() error {
 	if o.CreateTranslationHandler == nil {
 		unregistered = append(unregistered, "CreateTranslationHandler")
 	}
+	if o.CreateTranslationFilesHandler == nil {
+		unregistered = append(unregistered, "CreateTranslationFilesHandler")
+	}
 	if o.DeleteCategoryHandler == nil {
 		unregistered = append(unregistered, "DeleteCategoryHandler")
 	}
@@ -325,6 +343,9 @@ func (o *FreonFrontendAPI) Validate() error {
 	}
 	if o.DeleteTranslationHandler == nil {
 		unregistered = append(unregistered, "DeleteTranslationHandler")
+	}
+	if o.DeleteTranslationFileHandler == nil {
+		unregistered = append(unregistered, "DeleteTranslationFileHandler")
 	}
 	if o.HealthCheckHandler == nil {
 		unregistered = append(unregistered, "HealthCheckHandler")
@@ -358,6 +379,9 @@ func (o *FreonFrontendAPI) Validate() error {
 	}
 	if o.StatisticHandler == nil {
 		unregistered = append(unregistered, "StatisticHandler")
+	}
+	if o.TranslationFilesHandler == nil {
+		unregistered = append(unregistered, "TranslationFilesHandler")
 	}
 	if o.UpdateCategoryHandler == nil {
 		unregistered = append(unregistered, "UpdateCategoryHandler")
@@ -495,6 +519,10 @@ func (o *FreonFrontendAPI) initHandlerCache() {
 		o.handlers["POST"] = make(map[string]http.Handler)
 	}
 	o.handlers["POST"]["/translation"] = NewCreateTranslation(o.context, o.CreateTranslationHandler)
+	if o.handlers["POST"] == nil {
+		o.handlers["POST"] = make(map[string]http.Handler)
+	}
+	o.handlers["POST"]["/translation-files"] = NewCreateTranslationFiles(o.context, o.CreateTranslationFilesHandler)
 	if o.handlers["DELETE"] == nil {
 		o.handlers["DELETE"] = make(map[string]http.Handler)
 	}
@@ -511,6 +539,10 @@ func (o *FreonFrontendAPI) initHandlerCache() {
 		o.handlers["DELETE"] = make(map[string]http.Handler)
 	}
 	o.handlers["DELETE"]["/translation/{id}"] = NewDeleteTranslation(o.context, o.DeleteTranslationHandler)
+	if o.handlers["DELETE"] == nil {
+		o.handlers["DELETE"] = make(map[string]http.Handler)
+	}
+	o.handlers["DELETE"]["/translation-files/{id}"] = NewDeleteTranslationFile(o.context, o.DeleteTranslationFileHandler)
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
@@ -555,6 +587,10 @@ func (o *FreonFrontendAPI) initHandlerCache() {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
 	o.handlers["GET"]["/statistic"] = NewStatistic(o.context, o.StatisticHandler)
+	if o.handlers["GET"] == nil {
+		o.handlers["GET"] = make(map[string]http.Handler)
+	}
+	o.handlers["GET"]["/translation-files"] = NewTranslationFiles(o.context, o.TranslationFilesHandler)
 	if o.handlers["PUT"] == nil {
 		o.handlers["PUT"] = make(map[string]http.Handler)
 	}

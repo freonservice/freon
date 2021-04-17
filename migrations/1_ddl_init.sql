@@ -107,6 +107,30 @@ create table if not exists public.translations
     updated_at      timestamp without time zone
 );
 
+create table if not exists public.translation_files
+(
+    id              SERIAL PRIMARY KEY,
+    localization_id integer
+        constraint translation_files_localization_id_fk
+            references public.localizations on delete cascade,
+    creator_id      integer
+        constraint translation_files_users_creator_id_fk
+            references public.users,
+    name            varchar(255) not null,
+    path            varchar(255) not null,
+    platform        integer      not null       default 0,
+    status          integer      not null       default 0,
+    storage_type    integer      not null       default 0,
+    created_at      timestamp without time zone default (now() at time zone 'utc'),
+    updated_at      timestamp without time zone
+);
+
+create unique index if not exists translation_files_name_uindex
+    on public.translation_files (name);
+
+create unique index if not exists translation_files_path_uindex
+    on public.translation_files (path);
+
 create table if not exists public.user_sessions
 (
     id         SERIAL PRIMARY KEY,
@@ -120,7 +144,6 @@ create table if not exists public.user_sessions
 
 create unique index if not exists user_sessions_token_uindex
     on public.user_sessions (token);
-
 
 -- +goose Down
 
@@ -143,5 +166,9 @@ DROP INDEX user_sessions_token_uindex;
 DROP TABLE users;
 DROP INDEX users_email_uindex;
 DROP INDEX users_uuid_id_uindex;
+
+DROP TABLE translation_files;
+DROP INDEX translation_files_name_uindex;
+DROP INDEX translation_files_path_uindex;
 
 DROP SCHEMA public;

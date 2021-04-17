@@ -11,6 +11,7 @@ import (
 
 	"github.com/freonservice/freon/internal/config"
 	"github.com/freonservice/freon/internal/dal"
+	"github.com/freonservice/freon/internal/utils"
 	"github.com/freonservice/freon/pkg/def"
 	"github.com/freonservice/freon/pkg/repo"
 	"github.com/freonservice/freon/pkg/version"
@@ -82,6 +83,11 @@ func main() {
 	signal.Notify(sigc, syscall.SIGHUP, syscall.SIGINT, syscall.SIGQUIT, syscall.SIGABRT, syscall.SIGTERM)
 	structlog.DefaultLogger.SetLogLevel(structlog.ParseLevel(cfg.logLevel))
 	log.Info(version.Get())
+
+	err := utils.GenerateDocFolders()
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	r, err := dal.New(&repo.Config{
 		Host:          dbConf.host,

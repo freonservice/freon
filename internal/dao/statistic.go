@@ -1,8 +1,8 @@
 package dao
 
 type StatTranslation struct {
-	LangName string `db:"lang_name"`
-	Count    int64  `db:"c"`
+	LangName  string `db:"lang_name"`
+	Fulfilled int64  `db:"f"`
 }
 
 type Statistic struct {

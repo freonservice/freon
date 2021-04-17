@@ -20,18 +20,18 @@ func (r *Repo) GetStatistic(ctx Ctx) (*dao.Statistic, error) {
 	_ = r.DB.QueryRowContext(ctx, sqlStatCountIdentifiers, api.Status_ACTIVE).Scan(&stat.CountIdentifiers)
 	_ = r.DB.QueryRowContext(ctx, sqlStatCountLocalizations, api.Status_ACTIVE).Scan(&stat.CountLocalizations)
 
-	rows, err := r.DB.QueryContext(ctx, sqlStatTranslations, api.Status_ACTIVE)
+	rows, err := r.DB.QueryContext(ctx, sqlStatTranslations)
 	if err != nil {
 		return nil, err
 	} else if rows.Err() != nil {
-		return nil, err
+		return nil, rows.Err()
 	}
 	defer rows.Close()
 
 	var stats []*dao.StatTranslation
 	for rows.Next() {
 		var entity dao.StatTranslation
-		if err = rows.Scan(&entity.Count, &entity.LangName); err != nil {
+		if err = rows.Scan(&entity.Fulfilled, &entity.LangName); err != nil {
 			break
 		}
 		stats = append(stats, &entity)

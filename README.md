@@ -17,6 +17,10 @@ Development
 
 ### Building
 
+1. Create volume for storing generated translation files 
+
+```docker volume create freon-docs```
+
 ### Developing
 If you liked this project, we will be happy to welcome you to our team.
 To maintain a consistent style code, we ask you to use our *linter* and *tests* before each pull requests.
