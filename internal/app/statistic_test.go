@@ -22,17 +22,17 @@ func TestGetStatistic(t *testing.T) {
 			CountIdentifiers: 20,
 			StatTranslations: []*dao.StatTranslation{
 				{
-					LangName: "ka-GE",
-					Count:    5,
+					LangName:  "ka-GE",
+					Fulfilled: 5,
 				}, {
-					LangName: "ru-RU",
-					Count:    10,
+					LangName:  "ru-RU",
+					Fulfilled: 10,
 				}, {
-					LangName: "de-DE",
-					Count:    20,
+					LangName:  "de-DE",
+					Fulfilled: 20,
 				}, {
-					LangName: "fr-FR",
-					Count:    0,
+					LangName:  "fr-FR",
+					Fulfilled: 0,
 				},
 			},
 		}, nil)

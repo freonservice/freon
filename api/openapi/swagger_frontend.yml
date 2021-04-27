@@ -471,6 +471,78 @@ paths:
         default:
           $ref: '#/responses/Error'
 
+  /translation-files/{id}:
+    delete:
+      operationId: deleteTranslationFile
+      summary: delete translation file by id
+      security:
+        - JWTBearer: [ ]
+      parameters:
+        - in: path
+          name: id
+          type: integer
+          minimum: 1
+          required: true
+      responses:
+        '204': { $ref: '#/responses/NoContent' }
+        default:
+          $ref: '#/responses/Error'
+
+  /translation-files:
+    get:
+      operationId: listTranslationFiles
+      summary: get full list of available translation files
+      security:
+        - JWTBearer: [ ]
+      parameters:
+        - in: query
+          name: localization_id
+          type: integer
+          minimum: 1
+        - in: query
+          name: platform
+          type: string
+      responses:
+        '200':
+          description: List with all translation files
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/TranslationFile'
+        default:
+          $ref: '#/responses/Error'
+
+    post:
+      operationId: createTranslationFiles
+      summary: create translation files for one localization (language) and different platforms (ios,android,web)
+      security:
+        - JWTBearer: [ ]
+      parameters:
+        - name: args
+          in: body
+          required: true
+          schema:
+            type: object
+            required:
+              - localization_id
+              - platforms
+            properties:
+              localization_id:
+                type: integer
+                format: int64
+              platforms:
+                type: array
+                items:
+                  type: string
+              storage_type:
+                type: string
+                enum: [ local ]
+                default: local
+      responses:
+        '204': { $ref: '#/responses/NoContent' }
+        default:
+          $ref: '#/responses/Error'
+
   /category:
     post:
       operationId: createCategory
@@ -802,6 +874,30 @@ definitions:
         default: [ ]
         items:
           type: string
+
+  TranslationFile:
+    type: object
+    required:
+      - id
+      - name
+      - path
+      - platform
+      - storage_type
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+      path:
+        type: string
+      platform:
+        type: string
+      status:
+        type: string
+      storage_type:
+        type: string
+        enum: [ local ]
+        default: local
 
   Category:
     type: object

@@ -6,12 +6,15 @@ import (
 
 	"github.com/freonservice/freon/internal/app"
 	"github.com/freonservice/freon/internal/dao"
+
+	"github.com/AlekSi/pointer"
 )
 
 func (r *Repo) CreateCategory(ctx Ctx, name string) error {
 	entity := &dao.Category{
 		Name:      name,
 		CreatedAt: time.Now().UTC(),
+		UpdatedAt: pointer.ToTime(time.Now().UTC()),
 	}
 	if err := r.ReformDB.Save(entity); err != nil {
 		if isDuplicateKeyValue(err) {
@@ -27,7 +30,7 @@ func (r *Repo) GetCategories(ctx Ctx) ([]*dao.Category, error) {
 	if err != nil {
 		return nil, err
 	} else if rows.Err() != nil {
-		return nil, err
+		return nil, rows.Err()
 	}
 	defer rows.Close()
 

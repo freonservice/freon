@@ -693,6 +693,122 @@ func init() {
         }
       }
     },
+    "/translation-files": {
+      "get": {
+        "security": [
+          {
+            "JWTBearer": []
+          }
+        ],
+        "summary": "get full list of available translation files",
+        "operationId": "listTranslationFiles",
+        "parameters": [
+          {
+            "minimum": 1,
+            "type": "integer",
+            "name": "localization_id",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "name": "platform",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List with all translation files",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/TranslationFile"
+              }
+            }
+          },
+          "default": {
+            "$ref": "#/responses/Error"
+          }
+        }
+      },
+      "post": {
+        "security": [
+          {
+            "JWTBearer": []
+          }
+        ],
+        "summary": "create translation files for one localization (language) and different platforms (ios,android,web)",
+        "operationId": "createTranslationFiles",
+        "parameters": [
+          {
+            "name": "args",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": [
+                "localization_id",
+                "platforms"
+              ],
+              "properties": {
+                "localization_id": {
+                  "type": "integer",
+                  "format": "int64"
+                },
+                "platforms": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "storage_type": {
+                  "type": "string",
+                  "default": "local",
+                  "enum": [
+                    "local"
+                  ]
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "$ref": "#/responses/NoContent"
+          },
+          "default": {
+            "$ref": "#/responses/Error"
+          }
+        }
+      }
+    },
+    "/translation-files/{id}": {
+      "delete": {
+        "security": [
+          {
+            "JWTBearer": []
+          }
+        ],
+        "summary": "delete translation file by id",
+        "operationId": "deleteTranslationFile",
+        "parameters": [
+          {
+            "minimum": 1,
+            "type": "integer",
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "$ref": "#/responses/NoContent"
+          },
+          "default": {
+            "$ref": "#/responses/Error"
+          }
+        }
+      }
+    },
     "/translation/hide/{id}/{hide}": {
       "put": {
         "security": [
@@ -1262,6 +1378,46 @@ func init() {
         "text": {
           "type": "string",
           "x-order": 3
+        }
+      }
+    },
+    "TranslationFile": {
+      "type": "object",
+      "required": [
+        "id",
+        "name",
+        "path",
+        "platform",
+        "storage_type"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "x-order": 0
+        },
+        "name": {
+          "type": "string",
+          "x-order": 1
+        },
+        "path": {
+          "type": "string",
+          "x-order": 2
+        },
+        "platform": {
+          "type": "string",
+          "x-order": 3
+        },
+        "status": {
+          "type": "string",
+          "x-order": 4
+        },
+        "storage_type": {
+          "type": "string",
+          "default": "local",
+          "enum": [
+            "local"
+          ],
+          "x-order": 5
         }
       }
     },
@@ -2052,6 +2208,131 @@ func init() {
         }
       }
     },
+    "/translation-files": {
+      "get": {
+        "security": [
+          {
+            "JWTBearer": []
+          }
+        ],
+        "summary": "get full list of available translation files",
+        "operationId": "listTranslationFiles",
+        "parameters": [
+          {
+            "minimum": 1,
+            "type": "integer",
+            "name": "localization_id",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "name": "platform",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List with all translation files",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/TranslationFile"
+              }
+            }
+          },
+          "default": {
+            "description": "General errors using same model as used by go-swagger for validation errors.",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      },
+      "post": {
+        "security": [
+          {
+            "JWTBearer": []
+          }
+        ],
+        "summary": "create translation files for one localization (language) and different platforms (ios,android,web)",
+        "operationId": "createTranslationFiles",
+        "parameters": [
+          {
+            "name": "args",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": [
+                "localization_id",
+                "platforms"
+              ],
+              "properties": {
+                "localization_id": {
+                  "type": "integer",
+                  "format": "int64"
+                },
+                "platforms": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "storage_type": {
+                  "type": "string",
+                  "default": "local",
+                  "enum": [
+                    "local"
+                  ]
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No content in answer"
+          },
+          "default": {
+            "description": "General errors using same model as used by go-swagger for validation errors.",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/translation-files/{id}": {
+      "delete": {
+        "security": [
+          {
+            "JWTBearer": []
+          }
+        ],
+        "summary": "delete translation file by id",
+        "operationId": "deleteTranslationFile",
+        "parameters": [
+          {
+            "minimum": 1,
+            "type": "integer",
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No content in answer"
+          },
+          "default": {
+            "description": "General errors using same model as used by go-swagger for validation errors.",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
     "/translation/hide/{id}/{hide}": {
       "put": {
         "security": [
@@ -2700,6 +2981,46 @@ func init() {
         "text": {
           "type": "string",
           "x-order": 3
+        }
+      }
+    },
+    "TranslationFile": {
+      "type": "object",
+      "required": [
+        "id",
+        "name",
+        "path",
+        "platform",
+        "storage_type"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "x-order": 0
+        },
+        "name": {
+          "type": "string",
+          "x-order": 1
+        },
+        "path": {
+          "type": "string",
+          "x-order": 2
+        },
+        "platform": {
+          "type": "string",
+          "x-order": 3
+        },
+        "status": {
+          "type": "string",
+          "x-order": 4
+        },
+        "storage_type": {
+          "type": "string",
+          "default": "local",
+          "enum": [
+            "local"
+          ],
+          "x-order": 5
         }
       }
     },

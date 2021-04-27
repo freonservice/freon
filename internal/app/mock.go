@@ -109,6 +109,20 @@ func (mr *MockApplMockRecorder) CreateTranslation(ctx, creatorID, localizationID
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateTranslation", reflect.TypeOf((*MockAppl)(nil).CreateTranslation), ctx, creatorID, localizationID, identifierID, text)
 }
 
+// CreateTranslationFile mocks base method.
+func (m *MockAppl) CreateTranslationFile(ctx Ctx, platform, storageType string, creatorID, localizationID int64) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "CreateTranslationFile", ctx, platform, storageType, creatorID, localizationID)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// CreateTranslationFile indicates an expected call of CreateTranslationFile.
+func (mr *MockApplMockRecorder) CreateTranslationFile(ctx, platform, storageType, creatorID, localizationID interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateTranslationFile", reflect.TypeOf((*MockAppl)(nil).CreateTranslationFile), ctx, platform, storageType, creatorID, localizationID)
+}
+
 // DeleteCategory mocks base method.
 func (m *MockAppl) DeleteCategory(ctx Ctx, id int64) error {
 	m.ctrl.T.Helper()
@@ -163,6 +177,20 @@ func (m *MockAppl) DeleteTranslation(ctx Ctx, id int64) error {
 func (mr *MockApplMockRecorder) DeleteTranslation(ctx, id interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteTranslation", reflect.TypeOf((*MockAppl)(nil).DeleteTranslation), ctx, id)
+}
+
+// DeleteTranslationFile mocks base method.
+func (m *MockAppl) DeleteTranslationFile(ctx Ctx, id int64) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "DeleteTranslationFile", ctx, id)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// DeleteTranslationFile indicates an expected call of DeleteTranslationFile.
+func (mr *MockApplMockRecorder) DeleteTranslationFile(ctx, id interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteTranslationFile", reflect.TypeOf((*MockAppl)(nil).DeleteTranslationFile), ctx, id)
 }
 
 // GetCategories mocks base method.
@@ -253,6 +281,21 @@ func (m *MockAppl) GetTranslation(ctx Ctx, locale, identifierName string) (*Tran
 func (mr *MockApplMockRecorder) GetTranslation(ctx, locale, identifierName interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetTranslation", reflect.TypeOf((*MockAppl)(nil).GetTranslation), ctx, locale, identifierName)
+}
+
+// GetTranslationFiles mocks base method.
+func (m *MockAppl) GetTranslationFiles(ctx Ctx, f filter.TranslationFileFilter) ([]*TranslationFile, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetTranslationFiles", ctx, f)
+	ret0, _ := ret[0].([]*TranslationFile)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetTranslationFiles indicates an expected call of GetTranslationFiles.
+func (mr *MockApplMockRecorder) GetTranslationFiles(ctx, f interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetTranslationFiles", reflect.TypeOf((*MockAppl)(nil).GetTranslationFiles), ctx, f)
 }
 
 // GetTranslations mocks base method.
@@ -605,6 +648,20 @@ func (mr *MockRepoMockRecorder) CreateTranslation(ctx, creatorID, localizationID
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateTranslation", reflect.TypeOf((*MockRepo)(nil).CreateTranslation), ctx, creatorID, localizationID, identifierID, text)
 }
 
+// CreateTranslationFile mocks base method.
+func (m *MockRepo) CreateTranslationFile(ctx Ctx, name, path string, platform, storageType, creatorID, localizationID int64) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "CreateTranslationFile", ctx, name, path, platform, storageType, creatorID, localizationID)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// CreateTranslationFile indicates an expected call of CreateTranslationFile.
+func (mr *MockRepoMockRecorder) CreateTranslationFile(ctx, name, path, platform, storageType, creatorID, localizationID interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateTranslationFile", reflect.TypeOf((*MockRepo)(nil).CreateTranslationFile), ctx, name, path, platform, storageType, creatorID, localizationID)
+}
+
 // CreateUser mocks base method.
 func (m *MockRepo) CreateUser(ctx Ctx, email, password, firstName, secondName string, role int64) (*dao.User, error) {
 	m.ctrl.T.Helper()
@@ -690,6 +747,20 @@ func (mr *MockRepoMockRecorder) DeleteTranslation(ctx, id interface{}) *gomock.C
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteTranslation", reflect.TypeOf((*MockRepo)(nil).DeleteTranslation), ctx, id)
 }
 
+// DeleteTranslationFile mocks base method.
+func (m *MockRepo) DeleteTranslationFile(ctx Ctx, id int64) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "DeleteTranslationFile", ctx, id)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// DeleteTranslationFile indicates an expected call of DeleteTranslationFile.
+func (mr *MockRepoMockRecorder) DeleteTranslationFile(ctx, id interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteTranslationFile", reflect.TypeOf((*MockRepo)(nil).DeleteTranslationFile), ctx, id)
+}
+
 // GetCategories mocks base method.
 func (m *MockRepo) GetCategories(ctx Ctx) ([]*dao.Category, error) {
 	m.ctrl.T.Helper()
@@ -749,6 +820,21 @@ func (mr *MockRepoMockRecorder) GetIdentifiers(ctx, f interface{}) *gomock.Call 
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetIdentifiers", reflect.TypeOf((*MockRepo)(nil).GetIdentifiers), ctx, f)
 }
 
+// GetLocalization mocks base method.
+func (m *MockRepo) GetLocalization(ctx Ctx, id int64) (*dao.Localization, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetLocalization", ctx, id)
+	ret0, _ := ret[0].(*dao.Localization)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetLocalization indicates an expected call of GetLocalization.
+func (mr *MockRepoMockRecorder) GetLocalization(ctx, id interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetLocalization", reflect.TypeOf((*MockRepo)(nil).GetLocalization), ctx, id)
+}
+
 // GetLocalizations mocks base method.
 func (m *MockRepo) GetLocalizations(ctx Ctx) ([]*dao.Localization, error) {
 	m.ctrl.T.Helper()
@@ -792,6 +878,36 @@ func (m *MockRepo) GetTranslation(ctx Ctx, locale, identifierName string) (*dao.
 func (mr *MockRepoMockRecorder) GetTranslation(ctx, locale, identifierName interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetTranslation", reflect.TypeOf((*MockRepo)(nil).GetTranslation), ctx, locale, identifierName)
+}
+
+// GetTranslationFile mocks base method.
+func (m *MockRepo) GetTranslationFile(ctx Ctx, id int64) (*dao.TranslationFile, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetTranslationFile", ctx, id)
+	ret0, _ := ret[0].(*dao.TranslationFile)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetTranslationFile indicates an expected call of GetTranslationFile.
+func (mr *MockRepoMockRecorder) GetTranslationFile(ctx, id interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetTranslationFile", reflect.TypeOf((*MockRepo)(nil).GetTranslationFile), ctx, id)
+}
+
+// GetTranslationFiles mocks base method.
+func (m *MockRepo) GetTranslationFiles(ctx Ctx, f filter.TranslationFileFilter) ([]*dao.TranslationFile, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetTranslationFiles", ctx, f)
+	ret0, _ := ret[0].([]*dao.TranslationFile)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetTranslationFiles indicates an expected call of GetTranslationFiles.
+func (mr *MockRepoMockRecorder) GetTranslationFiles(ctx, f interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetTranslationFiles", reflect.TypeOf((*MockRepo)(nil).GetTranslationFiles), ctx, f)
 }
 
 // GetTranslations mocks base method.

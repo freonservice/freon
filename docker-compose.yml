@@ -25,6 +25,7 @@ services:
   freon:
     build:
       context: .
+      dockerfile: Dockerfile.dev
     ports:
       - 4000:4000
     environment:
@@ -48,4 +49,4 @@ services:
       retries: 3
       start_period: 10s
     volumes:
-      - freon-docs:/translations
+      - freon-docs:/docs

@@ -5,10 +5,9 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/freonservice/freon/internal/filter"
-
 	"github.com/freonservice/freon/internal/app"
 	"github.com/freonservice/freon/internal/dao"
+	"github.com/freonservice/freon/internal/filter"
 	"github.com/freonservice/freon/pkg/api"
 
 	"github.com/AlekSi/pointer"
@@ -30,6 +29,7 @@ func (r *Repo) CreateIdentifier(
 			Platforms:   platforms,
 			NamedList:   sql.NullString{String: namedList, Valid: true},
 			CreatedAt:   time.Now().UTC(),
+			UpdatedAt:   pointer.ToTime(time.Now().UTC()),
 		}
 
 		if categoryID > 0 {
@@ -67,7 +67,7 @@ func (r *Repo) CreateIdentifier(
 			localizationIdentifier := &dao.LocalizationIdentifier{
 				LocalizationID: id,
 				IdentifierID:   identifier.ID,
-				Status:         int64(api.LocalizationIdentifierStatus_LOCALIZATION_IDENTIFIER_ACTIVE),
+				Status:         int64(api.Status_ACTIVE),
 				CreatedAt:      time.Now().UTC(),
 			}
 			err = tx.Save(localizationIdentifier)
@@ -79,7 +79,7 @@ func (r *Repo) CreateIdentifier(
 				LocalizationID: id,
 				IdentifierID:   identifier.ID,
 				CreatorID:      creatorID,
-				Status:         int64(api.TranslationStatus_TRANSLATION_ACTIVE),
+				Status:         int64(api.TranslationStatus_TRANSLATION_EMPTY),
 				CreatedAt:      time.Now().UTC(),
 			}
 			err = tx.Save(translation)
@@ -97,7 +97,7 @@ func (r *Repo) GetIdentifiers(ctx Ctx, f filter.IdentifierFilter) ([]*dao.Identi
 	if err != nil {
 		return nil, err
 	} else if rows.Err() != nil {
-		return nil, err
+		return nil, rows.Err()
 	}
 	defer rows.Close()
 
@@ -138,7 +138,7 @@ func (r *Repo) SelectLocalizationListID(ctx Ctx, tx *reform.TX) ([]int64, error)
 	if err != nil {
 		return nil, err
 	} else if rows.Err() != nil {
-		return nil, err
+		return nil, rows.Err()
 	}
 	defer rows.Close()
 

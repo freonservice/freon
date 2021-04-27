@@ -6,12 +6,13 @@ import (
 	"crypto/tls"
 	"net/http"
 
-	"github.com/freonservice/freon/api/openapi/frontend/restapi/op"
-	"github.com/freonservice/freon/internal/app"
-
 	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime"
+
+	"github.com/freonservice/freon/api/openapi/frontend/restapi/op"
+	"github.com/freonservice/freon/internal/app"
 )
+
 
 func configureFlags(api *op.FreonFrontendAPI) {
 	// api.CommandLineOptionsGroups = []swag.CommandLineOptionsGroup{ ... }
@@ -67,6 +68,11 @@ func configureAPI(api *op.FreonFrontendAPI) http.Handler {
 			return op.CreateTranslationNotImplemented()
 		})
 	}
+	if api.CreateTranslationFilesHandler == nil {
+		api.CreateTranslationFilesHandler = op.CreateTranslationFilesHandlerFunc(func(params op.CreateTranslationFilesParams, principal *app.UserSession) op.CreateTranslationFilesResponder {
+			return op.CreateTranslationFilesNotImplemented()
+		})
+	}
 	if api.DeleteCategoryHandler == nil {
 		api.DeleteCategoryHandler = op.DeleteCategoryHandlerFunc(func(params op.DeleteCategoryParams, principal *app.UserSession) op.DeleteCategoryResponder {
 			return op.DeleteCategoryNotImplemented()
@@ -85,6 +91,11 @@ func configureAPI(api *op.FreonFrontendAPI) http.Handler {
 	if api.DeleteTranslationHandler == nil {
 		api.DeleteTranslationHandler = op.DeleteTranslationHandlerFunc(func(params op.DeleteTranslationParams, principal *app.UserSession) op.DeleteTranslationResponder {
 			return op.DeleteTranslationNotImplemented()
+		})
+	}
+	if api.DeleteTranslationFileHandler == nil {
+		api.DeleteTranslationFileHandler = op.DeleteTranslationFileHandlerFunc(func(params op.DeleteTranslationFileParams, principal *app.UserSession) op.DeleteTranslationFileResponder {
+			return op.DeleteTranslationFileNotImplemented()
 		})
 	}
 	if api.HealthCheckHandler == nil {
@@ -110,6 +121,11 @@ func configureAPI(api *op.FreonFrontendAPI) http.Handler {
 	if api.ListLocalizationHandler == nil {
 		api.ListLocalizationHandler = op.ListLocalizationHandlerFunc(func(params op.ListLocalizationParams, principal *app.UserSession) op.ListLocalizationResponder {
 			return op.ListLocalizationNotImplemented()
+		})
+	}
+	if api.ListTranslationFilesHandler == nil {
+		api.ListTranslationFilesHandler = op.ListTranslationFilesHandlerFunc(func(params op.ListTranslationFilesParams, principal *app.UserSession) op.ListTranslationFilesResponder {
+			return op.ListTranslationFilesNotImplemented()
 		})
 	}
 	if api.ListTranslationsHandler == nil {

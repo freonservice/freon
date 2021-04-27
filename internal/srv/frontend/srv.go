@@ -33,7 +33,7 @@ type (
 	}
 )
 
-func NewServer(auth app.Auth, appl app.Appl, cfg Config) (*restapi.Server, error) {
+func NewServer(auth app.Auth, appl app.Appl, cfg Config) (*restapi.Server, error) { //nolint:funlen
 	srv := &server{
 		app: appl,
 		cfg: cfg,
@@ -77,6 +77,10 @@ func NewServer(auth app.Auth, appl app.Appl, cfg Config) (*restapi.Server, error
 	api.HideTranslationHandler = op.HideTranslationHandlerFunc(srv.hideTranslation)
 	api.ListUserHandler = op.ListUserHandlerFunc(srv.listUser)
 	api.StatisticHandler = op.StatisticHandlerFunc(srv.statistic)
+	api.CreateTranslationFilesHandler = op.CreateTranslationFilesHandlerFunc(srv.createTranslationFile)
+	api.ListTranslationFilesHandler = op.ListTranslationFilesHandlerFunc(srv.listTranslationFiles)
+	api.DeleteTranslationFileHandler = op.DeleteTranslationFileHandlerFunc(srv.deleteTranslationFile)
+
 	server := restapi.NewServer(api)
 	server.Host = cfg.Addr.Host()
 	server.Port = cfg.Addr.Port()

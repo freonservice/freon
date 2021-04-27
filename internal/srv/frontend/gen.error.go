@@ -444,3 +444,57 @@ func errStatistic(log Log, err error, code errCode) op.StatisticResponder { //no
 		Message: swag.String(msg),
 	})
 }
+
+func errCreateTranslationFiles(log Log, err error, code errCode) op.CreateTranslationFilesResponder { //nolint:dupl,deadcode,unused
+	if code.status < http.StatusInternalServerError {
+		log.Info("client error", def.LogHTTPStatus, code.status, "code", code.status, "err", err)
+	} else {
+		log.PrintErr("server error", def.LogHTTPStatus, code.status, "code", code.status, "err", err)
+	}
+
+	msg := err.Error()
+	if code.status == http.StatusInternalServerError {
+		msg = "internal error"
+	}
+
+	return op.NewCreateTranslationFilesDefault(code.status).WithPayload(&model.Error{
+		Code:    swag.Int32(int32(code.status)),
+		Message: swag.String(msg),
+	})
+}
+
+func errListTranslationFiles(log Log, err error, code errCode) op.ListTranslationFilesResponder { //nolint:dupl
+	if code.status < http.StatusInternalServerError {
+		log.Info("client error", def.LogHTTPStatus, code.status, "code", code.status, "err", err)
+	} else {
+		log.PrintErr("server error", def.LogHTTPStatus, code.status, "code", code.status, "err", err)
+	}
+
+	msg := err.Error()
+	if code.status == http.StatusInternalServerError {
+		msg = "internal error"
+	}
+
+	return op.NewListTranslationFilesDefault(code.status).WithPayload(&model.Error{
+		Code:    swag.Int32(int32(code.status)),
+		Message: swag.String(msg),
+	})
+}
+
+func errDeleteTranslationFile(log Log, err error, code errCode) op.DeleteTranslationFileResponder { //nolint:dupl
+	if code.status < http.StatusInternalServerError {
+		log.Info("client error", def.LogHTTPStatus, code.status, "code", code.status, "err", err)
+	} else {
+		log.PrintErr("server error", def.LogHTTPStatus, code.status, "code", code.status, "err", err)
+	}
+
+	msg := err.Error()
+	if code.status == http.StatusInternalServerError {
+		msg = "internal error"
+	}
+
+	return op.NewDeleteTranslationFileDefault(code.status).WithPayload(&model.Error{
+		Code:    swag.Int32(int32(code.status)),
+		Message: swag.String(msg),
+	})
+}

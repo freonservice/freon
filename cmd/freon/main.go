@@ -83,6 +83,12 @@ func main() {
 	structlog.DefaultLogger.SetLogLevel(structlog.ParseLevel(cfg.logLevel))
 	log.Info(version.Get())
 
+	// nolint:gocritic
+	// err := utils.GenerateDocFolders()
+	// if err != nil {
+	//	log.Fatal(err)
+	// }
+
 	r, err := dal.New(&repo.Config{
 		Host:          dbConf.host,
 		Port:          dbConf.port,

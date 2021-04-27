@@ -22,20 +22,20 @@ const (
 	sqlUpdateNameCategory          = `UPDATE categories SET name = $1, updated_at = NOW() WHERE id = $2`
 	sqlUpdateHideStatusTranslation = `UPDATE translations SET status = $1, updated_at = NOW() WHERE id = $2`
 
-	sqlDeleteIdentifier   = `DELETE FROM identifiers WHERE id = $1`
-	sqlDeleteLocalization = `DELETE FROM localizations WHERE id = $1`
-	sqlDeleteCategory     = `DELETE FROM categories WHERE id = $1`
-	sqlDeleteTranslation  = `DELETE FROM translations WHERE id = $1`
+	sqlDeleteIdentifier      = `DELETE FROM identifiers WHERE id = $1`
+	sqlDeleteLocalization    = `DELETE FROM localizations WHERE id = $1`
+	sqlDeleteCategory        = `DELETE FROM categories WHERE id = $1`
+	sqlDeleteTranslation     = `DELETE FROM translations WHERE id = $1`
+	sqlDeleteTranslationFile = `DELETE FROM translation_files WHERE id = $1`
 
 	sqlStatCountCategories    = `SELECT COUNT(*) FROM categories`
 	sqlStatCountUsers         = `SELECT COUNT(*) FROM users WHERE status = $1`
 	sqlStatCountLocalizations = `SELECT COUNT(*) FROM localizations WHERE status = $1`
 	sqlStatCountIdentifiers   = `SELECT COUNT(*) FROM identifiers WHERE status = $1`
 	sqlStatTranslations       = `
-	SELECT COUNT(t.id) AS c, l.lang_name FROM translations AS t 
-	JOIN localizations AS l ON t.localization_id=l.id 
-	WHERE t.status = $1  
-	GROUP BY l.lang_name`
+	SELECT COUNT(CASE WHEN t.status = 0 THEN 1 END) AS f,
+	l.lang_name FROM translations AS t  
+	JOIN localizations AS l ON t.localization_id=l.id GROUP BY l.lang_name`
 	sqlSelectTranslation = `
 	SELECT t.text FROM translations AS t 
 	JOIN localizations AS l ON t.localization_id=l.id  

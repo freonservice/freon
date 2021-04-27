@@ -90,3 +90,17 @@ type Statistic struct {
 	CountLocalizations int64
 	StatTranslations   []*StatTranslation
 }
+
+type TranslationFile struct {
+	ID             int64
+	CreatorID      int64
+	LocalizationID int64
+	Name           string
+	Path           string
+	Platform       int64
+	StorageType    int64
+	Status         int64
+	Localization   *Localization
+	CreatedAt      time.Time
+	UpdatedAt      time.Time
+}

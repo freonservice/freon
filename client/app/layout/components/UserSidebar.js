@@ -31,8 +31,8 @@ export const UserSidebar = () => (
         />
         <SidebarMenu.Item
             icon={<i className="fa fa-fw fa-folder-open"/>}
-            title="Generation Files"
-            to='/generation-files'
+            title="Translation Files"
+            to='/translation-files'
         />
         <SidebarMenu.Item
             icon={<i className="fa fa-fw fa-users"/>}

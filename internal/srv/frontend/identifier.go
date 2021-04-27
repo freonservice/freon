@@ -48,7 +48,7 @@ func (srv *server) listIdentifiers(
 		ctx,
 		filter.IdentifierFilter{
 			CategoryID: swag.Int64Value(params.CategoryID),
-			Status:     int64(api.IdentifierStatus_IDENTIFIER_ACTIVE),
+			Status:     int64(api.Status_ACTIVE),
 		},
 	)
 	switch errors.Cause(err) {

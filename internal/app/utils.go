@@ -3,6 +3,8 @@ package app
 import (
 	"fmt"
 	"sort"
+
+	"github.com/freonservice/freon/pkg/api"
 )
 
 func uniqueStringSlice(intSlice []string) []string {
@@ -34,4 +36,22 @@ func createConcatenatedString(data []string) string {
 		}
 	}
 	return result
+}
+
+func getPlatformByString(platform string) int64 {
+	switch platform {
+	case "ios":
+		return int64(api.PlatformType_PLATFORM_TYPE_IOS)
+	case "android":
+		return int64(api.PlatformType_PLATFORM_TYPE_ANDROID)
+	default:
+		return int64(api.PlatformType_PLATFORM_TYPE_WEB)
+	}
+}
+
+func getStorageTypeByString(storageType string) int64 {
+	switch storageType { //nolint:gocritic
+	default:
+		return int64(api.StorageType_STORAGE_TYPE_LOCAL)
+	}
 }
