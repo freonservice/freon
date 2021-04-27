@@ -490,7 +490,7 @@ paths:
 
   /translation-files:
     get:
-      operationId: translationFiles
+      operationId: listTranslationFiles
       summary: get full list of available translation files
       security:
         - JWTBearer: [ ]
@@ -893,7 +893,7 @@ definitions:
       platform:
         type: string
       status:
-        type: integer
+        type: string
       storage_type:
         type: string
         enum: [ local ]

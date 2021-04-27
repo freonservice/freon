@@ -97,8 +97,8 @@ type TranslationFile struct {
 	LocalizationID int64
 	Name           string
 	Path           string
-	Platform       string
-	StorageType    string
+	Platform       int64
+	StorageType    int64
 	Status         int64
 	Localization   *Localization
 	CreatedAt      time.Time

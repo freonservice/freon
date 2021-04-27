@@ -86,6 +86,7 @@ type (
 		DeleteSession(ctx Ctx, token AccessToken) error
 
 		CreateLocalization(ctx Ctx, creatorID int64, locale, languageName, icon string) (*dao.Localization, error)
+		GetLocalization(ctx Ctx, id int64) (*dao.Localization, error)
 		GetLocalizations(ctx Ctx) ([]*dao.Localization, error)
 		DeleteLocalization(ctx Ctx, id int64) error
 

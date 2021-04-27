@@ -2,3 +2,4 @@
 \.json\.go$
 \.pb\.go$
 _reform\.go$
+^\./api/openapi

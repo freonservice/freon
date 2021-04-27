@@ -14,7 +14,7 @@ const generateRow = (index) => ({
     lcid: faker.commerce.productName(),
 });
 
-class GenerationFiles extends React.Component {
+class TranslationFiles extends React.Component {
     constructor(props) {
         super(props);
 
@@ -45,4 +45,4 @@ class GenerationFiles extends React.Component {
     }
 }
 
-export default GenerationFiles;
+export default TranslationFiles;

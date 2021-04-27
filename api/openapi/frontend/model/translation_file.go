@@ -37,7 +37,7 @@ type TranslationFile struct {
 	Platform *string `json:"platform"`
 
 	// status
-	Status int64 `json:"status,omitempty"`
+	Status string `json:"status,omitempty"`
 
 	// storage type
 	// Required: true
@@ -66,7 +66,7 @@ func (m *TranslationFile) UnmarshalJSON(data []byte) error {
 		Platform *string `json:"platform"`
 
 		// status
-		Status int64 `json:"status,omitempty"`
+		Status string `json:"status,omitempty"`
 
 		// storage type
 		// Required: true

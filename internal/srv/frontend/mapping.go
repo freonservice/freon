@@ -126,3 +126,23 @@ func apiStatistic(v *app.Statistic) *op.StatisticOKBody {
 
 	return entity
 }
+
+func apiTranslationFile(v *app.TranslationFile) *model.TranslationFile {
+	i := &model.TranslationFile{
+		ID:          &v.ID,
+		Name:        &v.Name,
+		Path:        &v.Path,
+		Platform:    pointer.ToString(getPlatformByInteger(v.Platform)),
+		Status:      getStatusByInteger(api.Status(v.Status)),
+		StorageType: pointer.ToString(getStorageTypeByInteger(v.StorageType)),
+	}
+	return i
+}
+
+func apiArrayTranslationFiles(v []*app.TranslationFile) []*model.TranslationFile {
+	var entities = make([]*model.TranslationFile, len(v))
+	for i, e := range v {
+		entities[i] = apiTranslationFile(e)
+	}
+	return entities
+}

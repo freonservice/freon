@@ -14,7 +14,7 @@ build-freon:
 	go build ${GO_BUILD_ARGS} -o ${PROJECTNAME} ./cmd/${PROJECTNAME}
 
 genny-generate:
-	genny -in=./internal/srv/frontend/error.go -out=./internal/srv/frontend/gen.error.go gen "HealthCheck=Login,LogoutUser,RegUser,CreateLocalization,UserMe,ListLocalization,DeleteLocalization,CreateIdentifier,ListIdentifiers,DeleteIdentifier,CreateCategory,ListCategories,DeleteCategory,UpdateCategory,UpdateIdentifier,CreateTranslation,ListTranslations,DeleteTranslation,UpdateTranslation,HideTranslation,UserChangePassword,UserChangeProfile,ListUser,Statistic"
+	genny -in=./internal/srv/frontend/error.go -out=./internal/srv/frontend/gen.error.go gen "HealthCheck=Login,LogoutUser,RegUser,CreateLocalization,UserMe,ListLocalization,DeleteLocalization,CreateIdentifier,ListIdentifiers,DeleteIdentifier,CreateCategory,ListCategories,DeleteCategory,UpdateCategory,UpdateIdentifier,CreateTranslation,ListTranslations,DeleteTranslation,UpdateTranslation,HideTranslation,UserChangePassword,UserChangeProfile,ListUser,Statistic,CreateTranslationFiles,ListTranslationFiles,DeleteTranslationFile"
 
 statik:
 	@rm -rf ./statik

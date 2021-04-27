@@ -11,7 +11,7 @@ import Localizations from './Localizations';
 import Identifiers from './Identifiers';
 import Translations from './Translations';
 import TranslationAction from "./Translations/TranslationAction";
-import GenerationFiles from "./GenerationFiles";
+import TranslationFiles from "./TranslationFiles";
 import UsersList from "./Users/Users";
 import CreateUser from './Users/CreateUser';
 import EditUser from "./Users/EditUser";
@@ -37,7 +37,7 @@ export const RoutedContent = () => {
             <PrivateRoute path='/translations/edit/:id' exact component={TranslationAction}/>
             <PrivateRoute path='/translations/create' exact component={TranslationAction}/>
 
-            <PrivateRoute path='/generation-files' exact component={GenerationFiles}/>
+            <PrivateRoute path='/translation-files' exact component={TranslationFiles}/>
 
             <PrivateRoute path='/users' exact component={UsersList}/>
             <PrivateRoute path='/users/edit/:id' exact component={EditUser}/>

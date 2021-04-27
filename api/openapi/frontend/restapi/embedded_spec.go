@@ -701,7 +701,7 @@ func init() {
           }
         ],
         "summary": "get full list of available translation files",
-        "operationId": "translationFiles",
+        "operationId": "listTranslationFiles",
         "parameters": [
           {
             "minimum": 1,
@@ -1408,7 +1408,7 @@ func init() {
           "x-order": 3
         },
         "status": {
-          "type": "integer",
+          "type": "string",
           "x-order": 4
         },
         "storage_type": {
@@ -2216,7 +2216,7 @@ func init() {
           }
         ],
         "summary": "get full list of available translation files",
-        "operationId": "translationFiles",
+        "operationId": "listTranslationFiles",
         "parameters": [
           {
             "minimum": 1,
@@ -3011,7 +3011,7 @@ func init() {
           "x-order": 3
         },
         "status": {
-          "type": "integer",
+          "type": "string",
           "x-order": 4
         },
         "storage_type": {

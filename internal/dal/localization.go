@@ -67,6 +67,15 @@ func (r *Repo) CreateLocalization(ctx Ctx, creatorID int64, locale, languageName
 	return entity, err
 }
 
+func (r *Repo) GetLocalization(ctx Ctx, id int64) (*dao.Localization, error) {
+	var entity dao.Localization
+	err := r.ReformDB.FindOneTo(&entity, "id", id)
+	if err != nil {
+		return nil, err
+	}
+	return &entity, nil
+}
+
 func (r *Repo) GetLocalizations(ctx Ctx) ([]*dao.Localization, error) {
 	rows, err := r.ReformDB.SelectRows(
 		dao.LocalizationTable, "WHERE status = $1 ORDER BY id DESC", api.Status_ACTIVE,

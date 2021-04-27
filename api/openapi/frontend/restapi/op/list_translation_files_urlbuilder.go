@@ -13,8 +13,8 @@ import (
 	"github.com/go-openapi/swag"
 )
 
-// TranslationFilesURL generates an URL for the translation files operation
-type TranslationFilesURL struct {
+// ListTranslationFilesURL generates an URL for the list translation files operation
+type ListTranslationFilesURL struct {
 	LocalizationID *int64
 	Platform       *string
 
@@ -26,7 +26,7 @@ type TranslationFilesURL struct {
 // WithBasePath sets the base path for this url builder, only required when it's different from the
 // base path specified in the swagger spec.
 // When the value of the base path is an empty string
-func (o *TranslationFilesURL) WithBasePath(bp string) *TranslationFilesURL {
+func (o *ListTranslationFilesURL) WithBasePath(bp string) *ListTranslationFilesURL {
 	o.SetBasePath(bp)
 	return o
 }
@@ -34,12 +34,12 @@ func (o *TranslationFilesURL) WithBasePath(bp string) *TranslationFilesURL {
 // SetBasePath sets the base path for this url builder, only required when it's different from the
 // base path specified in the swagger spec.
 // When the value of the base path is an empty string
-func (o *TranslationFilesURL) SetBasePath(bp string) {
+func (o *ListTranslationFilesURL) SetBasePath(bp string) {
 	o._basePath = bp
 }
 
 // Build a url path and query string
-func (o *TranslationFilesURL) Build() (*url.URL, error) {
+func (o *ListTranslationFilesURL) Build() (*url.URL, error) {
 	var _result url.URL
 
 	var _path = "/translation-files"
@@ -74,7 +74,7 @@ func (o *TranslationFilesURL) Build() (*url.URL, error) {
 }
 
 // Must is a helper function to panic when the url builder returns an error
-func (o *TranslationFilesURL) Must(u *url.URL, err error) *url.URL {
+func (o *ListTranslationFilesURL) Must(u *url.URL, err error) *url.URL {
 	if err != nil {
 		panic(err)
 	}
@@ -85,17 +85,17 @@ func (o *TranslationFilesURL) Must(u *url.URL, err error) *url.URL {
 }
 
 // String returns the string representation of the path with query string
-func (o *TranslationFilesURL) String() string {
+func (o *ListTranslationFilesURL) String() string {
 	return o.Must(o.Build()).String()
 }
 
 // BuildFull builds a full url with scheme, host, path and query string
-func (o *TranslationFilesURL) BuildFull(scheme, host string) (*url.URL, error) {
+func (o *ListTranslationFilesURL) BuildFull(scheme, host string) (*url.URL, error) {
 	if scheme == "" {
-		return nil, errors.New("scheme is required for a full url on TranslationFilesURL")
+		return nil, errors.New("scheme is required for a full url on ListTranslationFilesURL")
 	}
 	if host == "" {
-		return nil, errors.New("host is required for a full url on TranslationFilesURL")
+		return nil, errors.New("host is required for a full url on ListTranslationFilesURL")
 	}
 
 	base, err := o.Build()
@@ -109,6 +109,6 @@ func (o *TranslationFilesURL) BuildFull(scheme, host string) (*url.URL, error) {
 }
 
 // StringFull returns the string representation of a complete url
-func (o *TranslationFilesURL) StringFull(scheme, host string) string {
+func (o *ListTranslationFilesURL) StringFull(scheme, host string) string {
 	return o.Must(o.BuildFull(scheme, host)).String()
 }

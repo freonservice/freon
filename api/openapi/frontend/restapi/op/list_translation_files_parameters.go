@@ -16,18 +16,18 @@ import (
 	"github.com/go-openapi/validate"
 )
 
-// NewTranslationFilesParams creates a new TranslationFilesParams object
+// NewListTranslationFilesParams creates a new ListTranslationFilesParams object
 // no default values defined in spec.
-func NewTranslationFilesParams() TranslationFilesParams {
+func NewListTranslationFilesParams() ListTranslationFilesParams {
 
-	return TranslationFilesParams{}
+	return ListTranslationFilesParams{}
 }
 
-// TranslationFilesParams contains all the bound params for the translation files operation
+// ListTranslationFilesParams contains all the bound params for the list translation files operation
 // typically these are obtained from a http.Request
 //
-// swagger:parameters translationFiles
-type TranslationFilesParams struct {
+// swagger:parameters listTranslationFiles
+type ListTranslationFilesParams struct {
 
 	// HTTP Request Object
 	HTTPRequest *http.Request `json:"-"`
@@ -46,8 +46,8 @@ type TranslationFilesParams struct {
 // BindRequest both binds and validates a request, it assumes that complex things implement a Validatable(strfmt.Registry) error interface
 // for simple values it will use straight method calls.
 //
-// To ensure default values, the struct must have been initialized with NewTranslationFilesParams() beforehand.
-func (o *TranslationFilesParams) BindRequest(r *http.Request, route *middleware.MatchedRoute) error {
+// To ensure default values, the struct must have been initialized with NewListTranslationFilesParams() beforehand.
+func (o *ListTranslationFilesParams) BindRequest(r *http.Request, route *middleware.MatchedRoute) error {
 	var res []error
 
 	o.HTTPRequest = r
@@ -71,7 +71,7 @@ func (o *TranslationFilesParams) BindRequest(r *http.Request, route *middleware.
 }
 
 // bindLocalizationID binds and validates parameter LocalizationID from query.
-func (o *TranslationFilesParams) bindLocalizationID(rawData []string, hasKey bool, formats strfmt.Registry) error {
+func (o *ListTranslationFilesParams) bindLocalizationID(rawData []string, hasKey bool, formats strfmt.Registry) error {
 	var raw string
 	if len(rawData) > 0 {
 		raw = rawData[len(rawData)-1]
@@ -97,7 +97,7 @@ func (o *TranslationFilesParams) bindLocalizationID(rawData []string, hasKey boo
 }
 
 // validateLocalizationID carries on validations for parameter LocalizationID
-func (o *TranslationFilesParams) validateLocalizationID(formats strfmt.Registry) error {
+func (o *ListTranslationFilesParams) validateLocalizationID(formats strfmt.Registry) error {
 
 	if err := validate.MinimumInt("localization_id", "query", int64(*o.LocalizationID), 1, false); err != nil {
 		return err
@@ -107,7 +107,7 @@ func (o *TranslationFilesParams) validateLocalizationID(formats strfmt.Registry)
 }
 
 // bindPlatform binds and validates parameter Platform from query.
-func (o *TranslationFilesParams) bindPlatform(rawData []string, hasKey bool, formats strfmt.Registry) error {
+func (o *ListTranslationFilesParams) bindPlatform(rawData []string, hasKey bool, formats strfmt.Registry) error {
 	var raw string
 	if len(rawData) > 0 {
 		raw = rawData[len(rawData)-1]

@@ -13,7 +13,7 @@ import (
 	"github.com/freonservice/freon/internal/app"
 )
 
-//go:generate swagger generate server --target ../../../openapi --name FreonFrontend --spec ../../../../../../../../var/folders/2b/_3dqrrkj6j15wrr37z1c8x2m0000gn/T/swagger_frontend.yml433942012 --api-package op --model-package frontend/model --server-package frontend/restapi --principal github.com/freonservice/freon/internal/app.UserSession --exclude-main --strict-responders
+//go:generate swagger generate server --target ../../../openapi --name FreonFrontend --spec ../../../../../../../../var/folders/2b/_3dqrrkj6j15wrr37z1c8x2m0000gn/T/swagger_frontend.yml064874684 --api-package op --model-package frontend/model --server-package frontend/restapi --principal github.com/freonservice/freon/internal/app.UserSession --exclude-main --strict-responders
 
 func configureFlags(api *op.FreonFrontendAPI) {
 	// api.CommandLineOptionsGroups = []swag.CommandLineOptionsGroup{ ... }
@@ -124,6 +124,11 @@ func configureAPI(api *op.FreonFrontendAPI) http.Handler {
 			return op.ListLocalizationNotImplemented()
 		})
 	}
+	if api.ListTranslationFilesHandler == nil {
+		api.ListTranslationFilesHandler = op.ListTranslationFilesHandlerFunc(func(params op.ListTranslationFilesParams, principal *app.UserSession) op.ListTranslationFilesResponder {
+			return op.ListTranslationFilesNotImplemented()
+		})
+	}
 	if api.ListTranslationsHandler == nil {
 		api.ListTranslationsHandler = op.ListTranslationsHandlerFunc(func(params op.ListTranslationsParams, principal *app.UserSession) op.ListTranslationsResponder {
 			return op.ListTranslationsNotImplemented()
@@ -152,11 +157,6 @@ func configureAPI(api *op.FreonFrontendAPI) http.Handler {
 	if api.StatisticHandler == nil {
 		api.StatisticHandler = op.StatisticHandlerFunc(func(params op.StatisticParams, principal *app.UserSession) op.StatisticResponder {
 			return op.StatisticNotImplemented()
-		})
-	}
-	if api.TranslationFilesHandler == nil {
-		api.TranslationFilesHandler = op.TranslationFilesHandlerFunc(func(params op.TranslationFilesParams, principal *app.UserSession) op.TranslationFilesResponder {
-			return op.TranslationFilesNotImplemented()
 		})
 	}
 	if api.UpdateCategoryHandler == nil {

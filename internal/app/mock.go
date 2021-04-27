@@ -820,6 +820,21 @@ func (mr *MockRepoMockRecorder) GetIdentifiers(ctx, f interface{}) *gomock.Call 
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetIdentifiers", reflect.TypeOf((*MockRepo)(nil).GetIdentifiers), ctx, f)
 }
 
+// GetLocalization mocks base method.
+func (m *MockRepo) GetLocalization(ctx Ctx, id int64) (*dao.Localization, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetLocalization", ctx, id)
+	ret0, _ := ret[0].(*dao.Localization)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetLocalization indicates an expected call of GetLocalization.
+func (mr *MockRepoMockRecorder) GetLocalization(ctx, id interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetLocalization", reflect.TypeOf((*MockRepo)(nil).GetLocalization), ctx, id)
+}
+
 // GetLocalizations mocks base method.
 func (m *MockRepo) GetLocalizations(ctx Ctx) ([]*dao.Localization, error) {
 	m.ctrl.T.Helper()

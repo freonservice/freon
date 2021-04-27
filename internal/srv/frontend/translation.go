@@ -4,7 +4,6 @@ import (
 	"github.com/freonservice/freon/api/openapi/frontend/restapi/op"
 	"github.com/freonservice/freon/internal/app"
 	"github.com/freonservice/freon/internal/filter"
-	"github.com/freonservice/freon/pkg/api"
 
 	"github.com/go-openapi/swag"
 	"github.com/pkg/errors"
@@ -93,13 +92,4 @@ func (srv *server) hideTranslation(params op.HideTranslationParams, session *app
 	}
 
 	return op.NewHideTranslationNoContent()
-}
-
-func getTranslationStatus(status api.TranslationStatus) string {
-	switch status { //nolint:exhaustive
-	case api.TranslationStatus_TRANSLATION_ACTIVE:
-		return "Active"
-	default:
-		return "Hidden"
-	}
 }

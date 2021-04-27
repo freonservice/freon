@@ -89,6 +89,9 @@ func NewFreonFrontendAPI(spec *loads.Document) *FreonFrontendAPI {
 		ListLocalizationHandler: ListLocalizationHandlerFunc(func(params ListLocalizationParams, principal *app.UserSession) ListLocalizationResponder {
 			return ListLocalizationNotImplemented()
 		}),
+		ListTranslationFilesHandler: ListTranslationFilesHandlerFunc(func(params ListTranslationFilesParams, principal *app.UserSession) ListTranslationFilesResponder {
+			return ListTranslationFilesNotImplemented()
+		}),
 		ListTranslationsHandler: ListTranslationsHandlerFunc(func(params ListTranslationsParams, principal *app.UserSession) ListTranslationsResponder {
 			return ListTranslationsNotImplemented()
 		}),
@@ -106,9 +109,6 @@ func NewFreonFrontendAPI(spec *loads.Document) *FreonFrontendAPI {
 		}),
 		StatisticHandler: StatisticHandlerFunc(func(params StatisticParams, principal *app.UserSession) StatisticResponder {
 			return StatisticNotImplemented()
-		}),
-		TranslationFilesHandler: TranslationFilesHandlerFunc(func(params TranslationFilesParams, principal *app.UserSession) TranslationFilesResponder {
-			return TranslationFilesNotImplemented()
 		}),
 		UpdateCategoryHandler: UpdateCategoryHandlerFunc(func(params UpdateCategoryParams, principal *app.UserSession) UpdateCategoryResponder {
 			return UpdateCategoryNotImplemented()
@@ -209,6 +209,8 @@ type FreonFrontendAPI struct {
 	ListIdentifiersHandler ListIdentifiersHandler
 	// ListLocalizationHandler sets the operation handler for the list localization operation
 	ListLocalizationHandler ListLocalizationHandler
+	// ListTranslationFilesHandler sets the operation handler for the list translation files operation
+	ListTranslationFilesHandler ListTranslationFilesHandler
 	// ListTranslationsHandler sets the operation handler for the list translations operation
 	ListTranslationsHandler ListTranslationsHandler
 	// ListUserHandler sets the operation handler for the list user operation
@@ -221,8 +223,6 @@ type FreonFrontendAPI struct {
 	RegUserHandler RegUserHandler
 	// StatisticHandler sets the operation handler for the statistic operation
 	StatisticHandler StatisticHandler
-	// TranslationFilesHandler sets the operation handler for the translation files operation
-	TranslationFilesHandler TranslationFilesHandler
 	// UpdateCategoryHandler sets the operation handler for the update category operation
 	UpdateCategoryHandler UpdateCategoryHandler
 	// UpdateIdentifierHandler sets the operation handler for the update identifier operation
@@ -362,6 +362,9 @@ func (o *FreonFrontendAPI) Validate() error {
 	if o.ListLocalizationHandler == nil {
 		unregistered = append(unregistered, "ListLocalizationHandler")
 	}
+	if o.ListTranslationFilesHandler == nil {
+		unregistered = append(unregistered, "ListTranslationFilesHandler")
+	}
 	if o.ListTranslationsHandler == nil {
 		unregistered = append(unregistered, "ListTranslationsHandler")
 	}
@@ -379,9 +382,6 @@ func (o *FreonFrontendAPI) Validate() error {
 	}
 	if o.StatisticHandler == nil {
 		unregistered = append(unregistered, "StatisticHandler")
-	}
-	if o.TranslationFilesHandler == nil {
-		unregistered = append(unregistered, "TranslationFilesHandler")
 	}
 	if o.UpdateCategoryHandler == nil {
 		unregistered = append(unregistered, "UpdateCategoryHandler")
@@ -566,6 +566,10 @@ func (o *FreonFrontendAPI) initHandlerCache() {
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
+	o.handlers["GET"]["/translation-files"] = NewListTranslationFiles(o.context, o.ListTranslationFilesHandler)
+	if o.handlers["GET"] == nil {
+		o.handlers["GET"] = make(map[string]http.Handler)
+	}
 	o.handlers["GET"]["/translations"] = NewListTranslations(o.context, o.ListTranslationsHandler)
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
@@ -587,10 +591,6 @@ func (o *FreonFrontendAPI) initHandlerCache() {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
 	o.handlers["GET"]["/statistic"] = NewStatistic(o.context, o.StatisticHandler)
-	if o.handlers["GET"] == nil {
-		o.handlers["GET"] = make(map[string]http.Handler)
-	}
-	o.handlers["GET"]["/translation-files"] = NewTranslationFiles(o.context, o.TranslationFilesHandler)
 	if o.handlers["PUT"] == nil {
 		o.handlers["PUT"] = make(map[string]http.Handler)
 	}

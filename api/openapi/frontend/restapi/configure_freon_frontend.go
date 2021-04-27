@@ -13,6 +13,7 @@ import (
 	"github.com/freonservice/freon/internal/app"
 )
 
+
 func configureFlags(api *op.FreonFrontendAPI) {
 	// api.CommandLineOptionsGroups = []swag.CommandLineOptionsGroup{ ... }
 }
@@ -122,6 +123,11 @@ func configureAPI(api *op.FreonFrontendAPI) http.Handler {
 			return op.ListLocalizationNotImplemented()
 		})
 	}
+	if api.ListTranslationFilesHandler == nil {
+		api.ListTranslationFilesHandler = op.ListTranslationFilesHandlerFunc(func(params op.ListTranslationFilesParams, principal *app.UserSession) op.ListTranslationFilesResponder {
+			return op.ListTranslationFilesNotImplemented()
+		})
+	}
 	if api.ListTranslationsHandler == nil {
 		api.ListTranslationsHandler = op.ListTranslationsHandlerFunc(func(params op.ListTranslationsParams, principal *app.UserSession) op.ListTranslationsResponder {
 			return op.ListTranslationsNotImplemented()
@@ -150,11 +156,6 @@ func configureAPI(api *op.FreonFrontendAPI) http.Handler {
 	if api.StatisticHandler == nil {
 		api.StatisticHandler = op.StatisticHandlerFunc(func(params op.StatisticParams, principal *app.UserSession) op.StatisticResponder {
 			return op.StatisticNotImplemented()
-		})
-	}
-	if api.TranslationFilesHandler == nil {
-		api.TranslationFilesHandler = op.TranslationFilesHandlerFunc(func(params op.TranslationFilesParams, principal *app.UserSession) op.TranslationFilesResponder {
-			return op.TranslationFilesNotImplemented()
 		})
 	}
 	if api.UpdateCategoryHandler == nil {

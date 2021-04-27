@@ -155,11 +155,13 @@ func mappingStatistic(statistic *dao.Statistic) *Statistic {
 
 func mappingTranslationFile(translationFile *dao.TranslationFile) *TranslationFile {
 	entity := &TranslationFile{
-		ID:        translationFile.ID,
-		Name:      translationFile.Name,
-		Path:      translationFile.Path,
-		Status:    translationFile.Status,
-		CreatedAt: translationFile.CreatedAt,
+		ID:          translationFile.ID,
+		Name:        translationFile.Name,
+		Path:        translationFile.Path,
+		Platform:    translationFile.Platform,
+		StorageType: translationFile.StorageType,
+		Status:      translationFile.Status,
+		CreatedAt:   translationFile.CreatedAt,
 	}
 	if translationFile.Localization != nil {
 		entity.Localization = mappingLocalization(translationFile.Localization)

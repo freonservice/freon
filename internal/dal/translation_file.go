@@ -35,6 +35,9 @@ func (r *Repo) CreateTranslationFile(ctx Ctx, name, path string, platform, stora
 func (r *Repo) GetTranslationFile(ctx Ctx, id int64) (*dao.TranslationFile, error) {
 	var entity dao.TranslationFile
 	err := r.ReformDB.FindOneTo(&entity, "id", id)
+	if err != nil {
+		return nil, err
+	}
 	return &entity, err
 }
 
