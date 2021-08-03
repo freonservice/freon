@@ -3,13 +3,13 @@ package frontend
 import (
 	"github.com/freonservice/freon/api/openapi/frontend/model"
 	"github.com/freonservice/freon/api/openapi/frontend/restapi/op"
-	"github.com/freonservice/freon/internal/app"
+	"github.com/freonservice/freon/internal/entities"
 	"github.com/freonservice/freon/pkg/api"
 
 	"github.com/AlekSi/pointer"
 )
 
-func apiUser(v *app.User) *model.User {
+func apiUser(v *entities.User) *model.User {
 	return &model.User{
 		ID:         &v.ID,
 		Email:      &v.Email,
@@ -22,15 +22,15 @@ func apiUser(v *app.User) *model.User {
 	}
 }
 
-func apiArrayUser(v []*app.User) []*model.User {
-	var entities = make([]*model.User, len(v))
+func apiArrayUser(v []*entities.User) []*model.User {
+	var d = make([]*model.User, len(v))
 	for i, e := range v {
-		entities[i] = apiUser(e)
+		d[i] = apiUser(e)
 	}
-	return entities
+	return d
 }
 
-func apiLocalization(v *app.Localization) *model.Localization {
+func apiLocalization(v *entities.Localization) *model.Localization {
 	t := v.CreatedAt.UTC().Unix()
 	return &model.Localization{
 		ID:        &v.ID,
@@ -41,15 +41,15 @@ func apiLocalization(v *app.Localization) *model.Localization {
 	}
 }
 
-func apiArrayLocalization(v []*app.Localization) []*model.Localization {
-	var entities = make([]*model.Localization, len(v))
+func apiArrayLocalization(v []*entities.Localization) []*model.Localization {
+	var d = make([]*model.Localization, len(v))
 	for i, e := range v {
-		entities[i] = apiLocalization(e)
+		d[i] = apiLocalization(e)
 	}
-	return entities
+	return d
 }
 
-func apiIdentifier(v *app.Identifier) *model.Identifier {
+func apiIdentifier(v *entities.Identifier) *model.Identifier {
 	i := &model.Identifier{
 		ID:          &v.ID,
 		Name:        &v.Name,
@@ -64,30 +64,30 @@ func apiIdentifier(v *app.Identifier) *model.Identifier {
 	return i
 }
 
-func apiArrayIdentifier(v []*app.Identifier) []*model.Identifier {
-	var entities = make([]*model.Identifier, len(v))
+func apiArrayIdentifier(v []*entities.Identifier) []*model.Identifier {
+	var d = make([]*model.Identifier, len(v))
 	for i, e := range v {
-		entities[i] = apiIdentifier(e)
+		d[i] = apiIdentifier(e)
 	}
-	return entities
+	return d
 }
 
-func apiCategory(v *app.Category) *model.Category {
+func apiCategory(v *entities.Category) *model.Category {
 	return &model.Category{
 		ID:   &v.ID,
 		Name: &v.Name,
 	}
 }
 
-func apiArrayCategory(v []*app.Category) []*model.Category {
-	var entities = make([]*model.Category, len(v))
+func apiArrayCategory(v []*entities.Category) []*model.Category {
+	var d = make([]*model.Category, len(v))
 	for i, e := range v {
-		entities[i] = apiCategory(e)
+		d[i] = apiCategory(e)
 	}
-	return entities
+	return d
 }
 
-func apiTranslation(v *app.Translation) *model.Translation {
+func apiTranslation(v *entities.Translation) *model.Translation {
 	i := &model.Translation{
 		ID:           &v.ID,
 		Text:         &v.Text,
@@ -99,15 +99,15 @@ func apiTranslation(v *app.Translation) *model.Translation {
 	return i
 }
 
-func apiArrayTranslation(v []*app.Translation) []*model.Translation {
-	var entities = make([]*model.Translation, len(v))
+func apiArrayTranslation(v []*entities.Translation) []*model.Translation {
+	var d = make([]*model.Translation, len(v))
 	for i, e := range v {
-		entities[i] = apiTranslation(e)
+		d[i] = apiTranslation(e)
 	}
-	return entities
+	return d
 }
 
-func apiStatistic(v *app.Statistic) *op.StatisticOKBody {
+func apiStatistic(v *entities.Statistic) *op.StatisticOKBody {
 	entity := &op.StatisticOKBody{
 		CountCategories:    &v.CountCategories,
 		CountIdentifiers:   &v.CountIdentifiers,
@@ -127,7 +127,7 @@ func apiStatistic(v *app.Statistic) *op.StatisticOKBody {
 	return entity
 }
 
-func apiTranslationFile(v *app.TranslationFile) *model.TranslationFile {
+func apiTranslationFile(v *entities.TranslationFile) *model.TranslationFile {
 	i := &model.TranslationFile{
 		ID:          &v.ID,
 		Name:        &v.Name,
@@ -135,14 +135,15 @@ func apiTranslationFile(v *app.TranslationFile) *model.TranslationFile {
 		Platform:    pointer.ToString(getPlatformByInteger(v.Platform)),
 		Status:      getStatusByInteger(api.Status(v.Status)),
 		StorageType: pointer.ToString(getStorageTypeByInteger(v.StorageType)),
+		CreatedAt:   pointer.ToInt64(v.CreatedAt.UTC().Unix()),
 	}
 	return i
 }
 
-func apiArrayTranslationFiles(v []*app.TranslationFile) []*model.TranslationFile {
-	var entities = make([]*model.TranslationFile, len(v))
+func apiArrayTranslationFiles(v []*entities.TranslationFile) []*model.TranslationFile {
+	var d = make([]*model.TranslationFile, len(v))
 	for i, e := range v {
-		entities[i] = apiTranslationFile(e)
+		d[i] = apiTranslationFile(e)
 	}
-	return entities
+	return d
 }

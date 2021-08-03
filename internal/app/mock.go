@@ -8,6 +8,7 @@ import (
 	reflect "reflect"
 
 	dao "github.com/freonservice/freon/internal/dao"
+	entities "github.com/freonservice/freon/internal/entities"
 	filter "github.com/freonservice/freon/internal/filter"
 	gomock "github.com/golang/mock/gomock"
 	uuid "github.com/google/uuid"
@@ -38,11 +39,11 @@ func (m *MockAppl) EXPECT() *MockApplMockRecorder {
 }
 
 // AuthorizeUser mocks base method.
-func (m *MockAppl) AuthorizeUser(ctx Ctx, email, password string) (AccessToken, *User, error) {
+func (m *MockAppl) AuthorizeUser(ctx Ctx, email, password string) (AccessToken, *entities.User, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "AuthorizeUser", ctx, email, password)
 	ret0, _ := ret[0].(AccessToken)
-	ret1, _ := ret[1].(*User)
+	ret1, _ := ret[1].(*entities.User)
 	ret2, _ := ret[2].(error)
 	return ret0, ret1, ret2
 }
@@ -194,10 +195,10 @@ func (mr *MockApplMockRecorder) DeleteTranslationFile(ctx, id interface{}) *gomo
 }
 
 // GetCategories mocks base method.
-func (m *MockAppl) GetCategories(ctx Ctx) ([]*Category, error) {
+func (m *MockAppl) GetCategories(ctx Ctx) ([]*entities.Category, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetCategories", ctx)
-	ret0, _ := ret[0].([]*Category)
+	ret0, _ := ret[0].([]*entities.Category)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -209,10 +210,10 @@ func (mr *MockApplMockRecorder) GetCategories(ctx interface{}) *gomock.Call {
 }
 
 // GetGroupedTranslations mocks base method.
-func (m *MockAppl) GetGroupedTranslations(ctx Ctx, f filter.GroupedTranslationFilter) ([]*GroupedTranslations, error) {
+func (m *MockAppl) GetGroupedTranslations(ctx Ctx, f filter.GroupedTranslationFilter) ([]*entities.GroupedTranslations, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetGroupedTranslations", ctx, f)
-	ret0, _ := ret[0].([]*GroupedTranslations)
+	ret0, _ := ret[0].([]*entities.GroupedTranslations)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -224,10 +225,10 @@ func (mr *MockApplMockRecorder) GetGroupedTranslations(ctx, f interface{}) *gomo
 }
 
 // GetIdentifiers mocks base method.
-func (m *MockAppl) GetIdentifiers(ctx Ctx, f filter.IdentifierFilter) ([]*Identifier, error) {
+func (m *MockAppl) GetIdentifiers(ctx Ctx, f filter.IdentifierFilter) ([]*entities.Identifier, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetIdentifiers", ctx, f)
-	ret0, _ := ret[0].([]*Identifier)
+	ret0, _ := ret[0].([]*entities.Identifier)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -239,10 +240,10 @@ func (mr *MockApplMockRecorder) GetIdentifiers(ctx, f interface{}) *gomock.Call 
 }
 
 // GetLocalizations mocks base method.
-func (m *MockAppl) GetLocalizations(ctx Ctx) ([]*Localization, error) {
+func (m *MockAppl) GetLocalizations(ctx Ctx) ([]*entities.Localization, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetLocalizations", ctx)
-	ret0, _ := ret[0].([]*Localization)
+	ret0, _ := ret[0].([]*entities.Localization)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -254,10 +255,10 @@ func (mr *MockApplMockRecorder) GetLocalizations(ctx interface{}) *gomock.Call {
 }
 
 // GetStatistic mocks base method.
-func (m *MockAppl) GetStatistic(ctx Ctx) (*Statistic, error) {
+func (m *MockAppl) GetStatistic(ctx Ctx) (*entities.Statistic, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetStatistic", ctx)
-	ret0, _ := ret[0].(*Statistic)
+	ret0, _ := ret[0].(*entities.Statistic)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -269,10 +270,10 @@ func (mr *MockApplMockRecorder) GetStatistic(ctx interface{}) *gomock.Call {
 }
 
 // GetTranslation mocks base method.
-func (m *MockAppl) GetTranslation(ctx Ctx, locale, identifierName string) (*Translation, error) {
+func (m *MockAppl) GetTranslation(ctx Ctx, locale, identifierName string) (*entities.Translation, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetTranslation", ctx, locale, identifierName)
-	ret0, _ := ret[0].(*Translation)
+	ret0, _ := ret[0].(*entities.Translation)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -284,10 +285,10 @@ func (mr *MockApplMockRecorder) GetTranslation(ctx, locale, identifierName inter
 }
 
 // GetTranslationFiles mocks base method.
-func (m *MockAppl) GetTranslationFiles(ctx Ctx, f filter.TranslationFileFilter) ([]*TranslationFile, error) {
+func (m *MockAppl) GetTranslationFiles(ctx Ctx, f filter.TranslationFileFilter) ([]*entities.TranslationFile, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetTranslationFiles", ctx, f)
-	ret0, _ := ret[0].([]*TranslationFile)
+	ret0, _ := ret[0].([]*entities.TranslationFile)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -299,10 +300,10 @@ func (mr *MockApplMockRecorder) GetTranslationFiles(ctx, f interface{}) *gomock.
 }
 
 // GetTranslations mocks base method.
-func (m *MockAppl) GetTranslations(ctx Ctx, f filter.TranslationFilter) ([]*Translation, error) {
+func (m *MockAppl) GetTranslations(ctx Ctx, f filter.TranslationFilter) ([]*entities.Translation, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetTranslations", ctx, f)
-	ret0, _ := ret[0].([]*Translation)
+	ret0, _ := ret[0].([]*entities.Translation)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -314,10 +315,10 @@ func (mr *MockApplMockRecorder) GetTranslations(ctx, f interface{}) *gomock.Call
 }
 
 // GetUserByEmail mocks base method.
-func (m *MockAppl) GetUserByEmail(ctx Ctx, email string) (*User, error) {
+func (m *MockAppl) GetUserByEmail(ctx Ctx, email string) (*entities.User, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetUserByEmail", ctx, email)
-	ret0, _ := ret[0].(*User)
+	ret0, _ := ret[0].(*entities.User)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -329,10 +330,10 @@ func (mr *MockApplMockRecorder) GetUserByEmail(ctx, email interface{}) *gomock.C
 }
 
 // GetUserByID mocks base method.
-func (m *MockAppl) GetUserByID(ctx Ctx, userID int64) (*User, error) {
+func (m *MockAppl) GetUserByID(ctx Ctx, userID int64) (*entities.User, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetUserByID", ctx, userID)
-	ret0, _ := ret[0].(*User)
+	ret0, _ := ret[0].(*entities.User)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -344,10 +345,10 @@ func (mr *MockApplMockRecorder) GetUserByID(ctx, userID interface{}) *gomock.Cal
 }
 
 // GetUserByUUID mocks base method.
-func (m *MockAppl) GetUserByUUID(ctx Ctx, uuid string) (*User, error) {
+func (m *MockAppl) GetUserByUUID(ctx Ctx, uuid string) (*entities.User, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetUserByUUID", ctx, uuid)
-	ret0, _ := ret[0].(*User)
+	ret0, _ := ret[0].(*entities.User)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -359,10 +360,10 @@ func (mr *MockApplMockRecorder) GetUserByUUID(ctx, uuid interface{}) *gomock.Cal
 }
 
 // GetUsers mocks base method.
-func (m *MockAppl) GetUsers(ctx Ctx) ([]*User, error) {
+func (m *MockAppl) GetUsers(ctx Ctx) ([]*entities.User, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetUsers", ctx)
-	ret0, _ := ret[0].([]*User)
+	ret0, _ := ret[0].([]*entities.User)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -417,10 +418,10 @@ func (mr *MockApplMockRecorder) LogoutUser(ctx, token interface{}) *gomock.Call 
 }
 
 // RegisterUser mocks base method.
-func (m *MockAppl) RegisterUser(ctx Ctx, email, password, firstName, secondName string, role int64) (*User, error) {
+func (m *MockAppl) RegisterUser(ctx Ctx, email, password, firstName, secondName string, role int64) (*entities.User, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "RegisterUser", ctx, email, password, firstName, secondName, role)
-	ret0, _ := ret[0].(*User)
+	ret0, _ := ret[0].(*entities.User)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -460,7 +461,7 @@ func (mr *MockApplMockRecorder) UpdateIdentifier(ctx, id, categoryID, parentID, 
 }
 
 // UpdatePassword mocks base method.
-func (m *MockAppl) UpdatePassword(ctx Ctx, userID int64, changePassword ChangePassword) error {
+func (m *MockAppl) UpdatePassword(ctx Ctx, userID int64, changePassword entities.ChangePassword) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "UpdatePassword", ctx, userID, changePassword)
 	ret0, _ := ret[0].(error)

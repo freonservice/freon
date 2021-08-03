@@ -91,6 +91,9 @@ type CreateTranslationBody struct {
 	// Required: true
 	LocalizationID *int64 `json:"localization_id"`
 
+	// plural text
+	PluralText string `json:"plural_text,omitempty"`
+
 	// text
 	// Required: true
 	Text *string `json:"text"`
@@ -108,6 +111,9 @@ func (o *CreateTranslationBody) UnmarshalJSON(data []byte) error {
 		// Required: true
 		LocalizationID *int64 `json:"localization_id"`
 
+		// plural text
+		PluralText string `json:"plural_text,omitempty"`
+
 		// text
 		// Required: true
 		Text *string `json:"text"`
@@ -121,6 +127,7 @@ func (o *CreateTranslationBody) UnmarshalJSON(data []byte) error {
 
 	o.IdentifierID = props.IdentifierID
 	o.LocalizationID = props.LocalizationID
+	o.PluralText = props.PluralText
 	o.Text = props.Text
 	return nil
 }

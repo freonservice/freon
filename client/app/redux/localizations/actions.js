@@ -7,8 +7,9 @@ export const listLocalizationsRequest = () => ({
     type: LIST_LOCALIZATIONS_REQUEST,
 });
 
-export const createLocalizationRequest = (locale, langName) => ({
+export const createLocalizationRequest = (locale, langName, icon = '') => ({
     type: CREATE_LOCALIZATION_REQUEST,
     locale: locale,
     langName: langName,
+    icon: icon,
 });

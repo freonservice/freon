@@ -54,14 +54,16 @@ func getUserRoleByString(role string) api.UserRole {
 	}
 }
 
-func getPlatformByString(role string) api.PlatformType {
+func getPlatformByString(role string) int64 {
 	switch role {
-	case "web": //nolint:goconst
-		return api.PlatformType_PLATFORM_TYPE_WEB
 	case "ios": //nolint:goconst
-		return api.PlatformType_PLATFORM_TYPE_IOS
+		return int64(api.PlatformType_PLATFORM_TYPE_IOS)
+	case "android": //nolint:goconst
+		return int64(api.PlatformType_PLATFORM_TYPE_ANDROID)
+	case "web": //nolint:goconst
+		return int64(api.PlatformType_PLATFORM_TYPE_WEB)
 	default:
-		return api.PlatformType_PLATFORM_TYPE_ANDROID
+		return -1
 	}
 }
 

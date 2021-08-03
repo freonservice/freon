@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/freonservice/freon/internal/dao"
+	"github.com/freonservice/freon/internal/entities"
 	"github.com/freonservice/freon/internal/filter"
 
 	"github.com/google/uuid"
@@ -15,26 +16,26 @@ type (
 	AccessToken = string
 
 	Appl interface {
-		AuthorizeUser(ctx Ctx, email, password string) (AccessToken, *User, error)
-		RegisterUser(ctx Ctx, email, password, firstName, secondName string, role int64) (*User, error)
-		GetUserByUUID(ctx Ctx, uuid string) (*User, error)
-		GetUserByID(ctx Ctx, userID int64) (*User, error)
-		GetUserByEmail(ctx Ctx, email string) (*User, error)
+		AuthorizeUser(ctx Ctx, email, password string) (AccessToken, *entities.User, error)
+		RegisterUser(ctx Ctx, email, password, firstName, secondName string, role int64) (*entities.User, error)
+		GetUserByUUID(ctx Ctx, uuid string) (*entities.User, error)
+		GetUserByID(ctx Ctx, userID int64) (*entities.User, error)
+		GetUserByEmail(ctx Ctx, email string) (*entities.User, error)
 		LogoutUser(ctx Ctx, token string) error
 		UpdateStatus(ctx Ctx, userID, status int64) error
-		UpdatePassword(ctx Ctx, userID int64, changePassword ChangePassword) error
+		UpdatePassword(ctx Ctx, userID int64, changePassword entities.ChangePassword) error
 		UpdateProfile(ctx Ctx, userID int64, email, firstName, secondName string, role, status int64) error
-		GetUsers(ctx Ctx) ([]*User, error)
+		GetUsers(ctx Ctx) ([]*entities.User, error)
 
 		CreateLocalization(ctx Ctx, creatorID int64, name, code, icon string) error
-		GetLocalizations(ctx Ctx) ([]*Localization, error)
+		GetLocalizations(ctx Ctx) ([]*entities.Localization, error)
 		DeleteLocalization(ctx Ctx, id int64) error
 
 		CreateIdentifier(
 			ctx Ctx, creatorID, categoryID, parentID int64, name, description, exampleText string,
 			platforms, namedList []string,
 		) error
-		GetIdentifiers(ctx Ctx, f filter.IdentifierFilter) ([]*Identifier, error)
+		GetIdentifiers(ctx Ctx, f filter.IdentifierFilter) ([]*entities.Identifier, error)
 		DeleteIdentifier(ctx Ctx, id int64) error
 		UpdateIdentifier(
 			ctx Ctx, id, categoryID, parentID int64, name, description, exampleText string,
@@ -42,23 +43,23 @@ type (
 		) error
 
 		CreateCategory(ctx Ctx, name string) error
-		GetCategories(ctx Ctx) ([]*Category, error)
+		GetCategories(ctx Ctx) ([]*entities.Category, error)
 		DeleteCategory(ctx Ctx, id int64) error
 		UpdateCategory(ctx Ctx, id int64, name string) error
 
 		CreateTranslation(ctx Ctx, creatorID, localizationID, identifierID int64, text string) error
-		GetTranslations(ctx Ctx, f filter.TranslationFilter) ([]*Translation, error)
+		GetTranslations(ctx Ctx, f filter.TranslationFilter) ([]*entities.Translation, error)
 		DeleteTranslation(ctx Ctx, id int64) error
 		UpdateTranslation(ctx Ctx, id int64, text string) error
 		HideTranslation(ctx Ctx, id int64, hide bool) error
-		GetTranslation(ctx Ctx, locale, identifierName string) (*Translation, error)
-		GetGroupedTranslations(ctx Ctx, f filter.GroupedTranslationFilter) ([]*GroupedTranslations, error)
+		GetTranslation(ctx Ctx, locale, identifierName string) (*entities.Translation, error)
+		GetGroupedTranslations(ctx Ctx, f filter.GroupedTranslationFilter) ([]*entities.GroupedTranslations, error)
 
 		CreateTranslationFile(ctx Ctx, platform, storageType string, creatorID, localizationID int64) error
-		GetTranslationFiles(ctx Ctx, f filter.TranslationFileFilter) ([]*TranslationFile, error)
+		GetTranslationFiles(ctx Ctx, f filter.TranslationFileFilter) ([]*entities.TranslationFile, error)
 		DeleteTranslationFile(ctx Ctx, id int64) error
 
-		GetStatistic(ctx Ctx) (*Statistic, error)
+		GetStatistic(ctx Ctx) (*entities.Statistic, error)
 
 		HealthCheck(Ctx) (interface{}, error)
 	}

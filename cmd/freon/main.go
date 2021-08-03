@@ -35,14 +35,15 @@ var (
 	log    = structlog.New(structlog.KeyUnit, "main")
 	dbConf dbConfig
 	cfg    struct {
-		version       bool
-		logLevel      string
-		apiPort       int
-		grpcPort      int
-		statikPort    int
-		serviceHost   string
-		migrationPath string
-		jwtSecretPath string
+		version                bool
+		logLevel               string
+		apiPort                int
+		grpcPort               int
+		statikPort             int
+		serviceHost            string
+		migrationPath          string
+		jwtSecretPath          string
+		translationFilesFolder string
 	}
 
 	adminCred struct {
@@ -71,6 +72,7 @@ func Init() {
 	flag.StringVar(&cfg.jwtSecretPath, "jwt_secret_path", config.JwtSecretKey, "jwt secret path cant be empty")
 	flag.StringVar(&adminCred.email, "admin.email", config.DefaultAdminEmail, "admin email cant be empty")
 	flag.StringVar(&adminCred.password, "admin.password", config.DefaultAdminPass, "admin password cant be empty")
+	flag.StringVar(&cfg.translationFilesFolder, "translation.folders", config.TranslationFilesPath, "translation files folder")
 
 	log.SetDefaultKeyvals(structlog.KeyUnit, "main")
 }

@@ -1,37 +1,31 @@
 import React from 'react';
 
 import {Container} from './../../components';
-import {HeaderMain} from "../components/HeaderMain";
-import faker from "faker/locale/en_US";
-import _ from "lodash";
-import {GenerationTable} from "./Table";
-import {ToastContainer} from "react-toastify";
-
-const generateRow = (index) => ({
-    id: index,
-    local_name: faker.commerce.productName(),
-    lang_name: faker.commerce.productName(),
-    lcid: faker.commerce.productName(),
-});
+import {HeaderMain} from '../components/HeaderMain';
+import {TranslationFilesTable} from './Table';
+import {ToastContainer} from 'react-toastify';
+import {connect} from 'react-redux';
+import {listTranslationFilesRequest} from '../../redux/translationFiles/actions';
+import * as PropTypes from 'prop-types';
 
 class TranslationFiles extends React.Component {
     constructor(props) {
         super(props);
 
-        this.state = {
-            listLocalization: _.times(10, generateRow),
-        };
+        this.props.listTranslationFilesRequest();
     }
 
     render() {
         return (
             <Container>
                 <HeaderMain
-                    title="Generation Files"
+                    title="Translation Files"
                     className="mb-5 mt-4"
                 />
-                <GenerationTable
-                    listLocalization={this.state.listLocalization}
+                <TranslationFilesTable
+                    listTranslationFiles={this.props.listTranslationFiles}
+                    handleDownloadTranslationFile={null}
+                    handleDeleteTranslationFile={null}
                 />
                 <ToastContainer
                     position="top-right"
@@ -41,8 +35,23 @@ class TranslationFiles extends React.Component {
                     limit={3}
                 />
             </Container>
-        )
+        );
     }
 }
 
-export default TranslationFiles;
+TranslationFiles.propTypes = {
+    listTranslationFiles: PropTypes.array,
+    listTranslationFilesRequest: PropTypes.func.isRequired,
+    errorMsg: PropTypes.string,
+};
+
+const mapStateToProps = (state) => ({
+    listTranslationFiles: state.translationFiles.listTranslationFiles,
+    errorMsg: state.translationFiles.error,
+});
+
+const mapDispatchToProps = {
+    listTranslationFilesRequest,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(TranslationFiles);

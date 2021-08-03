@@ -3,17 +3,29 @@ import {handleApiErrors, apiServerURL} from '../api-errors';
 
 import {getHeaders} from '../utils';
 import {
+    LIST_TRANSLATIONS_FILES_REQUEST,
+    LIST_TRANSLATIONS_FILES_SUCCESS,
+    LIST_TRANSLATIONS_FILES_ERROR,
+    CREATE_TRANSLATION_FILES_REQUEST,
+    CREATE_TRANSLATION_FILES_ERROR,
+    DELETE_TRANSLATION_FILES_REQUEST,
+    DELETE_TRANSLATION_FILES_ERROR,
 } from './constants';
 
 const getTranslationFilesUrl = `${apiServerURL}/api/internal/translation-files`;
-const createTranslateFilesUrl = `${apiServerURL}/api/internal/translation-files`;
-const deleteTranslationFileUrl = `${apiServerURL}/api/internal/translation-files/`;
+const createTranslateFileUrl = `${apiServerURL}/api/internal/translation-files`;
+const deleteTranslationFileUrl = `${apiServerURL}/api/internal/translation-files/`;//id
 
-function getTranslationsApi(localizationId = 0) {
-    let url = getTranslationsUrl;
+function getTranslationFilesApi(localizationId = 0, platform = '') {
+    let url = getTranslationFilesUrl;
     if (localizationId > 0) {
         url = url + '?localization_id=' + localizationId;
+    } else if (platform !== '') {
+        url = url + '?platform=' + platform;
+    } else if (localizationId > 0 && platform !== '') {
+        url = url + '?localization_id=' + localizationId + '&platform=' + platform;
     }
+
     return fetch(url, {
         method: 'GET',
         headers: getHeaders(),
@@ -26,21 +38,23 @@ function getTranslationsApi(localizationId = 0) {
         });
 }
 
-function* getTranslationsWorker(action) {
+function* getTranslationFilesWorker(action) {
     try {
-        const {localizationId} = action;
-        const resp = yield call(getTranslationsApi, localizationId);
-        yield put({type: LIST_TRANSLATIONS_SUCCESS, payload: resp});
+        const {localizationId, platform} = action;
+        const resp = yield call(getTranslationFilesApi, localizationId, platform);
+        yield put({type: LIST_TRANSLATIONS_FILES_SUCCESS, payload: resp});
     } catch (error) {
-        yield put({type: LIST_TRANSLATIONS_ERROR, error});
+        yield put({type: LIST_TRANSLATIONS_FILES_ERROR, error});
     }
 }
 
-function createTranslationApi(text, localizationId, identifierId) {
-    return fetch(createTranslateUrl, {
+function createTranslationFileApi(text, localizationId, platforms = [], storageType = '') {
+    return fetch(createTranslateFileUrl, {
         method: 'POST',
         headers: getHeaders(),
-        body: JSON.stringify({text, 'localization_id': localizationId, 'identifier_id': identifierId}),
+        body: JSON.stringify({
+            text, 'localization_id': localizationId, 'platforms': platforms, 'storage_type': storageType,
+        }),
     })
         .then(handleApiErrors)
         .catch((error) => {
@@ -48,19 +62,19 @@ function createTranslationApi(text, localizationId, identifierId) {
         });
 }
 
-function* createTranslationWorker(action) {
+function* createTranslationFileWorker(action) {
     try {
-        const {text, localizationId, identifierId} = action;
-        yield call(createTranslationApi, text, localizationId, identifierId);
-        yield put({type: LIST_TRANSLATIONS_REQUEST});
+        const {localizationId, platforms, storageType} = action;
+        yield call(createTranslationFileApi, localizationId, platforms, storageType);
+        yield put({type: LIST_TRANSLATIONS_FILES_REQUEST});
     } catch (error) {
-        yield put({type: CREATE_TRANSLATION_ERROR, error});
+        yield put({type: CREATE_TRANSLATION_FILES_ERROR, error});
     }
 }
 
-function hideTranslationApi(id, hide) {
-    return fetch(hideTranslationUrl + id + "/" + hide, {
-        method: 'PUT',
+function deleteTranslationFileApi(id) {
+    return fetch(deleteTranslationFileUrl + id, {
+        method: 'DELETE',
         headers: getHeaders(),
     })
         .then(handleApiErrors)
@@ -69,43 +83,20 @@ function hideTranslationApi(id, hide) {
         });
 }
 
-function* hideTranslationWorker(action) {
+function* deleteTranslationFileWorker(action) {
     try {
-        const {id, hide} = action;
-        yield call(hideTranslationApi, id, hide);
-        yield put({type: LIST_TRANSLATIONS_REQUEST});
+        const {id} = action;
+        yield call(deleteTranslationFileApi, id);
+        yield put({type: LIST_TRANSLATIONS_FILES_REQUEST});
     } catch (error) {
-        yield put({type: HIDE_TRANSLATION_ERROR, error});
-    }
-}
-
-function updateTranslationApi(id, text) {
-    return fetch(updateTranslationUrl + id, {
-        method: 'PUT',
-        headers: getHeaders(),
-        body: JSON.stringify({text}),
-    })
-        .then(handleApiErrors)
-        .catch((error) => {
-            throw error;
-        });
-}
-
-function* updateTranslationWorker(action) {
-    try {
-        const {id, text} = action;
-        yield call(updateTranslationApi, id, text);
-        yield put({type: LIST_TRANSLATIONS_REQUEST});
-    } catch (error) {
-        yield put({type: UPDATE_TRANSLATION_ERROR, error});
+        yield put({type: DELETE_TRANSLATION_FILES_ERROR, error});
     }
 }
 
 export default function* rootSaga() {
     yield all([
-        takeLatest(LIST_TRANSLATIONS_REQUEST, getTranslationsWorker),
-        takeLatest(CREATE_TRANSLATION_REQUEST, createTranslationWorker),
-        takeLatest(HIDE_TRANSLATION_REQUEST, hideTranslationWorker),
-        takeLatest(UPDATE_TRANSLATION_REQUEST, updateTranslationWorker)
+        takeLatest(LIST_TRANSLATIONS_FILES_REQUEST, getTranslationFilesWorker),
+        takeLatest(CREATE_TRANSLATION_FILES_REQUEST, createTranslationFileWorker),
+        takeLatest(DELETE_TRANSLATION_FILES_REQUEST, deleteTranslationFileWorker),
     ]);
 }

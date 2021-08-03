@@ -6,11 +6,9 @@ import (
 	"github.com/pkg/errors"
 )
 
-func GenerateDocFolders() error {
-	currentPath, err := os.Getwd()
-	if err != nil {
-		return errors.Wrap(err, "internal.utils.GenerateDocFolders error with getting current path")
-	}
+// GenerateDocFolders generating working folders for ios, android and web localization files
+func GenerateDocFolders(currentPath string) error {
+	var err error
 
 	if currentPath != "/" {
 		currentPath += "/"

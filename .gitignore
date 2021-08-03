@@ -482,3 +482,4 @@ MigrationBackup/
 
 cmd/client
 docs
+*.go-e

@@ -14,6 +14,7 @@ type Translation struct {
 	IdentifierID   int64      `reform:"identifier_id"`
 	CreatorID      int64      `reform:"creator_id"`
 	Text           string     `reform:"text"`
+	PluralText     string     `reform:"plural_text"`
 	Status         int64      `reform:"status"`
 	CreatedAt      time.Time  `reform:"created_at"`
 	UpdatedAt      *time.Time `reform:"updated_at"`

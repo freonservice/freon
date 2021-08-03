@@ -40,10 +40,11 @@ services:
       API_SERVICE_PORT: 4000
       GRPC_SERVICE_PORT: 4001
       STATIK_SERVICE_PORT: 4002
+      TRANSLATION_FILES_PATH: "/docs"
     depends_on:
       - freon-db
     healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:4000/api/internal/health-check" ]
+      test: [ "CMD", "curl", "-f", "http://0.0.0.0:4000/api/internal/health-check" ]
       interval: 1m
       timeout: 10s
       retries: 3

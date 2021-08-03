@@ -1,4 +1,4 @@
-package app
+package entities
 
 import "time"
 
@@ -60,6 +60,8 @@ type Identifier struct {
 	CreatedAt   time.Time
 	UpdatedAt   time.Time
 	Category    *Category
+
+	ParentNames []string
 }
 
 type Translation struct {

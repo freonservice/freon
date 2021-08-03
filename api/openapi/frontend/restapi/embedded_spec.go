@@ -676,6 +676,9 @@ func init() {
                 "localization_id": {
                   "type": "integer"
                 },
+                "plural_text": {
+                  "type": "string"
+                },
                 "text": {
                   "type": "string"
                 }
@@ -1388,9 +1391,14 @@ func init() {
         "name",
         "path",
         "platform",
-        "storage_type"
+        "storage_type",
+        "created_at"
       ],
       "properties": {
+        "created_at": {
+          "type": "integer",
+          "x-order": 6
+        },
         "id": {
           "type": "integer",
           "x-order": 0
@@ -2187,6 +2195,9 @@ func init() {
                 },
                 "localization_id": {
                   "type": "integer"
+                },
+                "plural_text": {
+                  "type": "string"
                 },
                 "text": {
                   "type": "string"
@@ -2991,9 +3002,14 @@ func init() {
         "name",
         "path",
         "platform",
-        "storage_type"
+        "storage_type",
+        "created_at"
       ],
       "properties": {
+        "created_at": {
+          "type": "integer",
+          "x-order": 6
+        },
         "id": {
           "type": "integer",
           "x-order": 0

@@ -4,6 +4,8 @@ import (
 	"context"
 	"time"
 
+	"github.com/freonservice/freon/internal/utils"
+
 	"github.com/freonservice/freon/api/openapi/frontend/restapi"
 	"github.com/freonservice/freon/internal/app"
 	"github.com/freonservice/freon/internal/auth"
@@ -29,10 +31,15 @@ type service struct {
 }
 
 func runServe(repo *dal.Repo, ctxShutdown Ctx, shutdown func()) error {
+	err := utils.GenerateDocFolders(cfg.translationFilesFolder)
+	if err != nil {
+		return errors.Wrap(err, "generate doc folders")
+	}
+
 	authorization := auth.NewAuth(cfg.jwtSecretPath, repo, log)
 	appl := app.New(repo, authorization, password.New())
 
-	err := createFirstAdmin(appl)
+	err = createFirstAdmin(appl)
 	if err != nil {
 		return errors.Wrap(err, "failed create admin")
 	}

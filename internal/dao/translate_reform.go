@@ -27,7 +27,7 @@ func (v *translationTableType) Name() string {
 
 // Columns returns a new slice of column names for that view or table in SQL database.
 func (v *translationTableType) Columns() []string {
-	return []string{"id", "localization_id", "identifier_id", "creator_id", "text", "status", "created_at", "updated_at"}
+	return []string{"id", "localization_id", "identifier_id", "creator_id", "text", "plural_text", "status", "created_at", "updated_at"}
 }
 
 // NewStruct makes a new struct for that view or table.
@@ -47,21 +47,22 @@ func (v *translationTableType) PKColumnIndex() uint {
 
 // TranslationTable represents translations view or table in SQL database.
 var TranslationTable = &translationTableType{
-	s: parse.StructInfo{Type: "Translation", SQLSchema: "", SQLName: "translations", Fields: []parse.FieldInfo{{Name: "ID", Type: "int64", Column: "id"}, {Name: "LocalizationID", Type: "int64", Column: "localization_id"}, {Name: "IdentifierID", Type: "int64", Column: "identifier_id"}, {Name: "CreatorID", Type: "int64", Column: "creator_id"}, {Name: "Text", Type: "string", Column: "text"}, {Name: "Status", Type: "int64", Column: "status"}, {Name: "CreatedAt", Type: "time.Time", Column: "created_at"}, {Name: "UpdatedAt", Type: "*time.Time", Column: "updated_at"}}, PKFieldIndex: 0},
+	s: parse.StructInfo{Type: "Translation", SQLSchema: "", SQLName: "translations", Fields: []parse.FieldInfo{{Name: "ID", Type: "int64", Column: "id"}, {Name: "LocalizationID", Type: "int64", Column: "localization_id"}, {Name: "IdentifierID", Type: "int64", Column: "identifier_id"}, {Name: "CreatorID", Type: "int64", Column: "creator_id"}, {Name: "Text", Type: "string", Column: "text"}, {Name: "PluralText", Type: "string", Column: "plural_text"}, {Name: "Status", Type: "int64", Column: "status"}, {Name: "CreatedAt", Type: "time.Time", Column: "created_at"}, {Name: "UpdatedAt", Type: "*time.Time", Column: "updated_at"}}, PKFieldIndex: 0},
 	z: new(Translation).Values(),
 }
 
 // String returns a string representation of this struct or record.
 func (s Translation) String() string {
-	res := make([]string, 8)
+	res := make([]string, 9)
 	res[0] = "ID: " + reform.Inspect(s.ID, true)
 	res[1] = "LocalizationID: " + reform.Inspect(s.LocalizationID, true)
 	res[2] = "IdentifierID: " + reform.Inspect(s.IdentifierID, true)
 	res[3] = "CreatorID: " + reform.Inspect(s.CreatorID, true)
 	res[4] = "Text: " + reform.Inspect(s.Text, true)
-	res[5] = "Status: " + reform.Inspect(s.Status, true)
-	res[6] = "CreatedAt: " + reform.Inspect(s.CreatedAt, true)
-	res[7] = "UpdatedAt: " + reform.Inspect(s.UpdatedAt, true)
+	res[5] = "PluralText: " + reform.Inspect(s.PluralText, true)
+	res[6] = "Status: " + reform.Inspect(s.Status, true)
+	res[7] = "CreatedAt: " + reform.Inspect(s.CreatedAt, true)
+	res[8] = "UpdatedAt: " + reform.Inspect(s.UpdatedAt, true)
 	return strings.Join(res, ", ")
 }
 
@@ -74,6 +75,7 @@ func (s *Translation) Values() []interface{} {
 		s.IdentifierID,
 		s.CreatorID,
 		s.Text,
+		s.PluralText,
 		s.Status,
 		s.CreatedAt,
 		s.UpdatedAt,
@@ -89,6 +91,7 @@ func (s *Translation) Pointers() []interface{} {
 		&s.IdentifierID,
 		&s.CreatorID,
 		&s.Text,
+		&s.PluralText,
 		&s.Status,
 		&s.CreatedAt,
 		&s.UpdatedAt,

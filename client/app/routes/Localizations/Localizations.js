@@ -47,11 +47,12 @@ class Localizations extends React.Component {
 
     handleSubmitLocalization = (e) => {
         e.preventDefault();
-        const {locale, name} = this.state.chosenLocalization;
+        const {locale, name, icon} = this.state.chosenLocalization;
         if (locale.trim() === '' || name.trim() === '') {
             toast.success(contentSuccess('Value not valid!'));
             return;
         }
+        console.log(icon);
         this.props.createLocalizationRequest(locale, name);
         // toast.success(contentSuccess('Localization successful added!'));
     };

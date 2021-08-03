@@ -49,7 +49,7 @@ func (srv *server) listTranslationFiles(params op.ListTranslationFilesParams, se
 		ctx,
 		filter.TranslationFileFilter{
 			LocalizationID: swag.Int64Value(params.LocalizationID),
-			PlatformType:   int64(getPlatformByString(swag.StringValue(params.Platform))),
+			PlatformType:   getPlatformByString(swag.StringValue(params.Platform)),
 		},
 	)
 	switch errors.Cause(err) {
