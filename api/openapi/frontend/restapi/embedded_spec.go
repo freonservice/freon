@@ -667,7 +667,7 @@ func init() {
               "required": [
                 "localization_id",
                 "identifier_id",
-                "text"
+                "singular"
               ],
               "properties": {
                 "identifier_id": {
@@ -676,10 +676,10 @@ func init() {
                 "localization_id": {
                   "type": "integer"
                 },
-                "plural_text": {
+                "plural": {
                   "type": "string"
                 },
-                "text": {
+                "singular": {
                   "type": "string"
                 }
               }
@@ -871,10 +871,13 @@ func init() {
             "schema": {
               "type": "object",
               "required": [
-                "text"
+                "singular"
               ],
               "properties": {
-                "text": {
+                "plural": {
+                  "type": "string"
+                },
+                "singular": {
                   "type": "string"
                 }
               }
@@ -1354,13 +1357,13 @@ func init() {
         "id",
         "localization",
         "identifier",
-        "text",
+        "singular",
         "created_at"
       ],
       "properties": {
         "created_at": {
           "type": "integer",
-          "x-order": 5
+          "x-order": 6
         },
         "id": {
           "type": "integer",
@@ -1374,13 +1377,17 @@ func init() {
           "x-order": 1,
           "$ref": "#/definitions/Localization"
         },
-        "status": {
+        "plural": {
           "type": "string",
           "x-order": 4
         },
-        "text": {
+        "singular": {
           "type": "string",
           "x-order": 3
+        },
+        "status": {
+          "type": "string",
+          "x-order": 5
         }
       }
     },
@@ -2187,7 +2194,7 @@ func init() {
               "required": [
                 "localization_id",
                 "identifier_id",
-                "text"
+                "singular"
               ],
               "properties": {
                 "identifier_id": {
@@ -2196,10 +2203,10 @@ func init() {
                 "localization_id": {
                   "type": "integer"
                 },
-                "plural_text": {
+                "plural": {
                   "type": "string"
                 },
-                "text": {
+                "singular": {
                   "type": "string"
                 }
               }
@@ -2406,10 +2413,13 @@ func init() {
             "schema": {
               "type": "object",
               "required": [
-                "text"
+                "singular"
               ],
               "properties": {
-                "text": {
+                "plural": {
+                  "type": "string"
+                },
+                "singular": {
                   "type": "string"
                 }
               }
@@ -2965,13 +2975,13 @@ func init() {
         "id",
         "localization",
         "identifier",
-        "text",
+        "singular",
         "created_at"
       ],
       "properties": {
         "created_at": {
           "type": "integer",
-          "x-order": 5
+          "x-order": 6
         },
         "id": {
           "type": "integer",
@@ -2985,13 +2995,17 @@ func init() {
           "x-order": 1,
           "$ref": "#/definitions/Localization"
         },
-        "status": {
+        "plural": {
           "type": "string",
           "x-order": 4
         },
-        "text": {
+        "singular": {
           "type": "string",
           "x-order": 3
+        },
+        "status": {
+          "type": "string",
+          "x-order": 5
         }
       }
     },

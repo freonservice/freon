@@ -47,10 +47,10 @@ type (
 		DeleteCategory(ctx Ctx, id int64) error
 		UpdateCategory(ctx Ctx, id int64, name string) error
 
-		CreateTranslation(ctx Ctx, creatorID, localizationID, identifierID int64, text string) error
+		CreateTranslation(ctx Ctx, creatorID, localizationID, identifierID int64, singular, plural string) error
 		GetTranslations(ctx Ctx, f filter.TranslationFilter) ([]*entities.Translation, error)
 		DeleteTranslation(ctx Ctx, id int64) error
-		UpdateTranslation(ctx Ctx, id int64, text string) error
+		UpdateTranslation(ctx Ctx, id int64, singular, plural string) error
 		HideTranslation(ctx Ctx, id int64, hide bool) error
 		GetTranslation(ctx Ctx, locale, identifierName string) (*entities.Translation, error)
 		GetGroupedTranslations(ctx Ctx, f filter.GroupedTranslationFilter) ([]*entities.GroupedTranslations, error)
@@ -106,10 +106,10 @@ type (
 		DeleteCategory(ctx Ctx, id int64) error
 		UpdateCategory(ctx Ctx, id int64, name string) error
 
-		CreateTranslation(ctx Ctx, creatorID, localizationID, identifierID int64, text string) error
+		CreateTranslation(ctx Ctx, creatorID, localizationID, identifierID int64, singular, plural string) error
 		GetTranslations(ctx Ctx, f filter.TranslationFilter) ([]*dao.Translation, error)
 		DeleteTranslation(ctx Ctx, id int64) error
-		UpdateTranslation(ctx Ctx, id int64, text string) error
+		UpdateTranslation(ctx Ctx, id int64, singular, plural string) error
 		GetTranslation(ctx Ctx, locale, identifierName string) (*dao.Translation, error)
 		GetGroupedTranslations(ctx Ctx, f filter.GroupedTranslationFilter) (map[string][]*dao.Translation, error)
 

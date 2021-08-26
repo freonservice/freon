@@ -32,9 +32,12 @@ type Translation struct {
 	// Required: true
 	Identifier *Identifier `json:"identifier"`
 
-	// text
+	// singular
 	// Required: true
-	Text *string `json:"text"`
+	Singular *string `json:"singular"`
+
+	// plural
+	Plural string `json:"plural,omitempty"`
 
 	// status
 	Status string `json:"status,omitempty"`
@@ -60,9 +63,12 @@ func (m *Translation) UnmarshalJSON(data []byte) error {
 		// Required: true
 		Identifier *Identifier `json:"identifier"`
 
-		// text
+		// singular
 		// Required: true
-		Text *string `json:"text"`
+		Singular *string `json:"singular"`
+
+		// plural
+		Plural string `json:"plural,omitempty"`
 
 		// status
 		Status string `json:"status,omitempty"`
@@ -81,7 +87,8 @@ func (m *Translation) UnmarshalJSON(data []byte) error {
 	m.ID = props.ID
 	m.Localization = props.Localization
 	m.Identifier = props.Identifier
-	m.Text = props.Text
+	m.Singular = props.Singular
+	m.Plural = props.Plural
 	m.Status = props.Status
 	m.CreatedAt = props.CreatedAt
 	return nil
@@ -103,7 +110,7 @@ func (m *Translation) Validate(formats strfmt.Registry) error {
 		res = append(res, err)
 	}
 
-	if err := m.validateText(formats); err != nil {
+	if err := m.validateSingular(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -162,9 +169,9 @@ func (m *Translation) validateIdentifier(formats strfmt.Registry) error {
 	return nil
 }
 
-func (m *Translation) validateText(formats strfmt.Registry) error {
+func (m *Translation) validateSingular(formats strfmt.Registry) error {
 
-	if err := validate.Required("text", "body", m.Text); err != nil {
+	if err := validate.Required("singular", "body", m.Singular); err != nil {
 		return err
 	}
 

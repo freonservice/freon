@@ -80,7 +80,7 @@ export class TranslationAction extends React.Component {
                                     <Form>
                                         <FormGroup>
                                             <Label for="text">
-                                                Message
+                                                Singular
                                             </Label>
                                             <Input
                                                 type="textarea"
@@ -95,18 +95,31 @@ export class TranslationAction extends React.Component {
                                                 }}
                                             />
                                             <ButtonGroup className="mb-2">
-                                                {
-                                                    Object.entries(translation.identifier.named_list)
-                                                        .map(([key, value]) =>
-                                                            <Button
-                                                                outline color="primary"
-                                                                key={key}
-                                                                onClick={
-                                                                    (e) => this.handleNamedButton(e, key)
-                                                                }
-                                                            >{value}</Button>
-                                                        )
-                                                }
+                                                <Button outline color="primary">String</Button>
+                                                <Button outline color="primary">Number</Button>
+                                                <Button outline color="primary">Double</Button>
+                                            </ButtonGroup>
+                                        </FormGroup>
+                                        <FormGroup>
+                                            <Label for="text">
+                                                Plural
+                                            </Label>
+                                            <Input
+                                                type="textarea"
+                                                name="text"
+                                                value={translation.text}
+                                                placeholder="Enter Your Message..."
+                                                className="mb-2"
+                                                onChange={(e) => this.handleChange(e)}
+                                                onClick={(e) => this.handleFocusTextArea(e)}
+                                                onFocus={(e) => {
+                                                    e.target.selectionStart = this.cursor;
+                                                }}
+                                            />
+                                            <ButtonGroup className="mb-2">
+                                                <Button outline color="primary">String</Button>
+                                                <Button outline color="primary">Number</Button>
+                                                <Button outline color="primary">Double</Button>
                                             </ButtonGroup>
                                         </FormGroup>
                                     </Form>

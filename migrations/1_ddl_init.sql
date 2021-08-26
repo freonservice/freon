@@ -101,8 +101,8 @@ create table if not exists public.translations
     creator_id      integer
         constraint translations_users_creator_id_fk
             references public.users,
-    text            text    not null,
-    plural_text     text    not null,
+    singular        text    not null,
+    plural          text    not null,
     status          integer not null            default 0,
     created_at      timestamp without time zone default (now() at time zone 'utc'),
     updated_at      timestamp without time zone

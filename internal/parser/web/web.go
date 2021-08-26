@@ -23,7 +23,7 @@ func (p *parser) Generate() (string, error) {
 	var f string
 
 	for _, v := range p.v {
-		f += fmt.Sprintf("\"%s\" = \"%s\";\n", v.Localization.LanguageName, v.Text)
+		f += fmt.Sprintf("\"%s\" = \"%s\";\n", v.Localization.LanguageName, v.Singular)
 	}
 
 	return f, nil

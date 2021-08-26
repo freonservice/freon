@@ -17,7 +17,8 @@ func (srv *server) createTranslation(params op.CreateTranslationParams, session 
 		session.UserID,
 		swag.Int64Value(params.Args.LocalizationID),
 		swag.Int64Value(params.Args.IdentifierID),
-		swag.StringValue(params.Args.Text),
+		swag.StringValue(params.Args.Singular),
+		params.Args.Plural,
 	)
 	switch errors.Cause(err) {
 	default:
@@ -68,7 +69,8 @@ func (srv *server) updateTranslation(params op.UpdateTranslationParams, session 
 	err := srv.app.UpdateTranslation(
 		ctx,
 		params.ID,
-		swag.StringValue(params.Args.Text),
+		swag.StringValue(params.Args.Singular),
+		params.Args.Plural,
 	)
 	switch errors.Cause(err) {
 	default:

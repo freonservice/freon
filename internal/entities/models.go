@@ -67,7 +67,8 @@ type Identifier struct {
 type Translation struct {
 	ID           int64
 	CreatorID    int64
-	Text         string
+	Singular     string
+	Plural       string
 	Status       int64
 	Localization *Localization
 	Identifier   *Identifier

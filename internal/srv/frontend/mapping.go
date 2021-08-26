@@ -90,7 +90,8 @@ func apiArrayCategory(v []*entities.Category) []*model.Category {
 func apiTranslation(v *entities.Translation) *model.Translation {
 	i := &model.Translation{
 		ID:           &v.ID,
-		Text:         &v.Text,
+		Singular:     &v.Singular,
+		Plural:       v.Plural,
 		Localization: apiLocalization(v.Localization),
 		Identifier:   apiIdentifier(v.Identifier),
 		Status:       getTranslationStatus(api.TranslationStatus(v.Status)),

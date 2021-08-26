@@ -71,7 +71,7 @@ export class TranslationTable extends React.Component {
                                 Edit
                             </Button>
                             <Button onClick={(e) => this.props.handleHideTranslation(e, row.id)} color="warning">
-                                {row.status === 'Active' ? 'Activate' : 'Deactivate'}
+                                {row.status === 'Active' ? 'Hide' : 'Activate'}
                             </Button>
                         </ButtonGroup>
                     );

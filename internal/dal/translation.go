@@ -15,14 +15,15 @@ import (
 	"gopkg.in/reform.v1"
 )
 
-func (r *Repo) CreateTranslation(ctx Ctx, creatorID, localizationID, identifierID int64, text string) error {
+func (r *Repo) CreateTranslation(ctx Ctx, creatorID, localizationID, identifierID int64, singular, plural string) error {
 	entity := new(dao.Translation)
 	return r.ReformDB.InTransactionContext(ctx, &sql.TxOptions{}, func(tx *reform.TX) error {
 		entity = &dao.Translation{
 			CreatorID:      creatorID,
 			LocalizationID: localizationID,
 			IdentifierID:   identifierID,
-			Text:           text,
+			Singular:       singular,
+			Plural:         plural,
 			CreatedAt:      time.Now().UTC(),
 			UpdatedAt:      pointer.ToTime(time.Now().UTC()),
 		}
@@ -48,7 +49,7 @@ func (r *Repo) GetTranslations(ctx Ctx, f filter.TranslationFilter) ([]*dao.Tran
 		entity.Localization = new(dao.Localization)
 		entity.Identifier = new(dao.Identifier)
 		err = rows.Scan(
-			&entity.ID, &entity.Text, &entity.Status, &entity.CreatedAt,
+			&entity.ID, &entity.Singular, &entity.Plural, &entity.Status, &entity.CreatedAt,
 			&entity.Localization.ID, &entity.Localization.Locale, &entity.Localization.LanguageName,
 			&entity.Identifier.ID, &entity.Identifier.Name, &entity.Identifier.Description,
 			&entity.Identifier.ExampleText, &entity.Identifier.Platforms, &entity.Identifier.NamedList,
@@ -64,19 +65,23 @@ func (r *Repo) GetTranslations(ctx Ctx, f filter.TranslationFilter) ([]*dao.Tran
 	return entities, nil
 }
 
-func (r *Repo) UpdateTranslation(ctx Ctx, id int64, text string) error {
+func (r *Repo) UpdateTranslation(ctx Ctx, id int64, singular, plural string) error {
 	var t dao.Translation
 	err := r.ReformDB.FindOneTo(&t, "id", id)
 	if err != nil {
 		return err
 	}
 
-	if text == "" {
+	if singular == "" {
 		t.Status = int64(api.TranslationStatus_TRANSLATION_EMPTY)
 	} else {
+		t.Singular = singular
 		t.Status = int64(api.TranslationStatus_TRANSLATION_ACTIVE)
 	}
-	t.Text = text
+
+	if plural != "" {
+		t.Plural = plural
+	}
 	t.UpdatedAt = pointer.ToTime(time.Now().UTC())
 
 	return r.ReformDB.Save(&t)
@@ -106,7 +111,7 @@ func (r *Repo) GetTranslation(ctx app.Ctx, locale, identifierName string) (*dao.
 	entity := new(dao.Translation)
 
 	row := r.DB.QueryRowContext(ctx, sqlSelectTranslation, locale, identifierName)
-	err := row.Scan(&entity.Text)
+	err := row.Scan(&entity.Singular, &entity.Plural)
 	switch errors.Cause(err) {
 	default:
 		return nil, err
@@ -133,7 +138,7 @@ func (r *Repo) GetGroupedTranslations(ctx Ctx, f filter.GroupedTranslationFilter
 		entity.Localization = new(dao.Localization)
 		entity.Identifier = new(dao.Identifier)
 		err = rows.Scan(
-			&entity.ID, &entity.Text, &entity.Status, &entity.CreatedAt,
+			&entity.ID, &entity.Singular, &entity.Plural, &entity.Status, &entity.CreatedAt,
 			&entity.Localization.ID, &entity.Localization.Locale, &entity.Localization.LanguageName,
 			&entity.Identifier.ID, &entity.Identifier.Name, &entity.Identifier.Description,
 			&entity.Identifier.ExampleText, &entity.Identifier.Platforms, &entity.Identifier.NamedList,

@@ -1,7 +1,7 @@
 # docker build --no-cache -t freon:latest -f Dockerfile .
 
 # Accept the Go version for the image to be set as a build argument.
-ARG GO_VERSION=1.16.6
+ARG GO_VERSION=1.17
 
 # First stage: build the executable.
 FROM golang:${GO_VERSION}-alpine AS builder
@@ -29,6 +29,8 @@ WORKDIR /src
 # Import the code from the context.
 COPY ./ ./
 
+RUN /docs
+
 # test before build
 #RUN test -z "$(goimports -d $(find . -type f -name '*.go'|grep -v -f .goimportsignore) 2>&1 | tee /dev/fd/2)" && golangci-lint run && go test -v ./...
 
@@ -51,7 +53,7 @@ COPY --from=builder /src/freon /freon
 COPY --from=builder /src/migrations /migrations
 
 # Create folder for generated translation files
-RUN mkdir /docs
+COPY --from=builder /src/docs /docs
 
 # Perform any further action as an unprivileged user.
 USER nobody:nobody

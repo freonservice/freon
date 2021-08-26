@@ -9,7 +9,7 @@ services:
     image: postgres:13.2
     restart: always
     ports:
-      - 5432:5432
+      - "5432:5432"
     environment:
       POSTGRES_DB: freon
       POSTGRES_USER: root
@@ -27,7 +27,7 @@ services:
       context: .
       dockerfile: Dockerfile.dev
     ports:
-      - 4000:4000
+      - "4000:4000"
     environment:
       JWT_SECRET_KEY: my_secret_key
       DB_HOST: freon-db

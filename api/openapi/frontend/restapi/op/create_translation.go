@@ -91,12 +91,12 @@ type CreateTranslationBody struct {
 	// Required: true
 	LocalizationID *int64 `json:"localization_id"`
 
-	// plural text
-	PluralText string `json:"plural_text,omitempty"`
+	// plural
+	Plural string `json:"plural,omitempty"`
 
-	// text
+	// singular
 	// Required: true
-	Text *string `json:"text"`
+	Singular *string `json:"singular"`
 }
 
 // UnmarshalJSON unmarshals this object while disallowing additional properties from JSON
@@ -111,12 +111,12 @@ func (o *CreateTranslationBody) UnmarshalJSON(data []byte) error {
 		// Required: true
 		LocalizationID *int64 `json:"localization_id"`
 
-		// plural text
-		PluralText string `json:"plural_text,omitempty"`
+		// plural
+		Plural string `json:"plural,omitempty"`
 
-		// text
+		// singular
 		// Required: true
-		Text *string `json:"text"`
+		Singular *string `json:"singular"`
 	}
 
 	dec := json.NewDecoder(bytes.NewReader(data))
@@ -127,8 +127,8 @@ func (o *CreateTranslationBody) UnmarshalJSON(data []byte) error {
 
 	o.IdentifierID = props.IdentifierID
 	o.LocalizationID = props.LocalizationID
-	o.PluralText = props.PluralText
-	o.Text = props.Text
+	o.Plural = props.Plural
+	o.Singular = props.Singular
 	return nil
 }
 
@@ -144,7 +144,7 @@ func (o *CreateTranslationBody) Validate(formats strfmt.Registry) error {
 		res = append(res, err)
 	}
 
-	if err := o.validateText(formats); err != nil {
+	if err := o.validateSingular(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -172,9 +172,9 @@ func (o *CreateTranslationBody) validateLocalizationID(formats strfmt.Registry) 
 	return nil
 }
 
-func (o *CreateTranslationBody) validateText(formats strfmt.Registry) error {
+func (o *CreateTranslationBody) validateSingular(formats strfmt.Registry) error {
 
-	if err := validate.Required("args"+"."+"text", "body", o.Text); err != nil {
+	if err := validate.Required("args"+"."+"singular", "body", o.Singular); err != nil {
 		return err
 	}
 

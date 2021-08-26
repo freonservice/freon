@@ -642,15 +642,15 @@ paths:
             required:
               - localization_id
               - identifier_id
-              - text
+              - singular
             properties:
               localization_id:
                 type: integer
               identifier_id:
                 type: integer
-              text:
+              singular:
                 type: string
-              plural_text:
+              plural:
                 type: string
       responses:
         '204': { $ref: '#/responses/NoContent' }
@@ -778,9 +778,11 @@ paths:
           schema:
             type: object
             required:
-              - text
+              - singular
             properties:
-              text:
+              singular:
+                type: string
+              plural:
                 type: string
       responses:
         '204': { $ref: '#/responses/NoContent' }
@@ -923,7 +925,7 @@ definitions:
       - id
       - localization
       - identifier
-      - text
+      - singular
       - created_at
     properties:
       id:
@@ -932,7 +934,9 @@ definitions:
         $ref: '#/definitions/Localization'
       identifier:
         $ref: '#/definitions/Identifier'
-      text:
+      singular:
+        type: string
+      plural:
         type: string
       status:
         type: string

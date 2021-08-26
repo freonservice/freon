@@ -101,7 +101,8 @@ func mappingArrayCategory(categories []*dao.Category) []*entities.Category {
 func mappingTranslation(translation *dao.Translation) *entities.Translation {
 	entity := &entities.Translation{
 		ID:        translation.ID,
-		Text:      translation.Text,
+		Singular:  translation.Singular,
+		Plural:    translation.Plural,
 		Status:    translation.Status,
 		CreatedAt: translation.CreatedAt,
 	}

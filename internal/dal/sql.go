@@ -37,7 +37,7 @@ const (
 	l.lang_name FROM translations AS t  
 	JOIN localizations AS l ON t.localization_id=l.id GROUP BY l.lang_name`
 	sqlSelectTranslation = `
-	SELECT t.text FROM translations AS t 
+	SELECT t.singular, t.plural FROM translations AS t 
 	JOIN localizations AS l ON t.localization_id=l.id  
 	JOIN identifiers AS i ON t.identifier_id=i.id  
 	WHERE l.locale = $1 AND i.name = $2   
