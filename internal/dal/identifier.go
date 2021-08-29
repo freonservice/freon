@@ -17,7 +17,7 @@ import (
 
 func (r *Repo) CreateIdentifier(
 	ctx Ctx, creatorID, categoryID, parentID int64,
-	name, description, exampleText, platforms, namedList string,
+	name, description, exampleText, platforms string,
 ) error {
 	var err error
 	return r.ReformDB.InTransactionContext(ctx, &sql.TxOptions{}, func(tx *reform.TX) error {
@@ -27,7 +27,6 @@ func (r *Repo) CreateIdentifier(
 			Description: sql.NullString{String: description, Valid: true},
 			ExampleText: sql.NullString{String: exampleText, Valid: true},
 			Platforms:   platforms,
-			NamedList:   sql.NullString{String: namedList, Valid: true},
 			CreatedAt:   time.Now().UTC(),
 			UpdatedAt:   pointer.ToTime(time.Now().UTC()),
 		}
@@ -106,7 +105,7 @@ func (r *Repo) GetIdentifiers(ctx Ctx, f filter.IdentifierFilter) ([]*dao.Identi
 		entity := new(dao.Identifier)
 		err = rows.Scan(
 			&entity.ID, &entity.Name, &entity.Description,
-			&entity.ExampleText, &entity.Platforms, &entity.NamedList, &entity.CategoryID,
+			&entity.ExampleText, &entity.Platforms, &entity.CategoryID,
 		)
 		if err != nil {
 			break
@@ -168,7 +167,7 @@ func (r *Repo) GetIdentifierByID(tx *reform.TX, id int64) (*dao.Identifier, erro
 
 func (r *Repo) UpdateIdentifier(
 	ctx app.Ctx, id, categoryID, parentID int64,
-	name, description, exampleText, platforms, namedList string,
+	name, description, exampleText, platforms string,
 ) error {
 	var i dao.Identifier
 	err := r.ReformDB.FindOneTo(&i, "id", id)
@@ -181,7 +180,6 @@ func (r *Repo) UpdateIdentifier(
 	i.ExampleText = sql.NullString{String: exampleText, Valid: true}
 	i.UpdatedAt = pointer.ToTime(time.Now().UTC())
 	i.Platforms = platforms
-	i.NamedList = sql.NullString{String: namedList, Valid: true}
 	if categoryID > 0 {
 		i.CategoryID = sql.NullInt64{Int64: categoryID, Valid: true}
 	}

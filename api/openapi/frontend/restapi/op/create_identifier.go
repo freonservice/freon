@@ -98,9 +98,6 @@ type CreateIdentifierBody struct {
 	// Min Length: 1
 	Name *string `json:"name"`
 
-	// named list
-	NamedList []string `json:"named_list"`
-
 	// parent id
 	ParentID int64 `json:"parent_id,omitempty"`
 
@@ -127,9 +124,6 @@ func (o *CreateIdentifierBody) UnmarshalJSON(data []byte) error {
 		// Min Length: 1
 		Name *string `json:"name"`
 
-		// named list
-		NamedList []string `json:"named_list"`
-
 		// parent id
 		ParentID int64 `json:"parent_id,omitempty"`
 
@@ -147,7 +141,6 @@ func (o *CreateIdentifierBody) UnmarshalJSON(data []byte) error {
 	o.Description = props.Description
 	o.ExampleText = props.ExampleText
 	o.Name = props.Name
-	o.NamedList = props.NamedList
 	o.ParentID = props.ParentID
 	o.Platforms = props.Platforms
 	return nil

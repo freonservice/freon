@@ -6,12 +6,10 @@ import (
 )
 
 func (a *appl) CreateIdentifier(
-	ctx Ctx, creatorID, categoryID, parentID int64, name, description, exampleText string,
-	platforms, namedList []string,
+	ctx Ctx, creatorID, categoryID, parentID int64, name, description, exampleText string, platforms []string,
 ) error {
 	return a.repo.CreateIdentifier(
-		ctx, creatorID, categoryID, parentID, name, description, exampleText,
-		createConcatenatedString(platforms), createConcatenatedString(namedList),
+		ctx, creatorID, categoryID, parentID, name, description, exampleText, createConcatenatedString(platforms),
 	)
 }
 
@@ -28,11 +26,9 @@ func (a *appl) DeleteIdentifier(ctx Ctx, id int64) error {
 }
 
 func (a *appl) UpdateIdentifier(
-	ctx Ctx, id, categoryID, parentID int64, name, description, exampleText string,
-	platforms, namedList []string,
+	ctx Ctx, id, categoryID, parentID int64, name, description, exampleText string, platforms []string,
 ) error {
 	return a.repo.UpdateIdentifier(
-		ctx, id, categoryID, parentID, name, description, exampleText,
-		createConcatenatedString(platforms), createConcatenatedString(namedList),
+		ctx, id, categoryID, parentID, name, description, exampleText, createConcatenatedString(platforms),
 	)
 }

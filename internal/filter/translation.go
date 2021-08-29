@@ -22,7 +22,7 @@ func (t *TranslationFilter) CreateRows(ctx context.Context, r *reform.DB) (*sql.
 			ctx,
 			`SELECT  
 			t.id, t.singular, t.plural, t.status, t.created_at, l.id, l.locale, l.lang_name, 
-			i.id, i.name, i.description, i.example_text, i.platforms, i.named_list 
+			i.id, i.name, i.description, i.example_text, i.platforms 
 			FROM translations AS t 
 			LEFT JOIN localizations l ON t.localization_id=l.id 
 			LEFT JOIN identifiers i ON t.identifier_id=i.id 
@@ -35,7 +35,7 @@ func (t *TranslationFilter) CreateRows(ctx context.Context, r *reform.DB) (*sql.
 			ctx,
 			`SELECT 
 			t.id, t.singular, t.plural, t.status, t.created_at, l.id, l.locale, l.lang_name, 
-			i.id, i.name, i.description, i.example_text, i.platforms, i.named_list 
+			i.id, i.name, i.description, i.example_text, i.platforms 
 			FROM translations AS t 
 			LEFT JOIN localizations l ON t.localization_id=l.id 
 			LEFT JOIN identifiers i ON t.identifier_id=i.id 
@@ -48,7 +48,7 @@ func (t *TranslationFilter) CreateRows(ctx context.Context, r *reform.DB) (*sql.
 			ctx,
 			`SELECT  
 			t.id, t.singular, t.plural, t.status, t.created_at, l.id, l.locale, l.lang_name, 
-			i.id, i.name, i.description, i.example_text, i.platforms, i.named_list 
+			i.id, i.name, i.description, i.example_text, i.platforms 
 			FROM translations AS t
 			LEFT JOIN localizations l ON l.id=t.localization_id 
 			LEFT JOIN identifiers i ON i.id=t.identifier_id 
@@ -72,7 +72,7 @@ func (t *GroupedTranslationFilter) CreateRows(ctx context.Context, r *sqlx.DB) (
 		var args []interface{}
 		query, args, err = sqlx.In(`SELECT 
 			t.id, t.singular, t.plural, t.status, t.created_at, l.id, l.locale, l.lang_name, 
-			i.id, i.name, i.description, i.example_text, i.platforms, i.named_list 
+			i.id, i.name, i.description, i.example_text, i.platforms 
 			FROM translations AS t 
 			LEFT JOIN localizations l ON t.localization_id=l.id  
 			LEFT JOIN identifiers i ON t.identifier_id=i.id  
@@ -86,7 +86,7 @@ func (t *GroupedTranslationFilter) CreateRows(ctx context.Context, r *sqlx.DB) (
 			ctx,
 			`SELECT 
 			t.id, t.singular, t.plural, t.status, t.created_at, l.id, l.locale, l.lang_name, 
-			i.id, i.name, i.description, i.example_text, i.platforms, i.named_list 
+			i.id, i.name, i.description, i.example_text, i.platforms 
 			FROM translations AS t 
 			LEFT JOIN localizations l ON t.localization_id=l.id  
 			LEFT JOIN identifiers i ON t.identifier_id=i.id`,

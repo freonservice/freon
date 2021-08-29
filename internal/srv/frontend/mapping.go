@@ -56,7 +56,6 @@ func apiIdentifier(v *entities.Identifier) *model.Identifier {
 		Description: v.Description,
 		ExampleText: v.ExampleText,
 		Platforms:   v.Platforms,
-		NamedList:   v.NamedList,
 	}
 	if v.Category != nil && v.Category.ID > 0 {
 		i.Category = apiCategory(v.Category)

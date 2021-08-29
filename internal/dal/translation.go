@@ -23,7 +23,7 @@ func (r *Repo) CreateTranslation(ctx Ctx, creatorID, localizationID, identifierI
 			LocalizationID: localizationID,
 			IdentifierID:   identifierID,
 			Singular:       singular,
-			Plural:         plural,
+			Plural:         sql.NullString{String: plural, Valid: true},
 			CreatedAt:      time.Now().UTC(),
 			UpdatedAt:      pointer.ToTime(time.Now().UTC()),
 		}
@@ -52,7 +52,7 @@ func (r *Repo) GetTranslations(ctx Ctx, f filter.TranslationFilter) ([]*dao.Tran
 			&entity.ID, &entity.Singular, &entity.Plural, &entity.Status, &entity.CreatedAt,
 			&entity.Localization.ID, &entity.Localization.Locale, &entity.Localization.LanguageName,
 			&entity.Identifier.ID, &entity.Identifier.Name, &entity.Identifier.Description,
-			&entity.Identifier.ExampleText, &entity.Identifier.Platforms, &entity.Identifier.NamedList,
+			&entity.Identifier.ExampleText, &entity.Identifier.Platforms,
 		)
 		if err != nil {
 			break
@@ -80,7 +80,7 @@ func (r *Repo) UpdateTranslation(ctx Ctx, id int64, singular, plural string) err
 	}
 
 	if plural != "" {
-		t.Plural = plural
+		t.Plural = sql.NullString{String: plural, Valid: true}
 	}
 	t.UpdatedAt = pointer.ToTime(time.Now().UTC())
 
@@ -141,7 +141,7 @@ func (r *Repo) GetGroupedTranslations(ctx Ctx, f filter.GroupedTranslationFilter
 			&entity.ID, &entity.Singular, &entity.Plural, &entity.Status, &entity.CreatedAt,
 			&entity.Localization.ID, &entity.Localization.Locale, &entity.Localization.LanguageName,
 			&entity.Identifier.ID, &entity.Identifier.Name, &entity.Identifier.Description,
-			&entity.Identifier.ExampleText, &entity.Identifier.Platforms, &entity.Identifier.NamedList,
+			&entity.Identifier.ExampleText, &entity.Identifier.Platforms,
 		)
 		if err != nil {
 			break

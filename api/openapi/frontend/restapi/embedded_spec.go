@@ -223,12 +223,6 @@ func init() {
                   "maxLength": 255,
                   "minLength": 1
                 },
-                "named_list": {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  }
-                },
                 "parent_id": {
                   "type": "integer"
                 },
@@ -292,12 +286,6 @@ func init() {
                   "type": "string",
                   "maxLength": 255,
                   "minLength": 1
-                },
-                "named_list": {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  }
                 },
                 "parent_id": {
                   "type": "integer"
@@ -1302,14 +1290,6 @@ func init() {
           "minLength": 1,
           "x-order": 1
         },
-        "named_list": {
-          "type": "array",
-          "default": null,
-          "items": {
-            "type": "string"
-          },
-          "x-order": 6
-        },
         "platforms": {
           "type": "array",
           "default": null,
@@ -1728,12 +1708,6 @@ func init() {
                   "maxLength": 255,
                   "minLength": 1
                 },
-                "named_list": {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  }
-                },
                 "parent_id": {
                   "type": "integer"
                 },
@@ -1800,12 +1774,6 @@ func init() {
                   "type": "string",
                   "maxLength": 255,
                   "minLength": 1
-                },
-                "named_list": {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  }
                 },
                 "parent_id": {
                   "type": "integer"
@@ -2873,14 +2841,6 @@ func init() {
           "maxLength": 255,
           "minLength": 1,
           "x-order": 1
-        },
-        "named_list": {
-          "type": "array",
-          "default": [],
-          "items": {
-            "type": "string"
-          },
-          "x-order": 6
         },
         "platforms": {
           "type": "array",

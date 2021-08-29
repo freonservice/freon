@@ -42,9 +42,6 @@ type Identifier struct {
 	// platforms
 	// Required: true
 	Platforms []string `json:"platforms"`
-
-	// named list
-	NamedList []string `json:"named_list"`
 }
 
 // UnmarshalJSON unmarshals this object while disallowing additional properties from JSON
@@ -73,9 +70,6 @@ func (m *Identifier) UnmarshalJSON(data []byte) error {
 		// platforms
 		// Required: true
 		Platforms []string `json:"platforms"`
-
-		// named list
-		NamedList []string `json:"named_list"`
 	}
 
 	dec := json.NewDecoder(bytes.NewReader(data))
@@ -90,7 +84,6 @@ func (m *Identifier) UnmarshalJSON(data []byte) error {
 	m.ExampleText = props.ExampleText
 	m.Category = props.Category
 	m.Platforms = props.Platforms
-	m.NamedList = props.NamedList
 	return nil
 }
 

@@ -65,9 +65,6 @@ func mappingIdentifier(identifier *dao.Identifier) *entities.Identifier {
 	if len(identifier.Platforms) > 0 {
 		i.Platforms = strings.Split(identifier.Platforms, ",")
 	}
-	if identifier.NamedList.Valid && len(identifier.NamedList.String) > 0 {
-		i.NamedList = strings.Split(identifier.NamedList.String, ",")
-	}
 	if identifier.Category != nil && identifier.Category.ID > 0 {
 		i.Category = mappingCategory(identifier.Category)
 	}
@@ -102,7 +99,7 @@ func mappingTranslation(translation *dao.Translation) *entities.Translation {
 	entity := &entities.Translation{
 		ID:        translation.ID,
 		Singular:  translation.Singular,
-		Plural:    translation.Plural,
+		Plural:    translation.Plural.String,
 		Status:    translation.Status,
 		CreatedAt: translation.CreatedAt,
 	}

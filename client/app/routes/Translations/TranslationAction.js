@@ -34,16 +34,6 @@ export class TranslationAction extends React.Component {
         this.setState({...this.state, translation: o});
     };
 
-    handleNamedButton = (e, id) => {
-        e.preventDefault();
-        const {named_list} = this.state.translation.identifier;
-        const {textLength} = this.state.translation.text.length;
-        const {selectionStart} = this.state;
-        const text = this.state.translation.text.slice(0, selectionStart) + ' {' + named_list[id] + '} ' + this.state.translation.text.slice(selectionStart, textLength);
-        const translation = {...this.state.translation, text: text.trim()};
-        this.setState({...this.state, translation});
-    };
-
     handleFocusTextArea = (e) => {
         this.setState({...this.state, selectionStart: e.target.selectionStart});
     };
@@ -85,7 +75,7 @@ export class TranslationAction extends React.Component {
                                             <Input
                                                 type="textarea"
                                                 name="text"
-                                                value={translation.text}
+                                                value={translation.singular}
                                                 placeholder="Enter Your Message..."
                                                 className="mb-2"
                                                 onChange={(e) => this.handleChange(e)}
@@ -107,7 +97,7 @@ export class TranslationAction extends React.Component {
                                             <Input
                                                 type="textarea"
                                                 name="text"
-                                                value={translation.text}
+                                                value={translation.plural}
                                                 placeholder="Enter Your Message..."
                                                 className="mb-2"
                                                 onChange={(e) => this.handleChange(e)}

@@ -27,7 +27,7 @@ func (v *identifierTableType) Name() string {
 
 // Columns returns a new slice of column names for that view or table in SQL database.
 func (v *identifierTableType) Columns() []string {
-	return []string{"id", "parent_path", "name", "description", "example_text", "creator_id", "category_id", "status", "platforms", "named_list", "created_at", "updated_at"}
+	return []string{"id", "parent_path", "name", "description", "example_text", "creator_id", "category_id", "status", "platforms", "created_at", "updated_at"}
 }
 
 // NewStruct makes a new struct for that view or table.
@@ -47,13 +47,13 @@ func (v *identifierTableType) PKColumnIndex() uint {
 
 // IdentifierTable represents identifiers view or table in SQL database.
 var IdentifierTable = &identifierTableType{
-	s: parse.StructInfo{Type: "Identifier", SQLSchema: "", SQLName: "identifiers", Fields: []parse.FieldInfo{{Name: "ID", Type: "int64", Column: "id"}, {Name: "ParentPath", Type: "string", Column: "parent_path"}, {Name: "Name", Type: "string", Column: "name"}, {Name: "Description", Type: "sql.NullString", Column: "description"}, {Name: "ExampleText", Type: "sql.NullString", Column: "example_text"}, {Name: "CreatorID", Type: "int64", Column: "creator_id"}, {Name: "CategoryID", Type: "sql.NullInt64", Column: "category_id"}, {Name: "Status", Type: "int64", Column: "status"}, {Name: "Platforms", Type: "string", Column: "platforms"}, {Name: "NamedList", Type: "sql.NullString", Column: "named_list"}, {Name: "CreatedAt", Type: "time.Time", Column: "created_at"}, {Name: "UpdatedAt", Type: "*time.Time", Column: "updated_at"}}, PKFieldIndex: 0},
+	s: parse.StructInfo{Type: "Identifier", SQLSchema: "", SQLName: "identifiers", Fields: []parse.FieldInfo{{Name: "ID", Type: "int64", Column: "id"}, {Name: "ParentPath", Type: "string", Column: "parent_path"}, {Name: "Name", Type: "string", Column: "name"}, {Name: "Description", Type: "sql.NullString", Column: "description"}, {Name: "ExampleText", Type: "sql.NullString", Column: "example_text"}, {Name: "CreatorID", Type: "int64", Column: "creator_id"}, {Name: "CategoryID", Type: "sql.NullInt64", Column: "category_id"}, {Name: "Status", Type: "int64", Column: "status"}, {Name: "Platforms", Type: "string", Column: "platforms"}, {Name: "CreatedAt", Type: "time.Time", Column: "created_at"}, {Name: "UpdatedAt", Type: "*time.Time", Column: "updated_at"}}, PKFieldIndex: 0},
 	z: new(Identifier).Values(),
 }
 
 // String returns a string representation of this struct or record.
 func (s Identifier) String() string {
-	res := make([]string, 12)
+	res := make([]string, 11)
 	res[0] = "ID: " + reform.Inspect(s.ID, true)
 	res[1] = "ParentPath: " + reform.Inspect(s.ParentPath, true)
 	res[2] = "Name: " + reform.Inspect(s.Name, true)
@@ -63,9 +63,8 @@ func (s Identifier) String() string {
 	res[6] = "CategoryID: " + reform.Inspect(s.CategoryID, true)
 	res[7] = "Status: " + reform.Inspect(s.Status, true)
 	res[8] = "Platforms: " + reform.Inspect(s.Platforms, true)
-	res[9] = "NamedList: " + reform.Inspect(s.NamedList, true)
-	res[10] = "CreatedAt: " + reform.Inspect(s.CreatedAt, true)
-	res[11] = "UpdatedAt: " + reform.Inspect(s.UpdatedAt, true)
+	res[9] = "CreatedAt: " + reform.Inspect(s.CreatedAt, true)
+	res[10] = "UpdatedAt: " + reform.Inspect(s.UpdatedAt, true)
 	return strings.Join(res, ", ")
 }
 
@@ -82,7 +81,6 @@ func (s *Identifier) Values() []interface{} {
 		s.CategoryID,
 		s.Status,
 		s.Platforms,
-		s.NamedList,
 		s.CreatedAt,
 		s.UpdatedAt,
 	}
@@ -101,7 +99,6 @@ func (s *Identifier) Pointers() []interface{} {
 		&s.CategoryID,
 		&s.Status,
 		&s.Platforms,
-		&s.NamedList,
 		&s.CreatedAt,
 		&s.UpdatedAt,
 	}

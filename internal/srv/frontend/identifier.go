@@ -25,7 +25,6 @@ func (srv *server) createIdentifier( //nolint:dupl
 		params.Args.Description,
 		params.Args.ExampleText,
 		params.Args.Platforms,
-		params.Args.NamedList,
 	)
 	switch errors.Cause(err) {
 	default:
@@ -89,7 +88,6 @@ func (srv *server) updateIdentifier( //nolint:dupl
 		params.Args.Description,
 		params.Args.ExampleText,
 		params.Args.Platforms,
-		params.Args.NamedList,
 	)
 	switch errors.Cause(err) {
 	default:

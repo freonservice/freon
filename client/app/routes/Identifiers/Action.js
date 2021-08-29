@@ -30,7 +30,6 @@ export class Action extends React.Component {
         this.state = {
             chosenCategory: [], // selected category using like array
             platforms: defaultPlatforms,
-            namedList: [], //{...this.props.chosenIdentifier.named_list}
         };
     }
 
@@ -50,10 +49,6 @@ export class Action extends React.Component {
 
     handleChangeCategory = (category) => {
         this.setState({...this.state, chosenCategory: category});
-    };
-
-    handleChangeNamedList = (name, value) => {
-        this.setState({...this.state, namedList: value});
     };
 
     handleResetChosenIdentifier = () => {
@@ -173,16 +168,6 @@ export class Action extends React.Component {
                                 onChange={(e) => handleChangeIdentifierInformation(e)}
                                 name="example_text"
                                 placeholder="Example translated text (Optional)"
-                            />
-                        </FormGroup>
-                        <FormGroup>
-                            <TagsInput
-                                label="Named list"
-                                id="named_list"
-                                name="namedList"
-                                placeholder="Add field"
-                                defaultTags={namedList}
-                                onChange={this.handleChangeNamedList}
                             />
                         </FormGroup>
                         <FormGroup className="mt-2">

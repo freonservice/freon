@@ -32,14 +32,12 @@ type (
 		DeleteLocalization(ctx Ctx, id int64) error
 
 		CreateIdentifier(
-			ctx Ctx, creatorID, categoryID, parentID int64, name, description, exampleText string,
-			platforms, namedList []string,
+			ctx Ctx, creatorID, categoryID, parentID int64, name, description, exampleText string, platforms []string,
 		) error
 		GetIdentifiers(ctx Ctx, f filter.IdentifierFilter) ([]*entities.Identifier, error)
 		DeleteIdentifier(ctx Ctx, id int64) error
 		UpdateIdentifier(
-			ctx Ctx, id, categoryID, parentID int64, name, description, exampleText string,
-			platforms, namedList []string,
+			ctx Ctx, id, categoryID, parentID int64, name, description, exampleText string, platforms []string,
 		) error
 
 		CreateCategory(ctx Ctx, name string) error
@@ -92,13 +90,12 @@ type (
 		DeleteLocalization(ctx Ctx, id int64) error
 
 		CreateIdentifier(
-			ctx Ctx, createID, categoryID, parentID int64,
-			name, description, exampleText, platforms, namedList string,
+			ctx Ctx, createID, categoryID, parentID int64, name, description, exampleText, platforms string,
 		) error
 		GetIdentifiers(ctx Ctx, f filter.IdentifierFilter) ([]*dao.Identifier, error)
 		DeleteIdentifier(ctx Ctx, id int64) error
 		UpdateIdentifier(
-			ctx Ctx, id, categoryID, parentID int64, name, description, exampleText, platforms, namedList string) error
+			ctx Ctx, id, categoryID, parentID int64, name, description, exampleText, platforms string) error
 		UpdateHideStatusTranslation(ctx Ctx, id int64, hide bool) error
 
 		CreateCategory(ctx Ctx, name string) error

@@ -47,7 +47,7 @@ func (v *translationTableType) PKColumnIndex() uint {
 
 // TranslationTable represents translations view or table in SQL database.
 var TranslationTable = &translationTableType{
-	s: parse.StructInfo{Type: "Translation", SQLSchema: "", SQLName: "translations", Fields: []parse.FieldInfo{{Name: "ID", Type: "int64", Column: "id"}, {Name: "LocalizationID", Type: "int64", Column: "localization_id"}, {Name: "IdentifierID", Type: "int64", Column: "identifier_id"}, {Name: "CreatorID", Type: "int64", Column: "creator_id"}, {Name: "Singular", Type: "string", Column: "singular"}, {Name: "Plural", Type: "string", Column: "plural"}, {Name: "Status", Type: "int64", Column: "status"}, {Name: "CreatedAt", Type: "time.Time", Column: "created_at"}, {Name: "UpdatedAt", Type: "*time.Time", Column: "updated_at"}}, PKFieldIndex: 0},
+	s: parse.StructInfo{Type: "Translation", SQLSchema: "", SQLName: "translations", Fields: []parse.FieldInfo{{Name: "ID", Type: "int64", Column: "id"}, {Name: "LocalizationID", Type: "int64", Column: "localization_id"}, {Name: "IdentifierID", Type: "int64", Column: "identifier_id"}, {Name: "CreatorID", Type: "int64", Column: "creator_id"}, {Name: "Singular", Type: "string", Column: "singular"}, {Name: "Plural", Type: "sql.NullString", Column: "plural"}, {Name: "Status", Type: "int64", Column: "status"}, {Name: "CreatedAt", Type: "time.Time", Column: "created_at"}, {Name: "UpdatedAt", Type: "*time.Time", Column: "updated_at"}}, PKFieldIndex: 0},
 	z: new(Translation).Values(),
 }
 

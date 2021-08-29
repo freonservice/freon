@@ -67,7 +67,6 @@ create table if not exists public.identifiers
     example_text text,
     status       integer      not null                      default 0,
     platforms    varchar(255),
-    named_list   text,
     created_at   timestamp without time zone                default (now() at time zone 'utc'),
     updated_at   timestamp without time zone
 );

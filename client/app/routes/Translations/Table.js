@@ -50,10 +50,10 @@ export class TranslationTable extends React.Component {
                 dataField: 'text',
                 text: 'Text',
                 formatter: (cell, row) => {
-                    if (row.text.length > 70) {
-                        return row.text.substring(0, 70) + '...';
+                    if (row.singular.length > 70) {
+                        return row.singular.substring(0, 70) + '...';
                     } else {
-                        return row.text;
+                        return row.singular;
                     }
                 },
             }, {

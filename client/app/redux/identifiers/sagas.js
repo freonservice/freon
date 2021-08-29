@@ -51,7 +51,6 @@ function createIdentifierApi(action) {
             example_text,
             'category_id': categoryId,
             platforms,
-            'named_list': namedList
         }),
     })
         .then(handleApiErrors)
@@ -101,7 +100,6 @@ function updateIdentifierApi(action) {
             example_text,
             'category_id': categoryId,
             platforms,
-            'named_list': namedList
         }),
     })
         .then(handleApiErrors)
