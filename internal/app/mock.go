@@ -97,17 +97,17 @@ func (mr *MockApplMockRecorder) CreateLocalization(ctx, creatorID, name, code, i
 }
 
 // CreateTranslation mocks base method.
-func (m *MockAppl) CreateTranslation(ctx Ctx, creatorID, localizationID, identifierID int64, text string) error {
+func (m *MockAppl) CreateTranslation(ctx Ctx, creatorID, localizationID, identifierID int64, singular, plural string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "CreateTranslation", ctx, creatorID, localizationID, identifierID, text)
+	ret := m.ctrl.Call(m, "CreateTranslation", ctx, creatorID, localizationID, identifierID, singular, plural)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // CreateTranslation indicates an expected call of CreateTranslation.
-func (mr *MockApplMockRecorder) CreateTranslation(ctx, creatorID, localizationID, identifierID, text interface{}) *gomock.Call {
+func (mr *MockApplMockRecorder) CreateTranslation(ctx, creatorID, localizationID, identifierID, singular, plural interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateTranslation", reflect.TypeOf((*MockAppl)(nil).CreateTranslation), ctx, creatorID, localizationID, identifierID, text)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateTranslation", reflect.TypeOf((*MockAppl)(nil).CreateTranslation), ctx, creatorID, localizationID, identifierID, singular, plural)
 }
 
 // CreateTranslationFile mocks base method.
@@ -503,17 +503,17 @@ func (mr *MockApplMockRecorder) UpdateStatus(ctx, userID, status interface{}) *g
 }
 
 // UpdateTranslation mocks base method.
-func (m *MockAppl) UpdateTranslation(ctx Ctx, id int64, text string) error {
+func (m *MockAppl) UpdateTranslation(ctx Ctx, id int64, singular, plural string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "UpdateTranslation", ctx, id, text)
+	ret := m.ctrl.Call(m, "UpdateTranslation", ctx, id, singular, plural)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // UpdateTranslation indicates an expected call of UpdateTranslation.
-func (mr *MockApplMockRecorder) UpdateTranslation(ctx, id, text interface{}) *gomock.Call {
+func (mr *MockApplMockRecorder) UpdateTranslation(ctx, id, singular, plural interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateTranslation", reflect.TypeOf((*MockAppl)(nil).UpdateTranslation), ctx, id, text)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateTranslation", reflect.TypeOf((*MockAppl)(nil).UpdateTranslation), ctx, id, singular, plural)
 }
 
 // MockAuth is a mock of Auth interface.
@@ -636,17 +636,17 @@ func (mr *MockRepoMockRecorder) CreateLocalization(ctx, creatorID, locale, langu
 }
 
 // CreateTranslation mocks base method.
-func (m *MockRepo) CreateTranslation(ctx Ctx, creatorID, localizationID, identifierID int64, text string) error {
+func (m *MockRepo) CreateTranslation(ctx Ctx, creatorID, localizationID, identifierID int64, singular, plural string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "CreateTranslation", ctx, creatorID, localizationID, identifierID, text)
+	ret := m.ctrl.Call(m, "CreateTranslation", ctx, creatorID, localizationID, identifierID, singular, plural)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // CreateTranslation indicates an expected call of CreateTranslation.
-func (mr *MockRepoMockRecorder) CreateTranslation(ctx, creatorID, localizationID, identifierID, text interface{}) *gomock.Call {
+func (mr *MockRepoMockRecorder) CreateTranslation(ctx, creatorID, localizationID, identifierID, singular, plural interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateTranslation", reflect.TypeOf((*MockRepo)(nil).CreateTranslation), ctx, creatorID, localizationID, identifierID, text)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateTranslation", reflect.TypeOf((*MockRepo)(nil).CreateTranslation), ctx, creatorID, localizationID, identifierID, singular, plural)
 }
 
 // CreateTranslationFile mocks base method.
@@ -1100,17 +1100,17 @@ func (mr *MockRepoMockRecorder) UpdateStatus(ctx, userID, status interface{}) *g
 }
 
 // UpdateTranslation mocks base method.
-func (m *MockRepo) UpdateTranslation(ctx Ctx, id int64, text string) error {
+func (m *MockRepo) UpdateTranslation(ctx Ctx, id int64, singular, plural string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "UpdateTranslation", ctx, id, text)
+	ret := m.ctrl.Call(m, "UpdateTranslation", ctx, id, singular, plural)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // UpdateTranslation indicates an expected call of UpdateTranslation.
-func (mr *MockRepoMockRecorder) UpdateTranslation(ctx, id, text interface{}) *gomock.Call {
+func (mr *MockRepoMockRecorder) UpdateTranslation(ctx, id, singular, plural interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateTranslation", reflect.TypeOf((*MockRepo)(nil).UpdateTranslation), ctx, id, text)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateTranslation", reflect.TypeOf((*MockRepo)(nil).UpdateTranslation), ctx, id, singular, plural)
 }
 
 // MockPassword is a mock of Password interface.
