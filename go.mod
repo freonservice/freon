@@ -26,7 +26,6 @@ require (
 	github.com/powerman/must v0.1.1
 	github.com/powerman/structlog v0.7.3
 	github.com/pressly/goose v2.7.0+incompatible
-	github.com/rakyll/statik v0.1.7
 	github.com/rs/cors v1.8.0
 	github.com/sebest/xff v0.0.0-20210106013422-671bd2870b3a
 	github.com/smartystreets/goconvey v1.6.4
