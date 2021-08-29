@@ -1,15 +1,15 @@
 package app
 
 import (
-	"fmt"
 	"sort"
+	"strings"
 
 	"github.com/freonservice/freon/pkg/api"
 )
 
 func uniqueStringSlice(intSlice []string) []string {
 	keys := make(map[string]bool)
-	var list []string
+	var list = make([]string, 0, len(intSlice))
 	for _, entry := range intSlice {
 		if entry == "" {
 			continue
@@ -23,19 +23,19 @@ func uniqueStringSlice(intSlice []string) []string {
 }
 
 func createConcatenatedString(data []string) string {
-	var result string
+	var f string
 	if len(data) > 0 {
+		buf := strings.Builder{}
 		data = uniqueStringSlice(data)
 		sort.Slice(data, func(i, j int) bool { return data[i] < data[j] })
-		for i, v := range data {
-			if i > 0 {
-				result = fmt.Sprintf("%s,%s", result, v)
-			} else {
-				result = v
-			}
+		for _, v := range data {
+			buf.WriteString(v)
+			buf.WriteString(",")
 		}
+		f = buf.String()
+		f = f[:len(f)-1]
 	}
-	return result
+	return f
 }
 
 func getPlatformByString(platform string) int64 {

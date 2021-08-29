@@ -69,7 +69,7 @@ function* createTranslationWorker(action) {
 }
 
 function hideTranslationApi(id, hide) {
-    return fetch(hideTranslationUrl + id + "/" + hide, {
+    return fetch(hideTranslationUrl + id + '/' + hide, {
         method: 'PUT',
         headers: getHeaders(),
     })
@@ -89,11 +89,11 @@ function* hideTranslationWorker(action) {
     }
 }
 
-function updateTranslationApi(id, text) {
+function updateTranslationApi(id, singular, plural) {
     return fetch(updateTranslationUrl + id, {
         method: 'PUT',
         headers: getHeaders(),
-        body: JSON.stringify({text}),
+        body: JSON.stringify({singular, plural}),
     })
         .then(handleApiErrors)
         .catch((error) => {
@@ -103,8 +103,8 @@ function updateTranslationApi(id, text) {
 
 function* updateTranslationWorker(action) {
     try {
-        const {id, text} = action;
-        yield call(updateTranslationApi, id, text);
+        const {id, singular, plural} = action;
+        yield call(updateTranslationApi, id, singular, plural);
         yield put({type: LIST_TRANSLATIONS_REQUEST});
     } catch (error) {
         yield put({type: UPDATE_TRANSLATION_ERROR, error});

@@ -15,7 +15,6 @@ import {HeaderMain} from '../components/HeaderMain';
 import {withRouter} from 'react-router';
 import {connect} from 'react-redux';
 import {updateTranslationRequest} from '../../redux/translations/actions';
-import {ButtonGroup} from 'reactstrap';
 
 export class TranslationAction extends React.Component {
     constructor(props) {
@@ -34,13 +33,9 @@ export class TranslationAction extends React.Component {
         this.setState({...this.state, translation: o});
     };
 
-    handleFocusTextArea = (e) => {
-        this.setState({...this.state, selectionStart: e.target.selectionStart});
-    };
-
     handleSaveButton = () => {
-        const {id, text} = this.state.translation;
-        this.props.updateTranslationRequest(id, text.trim());
+        const {id, singular, plural} = this.state.translation;
+        this.props.updateTranslationRequest(id, singular.trim(), plural.trim());
         this.props.history.goBack();
     };
 
@@ -74,21 +69,12 @@ export class TranslationAction extends React.Component {
                                             </Label>
                                             <Input
                                                 type="textarea"
-                                                name="text"
+                                                name="singular"
                                                 value={translation.singular}
                                                 placeholder="Enter Your Message..."
                                                 className="mb-2"
                                                 onChange={(e) => this.handleChange(e)}
-                                                onClick={(e) => this.handleFocusTextArea(e)}
-                                                onFocus={(e) => {
-                                                    e.target.selectionStart = this.cursor;
-                                                }}
                                             />
-                                            <ButtonGroup className="mb-2">
-                                                <Button outline color="primary">String</Button>
-                                                <Button outline color="primary">Number</Button>
-                                                <Button outline color="primary">Double</Button>
-                                            </ButtonGroup>
                                         </FormGroup>
                                         <FormGroup>
                                             <Label for="text">
@@ -96,21 +82,12 @@ export class TranslationAction extends React.Component {
                                             </Label>
                                             <Input
                                                 type="textarea"
-                                                name="text"
+                                                name="plural"
                                                 value={translation.plural}
                                                 placeholder="Enter Your Message..."
                                                 className="mb-2"
                                                 onChange={(e) => this.handleChange(e)}
-                                                onClick={(e) => this.handleFocusTextArea(e)}
-                                                onFocus={(e) => {
-                                                    e.target.selectionStart = this.cursor;
-                                                }}
                                             />
-                                            <ButtonGroup className="mb-2">
-                                                <Button outline color="primary">String</Button>
-                                                <Button outline color="primary">Number</Button>
-                                                <Button outline color="primary">Double</Button>
-                                            </ButtonGroup>
                                         </FormGroup>
                                     </Form>
                                 </CardBody>

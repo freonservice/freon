@@ -6,23 +6,19 @@ import (
 	"github.com/pkg/errors"
 )
 
-// GenerateDocFolders generating working folders for ios, android and web localization files
-func GenerateDocFolders(currentPath string) error {
+// CreateOrCheckTranslationFilesFolder generating working folders for ios, android and web localization files
+func CreateOrCheckTranslationFilesFolder(currentPath string) error {
 	var err error
 
-	if currentPath != "/" {
-		currentPath += "/"
-	}
-
-	_, err = os.Stat(currentPath + "docs")
+	_, err = os.Stat(currentPath)
 	if os.IsNotExist(err) {
-		err = os.Mkdir(currentPath+"docs", os.ModePerm)
+		err = os.Mkdir(currentPath, os.ModePerm)
 		if err != nil {
 			return errors.Wrap(err, "internal.utils.GenerateDocFolders error with creating folder /docs")
 		}
 	}
 
-	var platforms = []string{currentPath + "docs/ios", currentPath + "docs/android", currentPath + "docs/web"}
+	var platforms = []string{currentPath + "/ios", currentPath + "/android", currentPath + "/web"}
 	for _, platform := range platforms {
 		_, err = os.Stat(platform)
 		if os.IsNotExist(err) {

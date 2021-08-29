@@ -31,7 +31,7 @@ type service struct {
 }
 
 func runServe(repo *dal.Repo, ctxShutdown Ctx, shutdown func()) error {
-	err := utils.GenerateDocFolders(cfg.translationFilesFolder)
+	err := utils.CreateOrCheckTranslationFilesFolder(cfg.translationFilesFolder)
 	if err != nil {
 		return errors.Wrap(err, "generate doc folders")
 	}
