@@ -8,7 +8,7 @@ var (
 	ServiceHost          = environ.GetStrEnv("SERVICE_HOST", "")          // frontend service host
 	APIServicePort       = environ.GetIntEnv("API_SERVICE_PORT", 4000)    //nolint:gomnd
 	GrpcServicePort      = environ.GetIntEnv("GRPC_SERVICE_PORT", 4001)   //nolint:gomnd
-	StatikServicePort    = environ.GetIntEnv("STATIK_SERVICE_PORT", 4002) //nolint:gomnd
+	StaticServicePort    = environ.GetIntEnv("STATIC_SERVICE_PORT", 4002) //nolint:gomnd
 	DBHost               = environ.MustGetString("DB_HOST")
 	DBPort               = environ.GetIntEnv("DB_PORT", 5432) //nolint:gomnd
 	DBUser               = environ.MustGetString("DB_USER")

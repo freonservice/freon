@@ -26,6 +26,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.dev
+    restart: always
     ports:
       - "4000:4000"
     environment:
@@ -44,8 +45,8 @@ services:
     depends_on:
       - freon-db
     healthcheck:
-      test: [ "CMD", "curl", "-f", "http://0.0.0.0:4000/api/internal/health-check" ]
-      interval: 1m
+      test: ["curl -f http://localhost:4000/api/internal/health-check || exit 1"]
+      interval: 10s
       timeout: 10s
       retries: 3
       start_period: 10s

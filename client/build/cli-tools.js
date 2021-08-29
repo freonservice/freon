@@ -1,12 +1,13 @@
 var program = require('commander');
 var rimraf = require('rimraf');
-var fs = require('fs');
 var mkdirp = require('mkdirp');
 
 var config = require('./../config');
 
 function dirParamToPath(dirParam) {
     switch(dirParam) {
+        case 'prod':
+            return config.prodDir;
         case 'dist':
             return config.distDir;
         case 'serve':
@@ -43,6 +44,7 @@ program
     .parse(process.argv);
 
 for (var commandName in commands) {
+    // eslint-disable-next-line no-prototype-builtins
     if (commands.hasOwnProperty(commandName) && program[commandName]) {
         commands[commandName](program[commandName]);
     }

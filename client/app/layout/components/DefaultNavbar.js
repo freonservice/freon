@@ -7,7 +7,6 @@ import {
 } from "./../../components";
 
 import {NavbarUser} from "./NavbarUser";
-import {LogoThemed} from "../../routes/components/LogoThemed/LogoThemed";
 import PropTypes from "prop-types";
 
 export class DefaultNavbar extends React.Component {
@@ -19,11 +18,6 @@ export class DefaultNavbar extends React.Component {
         return (
             <Navbar light expand="xs" fluid>
                 <Nav navbar>
-                    <NavItem className="navbar-brand d-lg-none">
-                        <Link to="/">
-                            <LogoThemed/>
-                        </Link>
-                    </NavItem>
                     <NavItem className="d-none d-md-block">
                         <span className="navbar-text">
                             <Link to="/">
