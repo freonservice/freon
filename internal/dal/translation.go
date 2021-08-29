@@ -26,6 +26,7 @@ func (r *Repo) CreateTranslation(ctx Ctx, creatorID, localizationID, identifierI
 			Plural:         sql.NullString{String: plural, Valid: true},
 			CreatedAt:      time.Now().UTC(),
 			UpdatedAt:      pointer.ToTime(time.Now().UTC()),
+			Status:         int64(api.Status_NOT_ACTIVE),
 		}
 		if err := tx.Save(entity); err != nil {
 			return err

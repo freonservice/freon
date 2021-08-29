@@ -4,6 +4,8 @@ import (
 	"context"
 	"database/sql"
 
+	"github.com/freonservice/freon/pkg/api"
+
 	"github.com/jmoiron/sqlx"
 	"gopkg.in/reform.v1"
 )
@@ -73,10 +75,10 @@ func (t *GroupedTranslationFilter) CreateRows(ctx context.Context, r *sqlx.DB) (
 		query, args, err = sqlx.In(`SELECT 
 			t.id, t.singular, t.plural, t.status, t.created_at, l.id, l.locale, l.lang_name, 
 			i.id, i.name, i.description, i.example_text, i.platforms 
-			FROM translations AS t 
-			LEFT JOIN localizations l ON t.localization_id=l.id  
-			LEFT JOIN identifiers i ON t.identifier_id=i.id  
-			WHERE l.locale IN (?)`, t.Locales)
+			FROM translations AS t
+			LEFT JOIN localizations l ON t.localization_id=l.id
+			LEFT JOIN identifiers i ON t.identifier_id=i.id
+			WHERE l.locale IN (?) AND t.status=?`, t.Locales, api.Status_ACTIVE)
 		if err != nil {
 			return nil, err
 		}
@@ -89,7 +91,8 @@ func (t *GroupedTranslationFilter) CreateRows(ctx context.Context, r *sqlx.DB) (
 			i.id, i.name, i.description, i.example_text, i.platforms 
 			FROM translations AS t 
 			LEFT JOIN localizations l ON t.localization_id=l.id  
-			LEFT JOIN identifiers i ON t.identifier_id=i.id`,
+			LEFT JOIN identifiers i ON t.identifier_id=i.id
+			WHERE t.status=$1`, api.Status_ACTIVE,
 		)
 	}
 
