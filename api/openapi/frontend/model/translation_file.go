@@ -43,6 +43,10 @@ type TranslationFile struct {
 	// Required: true
 	// Enum: [local]
 	StorageType *string `json:"storage_type"`
+
+	// created at
+	// Required: true
+	CreatedAt *int64 `json:"created_at"`
 }
 
 // UnmarshalJSON unmarshals this object while disallowing additional properties from JSON
@@ -72,6 +76,10 @@ func (m *TranslationFile) UnmarshalJSON(data []byte) error {
 		// Required: true
 		// Enum: [local]
 		StorageType *string `json:"storage_type"`
+
+		// created at
+		// Required: true
+		CreatedAt *int64 `json:"created_at"`
 	}
 
 	dec := json.NewDecoder(bytes.NewReader(data))
@@ -86,6 +94,7 @@ func (m *TranslationFile) UnmarshalJSON(data []byte) error {
 	m.Platform = props.Platform
 	m.Status = props.Status
 	m.StorageType = props.StorageType
+	m.CreatedAt = props.CreatedAt
 	return nil
 }
 
@@ -110,6 +119,10 @@ func (m *TranslationFile) Validate(formats strfmt.Registry) error {
 	}
 
 	if err := m.validateStorageType(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateCreatedAt(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -189,6 +202,15 @@ func (m *TranslationFile) validateStorageType(formats strfmt.Registry) error {
 
 	// value enum
 	if err := m.validateStorageTypeEnum("storage_type", "body", *m.StorageType); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (m *TranslationFile) validateCreatedAt(formats strfmt.Registry) error {
+
+	if err := validate.Required("created_at", "body", m.CreatedAt); err != nil {
 		return err
 	}
 

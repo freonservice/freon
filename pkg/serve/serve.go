@@ -5,14 +5,15 @@ import (
 	"fmt"
 	"net"
 	"net/http"
+	"os"
+	"path"
+	"strings"
 
 	"github.com/freonservice/freon/pkg/def"
 	"github.com/freonservice/freon/pkg/netx"
-	_ "github.com/freonservice/freon/statik" //nolint:golint,nolintlint
 
 	"github.com/powerman/must"
 	"github.com/powerman/structlog"
-	"github.com/rakyll/statik/fs"
 	"google.golang.org/grpc"
 )
 
@@ -74,28 +75,42 @@ func ServerGRPC(ctx Ctx, addr netx.Addr, srv *grpc.Server) error {
 	return nil
 }
 
-func ServerStatik(ctx Ctx, addr netx.Addr) error {
+func ServerStatic(ctx Ctx, addr netx.Addr) error {
 	log := structlog.FromContext(ctx, nil).New(def.LogServer, addr.String())
+	const FSPATH = "./client/prod/"
 
-	statikFS, err := fs.New()
+	listen, err := net.Listen("tcp", addr.String())
 	if err != nil {
 		return err
 	}
+	log.Info("serve", "service", "static", "addr", addr.String())
 
-	http.Handle("/*", http.StripPrefix("/*", http.FileServer(statikFS)))
-
-	log.Info("serve", "service", "statik", "addr", addr.String())
 	errc := make(chan error, 1)
-	go func() { errc <- http.ListenAndServe(addr.String(), nil) }()
+	go func() { errc <- http.Serve(listen, nil) }()
+
+	fs := http.FileServer(http.Dir(FSPATH))
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		if r.URL.Path != "/" {
+			fullPath := FSPATH + strings.TrimPrefix(path.Clean(r.URL.Path), "/")
+			_, err = os.Stat(fullPath)
+			if err != nil {
+				if !os.IsNotExist(err) {
+					log.Fatal(err)
+				}
+				r.URL.Path = "/"
+			}
+		}
+		fs.ServeHTTP(w, r)
+	})
 
 	select {
 	case err = <-errc:
 	case <-ctx.Done():
-		log.Info("Stopping Statik server")
+		log.Info("Stopping static server")
 	}
 	if err != nil {
-		return log.Err("failed to serve statik", "err", err)
+		return log.Err("failed to serve static", "err", err)
 	}
-	log.Info("shutdown service name statik")
+	log.Info("shutdown service name static")
 	return nil
 }

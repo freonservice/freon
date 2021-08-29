@@ -16,7 +16,7 @@ module.exports = {
     output: {
         filename: '[name].bundle.js',
         chunkFilename: '[name].chunk.js',
-        path: config.distDir,
+        path: config.prodDir,
         publicPath: BASE_PATH
     },
     resolve: {
@@ -139,7 +139,7 @@ module.exports = {
     },
     devServer: {
         hot: false,
-        contentBase: config.distDir,
+        contentBase: config.prodDir,
         compress: true,
         historyApiFallback: {
             index: '/'

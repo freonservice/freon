@@ -1,6 +1,7 @@
 package grpc
 
 import (
+	"context"
 	"time"
 
 	"github.com/freonservice/freon/internal/app"
@@ -17,6 +18,11 @@ type (
 		app app.Appl
 	}
 )
+
+func (s *service) GetLatestTranslationFiles(
+	ctx context.Context, req *api.GetLatestTranslationFilesReq) (*api.GetLatestTranslationFilesRes, error) {
+	panic("implement me")
+}
 
 func NewServer(appl app.Appl) *grpc.Server {
 	srv := grpc.NewServer(

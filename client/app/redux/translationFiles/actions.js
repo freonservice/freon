@@ -17,12 +17,6 @@ export const createTranslationFilesRequest = (localizationId, storageType, platf
     platforms: platforms,
 });
 
-// export const updateTranslationRequest = (id, text) => ({
-//     type: UPDATE_TRANSLATION_REQUEST,
-//     id: id,
-//     text: text,
-// });
-
 export const deleteTranslationFileRequest = (id) => ({
     type: DELETE_TRANSLATION_FILES_REQUEST,
     id: id,

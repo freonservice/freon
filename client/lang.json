@@ -509,6 +509,7 @@
     "androidCode": "az-rAZ",
     "osxCode": "az.lproj",
     "osxLocale": "az",
+    "icon": "🇦🇿",
     "pluralCategoryNames": [
       "one",
       "other"
@@ -629,6 +630,7 @@
   },
   {
     "id": "be",
+    "icon": "🇧🇾",
     "name": "Belarusian",
     "editorCode": "be",
     "twoLettersCode": "be",

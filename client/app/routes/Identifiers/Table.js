@@ -46,12 +46,6 @@ export class IdentifierTable extends React.Component {
                     </div>;
                 },
             }, {
-                dataField: 'named_list',
-                text: 'Fields Count',
-                formatter: (cell) => {
-                    return (cell !== undefined) ? cell.length : 0;
-                },
-            }, {
                 dataField: 'id',
                 text: 'Action',
                 sort: false,

@@ -4,12 +4,13 @@ import (
 	"strings"
 
 	"github.com/freonservice/freon/internal/dao"
+	"github.com/freonservice/freon/internal/entities"
 
 	"github.com/AlekSi/pointer"
 )
 
-func mappingUser(user *dao.User) *User {
-	return &User{
+func mappingUser(user *dao.User) *entities.User {
+	return &entities.User{
 		ID:         user.ID,
 		Email:      user.Email,
 		Password:   user.Password,
@@ -23,16 +24,16 @@ func mappingUser(user *dao.User) *User {
 	}
 }
 
-func mappingArrayUser(users []*dao.User) []*User {
-	var entities = make([]*User, len(users))
+func mappingArrayUser(users []*dao.User) []*entities.User {
+	var v = make([]*entities.User, len(users))
 	for i, l := range users {
-		entities[i] = mappingUser(l)
+		v[i] = mappingUser(l)
 	}
-	return entities
+	return v
 }
 
-func mappingLocalization(localization *dao.Localization) *Localization {
-	return &Localization{
+func mappingLocalization(localization *dao.Localization) *entities.Localization {
+	return &entities.Localization{
 		ID:           localization.ID,
 		Locale:       localization.Locale,
 		LanguageName: localization.LanguageName,
@@ -42,16 +43,16 @@ func mappingLocalization(localization *dao.Localization) *Localization {
 	}
 }
 
-func mappingArrayLocalization(localizations []*dao.Localization) []*Localization {
-	var entities = make([]*Localization, len(localizations))
+func mappingArrayLocalization(localizations []*dao.Localization) []*entities.Localization {
+	var v = make([]*entities.Localization, len(localizations))
 	for i, l := range localizations {
-		entities[i] = mappingLocalization(l)
+		v[i] = mappingLocalization(l)
 	}
-	return entities
+	return v
 }
 
-func mappingIdentifier(identifier *dao.Identifier) *Identifier {
-	i := &Identifier{
+func mappingIdentifier(identifier *dao.Identifier) *entities.Identifier {
+	i := &entities.Identifier{
 		ID:          identifier.ID,
 		Name:        identifier.Name,
 		Description: identifier.Description.String,
@@ -64,43 +65,41 @@ func mappingIdentifier(identifier *dao.Identifier) *Identifier {
 	if len(identifier.Platforms) > 0 {
 		i.Platforms = strings.Split(identifier.Platforms, ",")
 	}
-	if identifier.NamedList.Valid && len(identifier.NamedList.String) > 0 {
-		i.NamedList = strings.Split(identifier.NamedList.String, ",")
-	}
 	if identifier.Category != nil && identifier.Category.ID > 0 {
 		i.Category = mappingCategory(identifier.Category)
 	}
 	return i
 }
 
-func mappingArrayIdentifier(identifiers []*dao.Identifier) []*Identifier {
-	var entities = make([]*Identifier, len(identifiers))
+func mappingArrayIdentifier(identifiers []*dao.Identifier) []*entities.Identifier {
+	var v = make([]*entities.Identifier, len(identifiers))
 	for i, l := range identifiers {
-		entities[i] = mappingIdentifier(l)
+		v[i] = mappingIdentifier(l)
 	}
-	return entities
+	return v
 }
 
-func mappingCategory(category *dao.Category) *Category {
-	return &Category{
+func mappingCategory(category *dao.Category) *entities.Category {
+	return &entities.Category{
 		ID:        category.ID,
 		Name:      category.Name,
 		CreatedAt: category.CreatedAt,
 	}
 }
 
-func mappingArrayCategory(categories []*dao.Category) []*Category {
-	var entities = make([]*Category, len(categories))
+func mappingArrayCategory(categories []*dao.Category) []*entities.Category {
+	var v = make([]*entities.Category, len(categories))
 	for i, c := range categories {
-		entities[i] = mappingCategory(c)
+		v[i] = mappingCategory(c)
 	}
-	return entities
+	return v
 }
 
-func mappingTranslation(translation *dao.Translation) *Translation {
-	entity := &Translation{
+func mappingTranslation(translation *dao.Translation) *entities.Translation {
+	entity := &entities.Translation{
 		ID:        translation.ID,
-		Text:      translation.Text,
+		Singular:  translation.Singular,
+		Plural:    translation.Plural.String,
 		Status:    translation.Status,
 		CreatedAt: translation.CreatedAt,
 	}
@@ -113,39 +112,39 @@ func mappingTranslation(translation *dao.Translation) *Translation {
 	return entity
 }
 
-func mappingArrayTranslation(translations []*dao.Translation) []*Translation {
-	var entities = make([]*Translation, len(translations))
+func mappingArrayTranslation(translations []*dao.Translation) []*entities.Translation {
+	var v = make([]*entities.Translation, len(translations))
 	for i, l := range translations {
-		entities[i] = mappingTranslation(l)
+		v[i] = mappingTranslation(l)
 	}
-	return entities
+	return v
 }
 
-func mappingGroupedTranslations(locale string, trxs []*dao.Translation) *GroupedTranslations {
-	entity := &GroupedTranslations{
+func mappingGroupedTranslations(locale string, trxs []*dao.Translation) *entities.GroupedTranslations {
+	entity := &entities.GroupedTranslations{
 		Locale: locale,
 	}
-	var entities = make([]*Translation, len(trxs))
+	var v = make([]*entities.Translation, len(trxs))
 	for i, l := range trxs {
-		entities[i] = mappingTranslation(l)
+		v[i] = mappingTranslation(l)
 	}
-	entity.Translations = entities
+	entity.Translations = v
 
 	return entity
 }
 
-func mappingArrayGroupedTranslations(gts map[string][]*dao.Translation) []*GroupedTranslations {
-	var entities = make([]*GroupedTranslations, len(gts))
+func mappingArrayGroupedTranslations(gts map[string][]*dao.Translation) []*entities.GroupedTranslations {
+	var e = make([]*entities.GroupedTranslations, len(gts))
 	index := 0
 	for k, v := range gts {
-		entities[index] = mappingGroupedTranslations(k, v)
+		e[index] = mappingGroupedTranslations(k, v)
 		index++
 	}
-	return entities
+	return e
 }
 
-func mappingStatistic(statistic *dao.Statistic) *Statistic {
-	return &Statistic{
+func mappingStatistic(statistic *dao.Statistic) *entities.Statistic {
+	return &entities.Statistic{
 		CountUsers:         statistic.CountUsers,
 		CountCategories:    statistic.CountCategories,
 		CountIdentifiers:   statistic.CountIdentifiers,
@@ -153,8 +152,8 @@ func mappingStatistic(statistic *dao.Statistic) *Statistic {
 	}
 }
 
-func mappingTranslationFile(translationFile *dao.TranslationFile) *TranslationFile {
-	entity := &TranslationFile{
+func mappingTranslationFile(translationFile *dao.TranslationFile) *entities.TranslationFile {
+	entity := &entities.TranslationFile{
 		ID:          translationFile.ID,
 		Name:        translationFile.Name,
 		Path:        translationFile.Path,
@@ -169,10 +168,10 @@ func mappingTranslationFile(translationFile *dao.TranslationFile) *TranslationFi
 	return entity
 }
 
-func mappingArrayTranslationFile(translationFiles []*dao.TranslationFile) []*TranslationFile {
-	var entities = make([]*TranslationFile, len(translationFiles))
+func mappingArrayTranslationFile(translationFiles []*dao.TranslationFile) []*entities.TranslationFile {
+	var v = make([]*entities.TranslationFile, len(translationFiles))
 	for i, l := range translationFiles {
-		entities[i] = mappingTranslationFile(l)
+		v[i] = mappingTranslationFile(l)
 	}
-	return entities
+	return v
 }

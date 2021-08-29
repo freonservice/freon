@@ -3,6 +3,7 @@ package frontend
 import (
 	"github.com/freonservice/freon/api/openapi/frontend/restapi/op"
 	"github.com/freonservice/freon/internal/app"
+	"github.com/freonservice/freon/internal/entities"
 
 	"github.com/go-openapi/swag"
 	"github.com/pkg/errors"
@@ -59,7 +60,7 @@ func (srv *server) userChangePassword(params op.UserChangePasswordParams, sessio
 		return errUserChangePassword(log, errors.New("passwords not equals"), codePasswordsNotEquals)
 	}
 
-	err := srv.app.UpdatePassword(ctx, session.UserID, app.ChangePassword{
+	err := srv.app.UpdatePassword(ctx, session.UserID, entities.ChangePassword{
 		PreviousPassword: swag.StringValue(params.Args.OldPassword),
 		NewPassword:      swag.StringValue(params.Args.NewPassword),
 	})
@@ -106,7 +107,7 @@ func (srv *server) userChangeProfile(params op.UserChangeProfileParams, session 
 func (srv *server) listUser(params op.ListUserParams, session *app.UserSession) op.ListUserResponder {
 	ctx, log := fromRequest(params.HTTPRequest, session)
 
-	entities, err := srv.app.GetUsers(ctx)
+	e, err := srv.app.GetUsers(ctx)
 	switch errors.Cause(err) {
 	default:
 		log.PrintErr(errors.WithStack(err))
@@ -114,5 +115,5 @@ func (srv *server) listUser(params op.ListUserParams, session *app.UserSession) 
 	case nil:
 	}
 
-	return op.NewListUserOK().WithPayload(apiArrayUser(entities))
+	return op.NewListUserOK().WithPayload(apiArrayUser(e))
 }

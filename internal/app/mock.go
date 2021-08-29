@@ -8,6 +8,7 @@ import (
 	reflect "reflect"
 
 	dao "github.com/freonservice/freon/internal/dao"
+	entities "github.com/freonservice/freon/internal/entities"
 	filter "github.com/freonservice/freon/internal/filter"
 	gomock "github.com/golang/mock/gomock"
 	uuid "github.com/google/uuid"
@@ -38,11 +39,11 @@ func (m *MockAppl) EXPECT() *MockApplMockRecorder {
 }
 
 // AuthorizeUser mocks base method.
-func (m *MockAppl) AuthorizeUser(ctx Ctx, email, password string) (AccessToken, *User, error) {
+func (m *MockAppl) AuthorizeUser(ctx Ctx, email, password string) (AccessToken, *entities.User, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "AuthorizeUser", ctx, email, password)
 	ret0, _ := ret[0].(AccessToken)
-	ret1, _ := ret[1].(*User)
+	ret1, _ := ret[1].(*entities.User)
 	ret2, _ := ret[2].(error)
 	return ret0, ret1, ret2
 }
@@ -68,17 +69,17 @@ func (mr *MockApplMockRecorder) CreateCategory(ctx, name interface{}) *gomock.Ca
 }
 
 // CreateIdentifier mocks base method.
-func (m *MockAppl) CreateIdentifier(ctx Ctx, creatorID, categoryID, parentID int64, name, description, exampleText string, platforms, namedList []string) error {
+func (m *MockAppl) CreateIdentifier(ctx Ctx, creatorID, categoryID, parentID int64, name, description, exampleText string, platforms []string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "CreateIdentifier", ctx, creatorID, categoryID, parentID, name, description, exampleText, platforms, namedList)
+	ret := m.ctrl.Call(m, "CreateIdentifier", ctx, creatorID, categoryID, parentID, name, description, exampleText, platforms)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // CreateIdentifier indicates an expected call of CreateIdentifier.
-func (mr *MockApplMockRecorder) CreateIdentifier(ctx, creatorID, categoryID, parentID, name, description, exampleText, platforms, namedList interface{}) *gomock.Call {
+func (mr *MockApplMockRecorder) CreateIdentifier(ctx, creatorID, categoryID, parentID, name, description, exampleText, platforms interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateIdentifier", reflect.TypeOf((*MockAppl)(nil).CreateIdentifier), ctx, creatorID, categoryID, parentID, name, description, exampleText, platforms, namedList)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateIdentifier", reflect.TypeOf((*MockAppl)(nil).CreateIdentifier), ctx, creatorID, categoryID, parentID, name, description, exampleText, platforms)
 }
 
 // CreateLocalization mocks base method.
@@ -96,17 +97,17 @@ func (mr *MockApplMockRecorder) CreateLocalization(ctx, creatorID, name, code, i
 }
 
 // CreateTranslation mocks base method.
-func (m *MockAppl) CreateTranslation(ctx Ctx, creatorID, localizationID, identifierID int64, text string) error {
+func (m *MockAppl) CreateTranslation(ctx Ctx, creatorID, localizationID, identifierID int64, singular, plural string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "CreateTranslation", ctx, creatorID, localizationID, identifierID, text)
+	ret := m.ctrl.Call(m, "CreateTranslation", ctx, creatorID, localizationID, identifierID, singular, plural)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // CreateTranslation indicates an expected call of CreateTranslation.
-func (mr *MockApplMockRecorder) CreateTranslation(ctx, creatorID, localizationID, identifierID, text interface{}) *gomock.Call {
+func (mr *MockApplMockRecorder) CreateTranslation(ctx, creatorID, localizationID, identifierID, singular, plural interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateTranslation", reflect.TypeOf((*MockAppl)(nil).CreateTranslation), ctx, creatorID, localizationID, identifierID, text)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateTranslation", reflect.TypeOf((*MockAppl)(nil).CreateTranslation), ctx, creatorID, localizationID, identifierID, singular, plural)
 }
 
 // CreateTranslationFile mocks base method.
@@ -194,10 +195,10 @@ func (mr *MockApplMockRecorder) DeleteTranslationFile(ctx, id interface{}) *gomo
 }
 
 // GetCategories mocks base method.
-func (m *MockAppl) GetCategories(ctx Ctx) ([]*Category, error) {
+func (m *MockAppl) GetCategories(ctx Ctx) ([]*entities.Category, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetCategories", ctx)
-	ret0, _ := ret[0].([]*Category)
+	ret0, _ := ret[0].([]*entities.Category)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -209,10 +210,10 @@ func (mr *MockApplMockRecorder) GetCategories(ctx interface{}) *gomock.Call {
 }
 
 // GetGroupedTranslations mocks base method.
-func (m *MockAppl) GetGroupedTranslations(ctx Ctx, f filter.GroupedTranslationFilter) ([]*GroupedTranslations, error) {
+func (m *MockAppl) GetGroupedTranslations(ctx Ctx, f filter.GroupedTranslationFilter) ([]*entities.GroupedTranslations, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetGroupedTranslations", ctx, f)
-	ret0, _ := ret[0].([]*GroupedTranslations)
+	ret0, _ := ret[0].([]*entities.GroupedTranslations)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -224,10 +225,10 @@ func (mr *MockApplMockRecorder) GetGroupedTranslations(ctx, f interface{}) *gomo
 }
 
 // GetIdentifiers mocks base method.
-func (m *MockAppl) GetIdentifiers(ctx Ctx, f filter.IdentifierFilter) ([]*Identifier, error) {
+func (m *MockAppl) GetIdentifiers(ctx Ctx, f filter.IdentifierFilter) ([]*entities.Identifier, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetIdentifiers", ctx, f)
-	ret0, _ := ret[0].([]*Identifier)
+	ret0, _ := ret[0].([]*entities.Identifier)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -239,10 +240,10 @@ func (mr *MockApplMockRecorder) GetIdentifiers(ctx, f interface{}) *gomock.Call 
 }
 
 // GetLocalizations mocks base method.
-func (m *MockAppl) GetLocalizations(ctx Ctx) ([]*Localization, error) {
+func (m *MockAppl) GetLocalizations(ctx Ctx) ([]*entities.Localization, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetLocalizations", ctx)
-	ret0, _ := ret[0].([]*Localization)
+	ret0, _ := ret[0].([]*entities.Localization)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -254,10 +255,10 @@ func (mr *MockApplMockRecorder) GetLocalizations(ctx interface{}) *gomock.Call {
 }
 
 // GetStatistic mocks base method.
-func (m *MockAppl) GetStatistic(ctx Ctx) (*Statistic, error) {
+func (m *MockAppl) GetStatistic(ctx Ctx) (*entities.Statistic, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetStatistic", ctx)
-	ret0, _ := ret[0].(*Statistic)
+	ret0, _ := ret[0].(*entities.Statistic)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -269,10 +270,10 @@ func (mr *MockApplMockRecorder) GetStatistic(ctx interface{}) *gomock.Call {
 }
 
 // GetTranslation mocks base method.
-func (m *MockAppl) GetTranslation(ctx Ctx, locale, identifierName string) (*Translation, error) {
+func (m *MockAppl) GetTranslation(ctx Ctx, locale, identifierName string) (*entities.Translation, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetTranslation", ctx, locale, identifierName)
-	ret0, _ := ret[0].(*Translation)
+	ret0, _ := ret[0].(*entities.Translation)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -284,10 +285,10 @@ func (mr *MockApplMockRecorder) GetTranslation(ctx, locale, identifierName inter
 }
 
 // GetTranslationFiles mocks base method.
-func (m *MockAppl) GetTranslationFiles(ctx Ctx, f filter.TranslationFileFilter) ([]*TranslationFile, error) {
+func (m *MockAppl) GetTranslationFiles(ctx Ctx, f filter.TranslationFileFilter) ([]*entities.TranslationFile, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetTranslationFiles", ctx, f)
-	ret0, _ := ret[0].([]*TranslationFile)
+	ret0, _ := ret[0].([]*entities.TranslationFile)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -299,10 +300,10 @@ func (mr *MockApplMockRecorder) GetTranslationFiles(ctx, f interface{}) *gomock.
 }
 
 // GetTranslations mocks base method.
-func (m *MockAppl) GetTranslations(ctx Ctx, f filter.TranslationFilter) ([]*Translation, error) {
+func (m *MockAppl) GetTranslations(ctx Ctx, f filter.TranslationFilter) ([]*entities.Translation, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetTranslations", ctx, f)
-	ret0, _ := ret[0].([]*Translation)
+	ret0, _ := ret[0].([]*entities.Translation)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -314,10 +315,10 @@ func (mr *MockApplMockRecorder) GetTranslations(ctx, f interface{}) *gomock.Call
 }
 
 // GetUserByEmail mocks base method.
-func (m *MockAppl) GetUserByEmail(ctx Ctx, email string) (*User, error) {
+func (m *MockAppl) GetUserByEmail(ctx Ctx, email string) (*entities.User, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetUserByEmail", ctx, email)
-	ret0, _ := ret[0].(*User)
+	ret0, _ := ret[0].(*entities.User)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -329,10 +330,10 @@ func (mr *MockApplMockRecorder) GetUserByEmail(ctx, email interface{}) *gomock.C
 }
 
 // GetUserByID mocks base method.
-func (m *MockAppl) GetUserByID(ctx Ctx, userID int64) (*User, error) {
+func (m *MockAppl) GetUserByID(ctx Ctx, userID int64) (*entities.User, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetUserByID", ctx, userID)
-	ret0, _ := ret[0].(*User)
+	ret0, _ := ret[0].(*entities.User)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -344,10 +345,10 @@ func (mr *MockApplMockRecorder) GetUserByID(ctx, userID interface{}) *gomock.Cal
 }
 
 // GetUserByUUID mocks base method.
-func (m *MockAppl) GetUserByUUID(ctx Ctx, uuid string) (*User, error) {
+func (m *MockAppl) GetUserByUUID(ctx Ctx, uuid string) (*entities.User, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetUserByUUID", ctx, uuid)
-	ret0, _ := ret[0].(*User)
+	ret0, _ := ret[0].(*entities.User)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -359,10 +360,10 @@ func (mr *MockApplMockRecorder) GetUserByUUID(ctx, uuid interface{}) *gomock.Cal
 }
 
 // GetUsers mocks base method.
-func (m *MockAppl) GetUsers(ctx Ctx) ([]*User, error) {
+func (m *MockAppl) GetUsers(ctx Ctx) ([]*entities.User, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetUsers", ctx)
-	ret0, _ := ret[0].([]*User)
+	ret0, _ := ret[0].([]*entities.User)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -417,10 +418,10 @@ func (mr *MockApplMockRecorder) LogoutUser(ctx, token interface{}) *gomock.Call 
 }
 
 // RegisterUser mocks base method.
-func (m *MockAppl) RegisterUser(ctx Ctx, email, password, firstName, secondName string, role int64) (*User, error) {
+func (m *MockAppl) RegisterUser(ctx Ctx, email, password, firstName, secondName string, role int64) (*entities.User, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "RegisterUser", ctx, email, password, firstName, secondName, role)
-	ret0, _ := ret[0].(*User)
+	ret0, _ := ret[0].(*entities.User)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -446,21 +447,21 @@ func (mr *MockApplMockRecorder) UpdateCategory(ctx, id, name interface{}) *gomoc
 }
 
 // UpdateIdentifier mocks base method.
-func (m *MockAppl) UpdateIdentifier(ctx Ctx, id, categoryID, parentID int64, name, description, exampleText string, platforms, namedList []string) error {
+func (m *MockAppl) UpdateIdentifier(ctx Ctx, id, categoryID, parentID int64, name, description, exampleText string, platforms []string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "UpdateIdentifier", ctx, id, categoryID, parentID, name, description, exampleText, platforms, namedList)
+	ret := m.ctrl.Call(m, "UpdateIdentifier", ctx, id, categoryID, parentID, name, description, exampleText, platforms)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // UpdateIdentifier indicates an expected call of UpdateIdentifier.
-func (mr *MockApplMockRecorder) UpdateIdentifier(ctx, id, categoryID, parentID, name, description, exampleText, platforms, namedList interface{}) *gomock.Call {
+func (mr *MockApplMockRecorder) UpdateIdentifier(ctx, id, categoryID, parentID, name, description, exampleText, platforms interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateIdentifier", reflect.TypeOf((*MockAppl)(nil).UpdateIdentifier), ctx, id, categoryID, parentID, name, description, exampleText, platforms, namedList)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateIdentifier", reflect.TypeOf((*MockAppl)(nil).UpdateIdentifier), ctx, id, categoryID, parentID, name, description, exampleText, platforms)
 }
 
 // UpdatePassword mocks base method.
-func (m *MockAppl) UpdatePassword(ctx Ctx, userID int64, changePassword ChangePassword) error {
+func (m *MockAppl) UpdatePassword(ctx Ctx, userID int64, changePassword entities.ChangePassword) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "UpdatePassword", ctx, userID, changePassword)
 	ret0, _ := ret[0].(error)
@@ -502,17 +503,17 @@ func (mr *MockApplMockRecorder) UpdateStatus(ctx, userID, status interface{}) *g
 }
 
 // UpdateTranslation mocks base method.
-func (m *MockAppl) UpdateTranslation(ctx Ctx, id int64, text string) error {
+func (m *MockAppl) UpdateTranslation(ctx Ctx, id int64, singular, plural string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "UpdateTranslation", ctx, id, text)
+	ret := m.ctrl.Call(m, "UpdateTranslation", ctx, id, singular, plural)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // UpdateTranslation indicates an expected call of UpdateTranslation.
-func (mr *MockApplMockRecorder) UpdateTranslation(ctx, id, text interface{}) *gomock.Call {
+func (mr *MockApplMockRecorder) UpdateTranslation(ctx, id, singular, plural interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateTranslation", reflect.TypeOf((*MockAppl)(nil).UpdateTranslation), ctx, id, text)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateTranslation", reflect.TypeOf((*MockAppl)(nil).UpdateTranslation), ctx, id, singular, plural)
 }
 
 // MockAuth is a mock of Auth interface.
@@ -606,17 +607,17 @@ func (mr *MockRepoMockRecorder) CreateCategory(ctx, name interface{}) *gomock.Ca
 }
 
 // CreateIdentifier mocks base method.
-func (m *MockRepo) CreateIdentifier(ctx Ctx, createID, categoryID, parentID int64, name, description, exampleText, platforms, namedList string) error {
+func (m *MockRepo) CreateIdentifier(ctx Ctx, createID, categoryID, parentID int64, name, description, exampleText, platforms string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "CreateIdentifier", ctx, createID, categoryID, parentID, name, description, exampleText, platforms, namedList)
+	ret := m.ctrl.Call(m, "CreateIdentifier", ctx, createID, categoryID, parentID, name, description, exampleText, platforms)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // CreateIdentifier indicates an expected call of CreateIdentifier.
-func (mr *MockRepoMockRecorder) CreateIdentifier(ctx, createID, categoryID, parentID, name, description, exampleText, platforms, namedList interface{}) *gomock.Call {
+func (mr *MockRepoMockRecorder) CreateIdentifier(ctx, createID, categoryID, parentID, name, description, exampleText, platforms interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateIdentifier", reflect.TypeOf((*MockRepo)(nil).CreateIdentifier), ctx, createID, categoryID, parentID, name, description, exampleText, platforms, namedList)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateIdentifier", reflect.TypeOf((*MockRepo)(nil).CreateIdentifier), ctx, createID, categoryID, parentID, name, description, exampleText, platforms)
 }
 
 // CreateLocalization mocks base method.
@@ -635,17 +636,17 @@ func (mr *MockRepoMockRecorder) CreateLocalization(ctx, creatorID, locale, langu
 }
 
 // CreateTranslation mocks base method.
-func (m *MockRepo) CreateTranslation(ctx Ctx, creatorID, localizationID, identifierID int64, text string) error {
+func (m *MockRepo) CreateTranslation(ctx Ctx, creatorID, localizationID, identifierID int64, singular, plural string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "CreateTranslation", ctx, creatorID, localizationID, identifierID, text)
+	ret := m.ctrl.Call(m, "CreateTranslation", ctx, creatorID, localizationID, identifierID, singular, plural)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // CreateTranslation indicates an expected call of CreateTranslation.
-func (mr *MockRepoMockRecorder) CreateTranslation(ctx, creatorID, localizationID, identifierID, text interface{}) *gomock.Call {
+func (mr *MockRepoMockRecorder) CreateTranslation(ctx, creatorID, localizationID, identifierID, singular, plural interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateTranslation", reflect.TypeOf((*MockRepo)(nil).CreateTranslation), ctx, creatorID, localizationID, identifierID, text)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateTranslation", reflect.TypeOf((*MockRepo)(nil).CreateTranslation), ctx, creatorID, localizationID, identifierID, singular, plural)
 }
 
 // CreateTranslationFile mocks base method.
@@ -1043,17 +1044,17 @@ func (mr *MockRepoMockRecorder) UpdateHideStatusTranslation(ctx, id, hide interf
 }
 
 // UpdateIdentifier mocks base method.
-func (m *MockRepo) UpdateIdentifier(ctx Ctx, id, categoryID, parentID int64, name, description, exampleText, platforms, namedList string) error {
+func (m *MockRepo) UpdateIdentifier(ctx Ctx, id, categoryID, parentID int64, name, description, exampleText, platforms string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "UpdateIdentifier", ctx, id, categoryID, parentID, name, description, exampleText, platforms, namedList)
+	ret := m.ctrl.Call(m, "UpdateIdentifier", ctx, id, categoryID, parentID, name, description, exampleText, platforms)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // UpdateIdentifier indicates an expected call of UpdateIdentifier.
-func (mr *MockRepoMockRecorder) UpdateIdentifier(ctx, id, categoryID, parentID, name, description, exampleText, platforms, namedList interface{}) *gomock.Call {
+func (mr *MockRepoMockRecorder) UpdateIdentifier(ctx, id, categoryID, parentID, name, description, exampleText, platforms interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateIdentifier", reflect.TypeOf((*MockRepo)(nil).UpdateIdentifier), ctx, id, categoryID, parentID, name, description, exampleText, platforms, namedList)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateIdentifier", reflect.TypeOf((*MockRepo)(nil).UpdateIdentifier), ctx, id, categoryID, parentID, name, description, exampleText, platforms)
 }
 
 // UpdatePassword mocks base method.
@@ -1099,17 +1100,17 @@ func (mr *MockRepoMockRecorder) UpdateStatus(ctx, userID, status interface{}) *g
 }
 
 // UpdateTranslation mocks base method.
-func (m *MockRepo) UpdateTranslation(ctx Ctx, id int64, text string) error {
+func (m *MockRepo) UpdateTranslation(ctx Ctx, id int64, singular, plural string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "UpdateTranslation", ctx, id, text)
+	ret := m.ctrl.Call(m, "UpdateTranslation", ctx, id, singular, plural)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // UpdateTranslation indicates an expected call of UpdateTranslation.
-func (mr *MockRepoMockRecorder) UpdateTranslation(ctx, id, text interface{}) *gomock.Call {
+func (mr *MockRepoMockRecorder) UpdateTranslation(ctx, id, singular, plural interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateTranslation", reflect.TypeOf((*MockRepo)(nil).UpdateTranslation), ctx, id, text)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateTranslation", reflect.TypeOf((*MockRepo)(nil).UpdateTranslation), ctx, id, singular, plural)
 }
 
 // MockPassword is a mock of Password interface.

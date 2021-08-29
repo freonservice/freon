@@ -1,0 +1,19 @@
+syntax = "proto3";
+package api;
+option go_package = "pb;api";
+
+import "const.proto";
+
+message TranslationFile {
+  string file_name = 1;
+  string lang_name = 2;
+  string path = 3;
+}
+
+message GetLatestTranslationFilesReq {
+  PlatformType platform = 1;
+}
+
+message GetLatestTranslationFilesRes {
+  repeated TranslationFile files = 1;
+}

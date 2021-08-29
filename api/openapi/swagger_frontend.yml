@@ -380,10 +380,6 @@ paths:
                 type: array
                 items:
                   type: string
-              named_list:
-                type: array
-                items:
-                  type: string
       responses:
         '204': { $ref: '#/responses/NoContent' }
         default:
@@ -459,10 +455,6 @@ paths:
               example_text:
                 type: string
               platforms:
-                type: array
-                items:
-                  type: string
-              named_list:
                 type: array
                 items:
                   type: string
@@ -642,13 +634,15 @@ paths:
             required:
               - localization_id
               - identifier_id
-              - text
+              - singular
             properties:
               localization_id:
                 type: integer
               identifier_id:
                 type: integer
-              text:
+              singular:
+                type: string
+              plural:
                 type: string
       responses:
         '204': { $ref: '#/responses/NoContent' }
@@ -776,9 +770,11 @@ paths:
           schema:
             type: object
             required:
-              - text
+              - singular
             properties:
-              text:
+              singular:
+                type: string
+              plural:
                 type: string
       responses:
         '204': { $ref: '#/responses/NoContent' }
@@ -869,11 +865,6 @@ definitions:
         default: [ ]
         items:
           type: string
-      named_list:
-        type: array
-        default: [ ]
-        items:
-          type: string
 
   TranslationFile:
     type: object
@@ -883,6 +874,7 @@ definitions:
       - path
       - platform
       - storage_type
+      - created_at
     properties:
       id:
         type: integer
@@ -898,6 +890,8 @@ definitions:
         type: string
         enum: [ local ]
         default: local
+      created_at:
+        type: integer
 
   Category:
     type: object
@@ -918,7 +912,7 @@ definitions:
       - id
       - localization
       - identifier
-      - text
+      - singular
       - created_at
     properties:
       id:
@@ -927,7 +921,9 @@ definitions:
         $ref: '#/definitions/Localization'
       identifier:
         $ref: '#/definitions/Identifier'
-      text:
+      singular:
+        type: string
+      plural:
         type: string
       status:
         type: string

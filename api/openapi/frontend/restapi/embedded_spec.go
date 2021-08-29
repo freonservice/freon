@@ -223,12 +223,6 @@ func init() {
                   "maxLength": 255,
                   "minLength": 1
                 },
-                "named_list": {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  }
-                },
                 "parent_id": {
                   "type": "integer"
                 },
@@ -292,12 +286,6 @@ func init() {
                   "type": "string",
                   "maxLength": 255,
                   "minLength": 1
-                },
-                "named_list": {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  }
                 },
                 "parent_id": {
                   "type": "integer"
@@ -667,7 +655,7 @@ func init() {
               "required": [
                 "localization_id",
                 "identifier_id",
-                "text"
+                "singular"
               ],
               "properties": {
                 "identifier_id": {
@@ -676,7 +664,10 @@ func init() {
                 "localization_id": {
                   "type": "integer"
                 },
-                "text": {
+                "plural": {
+                  "type": "string"
+                },
+                "singular": {
                   "type": "string"
                 }
               }
@@ -868,10 +859,13 @@ func init() {
             "schema": {
               "type": "object",
               "required": [
-                "text"
+                "singular"
               ],
               "properties": {
-                "text": {
+                "plural": {
+                  "type": "string"
+                },
+                "singular": {
                   "type": "string"
                 }
               }
@@ -1296,14 +1290,6 @@ func init() {
           "minLength": 1,
           "x-order": 1
         },
-        "named_list": {
-          "type": "array",
-          "default": null,
-          "items": {
-            "type": "string"
-          },
-          "x-order": 6
-        },
         "platforms": {
           "type": "array",
           "default": null,
@@ -1351,13 +1337,13 @@ func init() {
         "id",
         "localization",
         "identifier",
-        "text",
+        "singular",
         "created_at"
       ],
       "properties": {
         "created_at": {
           "type": "integer",
-          "x-order": 5
+          "x-order": 6
         },
         "id": {
           "type": "integer",
@@ -1371,13 +1357,17 @@ func init() {
           "x-order": 1,
           "$ref": "#/definitions/Localization"
         },
-        "status": {
+        "plural": {
           "type": "string",
           "x-order": 4
         },
-        "text": {
+        "singular": {
           "type": "string",
           "x-order": 3
+        },
+        "status": {
+          "type": "string",
+          "x-order": 5
         }
       }
     },
@@ -1388,9 +1378,14 @@ func init() {
         "name",
         "path",
         "platform",
-        "storage_type"
+        "storage_type",
+        "created_at"
       ],
       "properties": {
+        "created_at": {
+          "type": "integer",
+          "x-order": 6
+        },
         "id": {
           "type": "integer",
           "x-order": 0
@@ -1713,12 +1708,6 @@ func init() {
                   "maxLength": 255,
                   "minLength": 1
                 },
-                "named_list": {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  }
-                },
                 "parent_id": {
                   "type": "integer"
                 },
@@ -1785,12 +1774,6 @@ func init() {
                   "type": "string",
                   "maxLength": 255,
                   "minLength": 1
-                },
-                "named_list": {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  }
                 },
                 "parent_id": {
                   "type": "integer"
@@ -2179,7 +2162,7 @@ func init() {
               "required": [
                 "localization_id",
                 "identifier_id",
-                "text"
+                "singular"
               ],
               "properties": {
                 "identifier_id": {
@@ -2188,7 +2171,10 @@ func init() {
                 "localization_id": {
                   "type": "integer"
                 },
-                "text": {
+                "plural": {
+                  "type": "string"
+                },
+                "singular": {
                   "type": "string"
                 }
               }
@@ -2395,10 +2381,13 @@ func init() {
             "schema": {
               "type": "object",
               "required": [
-                "text"
+                "singular"
               ],
               "properties": {
-                "text": {
+                "plural": {
+                  "type": "string"
+                },
+                "singular": {
                   "type": "string"
                 }
               }
@@ -2853,14 +2842,6 @@ func init() {
           "minLength": 1,
           "x-order": 1
         },
-        "named_list": {
-          "type": "array",
-          "default": [],
-          "items": {
-            "type": "string"
-          },
-          "x-order": 6
-        },
         "platforms": {
           "type": "array",
           "default": [],
@@ -2954,13 +2935,13 @@ func init() {
         "id",
         "localization",
         "identifier",
-        "text",
+        "singular",
         "created_at"
       ],
       "properties": {
         "created_at": {
           "type": "integer",
-          "x-order": 5
+          "x-order": 6
         },
         "id": {
           "type": "integer",
@@ -2974,13 +2955,17 @@ func init() {
           "x-order": 1,
           "$ref": "#/definitions/Localization"
         },
-        "status": {
+        "plural": {
           "type": "string",
           "x-order": 4
         },
-        "text": {
+        "singular": {
           "type": "string",
           "x-order": 3
+        },
+        "status": {
+          "type": "string",
+          "x-order": 5
         }
       }
     },
@@ -2991,9 +2976,14 @@ func init() {
         "name",
         "path",
         "platform",
-        "storage_type"
+        "storage_type",
+        "created_at"
       ],
       "properties": {
+        "created_at": {
+          "type": "integer",
+          "x-order": 6
+        },
         "id": {
           "type": "integer",
           "x-order": 0

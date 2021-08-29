@@ -19,7 +19,6 @@ type Identifier struct {
 	CategoryID  sql.NullInt64  `reform:"category_id"`
 	Status      int64          `reform:"status"`
 	Platforms   string         `reform:"platforms"` // example: web,ios,android
-	NamedList   sql.NullString `reform:"named_list"`
 	CreatedAt   time.Time      `reform:"created_at"`
 	UpdatedAt   *time.Time     `reform:"updated_at"`
 

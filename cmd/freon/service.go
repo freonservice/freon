@@ -11,11 +11,11 @@ import (
 	"github.com/freonservice/freon/internal/password"
 	"github.com/freonservice/freon/internal/srv/frontend"
 	grpcServer "github.com/freonservice/freon/internal/srv/grpc"
+	"github.com/freonservice/freon/internal/utils"
 	"github.com/freonservice/freon/pkg/api"
 	"github.com/freonservice/freon/pkg/concurrent"
 	"github.com/freonservice/freon/pkg/netx"
 	"github.com/freonservice/freon/pkg/serve"
-	_ "github.com/freonservice/freon/statik"
 
 	"github.com/pkg/errors"
 	"google.golang.org/grpc"
@@ -29,10 +29,15 @@ type service struct {
 }
 
 func runServe(repo *dal.Repo, ctxShutdown Ctx, shutdown func()) error {
+	err := utils.CreateOrCheckTranslationFilesFolder(cfg.translationFilesFolder)
+	if err != nil {
+		return errors.Wrap(err, "generate doc folders")
+	}
+
 	authorization := auth.NewAuth(cfg.jwtSecretPath, repo, log)
 	appl := app.New(repo, authorization, password.New())
 
-	err := createFirstAdmin(appl)
+	err = createFirstAdmin(appl)
 	if err != nil {
 		return errors.Wrap(err, "failed create admin")
 	}
@@ -49,7 +54,7 @@ func runServe(repo *dal.Repo, ctxShutdown Ctx, shutdown func()) error {
 	err = concurrent.Serve(ctxShutdown, shutdown,
 		srv.serveFrontendOpenAPI,
 		srv.serveGRPC,
-		srv.serverStatik,
+		srv.serveStatic,
 	)
 	if err != nil {
 		return errors.Wrap(err, "failed to serve")
@@ -67,9 +72,9 @@ func (srv *service) serveGRPC(ctx Ctx) error {
 	return serve.ServerGRPC(ctx, addr, srv.grpcSrv)
 }
 
-func (srv *service) serverStatik(ctx Ctx) error {
-	addr := netx.NewAddr(cfg.serviceHost, cfg.statikPort)
-	return serve.ServerStatik(ctx, addr)
+func (srv *service) serveStatic(ctx Ctx) error {
+	addr := netx.NewAddr(cfg.serviceHost, cfg.staticPort)
+	return serve.ServerStatic(ctx, addr)
 }
 
 func createFirstAdmin(appl app.Appl) error {

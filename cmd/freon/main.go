@@ -35,14 +35,15 @@ var (
 	log    = structlog.New(structlog.KeyUnit, "main")
 	dbConf dbConfig
 	cfg    struct {
-		version       bool
-		logLevel      string
-		apiPort       int
-		grpcPort      int
-		statikPort    int
-		serviceHost   string
-		migrationPath string
-		jwtSecretPath string
+		version                bool
+		logLevel               string
+		apiPort                int
+		grpcPort               int
+		staticPort             int
+		serviceHost            string
+		migrationPath          string
+		jwtSecretPath          string
+		translationFilesFolder string
 	}
 
 	adminCred struct {
@@ -65,12 +66,13 @@ func Init() {
 	flag.IntVar(&dbConf.maxOpenConns, "db.maxOpenConns", config.DBMaxOpenConns, "db max open conns must be set")
 	flag.IntVar(&cfg.apiPort, "api.port", config.APIServicePort, "listen `api port` must be >0")
 	flag.IntVar(&cfg.grpcPort, "grpc.port", config.GrpcServicePort, "listen `grpc port` must be >0")
-	flag.IntVar(&cfg.statikPort, "statik.port", config.StatikServicePort, "listen `statik port` must be >0")
+	flag.IntVar(&cfg.staticPort, "static.port", config.StaticServicePort, "listen `static port` must be >0")
 	flag.StringVar(&cfg.serviceHost, "service.host", config.ServiceHost, "listen `service host`")
 	flag.StringVar(&cfg.migrationPath, "migration_path", config.MigrationPath, "migration path cant be empty")
 	flag.StringVar(&cfg.jwtSecretPath, "jwt_secret_path", config.JwtSecretKey, "jwt secret path cant be empty")
 	flag.StringVar(&adminCred.email, "admin.email", config.DefaultAdminEmail, "admin email cant be empty")
 	flag.StringVar(&adminCred.password, "admin.password", config.DefaultAdminPass, "admin password cant be empty")
+	flag.StringVar(&cfg.translationFilesFolder, "translation.folders", config.TranslationFilesPath, "translation files folder")
 
 	log.SetDefaultKeyvals(structlog.KeyUnit, "main")
 }
@@ -82,12 +84,6 @@ func main() {
 	signal.Notify(sigc, syscall.SIGHUP, syscall.SIGINT, syscall.SIGQUIT, syscall.SIGABRT, syscall.SIGTERM)
 	structlog.DefaultLogger.SetLogLevel(structlog.ParseLevel(cfg.logLevel))
 	log.Info(version.Get())
-
-	// nolint:gocritic
-	// err := utils.GenerateDocFolders()
-	// if err != nil {
-	//	log.Fatal(err)
-	// }
 
 	r, err := dal.New(&repo.Config{
 		Host:          dbConf.host,

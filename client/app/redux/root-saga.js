@@ -7,6 +7,7 @@ import categories from './categories/sagas';
 import translations from './translations/sagas';
 import users from './users/sagas';
 import stat from './stat/sagas';
+import translationFiles from './translationFiles/sagas';
 
 export default function* rootSaga() {
     yield all([
@@ -17,6 +18,7 @@ export default function* rootSaga() {
         categories(),
         translations(),
         users(),
-        stat()
+        stat(),
+        translationFiles()
     ]);
 }

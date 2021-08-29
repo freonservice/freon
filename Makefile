@@ -16,9 +16,5 @@ build-freon:
 genny-generate:
 	genny -in=./internal/srv/frontend/error.go -out=./internal/srv/frontend/gen.error.go gen "HealthCheck=Login,LogoutUser,RegUser,CreateLocalization,UserMe,ListLocalization,DeleteLocalization,CreateIdentifier,ListIdentifiers,DeleteIdentifier,CreateCategory,ListCategories,DeleteCategory,UpdateCategory,UpdateIdentifier,CreateTranslation,ListTranslations,DeleteTranslation,UpdateTranslation,HideTranslation,UserChangePassword,UserChangeProfile,ListUser,Statistic,CreateTranslationFiles,ListTranslationFiles,DeleteTranslationFile"
 
-statik:
-	@rm -rf ./statik
-	statik -src=./client/dist -include=*.jpg,*.png,*.ico,*.svg,*.html,*.css,*.js,*.eot,*.ttf,*.woff,*.woff2
-
 mockgen-create:
 	mockgen -package=app -source=./internal/app/app.go -destination=./internal/app/mock.go Appl,Auth,Repo,Password

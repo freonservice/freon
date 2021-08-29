@@ -83,18 +83,24 @@ func (o *UpdateTranslation) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 // swagger:model UpdateTranslationBody
 type UpdateTranslationBody struct {
 
-	// text
+	// plural
+	Plural string `json:"plural,omitempty"`
+
+	// singular
 	// Required: true
-	Text *string `json:"text"`
+	Singular *string `json:"singular"`
 }
 
 // UnmarshalJSON unmarshals this object while disallowing additional properties from JSON
 func (o *UpdateTranslationBody) UnmarshalJSON(data []byte) error {
 	var props struct {
 
-		// text
+		// plural
+		Plural string `json:"plural,omitempty"`
+
+		// singular
 		// Required: true
-		Text *string `json:"text"`
+		Singular *string `json:"singular"`
 	}
 
 	dec := json.NewDecoder(bytes.NewReader(data))
@@ -103,7 +109,8 @@ func (o *UpdateTranslationBody) UnmarshalJSON(data []byte) error {
 		return err
 	}
 
-	o.Text = props.Text
+	o.Plural = props.Plural
+	o.Singular = props.Singular
 	return nil
 }
 
@@ -111,7 +118,7 @@ func (o *UpdateTranslationBody) UnmarshalJSON(data []byte) error {
 func (o *UpdateTranslationBody) Validate(formats strfmt.Registry) error {
 	var res []error
 
-	if err := o.validateText(formats); err != nil {
+	if err := o.validateSingular(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -121,9 +128,9 @@ func (o *UpdateTranslationBody) Validate(formats strfmt.Registry) error {
 	return nil
 }
 
-func (o *UpdateTranslationBody) validateText(formats strfmt.Registry) error {
+func (o *UpdateTranslationBody) validateSingular(formats strfmt.Registry) error {
 
-	if err := validate.Required("args"+"."+"text", "body", o.Text); err != nil {
+	if err := validate.Required("args"+"."+"singular", "body", o.Singular); err != nil {
 		return err
 	}
 

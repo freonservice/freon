@@ -10,17 +10,19 @@ export const listTranslationsRequest = (localizationId = 0) => ({
     localizationId: localizationId,
 });
 
-export const createTranslationRequest = (text, localizationId, identifierId) => ({
+export const createTranslationRequest = (singular, plural, localizationId, identifierId) => ({
     type: CREATE_TRANSLATION_REQUEST,
-    text: text,
+    singular: singular,
+    plural: plural,
     localizationId: localizationId,
     identifierId: identifierId,
 });
 
-export const updateTranslationRequest = (id, text) => ({
+export const updateTranslationRequest = (id, singular, plural) => ({
     type: UPDATE_TRANSLATION_REQUEST,
     id: id,
-    text: text,
+    singular: singular,
+    plural: plural,
 });
 
 export const hideTranslationRequest = (id, hide = true) => ({

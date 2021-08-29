@@ -67,7 +67,6 @@ create table if not exists public.identifiers
     example_text text,
     status       integer      not null                      default 0,
     platforms    varchar(255),
-    named_list   text,
     created_at   timestamp without time zone                default (now() at time zone 'utc'),
     updated_at   timestamp without time zone
 );
@@ -101,7 +100,8 @@ create table if not exists public.translations
     creator_id      integer
         constraint translations_users_creator_id_fk
             references public.users,
-    text            text    not null,
+    singular        text    not null,
+    plural          text,
     status          integer not null            default 0,
     created_at      timestamp without time zone default (now() at time zone 'utc'),
     updated_at      timestamp without time zone

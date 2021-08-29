@@ -3,24 +3,27 @@ import {
     ButtonGroup,
     Button, Card, CardBody, Table
 } from './../../components';
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
+import moment from 'moment';
 
 
-export class GenerationTable extends React.Component {
+export class TranslationFilesTable extends React.Component {
     constructor(props) {
         super(props);
     }
 
     render() {
-        const {listLocalization} = this.props;
+        const {listTranslationFiles} = this.props;
         return (
             <Card className="mb-3">
                 <CardBody>
                     <Table className="mb-0" bordered responsive>
                         <thead>
                         <tr>
-                            <th>Language name</th>
-                            <th>Localization name</th>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Path</th>
+                            <th>Platform</th>
                             <th>Storage Type</th>
                             <th>Created At</th>
                             <th className="text-right">
@@ -31,35 +34,45 @@ export class GenerationTable extends React.Component {
                         <tbody>
                         <React.Fragment>
                             {
-                                listLocalization.map((product) => (
+                                listTranslationFiles.map((product) => (
                                         <tr key={product.id}>
                                             <td className="align-middle">
                                             <span className="text-inverse">
-                                                {product.local_name}
+                                                {product.id}
                                             </span>
                                             </td>
                                             <td className="align-middle">
-                                                {product.lang_name}
+                                                {product.name}
                                             </td>
                                             <td className="align-middle">
-                                                {product.lcid}
+                                                {product.path}
                                             </td>
                                             <td className="align-middle">
-                                                {product.lcid}
+                                                {product.platform}
+                                                {/*<i className={`fa fa-fw fa-${product.platform}`} aria-hidden="true"/>*/}
+                                                {/*{*/}
+                                                {/*    const v = value === 'web' ? 'chrome' : value;*/}
+                                                {/*    return <i className={`fa fa-fw fa-${v}`} aria-hidden="true"/>;*/}
+                                                {/*}*/}
                                             </td>
+                                            <td className="align-middle">
+                                                {product.storage_type}
+                                            </td>
+                                            <td className="align-middle">
+                                                {moment.unix(product.created_at).format('DD-MMM-YYYY')}                                            </td>
                                             <td className="text-right">
                                                 <ButtonGroup>
                                                     <Button
                                                         color="link"
                                                         className="text-decoration-none"
                                                     >
-                                                        <i className="fa fa-download"></i>
+                                                        <i className="fa fa-download"/>
                                                     </Button>
                                                     <Button
                                                         color="link"
                                                         className="text-decoration-none"
                                                     >
-                                                        <i className="fa fa-close"></i>
+                                                        <i className="fa fa-close"/>
                                                     </Button>
                                                 </ButtonGroup>
                                             </td>
@@ -76,6 +89,12 @@ export class GenerationTable extends React.Component {
     }
 }
 
-GenerationTable.propTypes = {
-    listLocalization: PropTypes.array.isRequired,
+TranslationFilesTable.propTypes = {
+    listTranslationFiles: PropTypes.array,
+    handleDownloadTranslationFile: PropTypes.func.isRequired,
+    handleDeleteTranslationFile: PropTypes.func.isRequired,
+};
+
+TranslationFilesTable.defaultProps = {
+    listTranslationFiles: []
 };

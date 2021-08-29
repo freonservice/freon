@@ -6,12 +6,6 @@ const (
 		FROM user_sessions as s LEFT JOIN users u on s.user_id = u.id 
 		WHERE s.token = $1 AND s.active = true LIMIT 1
 	`
-	// sqlSelectIdentifiers = `
-	//	SELECT id, name, description, example_text, category_id FROM identifiers
-	// `
-	// sqlSelectIdentifiers = `
-	//	SELECT id, name, description, example_text, category_id FROM identifiers ORDER BY id DESC
-	// `
 	sqlSelectCategories         = `SELECT id, name FROM categories ORDER BY id DESC`
 	sqlSelectLocalizationListID = `SELECT id FROM localizations ORDER BY id DESC`
 	sqlSelectIdentifierListID   = `SELECT id FROM identifiers WHERE status = $1 ORDER BY id DESC`
@@ -37,7 +31,7 @@ const (
 	l.lang_name FROM translations AS t  
 	JOIN localizations AS l ON t.localization_id=l.id GROUP BY l.lang_name`
 	sqlSelectTranslation = `
-	SELECT t.text FROM translations AS t 
+	SELECT t.singular, t.plural FROM translations AS t 
 	JOIN localizations AS l ON t.localization_id=l.id  
 	JOIN identifiers AS i ON t.identifier_id=i.id  
 	WHERE l.locale = $1 AND i.name = $2   

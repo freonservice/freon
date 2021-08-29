@@ -1,11 +1,11 @@
 package grpc
 
 import (
-	"github.com/freonservice/freon/internal/app"
+	"github.com/freonservice/freon/internal/entities"
 	"github.com/freonservice/freon/pkg/api"
 )
 
-func mappingLocalizations(ts []*app.Localization) []*api.Localization {
+func mappingLocalizations(ts []*entities.Localization) []*api.Localization {
 	txs := make([]*api.Localization, len(ts))
 
 	for i, t := range ts {
@@ -15,7 +15,7 @@ func mappingLocalizations(ts []*app.Localization) []*api.Localization {
 	return txs
 }
 
-func mappingLocalization(entity *app.Localization) *api.Localization {
+func mappingLocalization(entity *entities.Localization) *api.Localization {
 	return &api.Localization{
 		Id:       entity.ID,
 		Locale:   entity.Locale,
@@ -23,7 +23,7 @@ func mappingLocalization(entity *app.Localization) *api.Localization {
 	}
 }
 
-func mappingTranslations(ts []*app.Translation) []*api.Translation {
+func mappingTranslations(ts []*entities.Translation) []*api.Translation {
 	txs := make([]*api.Translation, len(ts))
 
 	for i, t := range ts {
@@ -33,13 +33,17 @@ func mappingTranslations(ts []*app.Translation) []*api.Translation {
 	return txs
 }
 
-func mappingTranslation(entity *app.Translation) *api.Translation {
+func mappingTranslation(entity *entities.Translation) *api.Translation {
 	trx := &api.Translation{
-		Text: entity.Text,
+		Id:       entity.ID,
+		Singular: entity.Singular,
+		Plural:   entity.Plural,
 	}
 	if entity.Identifier != nil {
-		trx.IdentifierName = entity.Identifier.Name
-		trx.IdentifierNamedList = entity.Identifier.NamedList
+		trx.Identifier = entity.Identifier.Name
+	}
+	if entity.Localization != nil {
+		trx.Localization = entity.Localization.Locale
 	}
 	return trx
 }

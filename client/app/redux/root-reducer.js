@@ -7,6 +7,7 @@ import categories from './categories/reducer';
 import translations from './translations/reducer';
 import users from './users/reducer';
 import stat from './stat/reducer';
+import translationFiles from './translationFiles/reducer';
 
 export default combineReducers({
     login,
@@ -16,5 +17,6 @@ export default combineReducers({
     categories,
     translations,
     users,
-    stat
+    stat,
+    translationFiles
 });
