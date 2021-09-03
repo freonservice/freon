@@ -1,6 +1,6 @@
 syntax = "proto3";
-package api;
-option go_package = "pb;api";
+package freon;
+option go_package = "pb;freonApi";
 
 import "const.proto";
 

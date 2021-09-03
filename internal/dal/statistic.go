@@ -4,7 +4,7 @@ import (
 	"database/sql"
 
 	"github.com/freonservice/freon/internal/dao"
-	"github.com/freonservice/freon/pkg/api"
+	api "github.com/freonservice/freon/pkg/freonApi"
 )
 
 // count localizations

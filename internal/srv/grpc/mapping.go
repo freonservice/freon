@@ -2,7 +2,7 @@ package grpc
 
 import (
 	"github.com/freonservice/freon/internal/entities"
-	"github.com/freonservice/freon/pkg/api"
+	api "github.com/freonservice/freon/pkg/freonApi"
 )
 
 func mappingLocalizations(ts []*entities.Localization) []*api.Localization {

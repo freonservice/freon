@@ -649,10 +649,10 @@ paths:
         default:
           $ref: '#/responses/Error'
 
-  /translation/hide/{id}/{hide}:
+  /translation/{id}/status/{status}:
     put:
-      operationId: hideTranslation
-      summary: hide translation
+      operationId: statusTranslation
+      summary: change current status translation (hidden, draft, release)
       security:
         - JWTBearer: [ ]
       parameters:
@@ -662,9 +662,9 @@ paths:
           minimum: 1
           required: true
         - in: path
-          name: hide
-          type: boolean
-          default: true
+          name: status
+          type: integer
+          minimum: 1
           required: true
       responses:
         '204': { $ref: '#/responses/NoContent' }

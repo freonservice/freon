@@ -12,8 +12,8 @@ import (
 	"github.com/freonservice/freon/internal/srv/frontend"
 	grpcServer "github.com/freonservice/freon/internal/srv/grpc"
 	"github.com/freonservice/freon/internal/utils"
-	"github.com/freonservice/freon/pkg/api"
 	"github.com/freonservice/freon/pkg/concurrent"
+	api "github.com/freonservice/freon/pkg/freonApi"
 	"github.com/freonservice/freon/pkg/netx"
 	"github.com/freonservice/freon/pkg/serve"
 

@@ -5,7 +5,7 @@ import (
 	"time"
 
 	"github.com/freonservice/freon/internal/app"
-	"github.com/freonservice/freon/pkg/api"
+	api "github.com/freonservice/freon/pkg/freonApi"
 	"github.com/freonservice/freon/pkg/middleware"
 
 	grpc_middleware "github.com/grpc-ecosystem/go-grpc-middleware"

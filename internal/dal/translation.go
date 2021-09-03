@@ -7,7 +7,7 @@ import (
 	"github.com/freonservice/freon/internal/app"
 	"github.com/freonservice/freon/internal/dao"
 	"github.com/freonservice/freon/internal/filter"
-	"github.com/freonservice/freon/pkg/api"
+	api "github.com/freonservice/freon/pkg/freonApi"
 
 	"github.com/AlekSi/pointer"
 	"github.com/jmoiron/sqlx"
@@ -74,10 +74,10 @@ func (r *Repo) UpdateTranslation(ctx Ctx, id int64, singular, plural string) err
 	}
 
 	if singular == "" {
-		t.Status = int64(api.TranslationStatus_TRANSLATION_EMPTY)
+		t.Status = int64(api.StatusTranslation_HIDDEN)
 	} else {
 		t.Singular = singular
-		t.Status = int64(api.TranslationStatus_TRANSLATION_ACTIVE)
+		t.Status = int64(api.StatusTranslation_DRAFT)
 	}
 
 	if plural != "" {
@@ -96,14 +96,10 @@ func (r *Repo) DeleteTranslation(ctx Ctx, id int64) error {
 	})
 }
 
-func (r *Repo) UpdateHideStatusTranslation(ctx Ctx, id int64, hide bool) error {
-	status := api.TranslationStatus_TRANSLATION_EMPTY
-	if !hide {
-		status = api.TranslationStatus_TRANSLATION_ACTIVE
-	}
+func (r *Repo) UpdateStatusTranslation(ctx Ctx, id, status int64) error {
 	return r.Tx(ctx, &sql.TxOptions{}, func(tx *sqlx.Tx) error {
 		var err error
-		_, err = tx.ExecContext(ctx, sqlUpdateHideStatusTranslation, status, id)
+		_, err = tx.ExecContext(ctx, sqlUpdateStatusTranslation, status, id)
 		return err
 	})
 }

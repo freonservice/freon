@@ -14,10 +14,10 @@ import (
 	"github.com/go-openapi/swag"
 )
 
-// HideTranslationURL generates an URL for the hide translation operation
-type HideTranslationURL struct {
-	Hide bool
-	ID   int64
+// StatusTranslationURL generates an URL for the status translation operation
+type StatusTranslationURL struct {
+	ID     int64
+	Status int64
 
 	_basePath string
 	// avoid unkeyed usage
@@ -27,7 +27,7 @@ type HideTranslationURL struct {
 // WithBasePath sets the base path for this url builder, only required when it's different from the
 // base path specified in the swagger spec.
 // When the value of the base path is an empty string
-func (o *HideTranslationURL) WithBasePath(bp string) *HideTranslationURL {
+func (o *StatusTranslationURL) WithBasePath(bp string) *StatusTranslationURL {
 	o.SetBasePath(bp)
 	return o
 }
@@ -35,28 +35,28 @@ func (o *HideTranslationURL) WithBasePath(bp string) *HideTranslationURL {
 // SetBasePath sets the base path for this url builder, only required when it's different from the
 // base path specified in the swagger spec.
 // When the value of the base path is an empty string
-func (o *HideTranslationURL) SetBasePath(bp string) {
+func (o *StatusTranslationURL) SetBasePath(bp string) {
 	o._basePath = bp
 }
 
 // Build a url path and query string
-func (o *HideTranslationURL) Build() (*url.URL, error) {
+func (o *StatusTranslationURL) Build() (*url.URL, error) {
 	var _result url.URL
 
-	var _path = "/translation/hide/{id}/{hide}"
-
-	hide := swag.FormatBool(o.Hide)
-	if hide != "" {
-		_path = strings.Replace(_path, "{hide}", hide, -1)
-	} else {
-		return nil, errors.New("hide is required on HideTranslationURL")
-	}
+	var _path = "/translation/{id}/status/{status}"
 
 	id := swag.FormatInt64(o.ID)
 	if id != "" {
 		_path = strings.Replace(_path, "{id}", id, -1)
 	} else {
-		return nil, errors.New("id is required on HideTranslationURL")
+		return nil, errors.New("id is required on StatusTranslationURL")
+	}
+
+	status := swag.FormatInt64(o.Status)
+	if status != "" {
+		_path = strings.Replace(_path, "{status}", status, -1)
+	} else {
+		return nil, errors.New("status is required on StatusTranslationURL")
 	}
 
 	_basePath := o._basePath
@@ -69,7 +69,7 @@ func (o *HideTranslationURL) Build() (*url.URL, error) {
 }
 
 // Must is a helper function to panic when the url builder returns an error
-func (o *HideTranslationURL) Must(u *url.URL, err error) *url.URL {
+func (o *StatusTranslationURL) Must(u *url.URL, err error) *url.URL {
 	if err != nil {
 		panic(err)
 	}
@@ -80,17 +80,17 @@ func (o *HideTranslationURL) Must(u *url.URL, err error) *url.URL {
 }
 
 // String returns the string representation of the path with query string
-func (o *HideTranslationURL) String() string {
+func (o *StatusTranslationURL) String() string {
 	return o.Must(o.Build()).String()
 }
 
 // BuildFull builds a full url with scheme, host, path and query string
-func (o *HideTranslationURL) BuildFull(scheme, host string) (*url.URL, error) {
+func (o *StatusTranslationURL) BuildFull(scheme, host string) (*url.URL, error) {
 	if scheme == "" {
-		return nil, errors.New("scheme is required for a full url on HideTranslationURL")
+		return nil, errors.New("scheme is required for a full url on StatusTranslationURL")
 	}
 	if host == "" {
-		return nil, errors.New("host is required for a full url on HideTranslationURL")
+		return nil, errors.New("host is required for a full url on StatusTranslationURL")
 	}
 
 	base, err := o.Build()
@@ -104,6 +104,6 @@ func (o *HideTranslationURL) BuildFull(scheme, host string) (*url.URL, error) {
 }
 
 // StringFull returns the string representation of a complete url
-func (o *HideTranslationURL) StringFull(scheme, host string) string {
+func (o *StatusTranslationURL) StringFull(scheme, host string) string {
 	return o.Must(o.BuildFull(scheme, host)).String()
 }

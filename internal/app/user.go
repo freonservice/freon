@@ -2,7 +2,7 @@ package app
 
 import (
 	"github.com/freonservice/freon/internal/entities"
-	"github.com/freonservice/freon/pkg/api"
+	api "github.com/freonservice/freon/pkg/freonApi"
 
 	"github.com/google/uuid"
 	"github.com/pkg/errors"

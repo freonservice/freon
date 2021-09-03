@@ -82,16 +82,16 @@ func (srv *server) updateTranslation(params op.UpdateTranslationParams, session 
 	return op.NewUpdateTranslationNoContent()
 }
 
-func (srv *server) hideTranslation(params op.HideTranslationParams, session *app.UserSession) op.HideTranslationResponder {
+func (srv *server) statusTranslation(params op.StatusTranslationParams, session *app.UserSession) op.StatusTranslationResponder {
 	ctx, log := fromRequest(params.HTTPRequest, session)
 
-	err := srv.app.HideTranslation(ctx, params.ID, params.Hide)
+	err := srv.app.UpdateStatusTranslation(ctx, params.ID, params.Status)
 	switch errors.Cause(err) {
 	default:
 		log.PrintErr(errors.WithStack(err))
-		return errHideTranslation(log, err, codeInternal)
+		return errStatusTranslation(log, err, codeInternal)
 	case nil:
 	}
 
-	return op.NewHideTranslationNoContent()
+	return op.NewStatusTranslationNoContent()
 }

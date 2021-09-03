@@ -1,6 +1,6 @@
 syntax = "proto3";
-package api;
-option go_package = "pb;api";
+package freon;
+option go_package = "pb;freonApi";
 
 enum UserStatus {
   USER_ACTIVE = 0;
@@ -20,13 +20,14 @@ enum Status {
   NOT_ACTIVE = 1;
 }
 
-enum StorageType {
-  STORAGE_TYPE_LOCAL = 0;
+enum StatusTranslation {
+  HIDDEN = 0;
+  DRAFT = 1;
+  RELEASE = 2;
 }
 
-enum TranslationStatus {
-  TRANSLATION_ACTIVE = 0;
-  TRANSLATION_EMPTY = 1;
+enum StorageType {
+  STORAGE_TYPE_LOCAL = 0;
 }
 
 enum PlatformType {

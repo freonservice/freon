@@ -4,7 +4,7 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/freonservice/freon/pkg/api"
+	api "github.com/freonservice/freon/pkg/freonApi"
 )
 
 func uniqueStringSlice(intSlice []string) []string {

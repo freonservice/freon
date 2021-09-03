@@ -12,9 +12,9 @@ const (
 	sqlSelectUsers              = `SELECT id, uuid_id, email, first_name, second_name, status, role, created_at,
 	updated_at FROM users ORDER BY id DESC`
 
-	sqlUpdateUserSession           = `UPDATE user_sessions SET active = false WHERE token = $1`
-	sqlUpdateNameCategory          = `UPDATE categories SET name = $1, updated_at = NOW() WHERE id = $2`
-	sqlUpdateHideStatusTranslation = `UPDATE translations SET status = $1, updated_at = NOW() WHERE id = $2`
+	sqlUpdateUserSession       = `UPDATE user_sessions SET active = false WHERE token = $1`
+	sqlUpdateNameCategory      = `UPDATE categories SET name = $1, updated_at = NOW() WHERE id = $2`
+	sqlUpdateStatusTranslation = `UPDATE translations SET status = $1, updated_at = NOW() WHERE id = $2`
 
 	sqlDeleteIdentifier      = `DELETE FROM identifiers WHERE id = $1`
 	sqlDeleteLocalization    = `DELETE FROM localizations WHERE id = $1`

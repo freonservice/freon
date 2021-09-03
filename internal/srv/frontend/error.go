@@ -19,7 +19,7 @@ func errHealthCheck(log Log, err error, code errCode) op.HealthCheckResponder { 
 
 	msg := err.Error()
 	if code.status == http.StatusInternalServerError {
-		msg = "internal error" //nolint:goconst
+		msg = internalError
 	}
 
 	return op.NewHealthCheckDefault(code.status).WithPayload(&model.Error{

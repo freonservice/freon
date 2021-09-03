@@ -1,6 +1,6 @@
 package frontend
 
-import "github.com/freonservice/freon/pkg/api"
+import api "github.com/freonservice/freon/pkg/freonApi"
 
 const (
 	userStatusNotActive = "not active"
@@ -8,6 +8,8 @@ const (
 
 	userRoleModerator = "moderator"
 	userRoleAdmin     = "admin"
+
+	internalError = "internal error"
 )
 
 func getUserStatusByInteger(status api.UserStatus) string {
@@ -90,16 +92,18 @@ func getStorageTypeByInteger(storageType int64) string {
 func getStatusByInteger(status api.Status) string {
 	switch status { //nolint:exhaustive
 	case api.Status_ACTIVE:
-		return "Active" //nolint:goconst
+		return "Active"
 	default:
 		return "Not active"
 	}
 }
 
-func getTranslationStatus(status api.TranslationStatus) string {
+func getTranslationStatus(status api.StatusTranslation) string {
 	switch status { //nolint:exhaustive
-	case api.TranslationStatus_TRANSLATION_ACTIVE:
-		return "Active"
+	case api.StatusTranslation_DRAFT:
+		return "Draft"
+	case api.StatusTranslation_RELEASE:
+		return "Release"
 	default:
 		return "Hidden"
 	}
