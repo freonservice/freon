@@ -5,8 +5,8 @@ import {
     CREATE_TRANSLATION_ERROR,
     CREATE_TRANSLATION_SUCCESS,
     UPDATE_TRANSLATION_ERROR,
-    HIDE_TRANSLATION_SUCCESS,
-    HIDE_TRANSLATION_ERROR,
+    UPDATE_STATUS_TRANSLATION_SUCCESS,
+    UPDATE_STATUS_TRANSLATION_ERROR,
 } from './constants';
 
 const initialState = {
@@ -58,14 +58,14 @@ export default function reducer(state = initialState, action) {
                 isLoading: false,
                 successful: false,
             };
-        case HIDE_TRANSLATION_SUCCESS:
+        case UPDATE_STATUS_TRANSLATION_SUCCESS:
             return {
                 ...state,
                 error: '',
                 isLoading: false,
                 successful: true,
             };
-        case HIDE_TRANSLATION_ERROR:
+        case UPDATE_STATUS_TRANSLATION_ERROR:
             return {
                 ...state,
                 error: action.error.toString(),

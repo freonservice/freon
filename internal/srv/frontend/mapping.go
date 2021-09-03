@@ -4,7 +4,7 @@ import (
 	"github.com/freonservice/freon/api/openapi/frontend/model"
 	"github.com/freonservice/freon/api/openapi/frontend/restapi/op"
 	"github.com/freonservice/freon/internal/entities"
-	"github.com/freonservice/freon/pkg/api"
+	api "github.com/freonservice/freon/pkg/freonApi"
 
 	"github.com/AlekSi/pointer"
 )
@@ -93,7 +93,7 @@ func apiTranslation(v *entities.Translation) *model.Translation {
 		Plural:       v.Plural,
 		Localization: apiLocalization(v.Localization),
 		Identifier:   apiIdentifier(v.Identifier),
-		Status:       getTranslationStatus(api.TranslationStatus(v.Status)),
+		Status:       getTranslationStatus(api.StatusTranslation(v.Status)),
 		CreatedAt:    pointer.ToInt64(v.CreatedAt.Unix()),
 	}
 	return i

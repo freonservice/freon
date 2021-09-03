@@ -18,7 +18,7 @@ func (a *appl) GetIdentifiers(ctx Ctx, f filter.IdentifierFilter) ([]*entities.I
 	if err != nil {
 		return nil, err
 	}
-	return mappingArrayIdentifier(l), err
+	return mappingArrayIdentifier(l), nil
 }
 
 func (a *appl) DeleteIdentifier(ctx Ctx, id int64) error {

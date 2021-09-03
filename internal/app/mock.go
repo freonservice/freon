@@ -389,20 +389,6 @@ func (mr *MockApplMockRecorder) HealthCheck(arg0 interface{}) *gomock.Call {
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "HealthCheck", reflect.TypeOf((*MockAppl)(nil).HealthCheck), arg0)
 }
 
-// HideTranslation mocks base method.
-func (m *MockAppl) HideTranslation(ctx Ctx, id int64, hide bool) error {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "HideTranslation", ctx, id, hide)
-	ret0, _ := ret[0].(error)
-	return ret0
-}
-
-// HideTranslation indicates an expected call of HideTranslation.
-func (mr *MockApplMockRecorder) HideTranslation(ctx, id, hide interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "HideTranslation", reflect.TypeOf((*MockAppl)(nil).HideTranslation), ctx, id, hide)
-}
-
 // LogoutUser mocks base method.
 func (m *MockAppl) LogoutUser(ctx Ctx, token string) error {
 	m.ctrl.T.Helper()
@@ -500,6 +486,20 @@ func (m *MockAppl) UpdateStatus(ctx Ctx, userID, status int64) error {
 func (mr *MockApplMockRecorder) UpdateStatus(ctx, userID, status interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateStatus", reflect.TypeOf((*MockAppl)(nil).UpdateStatus), ctx, userID, status)
+}
+
+// UpdateStatusTranslation mocks base method.
+func (m *MockAppl) UpdateStatusTranslation(ctx Ctx, id, status int64) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "UpdateStatusTranslation", ctx, id, status)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpdateStatusTranslation indicates an expected call of UpdateStatusTranslation.
+func (mr *MockApplMockRecorder) UpdateStatusTranslation(ctx, id, status interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateStatusTranslation", reflect.TypeOf((*MockAppl)(nil).UpdateStatusTranslation), ctx, id, status)
 }
 
 // UpdateTranslation mocks base method.
@@ -1029,20 +1029,6 @@ func (mr *MockRepoMockRecorder) UpdateCategory(ctx, id, name interface{}) *gomoc
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateCategory", reflect.TypeOf((*MockRepo)(nil).UpdateCategory), ctx, id, name)
 }
 
-// UpdateHideStatusTranslation mocks base method.
-func (m *MockRepo) UpdateHideStatusTranslation(ctx Ctx, id int64, hide bool) error {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "UpdateHideStatusTranslation", ctx, id, hide)
-	ret0, _ := ret[0].(error)
-	return ret0
-}
-
-// UpdateHideStatusTranslation indicates an expected call of UpdateHideStatusTranslation.
-func (mr *MockRepoMockRecorder) UpdateHideStatusTranslation(ctx, id, hide interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateHideStatusTranslation", reflect.TypeOf((*MockRepo)(nil).UpdateHideStatusTranslation), ctx, id, hide)
-}
-
 // UpdateIdentifier mocks base method.
 func (m *MockRepo) UpdateIdentifier(ctx Ctx, id, categoryID, parentID int64, name, description, exampleText, platforms string) error {
 	m.ctrl.T.Helper()
@@ -1097,6 +1083,20 @@ func (m *MockRepo) UpdateStatus(ctx Ctx, userID, status int64) error {
 func (mr *MockRepoMockRecorder) UpdateStatus(ctx, userID, status interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateStatus", reflect.TypeOf((*MockRepo)(nil).UpdateStatus), ctx, userID, status)
+}
+
+// UpdateStatusTranslation mocks base method.
+func (m *MockRepo) UpdateStatusTranslation(ctx Ctx, id, status int64) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "UpdateStatusTranslation", ctx, id, status)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpdateStatusTranslation indicates an expected call of UpdateStatusTranslation.
+func (mr *MockRepoMockRecorder) UpdateStatusTranslation(ctx, id, status interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateStatusTranslation", reflect.TypeOf((*MockRepo)(nil).UpdateStatusTranslation), ctx, id, status)
 }
 
 // UpdateTranslation mocks base method.

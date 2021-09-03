@@ -4,7 +4,7 @@ import (
 	"context"
 	"database/sql"
 
-	"github.com/freonservice/freon/pkg/api"
+	api "github.com/freonservice/freon/pkg/freonApi"
 
 	"github.com/jmoiron/sqlx"
 	"gopkg.in/reform.v1"

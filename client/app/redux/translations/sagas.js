@@ -10,8 +10,8 @@ import {
     CREATE_TRANSLATION_REQUEST,
     UPDATE_TRANSLATION_ERROR,
     UPDATE_TRANSLATION_REQUEST,
-    HIDE_TRANSLATION_ERROR,
-    HIDE_TRANSLATION_REQUEST,
+    UPDATE_STATUS_TRANSLATION_ERROR,
+    UPDATE_STATUS_TRANSLATION_REQUEST,
 } from './constants';
 
 const getTranslationsUrl = `${apiServerURL}/api/internal/translations`;
@@ -68,8 +68,9 @@ function* createTranslationWorker(action) {
     }
 }
 
-function hideTranslationApi(id, hide) {
-    return fetch(hideTranslationUrl + id + '/' + hide, {
+function statusTranslationApi(id, status) {
+    let apiUrl = `${apiServerURL}/api/internal/translation/` + id + '/status/' + status;
+    return fetch(apiUrl, {
         method: 'PUT',
         headers: getHeaders(),
     })
@@ -79,13 +80,13 @@ function hideTranslationApi(id, hide) {
         });
 }
 
-function* hideTranslationWorker(action) {
+function* statusTranslationWorker(action) {
     try {
-        const {id, hide} = action;
-        yield call(hideTranslationApi, id, hide);
+        const {id, status} = action;
+        yield call(statusTranslationApi, id, status);
         yield put({type: LIST_TRANSLATIONS_REQUEST});
     } catch (error) {
-        yield put({type: HIDE_TRANSLATION_ERROR, error});
+        yield put({type: UPDATE_STATUS_TRANSLATION_ERROR, error});
     }
 }
 
@@ -115,7 +116,7 @@ export default function* rootSaga() {
     yield all([
         takeLatest(LIST_TRANSLATIONS_REQUEST, getTranslationsWorker),
         takeLatest(CREATE_TRANSLATION_REQUEST, createTranslationWorker),
-        takeLatest(HIDE_TRANSLATION_REQUEST, hideTranslationWorker),
+        takeLatest(UPDATE_STATUS_TRANSLATION_REQUEST, statusTranslationWorker),
         takeLatest(UPDATE_TRANSLATION_REQUEST, updateTranslationWorker)
     ]);
 }

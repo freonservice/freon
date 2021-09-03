@@ -74,7 +74,7 @@ func NewServer(auth app.Auth, appl app.Appl, cfg Config) (*restapi.Server, error
 	api.UpdateTranslationHandler = op.UpdateTranslationHandlerFunc(srv.updateTranslation)
 	api.DeleteTranslationHandler = op.DeleteTranslationHandlerFunc(srv.deleteTranslation)
 	api.ListTranslationsHandler = op.ListTranslationsHandlerFunc(srv.listTranslations)
-	api.HideTranslationHandler = op.HideTranslationHandlerFunc(srv.hideTranslation)
+	api.StatusTranslationHandler = op.StatusTranslationHandlerFunc(srv.statusTranslation)
 	api.ListUserHandler = op.ListUserHandlerFunc(srv.listUser)
 	api.StatisticHandler = op.StatisticHandlerFunc(srv.statistic)
 	api.CreateTranslationFilesHandler = op.CreateTranslationFilesHandlerFunc(srv.createTranslationFile)

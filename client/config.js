@@ -6,7 +6,7 @@ const config = {
     // Targets ========================================================
     serveDir: path.join(root, '.serve'),
     distDir: path.join(root, 'dist'),
-    prodDir: path.join(root, 'prod'),
+    prodDir: path.join(root, '../frontend'),
     clientManifestFile: 'manifest.webpack.json',
     clientStatsFile: 'stats.webpack.json',
 

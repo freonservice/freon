@@ -14,6 +14,10 @@ import {Typeahead} from 'react-bootstrap-typeahead';
 export class TranslationTable extends React.Component {
     constructor(props) {
         super(props);
+
+        this.state = {
+            chosenStatusID: 0
+        };
     }
 
     openEditView = (id) => {
@@ -23,6 +27,12 @@ export class TranslationTable extends React.Component {
             state: translation,
         });
     };
+
+    handleStatusTranslation = (e, id, status = 0) => {
+        e.stopPropagation();
+        this.props.updateStatusTranslationRequest(id, status);
+    };
+
 
     createColumnDefinitions() {
         return [
@@ -65,15 +75,31 @@ export class TranslationTable extends React.Component {
                 text: 'Action',
                 sort: false,
                 formatter: (cell, row) => {
+                    const statusButtons = ['Hidden', 'Draft', 'Release'];
                     return (
-                        <ButtonGroup>
-                            <Button onClick={this.openEditView.bind(this, row.id)} color="primary">
-                                Edit
-                            </Button>
-                            <Button onClick={(e) => this.props.handleHideTranslation(e, row.id)} color="warning">
-                                {row.status === 'Active' ? 'Hide' : 'Activate'}
-                            </Button>
-                        </ButtonGroup>
+                        <>
+                            <ButtonGroup>
+                                <Button onClick={this.openEditView.bind(this, row.id)}>
+                                    Edit
+                                </Button>
+                            </ButtonGroup>
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            <ButtonGroup>
+                                {statusButtons.map((statusButton, i) => (
+                                    <Button
+                                        key={i}
+                                        name={statusButton}
+                                        onClick={
+                                            (event) => this.handleStatusTranslation(event, row.id, i)
+                                        }
+                                        className={statusButton === row.status ? 'active' : ''}
+                                        color="primary"
+                                    >
+                                        {statusButton}
+                                    </Button>
+                                ))}
+                            </ButtonGroup>
+                        </>
                     );
                 },
             }
@@ -163,7 +189,7 @@ TranslationTable.propTypes = {
         push: PropTypes.func.isRequired,
     }).isRequired,
     handleChosenLocalization: PropTypes.func.isRequired,
-    handleHideTranslation: PropTypes.func.isRequired,
+    updateStatusTranslationRequest: PropTypes.func.isRequired,
     chooseLocalization: PropTypes.object,
 };
 

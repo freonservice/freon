@@ -13,6 +13,7 @@ import (
 	"github.com/freonservice/freon/internal/app"
 )
 
+
 func configureFlags(api *op.FreonFrontendAPI) {
 	// api.CommandLineOptionsGroups = []swag.CommandLineOptionsGroup{ ... }
 }
@@ -102,11 +103,6 @@ func configureAPI(api *op.FreonFrontendAPI) http.Handler {
 			return op.HealthCheckNotImplemented()
 		})
 	}
-	if api.HideTranslationHandler == nil {
-		api.HideTranslationHandler = op.HideTranslationHandlerFunc(func(params op.HideTranslationParams, principal *app.UserSession) op.HideTranslationResponder {
-			return op.HideTranslationNotImplemented()
-		})
-	}
 	if api.ListCategoriesHandler == nil {
 		api.ListCategoriesHandler = op.ListCategoriesHandlerFunc(func(params op.ListCategoriesParams, principal *app.UserSession) op.ListCategoriesResponder {
 			return op.ListCategoriesNotImplemented()
@@ -155,6 +151,11 @@ func configureAPI(api *op.FreonFrontendAPI) http.Handler {
 	if api.StatisticHandler == nil {
 		api.StatisticHandler = op.StatisticHandlerFunc(func(params op.StatisticParams, principal *app.UserSession) op.StatisticResponder {
 			return op.StatisticNotImplemented()
+		})
+	}
+	if api.StatusTranslationHandler == nil {
+		api.StatusTranslationHandler = op.StatusTranslationHandlerFunc(func(params op.StatusTranslationParams, principal *app.UserSession) op.StatusTranslationResponder {
+			return op.StatusTranslationNotImplemented()
 		})
 	}
 	if api.UpdateCategoryHandler == nil {

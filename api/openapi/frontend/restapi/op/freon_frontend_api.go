@@ -77,9 +77,6 @@ func NewFreonFrontendAPI(spec *loads.Document) *FreonFrontendAPI {
 		HealthCheckHandler: HealthCheckHandlerFunc(func(params HealthCheckParams) HealthCheckResponder {
 			return HealthCheckNotImplemented()
 		}),
-		HideTranslationHandler: HideTranslationHandlerFunc(func(params HideTranslationParams, principal *app.UserSession) HideTranslationResponder {
-			return HideTranslationNotImplemented()
-		}),
 		ListCategoriesHandler: ListCategoriesHandlerFunc(func(params ListCategoriesParams, principal *app.UserSession) ListCategoriesResponder {
 			return ListCategoriesNotImplemented()
 		}),
@@ -109,6 +106,9 @@ func NewFreonFrontendAPI(spec *loads.Document) *FreonFrontendAPI {
 		}),
 		StatisticHandler: StatisticHandlerFunc(func(params StatisticParams, principal *app.UserSession) StatisticResponder {
 			return StatisticNotImplemented()
+		}),
+		StatusTranslationHandler: StatusTranslationHandlerFunc(func(params StatusTranslationParams, principal *app.UserSession) StatusTranslationResponder {
+			return StatusTranslationNotImplemented()
 		}),
 		UpdateCategoryHandler: UpdateCategoryHandlerFunc(func(params UpdateCategoryParams, principal *app.UserSession) UpdateCategoryResponder {
 			return UpdateCategoryNotImplemented()
@@ -201,8 +201,6 @@ type FreonFrontendAPI struct {
 	DeleteTranslationFileHandler DeleteTranslationFileHandler
 	// HealthCheckHandler sets the operation handler for the health check operation
 	HealthCheckHandler HealthCheckHandler
-	// HideTranslationHandler sets the operation handler for the hide translation operation
-	HideTranslationHandler HideTranslationHandler
 	// ListCategoriesHandler sets the operation handler for the list categories operation
 	ListCategoriesHandler ListCategoriesHandler
 	// ListIdentifiersHandler sets the operation handler for the list identifiers operation
@@ -223,6 +221,8 @@ type FreonFrontendAPI struct {
 	RegUserHandler RegUserHandler
 	// StatisticHandler sets the operation handler for the statistic operation
 	StatisticHandler StatisticHandler
+	// StatusTranslationHandler sets the operation handler for the status translation operation
+	StatusTranslationHandler StatusTranslationHandler
 	// UpdateCategoryHandler sets the operation handler for the update category operation
 	UpdateCategoryHandler UpdateCategoryHandler
 	// UpdateIdentifierHandler sets the operation handler for the update identifier operation
@@ -350,9 +350,6 @@ func (o *FreonFrontendAPI) Validate() error {
 	if o.HealthCheckHandler == nil {
 		unregistered = append(unregistered, "HealthCheckHandler")
 	}
-	if o.HideTranslationHandler == nil {
-		unregistered = append(unregistered, "HideTranslationHandler")
-	}
 	if o.ListCategoriesHandler == nil {
 		unregistered = append(unregistered, "ListCategoriesHandler")
 	}
@@ -382,6 +379,9 @@ func (o *FreonFrontendAPI) Validate() error {
 	}
 	if o.StatisticHandler == nil {
 		unregistered = append(unregistered, "StatisticHandler")
+	}
+	if o.StatusTranslationHandler == nil {
+		unregistered = append(unregistered, "StatusTranslationHandler")
 	}
 	if o.UpdateCategoryHandler == nil {
 		unregistered = append(unregistered, "UpdateCategoryHandler")
@@ -547,10 +547,6 @@ func (o *FreonFrontendAPI) initHandlerCache() {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
 	o.handlers["GET"]["/health-check"] = NewHealthCheck(o.context, o.HealthCheckHandler)
-	if o.handlers["PUT"] == nil {
-		o.handlers["PUT"] = make(map[string]http.Handler)
-	}
-	o.handlers["PUT"]["/translation/hide/{id}/{hide}"] = NewHideTranslation(o.context, o.HideTranslationHandler)
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
@@ -591,6 +587,10 @@ func (o *FreonFrontendAPI) initHandlerCache() {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
 	o.handlers["GET"]["/statistic"] = NewStatistic(o.context, o.StatisticHandler)
+	if o.handlers["PUT"] == nil {
+		o.handlers["PUT"] = make(map[string]http.Handler)
+	}
+	o.handlers["PUT"]["/translation/{id}/status/{status}"] = NewStatusTranslation(o.context, o.StatusTranslationHandler)
 	if o.handlers["PUT"] == nil {
 		o.handlers["PUT"] = make(map[string]http.Handler)
 	}

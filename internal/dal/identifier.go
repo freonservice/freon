@@ -8,7 +8,7 @@ import (
 	"github.com/freonservice/freon/internal/app"
 	"github.com/freonservice/freon/internal/dao"
 	"github.com/freonservice/freon/internal/filter"
-	"github.com/freonservice/freon/pkg/api"
+	api "github.com/freonservice/freon/pkg/freonApi"
 
 	"github.com/AlekSi/pointer"
 	"github.com/jmoiron/sqlx"
@@ -78,7 +78,7 @@ func (r *Repo) CreateIdentifier(
 				LocalizationID: id,
 				IdentifierID:   identifier.ID,
 				CreatorID:      creatorID,
-				Status:         int64(api.TranslationStatus_TRANSLATION_EMPTY),
+				Status:         int64(api.StatusTranslation_HIDDEN),
 				CreatedAt:      time.Now().UTC(),
 			}
 			err = tx.Save(translation)

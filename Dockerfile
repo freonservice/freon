@@ -49,6 +49,9 @@ COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
 # Import the compiled executable from the second stage.
 COPY --from=builder /src/freon /freon
 
+# Import the builded frontend.
+COPY --from=builder /src/web /web
+
 # Import the migrations
 COPY --from=builder /src/migrations /migrations
 

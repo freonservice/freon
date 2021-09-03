@@ -12,8 +12,8 @@ import (
 	"github.com/freonservice/freon/internal/srv/frontend"
 	grpcServer "github.com/freonservice/freon/internal/srv/grpc"
 	"github.com/freonservice/freon/internal/utils"
-	"github.com/freonservice/freon/pkg/api"
 	"github.com/freonservice/freon/pkg/concurrent"
+	"github.com/freonservice/freon/pkg/freonApi"
 	"github.com/freonservice/freon/pkg/netx"
 	"github.com/freonservice/freon/pkg/serve"
 
@@ -89,7 +89,7 @@ func createFirstAdmin(appl app.Appl) error {
 		adminCred.password,
 		"Freon",
 		"Administrator",
-		int64(api.UserRole_USER_ROLE_ADMIN),
+		int64(freonApi.UserRole_USER_ROLE_ADMIN),
 	)
 	if err != nil && err != app.ErrEmailIsUsed {
 		return err

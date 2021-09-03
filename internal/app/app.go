@@ -49,7 +49,7 @@ type (
 		GetTranslations(ctx Ctx, f filter.TranslationFilter) ([]*entities.Translation, error)
 		DeleteTranslation(ctx Ctx, id int64) error
 		UpdateTranslation(ctx Ctx, id int64, singular, plural string) error
-		HideTranslation(ctx Ctx, id int64, hide bool) error
+		UpdateStatusTranslation(ctx Ctx, id, status int64) error
 		GetTranslation(ctx Ctx, locale, identifierName string) (*entities.Translation, error)
 		GetGroupedTranslations(ctx Ctx, f filter.GroupedTranslationFilter) ([]*entities.GroupedTranslations, error)
 
@@ -96,7 +96,7 @@ type (
 		DeleteIdentifier(ctx Ctx, id int64) error
 		UpdateIdentifier(
 			ctx Ctx, id, categoryID, parentID int64, name, description, exampleText, platforms string) error
-		UpdateHideStatusTranslation(ctx Ctx, id int64, hide bool) error
+		UpdateStatusTranslation(ctx Ctx, id, status int64) error
 
 		CreateCategory(ctx Ctx, name string) error
 		GetCategories(ctx Ctx) ([]*dao.Category, error)

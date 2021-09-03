@@ -22,8 +22,8 @@ func (a *appl) UpdateTranslation(ctx Ctx, id int64, singular, plural string) err
 	return a.repo.UpdateTranslation(ctx, id, singular, plural)
 }
 
-func (a *appl) HideTranslation(ctx Ctx, id int64, hide bool) error {
-	return a.repo.UpdateHideStatusTranslation(ctx, id, hide)
+func (a *appl) UpdateStatusTranslation(ctx Ctx, id, status int64) error {
+	return a.repo.UpdateStatusTranslation(ctx, id, status)
 }
 
 func (a *appl) GetTranslation(ctx Ctx, locale, identifierName string) (*entities.Translation, error) {

@@ -19,6 +19,8 @@ import (
 
 type Ctx = context.Context
 
+const FSPATH = "./web/"
+
 type OpenAPIServer interface {
 	HTTPListener() (net.Listener, error)
 	TLSListener() (net.Listener, error)

@@ -2,7 +2,7 @@ import {
     CREATE_TRANSLATION_REQUEST,
     LIST_TRANSLATIONS_REQUEST,
     UPDATE_TRANSLATION_REQUEST,
-    HIDE_TRANSLATION_REQUEST
+    UPDATE_STATUS_TRANSLATION_REQUEST
 } from './constants';
 
 export const listTranslationsRequest = (localizationId = 0) => ({
@@ -25,8 +25,8 @@ export const updateTranslationRequest = (id, singular, plural) => ({
     plural: plural,
 });
 
-export const hideTranslationRequest = (id, hide = true) => ({
-    type: HIDE_TRANSLATION_REQUEST,
+export const updateStatusTranslationRequest = (id, status = 0) => ({
+    type: UPDATE_STATUS_TRANSLATION_REQUEST,
     id: id,
-    hide: hide
+    status: status
 });

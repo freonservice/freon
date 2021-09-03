@@ -800,41 +800,6 @@ func init() {
         }
       }
     },
-    "/translation/hide/{id}/{hide}": {
-      "put": {
-        "security": [
-          {
-            "JWTBearer": []
-          }
-        ],
-        "summary": "hide translation",
-        "operationId": "hideTranslation",
-        "parameters": [
-          {
-            "minimum": 1,
-            "type": "integer",
-            "name": "id",
-            "in": "path",
-            "required": true
-          },
-          {
-            "type": "boolean",
-            "default": true,
-            "name": "hide",
-            "in": "path",
-            "required": true
-          }
-        ],
-        "responses": {
-          "204": {
-            "$ref": "#/responses/NoContent"
-          },
-          "default": {
-            "$ref": "#/responses/Error"
-          }
-        }
-      }
-    },
     "/translation/{id}": {
       "put": {
         "security": [
@@ -894,6 +859,40 @@ func init() {
             "minimum": 1,
             "type": "integer",
             "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "$ref": "#/responses/NoContent"
+          },
+          "default": {
+            "$ref": "#/responses/Error"
+          }
+        }
+      }
+    },
+    "/translation/{id}/status/{status}": {
+      "put": {
+        "security": [
+          {
+            "JWTBearer": []
+          }
+        ],
+        "summary": "change current status translation (hidden, draft, release)",
+        "operationId": "statusTranslation",
+        "parameters": [
+          {
+            "minimum": 1,
+            "type": "integer",
+            "name": "id",
+            "in": "path",
+            "required": true
+          },
+          {
+            "type": "integer",
+            "name": "status",
             "in": "path",
             "required": true
           }
@@ -2319,44 +2318,6 @@ func init() {
         }
       }
     },
-    "/translation/hide/{id}/{hide}": {
-      "put": {
-        "security": [
-          {
-            "JWTBearer": []
-          }
-        ],
-        "summary": "hide translation",
-        "operationId": "hideTranslation",
-        "parameters": [
-          {
-            "minimum": 1,
-            "type": "integer",
-            "name": "id",
-            "in": "path",
-            "required": true
-          },
-          {
-            "type": "boolean",
-            "default": true,
-            "name": "hide",
-            "in": "path",
-            "required": true
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "No content in answer"
-          },
-          "default": {
-            "description": "General errors using same model as used by go-swagger for validation errors.",
-            "schema": {
-              "$ref": "#/definitions/Error"
-            }
-          }
-        }
-      }
-    },
     "/translation/{id}": {
       "put": {
         "security": [
@@ -2419,6 +2380,44 @@ func init() {
             "minimum": 1,
             "type": "integer",
             "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No content in answer"
+          },
+          "default": {
+            "description": "General errors using same model as used by go-swagger for validation errors.",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/translation/{id}/status/{status}": {
+      "put": {
+        "security": [
+          {
+            "JWTBearer": []
+          }
+        ],
+        "summary": "change current status translation (hidden, draft, release)",
+        "operationId": "statusTranslation",
+        "parameters": [
+          {
+            "minimum": 1,
+            "type": "integer",
+            "name": "id",
+            "in": "path",
+            "required": true
+          },
+          {
+            "minimum": 0,
+            "type": "integer",
+            "name": "status",
             "in": "path",
             "required": true
           }
