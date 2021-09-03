@@ -39,7 +39,7 @@ type StatusTranslationParams struct {
 	ID int64
 	/*
 	  Required: true
-	  Minimum: 1
+	  Minimum: 0
 	  In: path
 	*/
 	Status int64
@@ -129,7 +129,7 @@ func (o *StatusTranslationParams) bindStatus(rawData []string, hasKey bool, form
 // validateStatus carries on validations for parameter Status
 func (o *StatusTranslationParams) validateStatus(formats strfmt.Registry) error {
 
-	if err := validate.MinimumInt("status", "path", int64(o.Status), 1, false); err != nil {
+	if err := validate.MinimumInt("status", "path", int64(o.Status), 0, false); err != nil {
 		return err
 	}
 

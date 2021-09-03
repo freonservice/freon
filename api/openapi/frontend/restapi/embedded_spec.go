@@ -891,7 +891,6 @@ func init() {
             "required": true
           },
           {
-            "minimum": 1,
             "type": "integer",
             "name": "status",
             "in": "path",
@@ -2416,7 +2415,7 @@ func init() {
             "required": true
           },
           {
-            "minimum": 1,
+            "minimum": 0,
             "type": "integer",
             "name": "status",
             "in": "path",

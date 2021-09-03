@@ -15,7 +15,7 @@ import {
     listTranslationsRequest,
     createTranslationRequest,
     updateTranslationRequest,
-    hideTranslationRequest,
+    updateStatusTranslationRequest,
 } from '../../redux/translations/actions';
 import {
     listLocalizationsRequest,
@@ -51,13 +51,6 @@ class Translations extends React.Component {
         this.props.listTranslationsRequest(localization.id || 0);
     };
 
-    handleHideTranslation = (e, id) => {
-        e.stopPropagation();
-        const translation = this.props.listTranslations.find(o => o.id === id);
-        const hide = translation.status === "Active"
-        this.props.hideTranslationRequest(translation.id, hide);
-    };
-
     render() {
         const {history, listTranslations, listLocalizations} = this.props;
         return (
@@ -74,7 +67,7 @@ class Translations extends React.Component {
                             history={history}
                             chooseLocalization={this.state.chooseLocalization}
                             handleChosenLocalization={this.handleChooseLocalization}
-                            handleHideTranslation={this.handleHideTranslation}
+                            updateStatusTranslationRequest={this.props.updateStatusTranslationRequest}
                         />
                     </Col>
                 </Row>
@@ -89,7 +82,7 @@ Translations.propTypes = {
     listTranslationsRequest: PropTypes.func.isRequired,
     createTranslationRequest: PropTypes.func.isRequired,
     updateTranslationRequest: PropTypes.func.isRequired,
-    hideTranslationRequest: PropTypes.func.isRequired,
+    updateStatusTranslationRequest: PropTypes.func.isRequired,
     listLocalizationsRequest: PropTypes.func.isRequired,
     errorMsg: PropTypes.string,
     history: PropTypes.shape({
@@ -111,7 +104,7 @@ const mapDispatchToProps = {
     listTranslationsRequest,
     createTranslationRequest,
     updateTranslationRequest,
-    hideTranslationRequest,
+    updateStatusTranslationRequest,
     listLocalizationsRequest,
 };
 
