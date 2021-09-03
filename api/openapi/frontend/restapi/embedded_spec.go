@@ -800,6 +800,31 @@ func init() {
         }
       }
     },
+    "/translation/versions": {
+      "get": {
+        "security": [
+          {
+            "JWTBearer": []
+          }
+        ],
+        "summary": "translation versions",
+        "operationId": "translationVersions",
+        "responses": {
+          "200": {
+            "description": "List with all locale versions",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Version"
+              }
+            }
+          },
+          "default": {
+            "$ref": "#/responses/Error"
+          }
+        }
+      }
+    },
     "/translation/{id}": {
       "put": {
         "security": [
@@ -1457,6 +1482,23 @@ func init() {
         "uuid_id": {
           "type": "string",
           "x-order": 4
+        }
+      }
+    },
+    "Version": {
+      "type": "object",
+      "required": [
+        "updated_at",
+        "locale"
+      ],
+      "properties": {
+        "locale": {
+          "type": "string",
+          "x-order": 1
+        },
+        "updated_at": {
+          "type": "integer",
+          "x-order": 0
         }
       }
     }
@@ -2318,6 +2360,34 @@ func init() {
         }
       }
     },
+    "/translation/versions": {
+      "get": {
+        "security": [
+          {
+            "JWTBearer": []
+          }
+        ],
+        "summary": "translation versions",
+        "operationId": "translationVersions",
+        "responses": {
+          "200": {
+            "description": "List with all locale versions",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Version"
+              }
+            }
+          },
+          "default": {
+            "description": "General errors using same model as used by go-swagger for validation errors.",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
     "/translation/{id}": {
       "put": {
         "security": [
@@ -3055,6 +3125,23 @@ func init() {
         "uuid_id": {
           "type": "string",
           "x-order": 4
+        }
+      }
+    },
+    "Version": {
+      "type": "object",
+      "required": [
+        "updated_at",
+        "locale"
+      ],
+      "properties": {
+        "locale": {
+          "type": "string",
+          "x-order": 1
+        },
+        "updated_at": {
+          "type": "integer",
+          "x-order": 0
         }
       }
     }
