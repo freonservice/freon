@@ -110,9 +110,6 @@ func NewFreonFrontendAPI(spec *loads.Document) *FreonFrontendAPI {
 		StatusTranslationHandler: StatusTranslationHandlerFunc(func(params StatusTranslationParams, principal *app.UserSession) StatusTranslationResponder {
 			return StatusTranslationNotImplemented()
 		}),
-		TranslationVersionsHandler: TranslationVersionsHandlerFunc(func(params TranslationVersionsParams, principal *app.UserSession) TranslationVersionsResponder {
-			return TranslationVersionsNotImplemented()
-		}),
 		UpdateCategoryHandler: UpdateCategoryHandlerFunc(func(params UpdateCategoryParams, principal *app.UserSession) UpdateCategoryResponder {
 			return UpdateCategoryNotImplemented()
 		}),
@@ -226,8 +223,6 @@ type FreonFrontendAPI struct {
 	StatisticHandler StatisticHandler
 	// StatusTranslationHandler sets the operation handler for the status translation operation
 	StatusTranslationHandler StatusTranslationHandler
-	// TranslationVersionsHandler sets the operation handler for the translation versions operation
-	TranslationVersionsHandler TranslationVersionsHandler
 	// UpdateCategoryHandler sets the operation handler for the update category operation
 	UpdateCategoryHandler UpdateCategoryHandler
 	// UpdateIdentifierHandler sets the operation handler for the update identifier operation
@@ -387,9 +382,6 @@ func (o *FreonFrontendAPI) Validate() error {
 	}
 	if o.StatusTranslationHandler == nil {
 		unregistered = append(unregistered, "StatusTranslationHandler")
-	}
-	if o.TranslationVersionsHandler == nil {
-		unregistered = append(unregistered, "TranslationVersionsHandler")
 	}
 	if o.UpdateCategoryHandler == nil {
 		unregistered = append(unregistered, "UpdateCategoryHandler")
@@ -599,10 +591,6 @@ func (o *FreonFrontendAPI) initHandlerCache() {
 		o.handlers["PUT"] = make(map[string]http.Handler)
 	}
 	o.handlers["PUT"]["/translation/{id}/status/{status}"] = NewStatusTranslation(o.context, o.StatusTranslationHandler)
-	if o.handlers["GET"] == nil {
-		o.handlers["GET"] = make(map[string]http.Handler)
-	}
-	o.handlers["GET"]["/translation/versions"] = NewTranslationVersions(o.context, o.TranslationVersionsHandler)
 	if o.handlers["PUT"] == nil {
 		o.handlers["PUT"] = make(map[string]http.Handler)
 	}

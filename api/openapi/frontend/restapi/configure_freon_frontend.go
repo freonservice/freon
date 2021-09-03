@@ -158,11 +158,6 @@ func configureAPI(api *op.FreonFrontendAPI) http.Handler {
 			return op.StatusTranslationNotImplemented()
 		})
 	}
-	if api.TranslationVersionsHandler == nil {
-		api.TranslationVersionsHandler = op.TranslationVersionsHandlerFunc(func(params op.TranslationVersionsParams, principal *app.UserSession) op.TranslationVersionsResponder {
-			return op.TranslationVersionsNotImplemented()
-		})
-	}
 	if api.UpdateCategoryHandler == nil {
 		api.UpdateCategoryHandler = op.UpdateCategoryHandlerFunc(func(params op.UpdateCategoryParams, principal *app.UserSession) op.UpdateCategoryResponder {
 			return op.UpdateCategoryNotImplemented()
