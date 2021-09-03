@@ -5,6 +5,4 @@ client
 scripts
 README.md
 proto_files
-coverage.out
-coverage.sh
 docs

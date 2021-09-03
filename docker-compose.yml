@@ -29,6 +29,8 @@ services:
     restart: always
     ports:
       - "4000:4000"
+      - "4001:4001"
+      - "4002:4002"
     environment:
       JWT_SECRET_KEY: my_secret_key
       DB_HOST: freon-db
@@ -40,7 +42,7 @@ services:
       SERVICE_HOST: "0.0.0.0"
       API_SERVICE_PORT: 4000
       GRPC_SERVICE_PORT: 4001
-      STATIK_SERVICE_PORT: 4002
+      STATIC_SERVICE_PORT: 4002
       TRANSLATION_FILES_PATH: "/docs"
     depends_on:
       - freon-db
