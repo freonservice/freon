@@ -7,6 +7,8 @@ You can generate translations for different platforms (web services, mobile appl
 This service is an embedded solution into your infrastructure to increase flexibility and reliability. Thanks to the docker build, you can easily add this service to your infrastructure.
 The service consists of two parts - a backend written in Golang and a frontend written in ReactJS.
 
+This service will allow content managers to conveniently make changes to localization files, monitor support for various languages, and seamlessly pull them up for applications without the need to update in the application store (App Store, Google Play, etc.).
+
 ## Build Status
 
 Development, beta-release
@@ -66,7 +68,7 @@ Command for launch service from docker
 - [ ] Generation ios translations
 - [ ] UI improvements
 - [ ] Add API with translation version checking
-
+- [ ] Fix supporting pluralization
 
 ## Contribution
 
