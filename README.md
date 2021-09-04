@@ -54,6 +54,9 @@ Command for launch service from docker
 
 `docker-compose -f docker-compose.prod.yml up -d`
 
+## Example of interface
+
+![Translation page](https://github.com/freonservice/freon/blob/master/freon-page.png)
 
 ## Future features
 
