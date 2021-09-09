@@ -79,7 +79,7 @@ func ServerGRPC(ctx Ctx, addr netx.Addr, srv *grpc.Server) error {
 
 func ServerStatic(ctx Ctx, addr netx.Addr) error {
 	log := structlog.FromContext(ctx, nil).New(def.LogServer, addr.String())
-	const FSPATH = "./client/prod/"
+	const FSPATH = "./web/"
 
 	listen, err := net.Listen("tcp", addr.String())
 	if err != nil {

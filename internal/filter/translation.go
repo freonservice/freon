@@ -15,7 +15,7 @@ type TranslationFilter struct {
 	Locale         string
 }
 
-func (t *TranslationFilter) CreateRows(ctx context.Context, r *reform.DB) (*sql.Rows, error) {
+func (t TranslationFilter) CreateRows(ctx context.Context, r *reform.DB) (*sql.Rows, error) {
 	var rows *sql.Rows
 	var err error
 
@@ -65,7 +65,7 @@ type GroupedTranslationFilter struct {
 	Locales []string
 }
 
-func (t *GroupedTranslationFilter) CreateRows(ctx context.Context, r *sqlx.DB) (*sql.Rows, error) {
+func (t GroupedTranslationFilter) CreateRows(ctx context.Context, r *sqlx.DB) (*sql.Rows, error) {
 	var rows *sql.Rows
 	var err error
 

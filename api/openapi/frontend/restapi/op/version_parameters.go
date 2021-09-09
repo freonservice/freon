@@ -23,7 +23,7 @@ func NewVersionParams() VersionParams {
 	var (
 		// initialize parameters with default values
 
-		platformDefault = int64(0)
+		platformDefault = int64(-1)
 	)
 
 	return VersionParams{
@@ -46,9 +46,9 @@ type VersionParams struct {
 	*/
 	LocalizationID *int64
 	/*
-	  Minimum: 0
+	  Minimum: -1
 	  In: query
-	  Default: 0
+	  Default: -1
 	*/
 	Platform *int64
 }
@@ -146,7 +146,7 @@ func (o *VersionParams) bindPlatform(rawData []string, hasKey bool, formats strf
 // validatePlatform carries on validations for parameter Platform
 func (o *VersionParams) validatePlatform(formats strfmt.Registry) error {
 
-	if err := validate.MinimumInt("platform", "query", int64(*o.Platform), 0, false); err != nil {
+	if err := validate.MinimumInt("platform", "query", int64(*o.Platform), -1, false); err != nil {
 		return err
 	}
 

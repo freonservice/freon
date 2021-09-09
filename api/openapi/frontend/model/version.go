@@ -20,9 +20,15 @@ import (
 // swagger:model Version
 type Version struct {
 
-	// localization
+	// locale
 	// Required: true
-	Localization *Localization `json:"localization"`
+	Locale *string `json:"locale"`
+
+	// lang name
+	LangName string `json:"lang_name,omitempty"`
+
+	// localization id
+	LocalizationID int64 `json:"localization_id,omitempty"`
 
 	// platform
 	Platform int64 `json:"platform,omitempty"`
@@ -39,9 +45,15 @@ type Version struct {
 func (m *Version) UnmarshalJSON(data []byte) error {
 	var props struct {
 
-		// localization
+		// locale
 		// Required: true
-		Localization *Localization `json:"localization"`
+		Locale *string `json:"locale"`
+
+		// lang name
+		LangName string `json:"lang_name,omitempty"`
+
+		// localization id
+		LocalizationID int64 `json:"localization_id,omitempty"`
 
 		// platform
 		Platform int64 `json:"platform,omitempty"`
@@ -60,7 +72,9 @@ func (m *Version) UnmarshalJSON(data []byte) error {
 		return err
 	}
 
-	m.Localization = props.Localization
+	m.Locale = props.Locale
+	m.LangName = props.LangName
+	m.LocalizationID = props.LocalizationID
 	m.Platform = props.Platform
 	m.Path = props.Path
 	m.UpdatedAt = props.UpdatedAt
@@ -71,7 +85,7 @@ func (m *Version) UnmarshalJSON(data []byte) error {
 func (m *Version) Validate(formats strfmt.Registry) error {
 	var res []error
 
-	if err := m.validateLocalization(formats); err != nil {
+	if err := m.validateLocale(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -85,19 +99,10 @@ func (m *Version) Validate(formats strfmt.Registry) error {
 	return nil
 }
 
-func (m *Version) validateLocalization(formats strfmt.Registry) error {
+func (m *Version) validateLocale(formats strfmt.Registry) error {
 
-	if err := validate.Required("localization", "body", m.Localization); err != nil {
+	if err := validate.Required("locale", "body", m.Locale); err != nil {
 		return err
-	}
-
-	if m.Localization != nil {
-		if err := m.Localization.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("localization")
-			}
-			return err
-		}
 	}
 
 	return nil

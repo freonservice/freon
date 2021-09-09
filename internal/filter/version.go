@@ -3,6 +3,7 @@ package filter
 import (
 	"context"
 	"database/sql"
+	"fmt"
 
 	"github.com/freonservice/freon/pkg/freonApi"
 
@@ -18,13 +19,16 @@ type VersionTranslationsFilter struct {
 	LocalizationID int64
 }
 
-func (t *VersionTranslationFilesFilter) CreateRows(ctx context.Context, r *reform.DB) (*sql.Rows, error) {
-	var rows *sql.Rows
-	var err error
+func (t VersionTranslationFilesFilter) CreateRows(ctx context.Context, r *reform.DB) (*sql.Rows, error) {
+	var (
+		err      error
+		rows     *sql.Rows
+		buildSQL string
+	)
 
 	const (
 		selectFromSQL = `
-		select t1.path, t1.platform, t1.localization_id, t1.updated_at, l.locale
+		select t1.path, t1.platform, t1.localization_id, t1.updated_at, l.locale, l.lang_name
 			from translation_files t1
 			left join localizations l on l.id = t1.localization_id`
 		subSQL = `
@@ -35,45 +39,32 @@ func (t *VersionTranslationFilesFilter) CreateRows(ctx context.Context, r *refor
 			and t2.status = t1.status)`
 	)
 	if t.LocalizationID > 0 && t.PlatformType > 0 {
-		rows, err = r.QueryContext(
-			ctx,
-			`
-				$1 where t1.localization_id = $2
-				  and t1.platform = $3
-				  and t1.status = $4
-				  and t1.updated_at = $5`,
-			selectFromSQL, t.PlatformType, t.LocalizationID, freonApi.Status_ACTIVE, subSQL,
-		)
+		buildSQL = fmt.Sprintf(`%s where t1.localization_id = $1 and t1.platform = $2 and t1.status = $3 and t1.updated_at = %s`, selectFromSQL, subSQL) // nolint:lll
+		rows, err = r.QueryContext(ctx, buildSQL, t.PlatformType, t.LocalizationID, freonApi.Status_ACTIVE)
 	} else if t.LocalizationID > 0 {
-		rows, err = r.QueryContext(
-			ctx,
-			`$1 where t1.localization_id = $2 and t1.status = $3 and t1.updated_at = $4`,
-			selectFromSQL, t.LocalizationID, freonApi.Status_ACTIVE, subSQL,
-		)
+		buildSQL = fmt.Sprintf("%s where t1.localization_id = $1 and t1.status = $2 and t1.updated_at = %s", selectFromSQL, subSQL)
+		rows, err = r.QueryContext(ctx, buildSQL, t.LocalizationID, freonApi.Status_ACTIVE)
 	} else if t.PlatformType > 0 {
-		rows, err = r.QueryContext(
-			ctx,
-			`$1 where t1.platform = $2 and t1.status = $3 and t1.updated_at = $4`,
-			selectFromSQL, t.PlatformType, freonApi.Status_ACTIVE, subSQL,
-		)
+		buildSQL = fmt.Sprintf(`%s where t1.platform = $1 and t1.status = $2 and t1.updated_at = %s`, selectFromSQL, subSQL)
+		rows, err = r.QueryContext(ctx, buildSQL, t.PlatformType, freonApi.Status_ACTIVE)
 	} else {
-		rows, err = r.QueryContext(
-			ctx,
-			`$1 where t1.status = $1 and t1.updated_at = $2`,
-			selectFromSQL, freonApi.Status_ACTIVE, subSQL,
-		)
+		buildSQL = fmt.Sprintf("%s where t1.status = $1 and t1.updated_at = %s", selectFromSQL, subSQL)
+		rows, err = r.QueryContext(ctx, buildSQL, freonApi.Status_ACTIVE)
 	}
 
 	return rows, err
 }
 
-func (t *VersionTranslationsFilter) CreateRows(ctx context.Context, r *reform.DB) (*sql.Rows, error) {
-	var rows *sql.Rows
-	var err error
+func (t VersionTranslationsFilter) CreateRows(ctx context.Context, r *reform.DB) (*sql.Rows, error) {
+	var (
+		err      error
+		rows     *sql.Rows
+		buildSQL string
+	)
 
 	const (
 		selectFromSQL = `
-		select t1.localization_id, t1.updated_at, l.locale
+		select t1.localization_id, t1.updated_at, l.locale, l.lang_name
 			from translations t1
 			left join localizations l on l.id = t1.localization_id`
 		subSQL = `
@@ -83,20 +74,11 @@ func (t *VersionTranslationsFilter) CreateRows(ctx context.Context, r *reform.DB
 			and t2.status = t1.status)`
 	)
 	if t.LocalizationID > 0 {
-		rows, err = r.QueryContext(
-			ctx,
-			`
-				$1 where t1.localization_id = $2
-				  and t1.status = $3
-				  and t1.updated_at = $4`,
-			selectFromSQL, t.LocalizationID, freonApi.Status_ACTIVE, subSQL,
-		)
+		buildSQL = fmt.Sprintf("%s where t1.localization_id = $1 and t1.status = $2 and t1.updated_at = %s", selectFromSQL, subSQL)
+		rows, err = r.QueryContext(ctx, buildSQL, t.LocalizationID, freonApi.Status_ACTIVE)
 	} else {
-		rows, err = r.QueryContext(
-			ctx,
-			`$1 where t1.status = $2 and t1.updated_at = $3`,
-			selectFromSQL, freonApi.Status_ACTIVE, subSQL,
-		)
+		buildSQL = fmt.Sprintf("%s where t1.status = $1 and t1.updated_at = %s", selectFromSQL, subSQL)
+		rows, err = r.QueryContext(ctx, buildSQL, freonApi.Status_ACTIVE)
 	}
 
 	return rows, err

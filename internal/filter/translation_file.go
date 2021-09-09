@@ -12,7 +12,7 @@ type TranslationFileFilter struct {
 	PlatformType   int64
 }
 
-func (t *TranslationFileFilter) CreateRows(ctx context.Context, r *reform.DB) (*sql.Rows, error) {
+func (t TranslationFileFilter) CreateRows(ctx context.Context, r *reform.DB) (*sql.Rows, error) {
 	var rows *sql.Rows
 	var err error
 

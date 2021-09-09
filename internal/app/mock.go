@@ -375,18 +375,18 @@ func (mr *MockApplMockRecorder) GetUsers(ctx interface{}) *gomock.Call {
 }
 
 // GetVersion mocks base method.
-func (m *MockAppl) GetVersion(ctx Ctx, localizationID, typeVersion int64) ([]*entities.Version, error) {
+func (m *MockAppl) GetVersion(ctx Ctx, localizationID, platform int64) ([]*entities.Version, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetVersion", ctx, localizationID, typeVersion)
+	ret := m.ctrl.Call(m, "GetVersion", ctx, localizationID, platform)
 	ret0, _ := ret[0].([]*entities.Version)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetVersion indicates an expected call of GetVersion.
-func (mr *MockApplMockRecorder) GetVersion(ctx, localizationID, typeVersion interface{}) *gomock.Call {
+func (mr *MockApplMockRecorder) GetVersion(ctx, localizationID, platform interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetVersion", reflect.TypeOf((*MockAppl)(nil).GetVersion), ctx, localizationID, typeVersion)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetVersion", reflect.TypeOf((*MockAppl)(nil).GetVersion), ctx, localizationID, platform)
 }
 
 // HealthCheck mocks base method.

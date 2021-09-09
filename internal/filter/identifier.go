@@ -12,7 +12,7 @@ type IdentifierFilter struct {
 	CategoryID int64
 }
 
-func (i *IdentifierFilter) CreateRows(ctx context.Context, r *reform.DB) (*sql.Rows, error) {
+func (i IdentifierFilter) CreateRows(ctx context.Context, r *reform.DB) (*sql.Rows, error) {
 	var rows *sql.Rows
 	var err error
 

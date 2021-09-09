@@ -16,14 +16,15 @@ func (r *Repo) GetVersionFromTranslationFiles(ctx Ctx, f filter.VersionTranslati
 	}
 	defer rows.Close()
 
-	var entities []*dao.Version
+	var (
+		entities []*dao.Version
+	)
 	for rows.Next() {
 		entity := new(dao.Version)
-		entity.Localization = new(dao.Localization)
 		err = rows.Scan(
 			&entity.Path, &entity.Platform,
 			&entity.LocalizationID, &entity.UpdatedAt,
-			&entity.Localization.Locale,
+			&entity.Locale, &entity.LangName,
 		)
 		if err != nil {
 			break
@@ -48,10 +49,9 @@ func (r *Repo) GetVersionFromTranslations(ctx Ctx, f filter.VersionTranslationsF
 	var entities []*dao.Version
 	for rows.Next() {
 		entity := new(dao.Version)
-		entity.Localization = new(dao.Localization)
 		err = rows.Scan(
-			&entity.Path, &entity.LocalizationID,
-			&entity.UpdatedAt, &entity.Localization.Locale,
+			&entity.LocalizationID, &entity.UpdatedAt,
+			&entity.Locale, &entity.LangName,
 		)
 		if err != nil {
 			break

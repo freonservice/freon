@@ -1230,8 +1230,9 @@ func init() {
         "operationId": "version",
         "parameters": [
           {
+            "minimum": -1,
             "type": "integer",
-            "default": 0,
+            "default": -1,
             "name": "platform",
             "in": "query"
           },
@@ -1507,25 +1508,33 @@ func init() {
     "Version": {
       "type": "object",
       "required": [
-        "localization",
+        "locale",
         "updated_at"
       ],
       "properties": {
-        "localization": {
-          "x-order": 0,
-          "$ref": "#/definitions/Localization"
+        "lang_name": {
+          "type": "string",
+          "x-order": 1
+        },
+        "locale": {
+          "type": "string",
+          "x-order": 0
+        },
+        "localization_id": {
+          "type": "integer",
+          "x-order": 2
         },
         "path": {
           "type": "string",
-          "x-order": 2
+          "x-order": 4
         },
         "platform": {
           "type": "integer",
-          "x-order": 1
+          "x-order": 3
         },
         "updated_at": {
           "type": "integer",
-          "x-order": 3
+          "x-order": 5
         }
       }
     }
@@ -2851,9 +2860,9 @@ func init() {
         "operationId": "version",
         "parameters": [
           {
-            "minimum": 0,
+            "minimum": -1,
             "type": "integer",
-            "default": 0,
+            "default": -1,
             "name": "platform",
             "in": "query"
           },
@@ -3178,25 +3187,33 @@ func init() {
     "Version": {
       "type": "object",
       "required": [
-        "localization",
+        "locale",
         "updated_at"
       ],
       "properties": {
-        "localization": {
-          "x-order": 0,
-          "$ref": "#/definitions/Localization"
+        "lang_name": {
+          "type": "string",
+          "x-order": 1
+        },
+        "locale": {
+          "type": "string",
+          "x-order": 0
+        },
+        "localization_id": {
+          "type": "integer",
+          "x-order": 2
         },
         "path": {
           "type": "string",
-          "x-order": 2
+          "x-order": 4
         },
         "platform": {
           "type": "integer",
-          "x-order": 1
+          "x-order": 3
         },
         "updated_at": {
           "type": "integer",
-          "x-order": 3
+          "x-order": 5
         }
       }
     }

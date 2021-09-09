@@ -109,8 +109,10 @@ type TranslationFile struct {
 }
 
 type Version struct {
-	Path         string
-	Platform     int64
-	UpdatedAt    int64
-	Localization *Localization
+	Path           string
+	Platform       int64
+	UpdatedAt      int64
+	Locale         string
+	LangName       string
+	LocalizationID int64
 }

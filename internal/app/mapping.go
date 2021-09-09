@@ -179,9 +179,12 @@ func mappingArrayTranslationFile(translationFiles []*dao.TranslationFile) []*ent
 
 func apiVersion(v *dao.Version) *entities.Version {
 	return &entities.Version{
-		Localization: mappingLocalization(v.Localization),
-		Path:         v.Path,
-		UpdatedAt:    v.UpdatedAt.UTC().Unix(),
+		Path:           v.Path,
+		Platform:       v.Platform,
+		Locale:         v.Locale,
+		LangName:       v.LangName,
+		LocalizationID: v.LocalizationID,
+		UpdatedAt:      v.UpdatedAt.UTC().Unix(),
 	}
 }
 
