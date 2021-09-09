@@ -16,7 +16,7 @@ import (
 // VersionURL generates an URL for the version operation
 type VersionURL struct {
 	LocalizationID *int64
-	Type           *int64
+	Platform       *int64
 
 	_basePath string
 	// avoid unkeyed usage
@@ -60,12 +60,12 @@ func (o *VersionURL) Build() (*url.URL, error) {
 		qs.Set("localization_id", localizationIDQ)
 	}
 
-	var typeVarQ string
-	if o.Type != nil {
-		typeVarQ = swag.FormatInt64(*o.Type)
+	var platformQ string
+	if o.Platform != nil {
+		platformQ = swag.FormatInt64(*o.Platform)
 	}
-	if typeVarQ != "" {
-		qs.Set("type", typeVarQ)
+	if platformQ != "" {
+		qs.Set("platform", platformQ)
 	}
 
 	_result.RawQuery = qs.Encode()

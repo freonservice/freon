@@ -270,7 +270,7 @@ const (
 	PlatformType_PLATFORM_TYPE_WEB     PlatformType = 0
 	PlatformType_PLATFORM_TYPE_IOS     PlatformType = 1
 	PlatformType_PLATFORM_TYPE_ANDROID PlatformType = 2
-	PlatformType_PLATFORM_TYPE_SKIP    PlatformType = 3 // skipped
+	PlatformType_PLATFORM_TYPE_SKIP    PlatformType = 3 // skipped, using for checking new update translation with grpc
 )
 
 // Enum value maps for PlatformType.

@@ -1,7 +1,12 @@
 package dao
 
+import "time"
+
 type Version struct {
-	Locale    string
-	PathURL   string
-	UpdatedAt int64
+	Path           string
+	LocalizationID int64 `db:"localization_id"`
+	Platform       int64
+	UpdatedAt      time.Time
+
+	Localization *Localization
 }

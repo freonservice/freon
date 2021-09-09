@@ -1232,7 +1232,7 @@ func init() {
           {
             "type": "integer",
             "default": 0,
-            "name": "type",
+            "name": "platform",
             "in": "query"
           },
           {
@@ -1507,21 +1507,25 @@ func init() {
     "Version": {
       "type": "object",
       "required": [
-        "locale",
+        "localization",
         "updated_at"
       ],
       "properties": {
-        "locale": {
-          "type": "string",
-          "x-order": 0
+        "localization": {
+          "x-order": 0,
+          "$ref": "#/definitions/Localization"
         },
-        "path_url": {
+        "path": {
           "type": "string",
+          "x-order": 2
+        },
+        "platform": {
+          "type": "integer",
           "x-order": 1
         },
         "updated_at": {
           "type": "integer",
-          "x-order": 2
+          "x-order": 3
         }
       }
     }
@@ -2850,7 +2854,7 @@ func init() {
             "minimum": 0,
             "type": "integer",
             "default": 0,
-            "name": "type",
+            "name": "platform",
             "in": "query"
           },
           {
@@ -3174,21 +3178,25 @@ func init() {
     "Version": {
       "type": "object",
       "required": [
-        "locale",
+        "localization",
         "updated_at"
       ],
       "properties": {
-        "locale": {
-          "type": "string",
-          "x-order": 0
+        "localization": {
+          "x-order": 0,
+          "$ref": "#/definitions/Localization"
         },
-        "path_url": {
+        "path": {
           "type": "string",
+          "x-order": 2
+        },
+        "platform": {
+          "type": "integer",
           "x-order": 1
         },
         "updated_at": {
           "type": "integer",
-          "x-order": 2
+          "x-order": 3
         }
       }
     }

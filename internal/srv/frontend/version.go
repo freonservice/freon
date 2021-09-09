@@ -14,7 +14,7 @@ func (srv *server) version(params op.VersionParams, session *app.UserSession) op
 	entities, err := srv.app.GetVersion(
 		ctx,
 		swag.Int64Value(params.LocalizationID),
-		swag.Int64Value(params.Type),
+		swag.Int64Value(params.Platform),
 	)
 	switch errors.Cause(err) {
 	default:

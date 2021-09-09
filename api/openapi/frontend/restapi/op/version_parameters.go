@@ -23,11 +23,11 @@ func NewVersionParams() VersionParams {
 	var (
 		// initialize parameters with default values
 
-		typeVarDefault = int64(0)
+		platformDefault = int64(0)
 	)
 
 	return VersionParams{
-		Type: &typeVarDefault,
+		Platform: &platformDefault,
 	}
 }
 
@@ -50,7 +50,7 @@ type VersionParams struct {
 	  In: query
 	  Default: 0
 	*/
-	Type *int64
+	Platform *int64
 }
 
 // BindRequest both binds and validates a request, it assumes that complex things implement a Validatable(strfmt.Registry) error interface
@@ -69,8 +69,8 @@ func (o *VersionParams) BindRequest(r *http.Request, route *middleware.MatchedRo
 		res = append(res, err)
 	}
 
-	qType, qhkType, _ := qs.GetOK("type")
-	if err := o.bindType(qType, qhkType, route.Formats); err != nil {
+	qPlatform, qhkPlatform, _ := qs.GetOK("platform")
+	if err := o.bindPlatform(qPlatform, qhkPlatform, route.Formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -116,8 +116,8 @@ func (o *VersionParams) validateLocalizationID(formats strfmt.Registry) error {
 	return nil
 }
 
-// bindType binds and validates parameter Type from query.
-func (o *VersionParams) bindType(rawData []string, hasKey bool, formats strfmt.Registry) error {
+// bindPlatform binds and validates parameter Platform from query.
+func (o *VersionParams) bindPlatform(rawData []string, hasKey bool, formats strfmt.Registry) error {
 	var raw string
 	if len(rawData) > 0 {
 		raw = rawData[len(rawData)-1]
@@ -132,21 +132,21 @@ func (o *VersionParams) bindType(rawData []string, hasKey bool, formats strfmt.R
 
 	value, err := swag.ConvertInt64(raw)
 	if err != nil {
-		return errors.InvalidType("type", "query", "int64", raw)
+		return errors.InvalidType("platform", "query", "int64", raw)
 	}
-	o.Type = &value
+	o.Platform = &value
 
-	if err := o.validateType(formats); err != nil {
+	if err := o.validatePlatform(formats); err != nil {
 		return err
 	}
 
 	return nil
 }
 
-// validateType carries on validations for parameter Type
-func (o *VersionParams) validateType(formats strfmt.Registry) error {
+// validatePlatform carries on validations for parameter Platform
+func (o *VersionParams) validatePlatform(formats strfmt.Registry) error {
 
-	if err := validate.MinimumInt("type", "query", int64(*o.Type), 0, false); err != nil {
+	if err := validate.MinimumInt("platform", "query", int64(*o.Platform), 0, false); err != nil {
 		return err
 	}
 

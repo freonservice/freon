@@ -20,12 +20,15 @@ import (
 // swagger:model Version
 type Version struct {
 
-	// locale
+	// localization
 	// Required: true
-	Locale *string `json:"locale"`
+	Localization *Localization `json:"localization"`
 
-	// path url
-	PathURL string `json:"path_url,omitempty"`
+	// platform
+	Platform int64 `json:"platform,omitempty"`
+
+	// path
+	Path string `json:"path,omitempty"`
 
 	// updated at
 	// Required: true
@@ -36,12 +39,15 @@ type Version struct {
 func (m *Version) UnmarshalJSON(data []byte) error {
 	var props struct {
 
-		// locale
+		// localization
 		// Required: true
-		Locale *string `json:"locale"`
+		Localization *Localization `json:"localization"`
 
-		// path url
-		PathURL string `json:"path_url,omitempty"`
+		// platform
+		Platform int64 `json:"platform,omitempty"`
+
+		// path
+		Path string `json:"path,omitempty"`
 
 		// updated at
 		// Required: true
@@ -54,8 +60,9 @@ func (m *Version) UnmarshalJSON(data []byte) error {
 		return err
 	}
 
-	m.Locale = props.Locale
-	m.PathURL = props.PathURL
+	m.Localization = props.Localization
+	m.Platform = props.Platform
+	m.Path = props.Path
 	m.UpdatedAt = props.UpdatedAt
 	return nil
 }
@@ -64,7 +71,7 @@ func (m *Version) UnmarshalJSON(data []byte) error {
 func (m *Version) Validate(formats strfmt.Registry) error {
 	var res []error
 
-	if err := m.validateLocale(formats); err != nil {
+	if err := m.validateLocalization(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -78,10 +85,19 @@ func (m *Version) Validate(formats strfmt.Registry) error {
 	return nil
 }
 
-func (m *Version) validateLocale(formats strfmt.Registry) error {
+func (m *Version) validateLocalization(formats strfmt.Registry) error {
 
-	if err := validate.Required("locale", "body", m.Locale); err != nil {
+	if err := validate.Required("localization", "body", m.Localization); err != nil {
 		return err
+	}
+
+	if m.Localization != nil {
+		if err := m.Localization.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("localization")
+			}
+			return err
+		}
 	}
 
 	return nil

@@ -13,6 +13,7 @@ import (
 	"github.com/freonservice/freon/internal/app"
 )
 
+
 func configureFlags(api *op.FreonFrontendAPI) {
 	// api.CommandLineOptionsGroups = []swag.CommandLineOptionsGroup{ ... }
 }

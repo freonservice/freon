@@ -745,7 +745,7 @@ paths:
         - JWTBearer: [ ]
       parameters:
         - in: query
-          name: type
+          name: platform
           type: integer
           minimum: 0
           default: 0
@@ -851,12 +851,14 @@ definitions:
   Version:
     type: object
     required:
-      - locale
+      - localization
       - updated_at
     properties:
-      locale:
-        type: string
-      path_url:
+      localization:
+        $ref: '#/definitions/Localization'
+      platform:
+        type: integer
+      path:
         type: string
       updated_at:
         type: integer

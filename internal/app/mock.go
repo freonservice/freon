@@ -1002,33 +1002,33 @@ func (mr *MockRepoMockRecorder) GetUsers(ctx interface{}) *gomock.Call {
 }
 
 // GetVersionFromTranslationFiles mocks base method.
-func (m *MockRepo) GetVersionFromTranslationFiles(ctx Ctx, localizationID, typeVersion int64) ([]*dao.Version, error) {
+func (m *MockRepo) GetVersionFromTranslationFiles(ctx Ctx, f filter.VersionTranslationFilesFilter) ([]*dao.Version, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetVersionFromTranslationFiles", ctx, localizationID, typeVersion)
+	ret := m.ctrl.Call(m, "GetVersionFromTranslationFiles", ctx, f)
 	ret0, _ := ret[0].([]*dao.Version)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetVersionFromTranslationFiles indicates an expected call of GetVersionFromTranslationFiles.
-func (mr *MockRepoMockRecorder) GetVersionFromTranslationFiles(ctx, localizationID, typeVersion interface{}) *gomock.Call {
+func (mr *MockRepoMockRecorder) GetVersionFromTranslationFiles(ctx, f interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetVersionFromTranslationFiles", reflect.TypeOf((*MockRepo)(nil).GetVersionFromTranslationFiles), ctx, localizationID, typeVersion)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetVersionFromTranslationFiles", reflect.TypeOf((*MockRepo)(nil).GetVersionFromTranslationFiles), ctx, f)
 }
 
 // GetVersionFromTranslations mocks base method.
-func (m *MockRepo) GetVersionFromTranslations(ctx Ctx, localizationID int64) ([]*dao.Version, error) {
+func (m *MockRepo) GetVersionFromTranslations(ctx Ctx, f filter.VersionTranslationsFilter) ([]*dao.Version, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetVersionFromTranslations", ctx, localizationID)
+	ret := m.ctrl.Call(m, "GetVersionFromTranslations", ctx, f)
 	ret0, _ := ret[0].([]*dao.Version)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetVersionFromTranslations indicates an expected call of GetVersionFromTranslations.
-func (mr *MockRepoMockRecorder) GetVersionFromTranslations(ctx, localizationID interface{}) *gomock.Call {
+func (mr *MockRepoMockRecorder) GetVersionFromTranslations(ctx, f interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetVersionFromTranslations", reflect.TypeOf((*MockRepo)(nil).GetVersionFromTranslations), ctx, localizationID)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetVersionFromTranslations", reflect.TypeOf((*MockRepo)(nil).GetVersionFromTranslations), ctx, f)
 }
 
 // SaveSession mocks base method.

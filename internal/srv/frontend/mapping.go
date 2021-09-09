@@ -150,12 +150,12 @@ func apiArrayTranslationFiles(v []*entities.TranslationFile) []*model.Translatio
 }
 
 func apiVersion(v *entities.Version) *model.Version {
-	i := &model.Version{
-		Locale:    pointer.ToString(v.Locale),
-		PathURL:   v.PathURL,
-		UpdatedAt: pointer.ToInt64(v.UpdatedAt),
+	return &model.Version{
+		Path:         v.Path,
+		Platform:     v.Platform,
+		Localization: apiLocalization(v.Localization),
+		UpdatedAt:    pointer.ToInt64(v.UpdatedAt),
 	}
-	return i
 }
 
 func apiArrayVersion(v []*entities.Version) []*model.Version {
