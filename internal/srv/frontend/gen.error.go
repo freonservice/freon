@@ -480,3 +480,21 @@ func errDeleteTranslationFile(log Log, err error, code errCode) op.DeleteTransla
 		Message: swag.String(msg),
 	})
 }
+
+func errVersion(log Log, err error, code errCode) op.VersionResponder { //nolint:dupl
+	if code.status < http.StatusInternalServerError {
+		log.Info("client error", def.LogHTTPStatus, code.status, "code", code.status, "err", err)
+	} else {
+		log.PrintErr("server error", def.LogHTTPStatus, code.status, "code", code.status, "err", err)
+	}
+
+	msg := err.Error()
+	if code.status == http.StatusInternalServerError {
+		msg = internalError
+	}
+
+	return op.NewVersionDefault(code.status).WithPayload(&model.Error{
+		Code:    swag.Int32(int32(code.status)),
+		Message: swag.String(msg),
+	})
+}

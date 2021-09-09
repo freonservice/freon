@@ -161,6 +161,7 @@ func mappingTranslationFile(translationFile *dao.TranslationFile) *entities.Tran
 		StorageType: translationFile.StorageType,
 		Status:      translationFile.Status,
 		CreatedAt:   translationFile.CreatedAt,
+		UpdatedAt:   pointer.GetTime(translationFile.UpdatedAt),
 	}
 	if translationFile.Localization != nil {
 		entity.Localization = mappingLocalization(translationFile.Localization)
@@ -174,4 +175,21 @@ func mappingArrayTranslationFile(translationFiles []*dao.TranslationFile) []*ent
 		v[i] = mappingTranslationFile(l)
 	}
 	return v
+}
+
+func apiVersion(v *dao.Version) *entities.Version {
+	i := &entities.Version{
+		Locale:    v.Locale,
+		PathURL:   v.PathURL,
+		UpdatedAt: v.UpdatedAt,
+	}
+	return i
+}
+
+func apiArrayVersion(v []*dao.Version) []*entities.Version {
+	var d = make([]*entities.Version, len(v))
+	for i, e := range v {
+		d[i] = apiVersion(e)
+	}
+	return d
 }

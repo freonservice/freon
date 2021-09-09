@@ -42,7 +42,7 @@ func (o *DeleteTranslationFileURL) SetBasePath(bp string) {
 func (o *DeleteTranslationFileURL) Build() (*url.URL, error) {
 	var _result url.URL
 
-	var _path = "/translation-files/{id}"
+	var _path = "/translation/file/{id}"
 
 	id := swag.FormatInt64(o.ID)
 	if id != "" {

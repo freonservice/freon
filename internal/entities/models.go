@@ -107,3 +107,9 @@ type TranslationFile struct {
 	CreatedAt      time.Time
 	UpdatedAt      time.Time
 }
+
+type Version struct {
+	Locale    string
+	PathURL   string
+	UpdatedAt int64
+}

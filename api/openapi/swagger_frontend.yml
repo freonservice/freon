@@ -2,7 +2,7 @@ swagger: '2.0'
 
 info:
   title: Freon Frontend
-  version: 0.0.1
+  version: 0.0.2
   description: Frontend Server for rest api
 basePath: /api/internal
 schemes:
@@ -463,7 +463,7 @@ paths:
         default:
           $ref: '#/responses/Error'
 
-  /translation-files/{id}:
+  /translation/file/{id}:
     delete:
       operationId: deleteTranslationFile
       summary: delete translation file by id
@@ -480,7 +480,7 @@ paths:
         default:
           $ref: '#/responses/Error'
 
-  /translation-files:
+  /translation/files:
     get:
       operationId: listTranslationFiles
       summary: get full list of available translation files
@@ -737,6 +737,32 @@ paths:
         default:
           $ref: '#/responses/Error'
 
+  /version:
+    get:
+      operationId: version
+      summary: get actual version of translation files ( 0 - web, 1 - ios, 2 - android) or translations (3 - get last updated date)
+      security:
+        - JWTBearer: [ ]
+      parameters:
+        - in: query
+          name: type
+          type: integer
+          minimum: 0
+          default: 0
+        - in: query
+          name: localization_id
+          type: integer
+          minimum: 1
+      responses:
+        '200':
+          description: List of all actual version translations
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Version'
+        default:
+          $ref: '#/responses/Error'
+
   /translation/{id}:
     delete:
       operationId: deleteTranslation
@@ -822,6 +848,19 @@ definitions:
       created_at:
         type: integer
 
+  Version:
+    type: object
+    required:
+      - locale
+      - updated_at
+    properties:
+      locale:
+        type: string
+      path_url:
+        type: string
+      updated_at:
+        type: integer
+
   Localization:
     type: object
     required:
@@ -875,6 +914,7 @@ definitions:
       - platform
       - storage_type
       - created_at
+      - updated_at
     properties:
       id:
         type: integer
@@ -891,6 +931,8 @@ definitions:
         enum: [ local ]
         default: local
       created_at:
+        type: integer
+      updated_at:
         type: integer
 
   Category:

@@ -31,7 +31,7 @@ func NewListTranslationFiles(ctx *middleware.Context, handler ListTranslationFil
 	return &ListTranslationFiles{Context: ctx, Handler: handler}
 }
 
-/*ListTranslationFiles swagger:route GET /translation-files listTranslationFiles
+/*ListTranslationFiles swagger:route GET /translation/files listTranslationFiles
 
 get full list of available translation files
 

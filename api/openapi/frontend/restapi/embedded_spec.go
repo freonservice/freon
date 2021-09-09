@@ -31,7 +31,7 @@ func init() {
   "info": {
     "description": "Frontend Server for rest api",
     "title": "Freon Frontend",
-    "version": "0.0.1"
+    "version": "0.0.2"
   },
   "basePath": "/api/internal",
   "paths": {
@@ -684,7 +684,35 @@ func init() {
         }
       }
     },
-    "/translation-files": {
+    "/translation/file/{id}": {
+      "delete": {
+        "security": [
+          {
+            "JWTBearer": []
+          }
+        ],
+        "summary": "delete translation file by id",
+        "operationId": "deleteTranslationFile",
+        "parameters": [
+          {
+            "minimum": 1,
+            "type": "integer",
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "$ref": "#/responses/NoContent"
+          },
+          "default": {
+            "$ref": "#/responses/Error"
+          }
+        }
+      }
+    },
+    "/translation/files": {
       "get": {
         "security": [
           {
@@ -760,34 +788,6 @@ func init() {
                 }
               }
             }
-          }
-        ],
-        "responses": {
-          "204": {
-            "$ref": "#/responses/NoContent"
-          },
-          "default": {
-            "$ref": "#/responses/Error"
-          }
-        }
-      }
-    },
-    "/translation-files/{id}": {
-      "delete": {
-        "security": [
-          {
-            "JWTBearer": []
-          }
-        ],
-        "summary": "delete translation file by id",
-        "operationId": "deleteTranslationFile",
-        "parameters": [
-          {
-            "minimum": 1,
-            "type": "integer",
-            "name": "id",
-            "in": "path",
-            "required": true
           }
         ],
         "responses": {
@@ -1218,6 +1218,45 @@ func init() {
           }
         }
       }
+    },
+    "/version": {
+      "get": {
+        "security": [
+          {
+            "JWTBearer": []
+          }
+        ],
+        "summary": "get actual version of translation files ( 0 - web, 1 - ios, 2 - android) or translations (3 - get last updated date)",
+        "operationId": "version",
+        "parameters": [
+          {
+            "type": "integer",
+            "default": 0,
+            "name": "type",
+            "in": "query"
+          },
+          {
+            "minimum": 1,
+            "type": "integer",
+            "name": "localization_id",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of all actual version translations",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Version"
+              }
+            }
+          },
+          "default": {
+            "$ref": "#/responses/Error"
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -1378,7 +1417,8 @@ func init() {
         "path",
         "platform",
         "storage_type",
-        "created_at"
+        "created_at",
+        "updated_at"
       ],
       "properties": {
         "created_at": {
@@ -1412,6 +1452,10 @@ func init() {
             "local"
           ],
           "x-order": 5
+        },
+        "updated_at": {
+          "type": "integer",
+          "x-order": 7
         }
       }
     },
@@ -1459,6 +1503,27 @@ func init() {
           "x-order": 4
         }
       }
+    },
+    "Version": {
+      "type": "object",
+      "required": [
+        "locale",
+        "updated_at"
+      ],
+      "properties": {
+        "locale": {
+          "type": "string",
+          "x-order": 0
+        },
+        "path_url": {
+          "type": "string",
+          "x-order": 1
+        },
+        "updated_at": {
+          "type": "integer",
+          "x-order": 2
+        }
+      }
     }
   },
   "responses": {
@@ -1500,7 +1565,7 @@ func init() {
   "info": {
     "description": "Frontend Server for rest api",
     "title": "Freon Frontend",
-    "version": "0.0.1"
+    "version": "0.0.2"
   },
   "basePath": "/api/internal",
   "paths": {
@@ -2193,7 +2258,38 @@ func init() {
         }
       }
     },
-    "/translation-files": {
+    "/translation/file/{id}": {
+      "delete": {
+        "security": [
+          {
+            "JWTBearer": []
+          }
+        ],
+        "summary": "delete translation file by id",
+        "operationId": "deleteTranslationFile",
+        "parameters": [
+          {
+            "minimum": 1,
+            "type": "integer",
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No content in answer"
+          },
+          "default": {
+            "description": "General errors using same model as used by go-swagger for validation errors.",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/translation/files": {
       "get": {
         "security": [
           {
@@ -2272,37 +2368,6 @@ func init() {
                 }
               }
             }
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "No content in answer"
-          },
-          "default": {
-            "description": "General errors using same model as used by go-swagger for validation errors.",
-            "schema": {
-              "$ref": "#/definitions/Error"
-            }
-          }
-        }
-      }
-    },
-    "/translation-files/{id}": {
-      "delete": {
-        "security": [
-          {
-            "JWTBearer": []
-          }
-        ],
-        "summary": "delete translation file by id",
-        "operationId": "deleteTranslationFile",
-        "parameters": [
-          {
-            "minimum": 1,
-            "type": "integer",
-            "name": "id",
-            "in": "path",
-            "required": true
           }
         ],
         "responses": {
@@ -2770,6 +2835,49 @@ func init() {
           }
         }
       }
+    },
+    "/version": {
+      "get": {
+        "security": [
+          {
+            "JWTBearer": []
+          }
+        ],
+        "summary": "get actual version of translation files ( 0 - web, 1 - ios, 2 - android) or translations (3 - get last updated date)",
+        "operationId": "version",
+        "parameters": [
+          {
+            "minimum": 0,
+            "type": "integer",
+            "default": 0,
+            "name": "type",
+            "in": "query"
+          },
+          {
+            "minimum": 1,
+            "type": "integer",
+            "name": "localization_id",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of all actual version translations",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Version"
+              }
+            }
+          },
+          "default": {
+            "description": "General errors using same model as used by go-swagger for validation errors.",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -2976,7 +3084,8 @@ func init() {
         "path",
         "platform",
         "storage_type",
-        "created_at"
+        "created_at",
+        "updated_at"
       ],
       "properties": {
         "created_at": {
@@ -3010,6 +3119,10 @@ func init() {
             "local"
           ],
           "x-order": 5
+        },
+        "updated_at": {
+          "type": "integer",
+          "x-order": 7
         }
       }
     },
@@ -3055,6 +3168,27 @@ func init() {
         "uuid_id": {
           "type": "string",
           "x-order": 4
+        }
+      }
+    },
+    "Version": {
+      "type": "object",
+      "required": [
+        "locale",
+        "updated_at"
+      ],
+      "properties": {
+        "locale": {
+          "type": "string",
+          "x-order": 0
+        },
+        "path_url": {
+          "type": "string",
+          "x-order": 1
+        },
+        "updated_at": {
+          "type": "integer",
+          "x-order": 2
         }
       }
     }

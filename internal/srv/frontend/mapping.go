@@ -136,6 +136,7 @@ func apiTranslationFile(v *entities.TranslationFile) *model.TranslationFile {
 		Status:      getStatusByInteger(api.Status(v.Status)),
 		StorageType: pointer.ToString(getStorageTypeByInteger(v.StorageType)),
 		CreatedAt:   pointer.ToInt64(v.CreatedAt.UTC().Unix()),
+		UpdatedAt:   pointer.ToInt64(v.UpdatedAt.UTC().Unix()),
 	}
 	return i
 }
@@ -144,6 +145,23 @@ func apiArrayTranslationFiles(v []*entities.TranslationFile) []*model.Translatio
 	var d = make([]*model.TranslationFile, len(v))
 	for i, e := range v {
 		d[i] = apiTranslationFile(e)
+	}
+	return d
+}
+
+func apiVersion(v *entities.Version) *model.Version {
+	i := &model.Version{
+		Locale:    pointer.ToString(v.Locale),
+		PathURL:   v.PathURL,
+		UpdatedAt: pointer.ToInt64(v.UpdatedAt),
+	}
+	return i
+}
+
+func apiArrayVersion(v []*entities.Version) []*model.Version {
+	var d = make([]*model.Version, len(v))
+	for i, e := range v {
+		d[i] = apiVersion(e)
 	}
 	return d
 }

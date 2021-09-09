@@ -13,7 +13,6 @@ import (
 	"github.com/freonservice/freon/internal/app"
 )
 
-
 func configureFlags(api *op.FreonFrontendAPI) {
 	// api.CommandLineOptionsGroups = []swag.CommandLineOptionsGroup{ ... }
 }
@@ -191,6 +190,11 @@ func configureAPI(api *op.FreonFrontendAPI) http.Handler {
 	if api.UserMeHandler == nil {
 		api.UserMeHandler = op.UserMeHandlerFunc(func(params op.UserMeParams, principal *app.UserSession) op.UserMeResponder {
 			return op.UserMeNotImplemented()
+		})
+	}
+	if api.VersionHandler == nil {
+		api.VersionHandler = op.VersionHandlerFunc(func(params op.VersionParams, principal *app.UserSession) op.VersionResponder {
+			return op.VersionNotImplemented()
 		})
 	}
 

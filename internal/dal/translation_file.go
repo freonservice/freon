@@ -55,7 +55,8 @@ func (r *Repo) GetTranslationFiles(ctx Ctx, f filter.TranslationFileFilter) ([]*
 		entity := new(dao.TranslationFile)
 		entity.Localization = new(dao.Localization)
 		err = rows.Scan(
-			&entity.ID, &entity.Name, &entity.Path, &entity.Platform, &entity.StorageType, &entity.CreatedAt,
+			&entity.ID, &entity.Name, &entity.Path, &entity.Platform,
+			&entity.StorageType, &entity.CreatedAt, &entity.UpdatedAt,
 			&entity.Localization.ID, &entity.Localization.Locale, &entity.Localization.LanguageName,
 		)
 		if err != nil {

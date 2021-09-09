@@ -37,7 +37,7 @@ func NewCreateTranslationFiles(ctx *middleware.Context, handler CreateTranslatio
 	return &CreateTranslationFiles{Context: ctx, Handler: handler}
 }
 
-/*CreateTranslationFiles swagger:route POST /translation-files createTranslationFiles
+/*CreateTranslationFiles swagger:route POST /translation/files createTranslationFiles
 
 create translation files for one localization (language) and different platforms (ios,android,web)
 

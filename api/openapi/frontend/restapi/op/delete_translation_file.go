@@ -31,7 +31,7 @@ func NewDeleteTranslationFile(ctx *middleware.Context, handler DeleteTranslation
 	return &DeleteTranslationFile{Context: ctx, Handler: handler}
 }
 
-/*DeleteTranslationFile swagger:route DELETE /translation-files/{id} deleteTranslationFile
+/*DeleteTranslationFile swagger:route DELETE /translation/file/{id} deleteTranslationFile
 
 delete translation file by id
 

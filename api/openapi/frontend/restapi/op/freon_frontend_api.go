@@ -131,6 +131,9 @@ func NewFreonFrontendAPI(spec *loads.Document) *FreonFrontendAPI {
 		UserMeHandler: UserMeHandlerFunc(func(params UserMeParams, principal *app.UserSession) UserMeResponder {
 			return UserMeNotImplemented()
 		}),
+		VersionHandler: VersionHandlerFunc(func(params VersionParams, principal *app.UserSession) VersionResponder {
+			return VersionNotImplemented()
+		}),
 
 		// Applies when the "Authorization" header is set
 		JWTBearerAuth: func(token string) (*app.UserSession, error) {
@@ -237,6 +240,8 @@ type FreonFrontendAPI struct {
 	UserChangeStatusHandler UserChangeStatusHandler
 	// UserMeHandler sets the operation handler for the user me operation
 	UserMeHandler UserMeHandler
+	// VersionHandler sets the operation handler for the version operation
+	VersionHandler VersionHandler
 	// ServeError is called when an error is received, there is a default handler
 	// but you can set your own with this
 	ServeError func(http.ResponseWriter, *http.Request, error)
@@ -404,6 +409,9 @@ func (o *FreonFrontendAPI) Validate() error {
 	if o.UserMeHandler == nil {
 		unregistered = append(unregistered, "UserMeHandler")
 	}
+	if o.VersionHandler == nil {
+		unregistered = append(unregistered, "VersionHandler")
+	}
 
 	if len(unregistered) > 0 {
 		return fmt.Errorf("missing registration: %s", strings.Join(unregistered, ", "))
@@ -522,7 +530,7 @@ func (o *FreonFrontendAPI) initHandlerCache() {
 	if o.handlers["POST"] == nil {
 		o.handlers["POST"] = make(map[string]http.Handler)
 	}
-	o.handlers["POST"]["/translation-files"] = NewCreateTranslationFiles(o.context, o.CreateTranslationFilesHandler)
+	o.handlers["POST"]["/translation/files"] = NewCreateTranslationFiles(o.context, o.CreateTranslationFilesHandler)
 	if o.handlers["DELETE"] == nil {
 		o.handlers["DELETE"] = make(map[string]http.Handler)
 	}
@@ -542,7 +550,7 @@ func (o *FreonFrontendAPI) initHandlerCache() {
 	if o.handlers["DELETE"] == nil {
 		o.handlers["DELETE"] = make(map[string]http.Handler)
 	}
-	o.handlers["DELETE"]["/translation-files/{id}"] = NewDeleteTranslationFile(o.context, o.DeleteTranslationFileHandler)
+	o.handlers["DELETE"]["/translation/file/{id}"] = NewDeleteTranslationFile(o.context, o.DeleteTranslationFileHandler)
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
@@ -562,7 +570,7 @@ func (o *FreonFrontendAPI) initHandlerCache() {
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
-	o.handlers["GET"]["/translation-files"] = NewListTranslationFiles(o.context, o.ListTranslationFilesHandler)
+	o.handlers["GET"]["/translation/files"] = NewListTranslationFiles(o.context, o.ListTranslationFilesHandler)
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
@@ -619,6 +627,10 @@ func (o *FreonFrontendAPI) initHandlerCache() {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
 	o.handlers["GET"]["/user/me"] = NewUserMe(o.context, o.UserMeHandler)
+	if o.handlers["GET"] == nil {
+		o.handlers["GET"] = make(map[string]http.Handler)
+	}
+	o.handlers["GET"]["/version"] = NewVersion(o.context, o.VersionHandler)
 }
 
 // Serve creates a http handler to serve the API over HTTP

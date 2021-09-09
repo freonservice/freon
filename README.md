@@ -7,7 +7,7 @@ You can generate translations for different platforms (web services, mobile appl
 This service is an embedded solution into your infrastructure to increase flexibility and reliability. Thanks to the docker build, you can easily add this service to your infrastructure.
 The service consists of two parts - a backend written in Golang and a frontend written in ReactJS.
 
-This service will allow content managers to conveniently make changes to localization files, monitor support for various languages, and seamlessly pull them up for applications without the need to update in the application store (App Store, Google Play, etc.).
+This service will allow content managers to conveniently make changes to localization files, monitor support for various languages, and seamlessly pull them up for applications without the need to update in the application store (App Store, Google Play, etc.) or instant update in web app.
 
 ## Build Status
 
@@ -43,7 +43,6 @@ docker run -d --name freon -v freon-docs:/docs \
            --env DB_HOST=localhost --env DB_PORT=5432 \
            --env DB_USER=root --env DB_PASS=password \
            --env DB_NAME=freon --env JWT_SECRET_KEY=freon-secret-key \
-           --env MIGRATION_PATH=/migrations \
            -p 4000:4000 -p 4001:4001 -p 4002:4002 \
            freonservice/freonservice
 ```
@@ -67,8 +66,9 @@ Command for launch service from docker
 - [ ] Generation android translations
 - [ ] Generation ios translations
 - [ ] UI improvements
-- [ ] Add API with translation version checking
+- [ ] Add API and business logic for checking actual version of translations  
 - [ ] Fix supporting pluralization
+- [ ] Add AWS storages for static files
 
 ## Contribution
 

@@ -34,4 +34,5 @@ enum PlatformType {
   PLATFORM_TYPE_WEB = 0;
   PLATFORM_TYPE_IOS = 1;
   PLATFORM_TYPE_ANDROID = 2;
+  PLATFORM_TYPE_SKIP = 3; // skipped
 }

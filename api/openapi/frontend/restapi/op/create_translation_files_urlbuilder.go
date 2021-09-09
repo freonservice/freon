@@ -35,7 +35,7 @@ func (o *CreateTranslationFilesURL) SetBasePath(bp string) {
 func (o *CreateTranslationFilesURL) Build() (*url.URL, error) {
 	var _result url.URL
 
-	var _path = "/translation-files"
+	var _path = "/translation/files"
 
 	_basePath := o._basePath
 	if _basePath == "" {

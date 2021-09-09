@@ -18,7 +18,7 @@ var (
 	DefaultAdminPass     = environ.GetStrEnv("DEFAULT_ADMIN_PASS", "adminpassword")
 	JwtSecretKey         = environ.MustGetString("JWT_SECRET_KEY")
 	JwtTokenLifetime     = environ.GetTimeDurationEnv("JWT_TOKEN_LIFETIME", "24h")
-	MigrationPath        = environ.MustGetString("MIGRATION_PATH")
+	MigrationPath        = environ.GetStrEnv("MIGRATION_PATH", "/migrations")
 	DBMaxOpenConns       = environ.GetIntEnv("DB_MAX_OPEN_CONNS", 10) //nolint:gomnd
 	DBMaxIdleConns       = environ.GetIntEnv("DB_MAX_IDLE_CONNS", 10) //nolint:gomnd
 	TranslationFilesPath = environ.GetStrEnv("TRANSLATION_FILES_PATH", "")

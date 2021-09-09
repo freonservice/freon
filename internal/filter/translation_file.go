@@ -20,7 +20,7 @@ func (t *TranslationFileFilter) CreateRows(ctx context.Context, r *reform.DB) (*
 		rows, err = r.QueryContext(
 			ctx,
 			`SELECT  
-			tf.id, tf.name, tf.path, tf.platform, tf.storage_type, tf.created_at, l.id, l.locale, l.lang_name  
+			tf.id, tf.name, tf.path, tf.platform, tf.storage_type, tf.created_at, tf.updated_at, l.id, l.locale, l.lang_name  
 			FROM translation_files AS tf 
 			LEFT JOIN localizations l ON tf.localization_id=l.id 
 			WHERE tf.platform = $1 AND tf.localization_id = $2
@@ -31,7 +31,7 @@ func (t *TranslationFileFilter) CreateRows(ctx context.Context, r *reform.DB) (*
 		rows, err = r.QueryContext(
 			ctx,
 			`SELECT
-			tf.id, tf.name, tf.path, tf.platform, tf.storage_type, tf.created_at, l.id, l.locale, l.lang_name  
+			tf.id, tf.name, tf.path, tf.platform, tf.storage_type, tf.created_at, tf.updated_at, l.id, l.locale, l.lang_name  
 			FROM translation_files AS tf
 			LEFT JOIN localizations l ON tf.localization_id=l.id 
 			WHERE tf.localization_id = $1
@@ -42,7 +42,7 @@ func (t *TranslationFileFilter) CreateRows(ctx context.Context, r *reform.DB) (*
 		rows, err = r.QueryContext(
 			ctx,
 			`SELECT  
-			tf.id, tf.name, tf.path, tf.platform, tf.storage_type, tf.created_at, l.id, l.locale, l.lang_name  
+			tf.id, tf.name, tf.path, tf.platform, tf.storage_type, tf.created_at, tf.updated_at, l.id, l.locale, l.lang_name  
 			FROM translation_files AS tf 
 			LEFT JOIN localizations l ON tf.localization_id=l.id 
 			WHERE tf.platform = $1
@@ -53,7 +53,7 @@ func (t *TranslationFileFilter) CreateRows(ctx context.Context, r *reform.DB) (*
 		rows, err = r.QueryContext(
 			ctx,
 			`SELECT  
-			tf.id, tf.name, tf.path, tf.platform, tf.storage_type, tf.created_at, l.id, l.locale, l.lang_name  
+			tf.id, tf.name, tf.path, tf.platform, tf.storage_type, tf.created_at, tf.updated_at, l.id, l.locale, l.lang_name  
 			FROM translation_files AS tf 
 			LEFT JOIN localizations l ON tf.localization_id=l.id 
 			ORDER BY tf.id DESC`,

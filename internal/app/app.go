@@ -58,6 +58,7 @@ type (
 		DeleteTranslationFile(ctx Ctx, id int64) error
 
 		GetStatistic(ctx Ctx) (*entities.Statistic, error)
+		GetVersion(ctx Ctx, localizationID, typeVersion int64) ([]*entities.Version, error)
 
 		HealthCheck(Ctx) (interface{}, error)
 	}
@@ -116,6 +117,8 @@ type (
 		DeleteTranslationFile(ctx Ctx, id int64) error
 
 		GetStatistic(ctx Ctx) (*dao.Statistic, error)
+		GetVersionFromTranslationFiles(ctx Ctx, localizationID, typeVersion int64) ([]*dao.Version, error)
+		GetVersionFromTranslations(ctx Ctx, localizationID int64) ([]*dao.Version, error)
 	}
 
 	Password interface {

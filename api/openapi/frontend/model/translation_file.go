@@ -47,6 +47,10 @@ type TranslationFile struct {
 	// created at
 	// Required: true
 	CreatedAt *int64 `json:"created_at"`
+
+	// updated at
+	// Required: true
+	UpdatedAt *int64 `json:"updated_at"`
 }
 
 // UnmarshalJSON unmarshals this object while disallowing additional properties from JSON
@@ -80,6 +84,10 @@ func (m *TranslationFile) UnmarshalJSON(data []byte) error {
 		// created at
 		// Required: true
 		CreatedAt *int64 `json:"created_at"`
+
+		// updated at
+		// Required: true
+		UpdatedAt *int64 `json:"updated_at"`
 	}
 
 	dec := json.NewDecoder(bytes.NewReader(data))
@@ -95,6 +103,7 @@ func (m *TranslationFile) UnmarshalJSON(data []byte) error {
 	m.Status = props.Status
 	m.StorageType = props.StorageType
 	m.CreatedAt = props.CreatedAt
+	m.UpdatedAt = props.UpdatedAt
 	return nil
 }
 
@@ -123,6 +132,10 @@ func (m *TranslationFile) Validate(formats strfmt.Registry) error {
 	}
 
 	if err := m.validateCreatedAt(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateUpdatedAt(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -211,6 +224,15 @@ func (m *TranslationFile) validateStorageType(formats strfmt.Registry) error {
 func (m *TranslationFile) validateCreatedAt(formats strfmt.Registry) error {
 
 	if err := validate.Required("created_at", "body", m.CreatedAt); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (m *TranslationFile) validateUpdatedAt(formats strfmt.Registry) error {
+
+	if err := validate.Required("updated_at", "body", m.UpdatedAt); err != nil {
 		return err
 	}
 
