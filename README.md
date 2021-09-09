@@ -66,7 +66,7 @@ Command for launch service from docker
 - [ ] Generation android translations
 - [ ] Generation ios translations
 - [ ] UI improvements
-- [ ] Add API and business logic for checking actual version of translations  
+- [x] Add API and business logic for checking actual version of translations  
 - [ ] Fix supporting pluralization
 - [ ] Add AWS storages for static files
 

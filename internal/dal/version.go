@@ -16,9 +16,7 @@ func (r *Repo) GetVersionFromTranslationFiles(ctx Ctx, f filter.VersionTranslati
 	}
 	defer rows.Close()
 
-	var (
-		entities []*dao.Version
-	)
+	var entities []*dao.Version
 	for rows.Next() {
 		entity := new(dao.Version)
 		err = rows.Scan(
