@@ -117,7 +117,9 @@ export class TranslationTable extends React.Component {
                             <dt className="col-sm-6 text-right">Description</dt>
                             <dd className="col-sm-6">{row.identifier.description}</dd>
                             <dt className="col-sm-6 text-right">Example Text</dt>
-                            <dd className="col-sm-6">{row.identifier.example_text}</dd>
+                            <dd className="col-sm-6">
+                                {row.identifier.example_text.substring(0, 100) + '...'}
+                            </dd>
                         </dl>
                     </Col>
                     <Col md={6}>

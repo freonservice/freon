@@ -23,7 +23,7 @@ ENV CGO_ENABLED=0
 # Prebuild requirements
 RUN go get golang.org/x/tools/cmd/goimports && wget -O - -q https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh| sh
 
-RUN mkdir -p /docs
+RUN mkdir -p /docs && chown -R nobody:nobody /docs
 
 # Set the working directory outside $GOPATH to enable the support for modules.
 WORKDIR /src
@@ -55,10 +55,11 @@ COPY --from=builder /src/web /web
 # Import the migrations
 COPY --from=builder /src/migrations /migrations
 
-COPY --from=builder /docs /docs
+# Import folder for translation files
+COPY --from=builder --chown=nobody:nobody /docs /docs
 
 # Perform any further action as an unprivileged user.
-#USER nobody:nobody
+USER nobody:nobody
 
 # Run the compiled binary.
 ENTRYPOINT ["/freon"]

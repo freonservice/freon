@@ -812,34 +812,6 @@
     "dialectOf": null
   },
   {
-    "id": "br-FR",
-    "name": "Breton",
-    "editorCode": "brfr",
-    "twoLettersCode": "br",
-    "threeLettersCode": "bre",
-    "locale": "br-FR",
-    "androidCode": "br-rFR",
-    "osxCode": "br.lproj",
-    "osxLocale": "br",
-    "pluralCategoryNames": [
-      "one",
-      "two",
-      "few",
-      "many",
-      "other"
-    ],
-    "pluralRules": "(n%10==1 && (n%100!=11 || n%100!=71 || n%100!=91) ? 0 : n%10==2 && (n%100!=12 || n%100!=72 || n%100!=92) ? 1 : ((n%10>=3 && n%10<=4) || n%10==9) && ((n%100 < 10 || n%100 > 19) || (n%100 < 70 || n%100 > 79) || (n%100 < 90 || n%100 > 99)) ? 2 : (n!=0 && n%1",
-    "pluralExamples": [
-      "1, 21, 31, 41, 51, 61, 81...",
-      "2, 22, 32, 42, 52, 62, 82...",
-      "3, 4, 9, 23, 24, 29, 33...",
-      "1000000",
-      "0, 11-25, 100, 1000, 10000, 100000..."
-    ],
-    "textDirection": "ltr",
-    "dialectOf": null
-  },
-  {
     "id": "bg",
     "name": "Bulgarian",
     "editorCode": "bg",

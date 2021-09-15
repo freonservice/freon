@@ -103,6 +103,11 @@ func configureAPI(api *op.FreonFrontendAPI) http.Handler {
 			return op.HealthCheckNotImplemented()
 		})
 	}
+	if api.InfoHandler == nil {
+		api.InfoHandler = op.InfoHandlerFunc(func(params op.InfoParams, principal *app.UserSession) op.InfoResponder {
+			return op.InfoNotImplemented()
+		})
+	}
 	if api.ListCategoriesHandler == nil {
 		api.ListCategoriesHandler = op.ListCategoriesHandlerFunc(func(params op.ListCategoriesParams, principal *app.UserSession) op.ListCategoriesResponder {
 			return op.ListCategoriesNotImplemented()

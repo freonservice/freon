@@ -166,6 +166,21 @@ paths:
         default:
           $ref: '#/responses/Error'
 
+  /info:
+    get:
+      operationId: info
+      summary: getting actual user session and system configurations
+      security:
+        - JWTBearer: [ ]
+      responses:
+        '200':
+          description: response
+          schema:
+            type: object
+            $ref: '#/definitions/Info'
+        default:
+          $ref: '#/responses/Error'
+
   /user/change-password:
     put:
       operationId: userChangePassword
@@ -977,6 +992,22 @@ definitions:
         type: string
       created_at:
         type: integer
+
+  Info:
+    type: object
+    required:
+      - user
+      - configuration
+    properties:
+      user:
+        $ref: '#/definitions/User'
+      configuration:
+        type: object
+        required:
+          - has_auto_translation
+        properties:
+          has_auto_translation:
+            type: boolean
 
 responses:
   Error:

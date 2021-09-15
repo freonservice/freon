@@ -369,6 +369,29 @@ func init() {
         }
       }
     },
+    "/info": {
+      "get": {
+        "security": [
+          {
+            "JWTBearer": []
+          }
+        ],
+        "summary": "getting actual user session and system configurations",
+        "operationId": "info",
+        "responses": {
+          "200": {
+            "description": "response",
+            "schema": {
+              "type": "object",
+              "$ref": "#/definitions/Info"
+            }
+          },
+          "default": {
+            "$ref": "#/responses/Error"
+          }
+        }
+      }
+    },
     "/localization": {
       "post": {
         "security": [
@@ -1339,6 +1362,32 @@ func init() {
         }
       }
     },
+    "Info": {
+      "type": "object",
+      "required": [
+        "user",
+        "configuration"
+      ],
+      "properties": {
+        "configuration": {
+          "type": "object",
+          "required": [
+            "has_auto_translation"
+          ],
+          "properties": {
+            "has_auto_translation": {
+              "type": "boolean",
+              "x-order": 0
+            }
+          },
+          "x-order": 1
+        },
+        "user": {
+          "x-order": 0,
+          "$ref": "#/definitions/User"
+        }
+      }
+    },
     "Localization": {
       "type": "object",
       "required": [
@@ -1932,6 +1981,32 @@ func init() {
               "items": {
                 "$ref": "#/definitions/Identifier"
               }
+            }
+          },
+          "default": {
+            "description": "General errors using same model as used by go-swagger for validation errors.",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/info": {
+      "get": {
+        "security": [
+          {
+            "JWTBearer": []
+          }
+        ],
+        "summary": "getting actual user session and system configurations",
+        "operationId": "info",
+        "responses": {
+          "200": {
+            "description": "response",
+            "schema": {
+              "type": "object",
+              "$ref": "#/definitions/Info"
             }
           },
           "default": {
@@ -2971,6 +3046,45 @@ func init() {
           "x-order": 5
         }
       }
+    },
+    "Info": {
+      "type": "object",
+      "required": [
+        "user",
+        "configuration"
+      ],
+      "properties": {
+        "configuration": {
+          "type": "object",
+          "required": [
+            "has_auto_translation"
+          ],
+          "properties": {
+            "has_auto_translation": {
+              "type": "boolean",
+              "x-order": 0
+            }
+          },
+          "x-order": 1
+        },
+        "user": {
+          "x-order": 0,
+          "$ref": "#/definitions/User"
+        }
+      }
+    },
+    "InfoConfiguration": {
+      "type": "object",
+      "required": [
+        "has_auto_translation"
+      ],
+      "properties": {
+        "has_auto_translation": {
+          "type": "boolean",
+          "x-order": 0
+        }
+      },
+      "x-order": 1
     },
     "Localization": {
       "type": "object",

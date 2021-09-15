@@ -77,6 +77,9 @@ func NewFreonFrontendAPI(spec *loads.Document) *FreonFrontendAPI {
 		HealthCheckHandler: HealthCheckHandlerFunc(func(params HealthCheckParams) HealthCheckResponder {
 			return HealthCheckNotImplemented()
 		}),
+		InfoHandler: InfoHandlerFunc(func(params InfoParams, principal *app.UserSession) InfoResponder {
+			return InfoNotImplemented()
+		}),
 		ListCategoriesHandler: ListCategoriesHandlerFunc(func(params ListCategoriesParams, principal *app.UserSession) ListCategoriesResponder {
 			return ListCategoriesNotImplemented()
 		}),
@@ -204,6 +207,8 @@ type FreonFrontendAPI struct {
 	DeleteTranslationFileHandler DeleteTranslationFileHandler
 	// HealthCheckHandler sets the operation handler for the health check operation
 	HealthCheckHandler HealthCheckHandler
+	// InfoHandler sets the operation handler for the info operation
+	InfoHandler InfoHandler
 	// ListCategoriesHandler sets the operation handler for the list categories operation
 	ListCategoriesHandler ListCategoriesHandler
 	// ListIdentifiersHandler sets the operation handler for the list identifiers operation
@@ -354,6 +359,9 @@ func (o *FreonFrontendAPI) Validate() error {
 	}
 	if o.HealthCheckHandler == nil {
 		unregistered = append(unregistered, "HealthCheckHandler")
+	}
+	if o.InfoHandler == nil {
+		unregistered = append(unregistered, "InfoHandler")
 	}
 	if o.ListCategoriesHandler == nil {
 		unregistered = append(unregistered, "ListCategoriesHandler")
@@ -555,6 +563,10 @@ func (o *FreonFrontendAPI) initHandlerCache() {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}
 	o.handlers["GET"]["/health-check"] = NewHealthCheck(o.context, o.HealthCheckHandler)
+	if o.handlers["GET"] == nil {
+		o.handlers["GET"] = make(map[string]http.Handler)
+	}
+	o.handlers["GET"]["/info"] = NewInfo(o.context, o.InfoHandler)
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}

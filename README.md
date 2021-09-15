@@ -69,6 +69,7 @@ Command for launch service from docker
 - [x] Add API and business logic for checking actual version of translations  
 - [ ] Fix supporting pluralization
 - [ ] Add AWS storages for static files
+- [ ] Full backend test coverage
 
 ## Contribution
 

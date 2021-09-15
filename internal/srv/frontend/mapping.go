@@ -9,6 +9,13 @@ import (
 	"github.com/AlekSi/pointer"
 )
 
+func apiInfo(v *entities.User, conf *model.InfoConfiguration) *model.Info {
+	return &model.Info{
+		User:          apiUser(v),
+		Configuration: conf,
+	}
+}
+
 func apiUser(v *entities.User) *model.User {
 	return &model.User{
 		ID:         &v.ID,

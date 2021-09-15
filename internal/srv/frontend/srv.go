@@ -57,6 +57,7 @@ func NewServer(auth app.Auth, appl app.Appl, cfg Config) (*restapi.Server, error
 	api.LogoutUserHandler = op.LogoutUserHandlerFunc(srv.logout)
 	api.RegUserHandler = op.RegUserHandlerFunc(srv.regUser)
 	api.UserMeHandler = op.UserMeHandlerFunc(srv.userMe)
+	api.InfoHandler = op.InfoHandlerFunc(srv.info)
 	api.UserChangePasswordHandler = op.UserChangePasswordHandlerFunc(srv.userChangePassword)
 	api.UserChangeProfileHandler = op.UserChangeProfileHandlerFunc(srv.userChangeProfile)
 	api.CreateLocalizationHandler = op.CreateLocalizationHandlerFunc(srv.createLocalization)

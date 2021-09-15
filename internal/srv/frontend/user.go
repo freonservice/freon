@@ -1,6 +1,8 @@
 package frontend
 
 import (
+	"github.com/AlekSi/pointer"
+	"github.com/freonservice/freon/api/openapi/frontend/model"
 	"github.com/freonservice/freon/api/openapi/frontend/restapi/op"
 	"github.com/freonservice/freon/internal/app"
 	"github.com/freonservice/freon/internal/entities"
@@ -49,6 +51,27 @@ func (srv *server) userMe(params op.UserMeParams, session *app.UserSession) op.U
 	}
 
 	return op.NewUserMeOK().WithPayload(apiUser(user))
+}
+
+func (srv *server) info(params op.InfoParams, session *app.UserSession) op.InfoResponder {
+	ctx, log := fromRequest(params.HTTPRequest, session)
+
+	user, err := srv.app.GetUserByID(ctx, session.UserID)
+	switch errors.Cause(err) {
+	default:
+		log.PrintErr(errors.WithStack(err))
+		return errInfo(log, err, codeInternal)
+	case app.ErrNotFound:
+		return errInfo(log, err, codeNotFound)
+	case nil:
+	}
+
+	return op.NewInfoOK().WithPayload(apiInfo(
+		user,
+		&model.InfoConfiguration{
+			HasAutoTranslation: pointer.ToBool(true),
+		},
+	))
 }
 
 func (srv *server) userChangePassword(params op.UserChangePasswordParams, session *app.UserSession) op.UserChangePasswordResponder {

@@ -103,6 +103,24 @@ func errUserMe(log Log, err error, code errCode) op.UserMeResponder { //nolint:d
 	})
 }
 
+func errInfo(log Log, err error, code errCode) op.InfoResponder { //nolint:dupl
+	if code.status < http.StatusInternalServerError {
+		log.Info("client error", def.LogHTTPStatus, code.status, "code", code.status, "err", err)
+	} else {
+		log.PrintErr("server error", def.LogHTTPStatus, code.status, "code", code.status, "err", err)
+	}
+
+	msg := err.Error()
+	if code.status == http.StatusInternalServerError {
+		msg = internalError
+	}
+
+	return op.NewInfoDefault(code.status).WithPayload(&model.Error{
+		Code:    swag.Int32(int32(code.status)),
+		Message: swag.String(msg),
+	})
+}
+
 func errListLocalization(log Log, err error, code errCode) op.ListLocalizationResponder { //nolint:dupl
 	if code.status < http.StatusInternalServerError {
 		log.Info("client error", def.LogHTTPStatus, code.status, "code", code.status, "err", err)
