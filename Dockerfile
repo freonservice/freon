@@ -23,7 +23,8 @@ ENV CGO_ENABLED=0
 # Prebuild requirements
 RUN go get golang.org/x/tools/cmd/goimports && wget -O - -q https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh| sh
 
-RUN mkdir -p /docs && chown -R nobody:nobody /docs
+# Create folder for transaction files
+RUN mkdir -p /docs
 
 # Set the working directory outside $GOPATH to enable the support for modules.
 WORKDIR /src
