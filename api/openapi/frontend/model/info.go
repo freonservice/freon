@@ -7,6 +7,7 @@ package model
 
 import (
 	"bytes"
+	"context"
 	"encoding/json"
 
 	"github.com/go-openapi/errors"
@@ -20,26 +21,26 @@ import (
 // swagger:model Info
 type Info struct {
 
-	// user
-	// Required: true
-	User *User `json:"user"`
-
 	// configuration
 	// Required: true
 	Configuration *InfoConfiguration `json:"configuration"`
+
+	// user
+	// Required: true
+	User *User `json:"user"`
 }
 
 // UnmarshalJSON unmarshals this object while disallowing additional properties from JSON
 func (m *Info) UnmarshalJSON(data []byte) error {
 	var props struct {
 
-		// user
-		// Required: true
-		User *User `json:"user"`
-
 		// configuration
 		// Required: true
 		Configuration *InfoConfiguration `json:"configuration"`
+
+		// user
+		// Required: true
+		User *User `json:"user"`
 	}
 
 	dec := json.NewDecoder(bytes.NewReader(data))
@@ -48,8 +49,8 @@ func (m *Info) UnmarshalJSON(data []byte) error {
 		return err
 	}
 
-	m.User = props.User
 	m.Configuration = props.Configuration
+	m.User = props.User
 	return nil
 }
 
@@ -57,17 +58,35 @@ func (m *Info) UnmarshalJSON(data []byte) error {
 func (m *Info) Validate(formats strfmt.Registry) error {
 	var res []error
 
-	if err := m.validateUser(formats); err != nil {
+	if err := m.validateConfiguration(formats); err != nil {
 		res = append(res, err)
 	}
 
-	if err := m.validateConfiguration(formats); err != nil {
+	if err := m.validateUser(formats); err != nil {
 		res = append(res, err)
 	}
 
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+func (m *Info) validateConfiguration(formats strfmt.Registry) error {
+
+	if err := validate.Required("configuration", "body", m.Configuration); err != nil {
+		return err
+	}
+
+	if m.Configuration != nil {
+		if err := m.Configuration.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("configuration")
+			}
+			return err
+		}
+	}
+
 	return nil
 }
 
@@ -89,16 +108,44 @@ func (m *Info) validateUser(formats strfmt.Registry) error {
 	return nil
 }
 
-func (m *Info) validateConfiguration(formats strfmt.Registry) error {
+// ContextValidate validate this info based on the context it is used
+func (m *Info) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
 
-	if err := validate.Required("configuration", "body", m.Configuration); err != nil {
-		return err
+	if err := m.contextValidateConfiguration(ctx, formats); err != nil {
+		res = append(res, err)
 	}
 
+	if err := m.contextValidateUser(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *Info) contextValidateConfiguration(ctx context.Context, formats strfmt.Registry) error {
+
 	if m.Configuration != nil {
-		if err := m.Configuration.Validate(formats); err != nil {
+		if err := m.Configuration.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("configuration")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *Info) contextValidateUser(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.User != nil {
+		if err := m.User.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("user")
 			}
 			return err
 		}
@@ -174,6 +221,11 @@ func (m *InfoConfiguration) validateHasAutoTranslation(formats strfmt.Registry) 
 		return err
 	}
 
+	return nil
+}
+
+// ContextValidate validates this info configuration based on context it is used
+func (m *InfoConfiguration) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

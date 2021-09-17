@@ -7,6 +7,7 @@ package model
 
 import (
 	"bytes"
+	"context"
 	"encoding/json"
 
 	"github.com/go-openapi/errors"
@@ -90,14 +91,19 @@ func (m *Category) validateName(formats strfmt.Registry) error {
 		return err
 	}
 
-	if err := validate.MinLength("name", "body", string(*m.Name), 1); err != nil {
+	if err := validate.MinLength("name", "body", *m.Name, 1); err != nil {
 		return err
 	}
 
-	if err := validate.MaxLength("name", "body", string(*m.Name), 255); err != nil {
+	if err := validate.MaxLength("name", "body", *m.Name, 255); err != nil {
 		return err
 	}
 
+	return nil
+}
+
+// ContextValidate validates this category based on context it is used
+func (m *Category) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

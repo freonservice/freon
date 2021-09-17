@@ -13,7 +13,8 @@ import (
 )
 
 // NewStatisticParams creates a new StatisticParams object
-// no default values defined in spec.
+//
+// There are no default values defined in the spec.
 func NewStatisticParams() StatisticParams {
 
 	return StatisticParams{}

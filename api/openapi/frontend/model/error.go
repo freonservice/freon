@@ -7,6 +7,7 @@ package model
 
 import (
 	"bytes"
+	"context"
 	"encoding/json"
 
 	"github.com/go-openapi/errors"
@@ -86,6 +87,11 @@ func (m *Error) validateMessage(formats strfmt.Registry) error {
 		return err
 	}
 
+	return nil
+}
+
+// ContextValidate validates this error based on context it is used
+func (m *Error) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

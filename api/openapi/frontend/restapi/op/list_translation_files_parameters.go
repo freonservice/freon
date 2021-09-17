@@ -17,7 +17,8 @@ import (
 )
 
 // NewListTranslationFilesParams creates a new ListTranslationFilesParams object
-// no default values defined in spec.
+//
+// There are no default values defined in the spec.
 func NewListTranslationFilesParams() ListTranslationFilesParams {
 
 	return ListTranslationFilesParams{}
@@ -63,7 +64,6 @@ func (o *ListTranslationFilesParams) BindRequest(r *http.Request, route *middlew
 	if err := o.bindPlatform(qPlatform, qhkPlatform, route.Formats); err != nil {
 		res = append(res, err)
 	}
-
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
@@ -79,6 +79,7 @@ func (o *ListTranslationFilesParams) bindLocalizationID(rawData []string, hasKey
 
 	// Required: false
 	// AllowEmptyValue: false
+
 	if raw == "" { // empty values pass all other validations
 		return nil
 	}
@@ -99,7 +100,7 @@ func (o *ListTranslationFilesParams) bindLocalizationID(rawData []string, hasKey
 // validateLocalizationID carries on validations for parameter LocalizationID
 func (o *ListTranslationFilesParams) validateLocalizationID(formats strfmt.Registry) error {
 
-	if err := validate.MinimumInt("localization_id", "query", int64(*o.LocalizationID), 1, false); err != nil {
+	if err := validate.MinimumInt("localization_id", "query", *o.LocalizationID, 1, false); err != nil {
 		return err
 	}
 
@@ -115,10 +116,10 @@ func (o *ListTranslationFilesParams) bindPlatform(rawData []string, hasKey bool,
 
 	// Required: false
 	// AllowEmptyValue: false
+
 	if raw == "" { // empty values pass all other validations
 		return nil
 	}
-
 	o.Platform = &raw
 
 	return nil

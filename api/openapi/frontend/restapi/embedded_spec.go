@@ -1292,14 +1292,12 @@ func init() {
       ],
       "properties": {
         "id": {
-          "type": "integer",
-          "x-order": 0
+          "type": "integer"
         },
         "name": {
           "type": "string",
           "maxLength": 255,
-          "minLength": 1,
-          "x-order": 1
+          "minLength": 1
         }
       }
     },
@@ -1313,12 +1311,10 @@ func init() {
         "code": {
           "description": "HTTP status",
           "type": "integer",
-          "format": "int32",
-          "x-order": 0
+          "format": "int32"
         },
         "message": {
-          "type": "string",
-          "x-order": 1
+          "type": "string"
         }
       }
     },
@@ -1331,34 +1327,28 @@ func init() {
       ],
       "properties": {
         "category": {
-          "x-order": 4,
           "$ref": "#/definitions/Category"
         },
         "description": {
-          "type": "string",
-          "x-order": 2
+          "type": "string"
         },
         "example_text": {
-          "type": "string",
-          "x-order": 3
+          "type": "string"
         },
         "id": {
-          "type": "integer",
-          "x-order": 0
+          "type": "integer"
         },
         "name": {
           "type": "string",
           "maxLength": 255,
-          "minLength": 1,
-          "x-order": 1
+          "minLength": 1
         },
         "platforms": {
           "type": "array",
           "default": null,
           "items": {
             "type": "string"
-          },
-          "x-order": 5
+          }
         }
       }
     },
@@ -1376,14 +1366,11 @@ func init() {
           ],
           "properties": {
             "has_auto_translation": {
-              "type": "boolean",
-              "x-order": 0
+              "type": "boolean"
             }
-          },
-          "x-order": 1
+          }
         },
         "user": {
-          "x-order": 0,
           "$ref": "#/definitions/User"
         }
       }
@@ -1398,24 +1385,19 @@ func init() {
       ],
       "properties": {
         "created_at": {
-          "type": "integer",
-          "x-order": 4
+          "type": "integer"
         },
         "icon": {
-          "type": "string",
-          "x-order": 3
+          "type": "string"
         },
         "id": {
-          "type": "integer",
-          "x-order": 0
+          "type": "integer"
         },
         "lang_name": {
-          "type": "string",
-          "x-order": 2
+          "type": "string"
         },
         "locale": {
-          "type": "string",
-          "x-order": 1
+          "type": "string"
         }
       }
     },
@@ -1430,32 +1412,25 @@ func init() {
       ],
       "properties": {
         "created_at": {
-          "type": "integer",
-          "x-order": 6
+          "type": "integer"
         },
         "id": {
-          "type": "integer",
-          "x-order": 0
+          "type": "integer"
         },
         "identifier": {
-          "x-order": 2,
           "$ref": "#/definitions/Identifier"
         },
         "localization": {
-          "x-order": 1,
           "$ref": "#/definitions/Localization"
         },
         "plural": {
-          "type": "string",
-          "x-order": 4
+          "type": "string"
         },
         "singular": {
-          "type": "string",
-          "x-order": 3
+          "type": "string"
         },
         "status": {
-          "type": "string",
-          "x-order": 5
+          "type": "string"
         }
       }
     },
@@ -1472,40 +1447,32 @@ func init() {
       ],
       "properties": {
         "created_at": {
-          "type": "integer",
-          "x-order": 6
+          "type": "integer"
         },
         "id": {
-          "type": "integer",
-          "x-order": 0
+          "type": "integer"
         },
         "name": {
-          "type": "string",
-          "x-order": 1
+          "type": "string"
         },
         "path": {
-          "type": "string",
-          "x-order": 2
+          "type": "string"
         },
         "platform": {
-          "type": "string",
-          "x-order": 3
+          "type": "string"
         },
         "status": {
-          "type": "string",
-          "x-order": 4
+          "type": "string"
         },
         "storage_type": {
           "type": "string",
           "default": "local",
           "enum": [
             "local"
-          ],
-          "x-order": 5
+          ]
         },
         "updated_at": {
-          "type": "integer",
-          "x-order": 7
+          "type": "integer"
         }
       }
     },
@@ -1521,36 +1488,28 @@ func init() {
       ],
       "properties": {
         "created_at": {
-          "type": "integer",
-          "x-order": 7
+          "type": "integer"
         },
         "email": {
-          "type": "string",
-          "x-order": 1
+          "type": "string"
         },
         "first_name": {
-          "type": "string",
-          "x-order": 2
+          "type": "string"
         },
         "id": {
-          "type": "integer",
-          "x-order": 0
+          "type": "integer"
         },
         "role": {
-          "type": "string",
-          "x-order": 5
+          "type": "string"
         },
         "second_name": {
-          "type": "string",
-          "x-order": 3
+          "type": "string"
         },
         "status": {
-          "type": "string",
-          "x-order": 6
+          "type": "string"
         },
         "uuid_id": {
-          "type": "string",
-          "x-order": 4
+          "type": "string"
         }
       }
     },
@@ -1562,28 +1521,22 @@ func init() {
       ],
       "properties": {
         "lang_name": {
-          "type": "string",
-          "x-order": 1
+          "type": "string"
         },
         "locale": {
-          "type": "string",
-          "x-order": 0
+          "type": "string"
         },
         "localization_id": {
-          "type": "integer",
-          "x-order": 2
+          "type": "integer"
         },
         "path": {
-          "type": "string",
-          "x-order": 4
+          "type": "string"
         },
         "platform": {
-          "type": "integer",
-          "x-order": 3
+          "type": "integer"
         },
         "updated_at": {
-          "type": "integer",
-          "x-order": 5
+          "type": "integer"
         }
       }
     }
@@ -2977,14 +2930,12 @@ func init() {
       ],
       "properties": {
         "id": {
-          "type": "integer",
-          "x-order": 0
+          "type": "integer"
         },
         "name": {
           "type": "string",
           "maxLength": 255,
-          "minLength": 1,
-          "x-order": 1
+          "minLength": 1
         }
       }
     },
@@ -2998,12 +2949,10 @@ func init() {
         "code": {
           "description": "HTTP status",
           "type": "integer",
-          "format": "int32",
-          "x-order": 0
+          "format": "int32"
         },
         "message": {
-          "type": "string",
-          "x-order": 1
+          "type": "string"
         }
       }
     },
@@ -3016,34 +2965,28 @@ func init() {
       ],
       "properties": {
         "category": {
-          "x-order": 4,
           "$ref": "#/definitions/Category"
         },
         "description": {
-          "type": "string",
-          "x-order": 2
+          "type": "string"
         },
         "example_text": {
-          "type": "string",
-          "x-order": 3
+          "type": "string"
         },
         "id": {
-          "type": "integer",
-          "x-order": 0
+          "type": "integer"
         },
         "name": {
           "type": "string",
           "maxLength": 255,
-          "minLength": 1,
-          "x-order": 1
+          "minLength": 1
         },
         "platforms": {
           "type": "array",
           "default": [],
           "items": {
             "type": "string"
-          },
-          "x-order": 5
+          }
         }
       }
     },
@@ -3061,14 +3004,11 @@ func init() {
           ],
           "properties": {
             "has_auto_translation": {
-              "type": "boolean",
-              "x-order": 0
+              "type": "boolean"
             }
-          },
-          "x-order": 1
+          }
         },
         "user": {
-          "x-order": 0,
           "$ref": "#/definitions/User"
         }
       }
@@ -3080,11 +3020,9 @@ func init() {
       ],
       "properties": {
         "has_auto_translation": {
-          "type": "boolean",
-          "x-order": 0
+          "type": "boolean"
         }
-      },
-      "x-order": 1
+      }
     },
     "Localization": {
       "type": "object",
@@ -3096,24 +3034,19 @@ func init() {
       ],
       "properties": {
         "created_at": {
-          "type": "integer",
-          "x-order": 4
+          "type": "integer"
         },
         "icon": {
-          "type": "string",
-          "x-order": 3
+          "type": "string"
         },
         "id": {
-          "type": "integer",
-          "x-order": 0
+          "type": "integer"
         },
         "lang_name": {
-          "type": "string",
-          "x-order": 2
+          "type": "string"
         },
         "locale": {
-          "type": "string",
-          "x-order": 1
+          "type": "string"
         }
       }
     },
@@ -3174,32 +3107,25 @@ func init() {
       ],
       "properties": {
         "created_at": {
-          "type": "integer",
-          "x-order": 6
+          "type": "integer"
         },
         "id": {
-          "type": "integer",
-          "x-order": 0
+          "type": "integer"
         },
         "identifier": {
-          "x-order": 2,
           "$ref": "#/definitions/Identifier"
         },
         "localization": {
-          "x-order": 1,
           "$ref": "#/definitions/Localization"
         },
         "plural": {
-          "type": "string",
-          "x-order": 4
+          "type": "string"
         },
         "singular": {
-          "type": "string",
-          "x-order": 3
+          "type": "string"
         },
         "status": {
-          "type": "string",
-          "x-order": 5
+          "type": "string"
         }
       }
     },
@@ -3216,40 +3142,32 @@ func init() {
       ],
       "properties": {
         "created_at": {
-          "type": "integer",
-          "x-order": 6
+          "type": "integer"
         },
         "id": {
-          "type": "integer",
-          "x-order": 0
+          "type": "integer"
         },
         "name": {
-          "type": "string",
-          "x-order": 1
+          "type": "string"
         },
         "path": {
-          "type": "string",
-          "x-order": 2
+          "type": "string"
         },
         "platform": {
-          "type": "string",
-          "x-order": 3
+          "type": "string"
         },
         "status": {
-          "type": "string",
-          "x-order": 4
+          "type": "string"
         },
         "storage_type": {
           "type": "string",
           "default": "local",
           "enum": [
             "local"
-          ],
-          "x-order": 5
+          ]
         },
         "updated_at": {
-          "type": "integer",
-          "x-order": 7
+          "type": "integer"
         }
       }
     },
@@ -3265,36 +3183,28 @@ func init() {
       ],
       "properties": {
         "created_at": {
-          "type": "integer",
-          "x-order": 7
+          "type": "integer"
         },
         "email": {
-          "type": "string",
-          "x-order": 1
+          "type": "string"
         },
         "first_name": {
-          "type": "string",
-          "x-order": 2
+          "type": "string"
         },
         "id": {
-          "type": "integer",
-          "x-order": 0
+          "type": "integer"
         },
         "role": {
-          "type": "string",
-          "x-order": 5
+          "type": "string"
         },
         "second_name": {
-          "type": "string",
-          "x-order": 3
+          "type": "string"
         },
         "status": {
-          "type": "string",
-          "x-order": 6
+          "type": "string"
         },
         "uuid_id": {
-          "type": "string",
-          "x-order": 4
+          "type": "string"
         }
       }
     },
@@ -3306,28 +3216,22 @@ func init() {
       ],
       "properties": {
         "lang_name": {
-          "type": "string",
-          "x-order": 1
+          "type": "string"
         },
         "locale": {
-          "type": "string",
-          "x-order": 0
+          "type": "string"
         },
         "localization_id": {
-          "type": "integer",
-          "x-order": 2
+          "type": "integer"
         },
         "path": {
-          "type": "string",
-          "x-order": 4
+          "type": "string"
         },
         "platform": {
-          "type": "integer",
-          "x-order": 3
+          "type": "integer"
         },
         "updated_at": {
-          "type": "integer",
-          "x-order": 5
+          "type": "integer"
         }
       }
     }

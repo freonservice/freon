@@ -31,7 +31,7 @@ func NewListTranslationFiles(ctx *middleware.Context, handler ListTranslationFil
 	return &ListTranslationFiles{Context: ctx, Handler: handler}
 }
 
-/*ListTranslationFiles swagger:route GET /translation/files listTranslationFiles
+/* ListTranslationFiles swagger:route GET /translation/files listTranslationFiles
 
 get full list of available translation files
 
@@ -44,17 +44,16 @@ type ListTranslationFiles struct {
 func (o *ListTranslationFiles) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	route, rCtx, _ := o.Context.RouteInfo(r)
 	if rCtx != nil {
-		r = rCtx
+		*r = *rCtx
 	}
 	var Params = NewListTranslationFilesParams()
-
 	uprinc, aCtx, err := o.Context.Authorize(r, route)
 	if err != nil {
 		o.Context.Respond(rw, r, route.Produces, route, err)
 		return
 	}
 	if aCtx != nil {
-		r = aCtx
+		*r = *aCtx
 	}
 	var principal *app.UserSession
 	if uprinc != nil {
@@ -67,7 +66,6 @@ func (o *ListTranslationFiles) ServeHTTP(rw http.ResponseWriter, r *http.Request
 	}
 
 	res := o.Handler.Handle(Params, principal) // actually handle the request
-
 	o.Context.Respond(rw, r, route.Produces, route, res)
 
 }

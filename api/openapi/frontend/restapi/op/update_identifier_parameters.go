@@ -6,6 +6,7 @@ package op
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"io"
 	"net/http"
 
@@ -18,7 +19,8 @@ import (
 )
 
 // NewUpdateIdentifierParams creates a new UpdateIdentifierParams object
-// no default values defined in spec.
+//
+// There are no default values defined in the spec.
 func NewUpdateIdentifierParams() UpdateIdentifierParams {
 
 	return UpdateIdentifierParams{}
@@ -70,6 +72,11 @@ func (o *UpdateIdentifierParams) BindRequest(r *http.Request, route *middleware.
 				res = append(res, err)
 			}
 
+			ctx := validate.WithOperationRequest(context.Background())
+			if err := body.ContextValidate(ctx, route.Formats); err != nil {
+				res = append(res, err)
+			}
+
 			if len(res) == 0 {
 				o.Args = body
 			}
@@ -77,11 +84,11 @@ func (o *UpdateIdentifierParams) BindRequest(r *http.Request, route *middleware.
 	} else {
 		res = append(res, errors.Required("args", "body", ""))
 	}
+
 	rID, rhkID, _ := route.Params.GetOK("id")
 	if err := o.bindID(rID, rhkID, route.Formats); err != nil {
 		res = append(res, err)
 	}
-
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
@@ -114,7 +121,7 @@ func (o *UpdateIdentifierParams) bindID(rawData []string, hasKey bool, formats s
 // validateID carries on validations for parameter ID
 func (o *UpdateIdentifierParams) validateID(formats strfmt.Registry) error {
 
-	if err := validate.MinimumInt("id", "path", int64(o.ID), 1, false); err != nil {
+	if err := validate.MinimumInt("id", "path", o.ID, 1, false); err != nil {
 		return err
 	}
 

@@ -6,6 +6,7 @@ package op
 // Editing this file might prove futile when you re-run the swagger generate command
 
 import (
+	"context"
 	"io"
 	"net/http"
 
@@ -18,7 +19,8 @@ import (
 )
 
 // NewUpdateCategoryParams creates a new UpdateCategoryParams object
-// no default values defined in spec.
+//
+// There are no default values defined in the spec.
 func NewUpdateCategoryParams() UpdateCategoryParams {
 
 	return UpdateCategoryParams{}
@@ -70,6 +72,11 @@ func (o *UpdateCategoryParams) BindRequest(r *http.Request, route *middleware.Ma
 				res = append(res, err)
 			}
 
+			ctx := validate.WithOperationRequest(context.Background())
+			if err := body.ContextValidate(ctx, route.Formats); err != nil {
+				res = append(res, err)
+			}
+
 			if len(res) == 0 {
 				o.Args = body
 			}
@@ -77,11 +84,11 @@ func (o *UpdateCategoryParams) BindRequest(r *http.Request, route *middleware.Ma
 	} else {
 		res = append(res, errors.Required("args", "body", ""))
 	}
+
 	rID, rhkID, _ := route.Params.GetOK("id")
 	if err := o.bindID(rID, rhkID, route.Formats); err != nil {
 		res = append(res, err)
 	}
-
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
@@ -114,7 +121,7 @@ func (o *UpdateCategoryParams) bindID(rawData []string, hasKey bool, formats str
 // validateID carries on validations for parameter ID
 func (o *UpdateCategoryParams) validateID(formats strfmt.Registry) error {
 
-	if err := validate.MinimumInt("id", "path", int64(o.ID), 1, false); err != nil {
+	if err := validate.MinimumInt("id", "path", o.ID, 1, false); err != nil {
 		return err
 	}
 

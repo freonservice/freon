@@ -7,6 +7,7 @@ package model
 
 import (
 	"bytes"
+	"context"
 	"encoding/json"
 
 	"github.com/go-openapi/errors"
@@ -20,6 +21,15 @@ import (
 // swagger:model Identifier
 type Identifier struct {
 
+	// category
+	Category *Category `json:"category,omitempty"`
+
+	// description
+	Description string `json:"description,omitempty"`
+
+	// example text
+	ExampleText string `json:"example_text,omitempty"`
+
 	// id
 	// Required: true
 	ID *int64 `json:"id"`
@@ -30,15 +40,6 @@ type Identifier struct {
 	// Min Length: 1
 	Name *string `json:"name"`
 
-	// description
-	Description string `json:"description,omitempty"`
-
-	// example text
-	ExampleText string `json:"example_text,omitempty"`
-
-	// category
-	Category *Category `json:"category,omitempty"`
-
 	// platforms
 	// Required: true
 	Platforms []string `json:"platforms"`
@@ -47,6 +48,15 @@ type Identifier struct {
 // UnmarshalJSON unmarshals this object while disallowing additional properties from JSON
 func (m *Identifier) UnmarshalJSON(data []byte) error {
 	var props struct {
+
+		// category
+		Category *Category `json:"category,omitempty"`
+
+		// description
+		Description string `json:"description,omitempty"`
+
+		// example text
+		ExampleText string `json:"example_text,omitempty"`
 
 		// id
 		// Required: true
@@ -57,15 +67,6 @@ func (m *Identifier) UnmarshalJSON(data []byte) error {
 		// Max Length: 255
 		// Min Length: 1
 		Name *string `json:"name"`
-
-		// description
-		Description string `json:"description,omitempty"`
-
-		// example text
-		ExampleText string `json:"example_text,omitempty"`
-
-		// category
-		Category *Category `json:"category,omitempty"`
 
 		// platforms
 		// Required: true
@@ -78,11 +79,11 @@ func (m *Identifier) UnmarshalJSON(data []byte) error {
 		return err
 	}
 
-	m.ID = props.ID
-	m.Name = props.Name
+	m.Category = props.Category
 	m.Description = props.Description
 	m.ExampleText = props.ExampleText
-	m.Category = props.Category
+	m.ID = props.ID
+	m.Name = props.Name
 	m.Platforms = props.Platforms
 	return nil
 }
@@ -91,15 +92,15 @@ func (m *Identifier) UnmarshalJSON(data []byte) error {
 func (m *Identifier) Validate(formats strfmt.Registry) error {
 	var res []error
 
+	if err := m.validateCategory(formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.validateID(formats); err != nil {
 		res = append(res, err)
 	}
 
 	if err := m.validateName(formats); err != nil {
-		res = append(res, err)
-	}
-
-	if err := m.validateCategory(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -110,6 +111,23 @@ func (m *Identifier) Validate(formats strfmt.Registry) error {
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+func (m *Identifier) validateCategory(formats strfmt.Registry) error {
+	if swag.IsZero(m.Category) { // not required
+		return nil
+	}
+
+	if m.Category != nil {
+		if err := m.Category.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("category")
+			}
+			return err
+		}
+	}
+
 	return nil
 }
 
@@ -128,30 +146,12 @@ func (m *Identifier) validateName(formats strfmt.Registry) error {
 		return err
 	}
 
-	if err := validate.MinLength("name", "body", string(*m.Name), 1); err != nil {
+	if err := validate.MinLength("name", "body", *m.Name, 1); err != nil {
 		return err
 	}
 
-	if err := validate.MaxLength("name", "body", string(*m.Name), 255); err != nil {
+	if err := validate.MaxLength("name", "body", *m.Name, 255); err != nil {
 		return err
-	}
-
-	return nil
-}
-
-func (m *Identifier) validateCategory(formats strfmt.Registry) error {
-
-	if swag.IsZero(m.Category) { // not required
-		return nil
-	}
-
-	if m.Category != nil {
-		if err := m.Category.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("category")
-			}
-			return err
-		}
 	}
 
 	return nil
@@ -161,6 +161,34 @@ func (m *Identifier) validatePlatforms(formats strfmt.Registry) error {
 
 	if err := validate.Required("platforms", "body", m.Platforms); err != nil {
 		return err
+	}
+
+	return nil
+}
+
+// ContextValidate validate this identifier based on the context it is used
+func (m *Identifier) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateCategory(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *Identifier) contextValidateCategory(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Category != nil {
+		if err := m.Category.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("category")
+			}
+			return err
+		}
 	}
 
 	return nil

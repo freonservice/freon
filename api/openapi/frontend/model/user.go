@@ -7,6 +7,7 @@ package model
 
 import (
 	"bytes"
+	"context"
 	"encoding/json"
 
 	"github.com/go-openapi/errors"
@@ -20,9 +21,9 @@ import (
 // swagger:model User
 type User struct {
 
-	// id
+	// created at
 	// Required: true
-	ID *int64 `json:"id"`
+	CreatedAt *int64 `json:"created_at"`
 
 	// email
 	// Required: true
@@ -31,33 +32,33 @@ type User struct {
 	// first name
 	FirstName string `json:"first_name,omitempty"`
 
-	// second name
-	SecondName string `json:"second_name,omitempty"`
-
-	// uuid id
+	// id
 	// Required: true
-	UUIDID *string `json:"uuid_id"`
+	ID *int64 `json:"id"`
 
 	// role
 	// Required: true
 	Role *string `json:"role"`
 
+	// second name
+	SecondName string `json:"second_name,omitempty"`
+
 	// status
 	// Required: true
 	Status *string `json:"status"`
 
-	// created at
+	// uuid id
 	// Required: true
-	CreatedAt *int64 `json:"created_at"`
+	UUIDID *string `json:"uuid_id"`
 }
 
 // UnmarshalJSON unmarshals this object while disallowing additional properties from JSON
 func (m *User) UnmarshalJSON(data []byte) error {
 	var props struct {
 
-		// id
+		// created at
 		// Required: true
-		ID *int64 `json:"id"`
+		CreatedAt *int64 `json:"created_at"`
 
 		// email
 		// Required: true
@@ -66,24 +67,24 @@ func (m *User) UnmarshalJSON(data []byte) error {
 		// first name
 		FirstName string `json:"first_name,omitempty"`
 
-		// second name
-		SecondName string `json:"second_name,omitempty"`
-
-		// uuid id
+		// id
 		// Required: true
-		UUIDID *string `json:"uuid_id"`
+		ID *int64 `json:"id"`
 
 		// role
 		// Required: true
 		Role *string `json:"role"`
 
+		// second name
+		SecondName string `json:"second_name,omitempty"`
+
 		// status
 		// Required: true
 		Status *string `json:"status"`
 
-		// created at
+		// uuid id
 		// Required: true
-		CreatedAt *int64 `json:"created_at"`
+		UUIDID *string `json:"uuid_id"`
 	}
 
 	dec := json.NewDecoder(bytes.NewReader(data))
@@ -92,14 +93,14 @@ func (m *User) UnmarshalJSON(data []byte) error {
 		return err
 	}
 
-	m.ID = props.ID
+	m.CreatedAt = props.CreatedAt
 	m.Email = props.Email
 	m.FirstName = props.FirstName
-	m.SecondName = props.SecondName
-	m.UUIDID = props.UUIDID
+	m.ID = props.ID
 	m.Role = props.Role
+	m.SecondName = props.SecondName
 	m.Status = props.Status
-	m.CreatedAt = props.CreatedAt
+	m.UUIDID = props.UUIDID
 	return nil
 }
 
@@ -107,7 +108,7 @@ func (m *User) UnmarshalJSON(data []byte) error {
 func (m *User) Validate(formats strfmt.Registry) error {
 	var res []error
 
-	if err := m.validateID(formats); err != nil {
+	if err := m.validateCreatedAt(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -115,7 +116,7 @@ func (m *User) Validate(formats strfmt.Registry) error {
 		res = append(res, err)
 	}
 
-	if err := m.validateUUIDID(formats); err != nil {
+	if err := m.validateID(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -127,7 +128,7 @@ func (m *User) Validate(formats strfmt.Registry) error {
 		res = append(res, err)
 	}
 
-	if err := m.validateCreatedAt(formats); err != nil {
+	if err := m.validateUUIDID(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -137,9 +138,9 @@ func (m *User) Validate(formats strfmt.Registry) error {
 	return nil
 }
 
-func (m *User) validateID(formats strfmt.Registry) error {
+func (m *User) validateCreatedAt(formats strfmt.Registry) error {
 
-	if err := validate.Required("id", "body", m.ID); err != nil {
+	if err := validate.Required("created_at", "body", m.CreatedAt); err != nil {
 		return err
 	}
 
@@ -155,9 +156,9 @@ func (m *User) validateEmail(formats strfmt.Registry) error {
 	return nil
 }
 
-func (m *User) validateUUIDID(formats strfmt.Registry) error {
+func (m *User) validateID(formats strfmt.Registry) error {
 
-	if err := validate.Required("uuid_id", "body", m.UUIDID); err != nil {
+	if err := validate.Required("id", "body", m.ID); err != nil {
 		return err
 	}
 
@@ -182,12 +183,17 @@ func (m *User) validateStatus(formats strfmt.Registry) error {
 	return nil
 }
 
-func (m *User) validateCreatedAt(formats strfmt.Registry) error {
+func (m *User) validateUUIDID(formats strfmt.Registry) error {
 
-	if err := validate.Required("created_at", "body", m.CreatedAt); err != nil {
+	if err := validate.Required("uuid_id", "body", m.UUIDID); err != nil {
 		return err
 	}
 
+	return nil
+}
+
+// ContextValidate validates this user based on context it is used
+func (m *User) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

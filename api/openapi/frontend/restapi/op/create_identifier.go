@@ -7,6 +7,7 @@ package op
 
 import (
 	"bytes"
+	"context"
 	"encoding/json"
 	"net/http"
 
@@ -37,7 +38,7 @@ func NewCreateIdentifier(ctx *middleware.Context, handler CreateIdentifierHandle
 	return &CreateIdentifier{Context: ctx, Handler: handler}
 }
 
-/*CreateIdentifier swagger:route POST /identifier createIdentifier
+/* CreateIdentifier swagger:route POST /identifier createIdentifier
 
 create new identifier
 
@@ -50,17 +51,16 @@ type CreateIdentifier struct {
 func (o *CreateIdentifier) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	route, rCtx, _ := o.Context.RouteInfo(r)
 	if rCtx != nil {
-		r = rCtx
+		*r = *rCtx
 	}
 	var Params = NewCreateIdentifierParams()
-
 	uprinc, aCtx, err := o.Context.Authorize(r, route)
 	if err != nil {
 		o.Context.Respond(rw, r, route.Produces, route, err)
 		return
 	}
 	if aCtx != nil {
-		r = aCtx
+		*r = *aCtx
 	}
 	var principal *app.UserSession
 	if uprinc != nil {
@@ -73,7 +73,6 @@ func (o *CreateIdentifier) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	}
 
 	res := o.Handler.Handle(Params, principal) // actually handle the request
-
 	o.Context.Respond(rw, r, route.Produces, route, res)
 
 }
@@ -166,14 +165,19 @@ func (o *CreateIdentifierBody) validateName(formats strfmt.Registry) error {
 		return err
 	}
 
-	if err := validate.MinLength("args"+"."+"name", "body", string(*o.Name), 1); err != nil {
+	if err := validate.MinLength("args"+"."+"name", "body", *o.Name, 1); err != nil {
 		return err
 	}
 
-	if err := validate.MaxLength("args"+"."+"name", "body", string(*o.Name), 255); err != nil {
+	if err := validate.MaxLength("args"+"."+"name", "body", *o.Name, 255); err != nil {
 		return err
 	}
 
+	return nil
+}
+
+// ContextValidate validates this create identifier body based on context it is used
+func (o *CreateIdentifierBody) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

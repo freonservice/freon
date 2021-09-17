@@ -7,6 +7,7 @@ package op
 
 import (
 	"bytes"
+	"context"
 	"encoding/json"
 	"net/http"
 	"strconv"
@@ -38,7 +39,7 @@ func NewStatistic(ctx *middleware.Context, handler StatisticHandler) *Statistic 
 	return &Statistic{Context: ctx, Handler: handler}
 }
 
-/*Statistic swagger:route GET /statistic statistic
+/* Statistic swagger:route GET /statistic statistic
 
 get service statistic
 
@@ -51,17 +52,16 @@ type Statistic struct {
 func (o *Statistic) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	route, rCtx, _ := o.Context.RouteInfo(r)
 	if rCtx != nil {
-		r = rCtx
+		*r = *rCtx
 	}
 	var Params = NewStatisticParams()
-
 	uprinc, aCtx, err := o.Context.Authorize(r, route)
 	if err != nil {
 		o.Context.Respond(rw, r, route.Produces, route, err)
 		return
 	}
 	if aCtx != nil {
-		r = aCtx
+		*r = *aCtx
 	}
 	var principal *app.UserSession
 	if uprinc != nil {
@@ -74,7 +74,6 @@ func (o *Statistic) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	}
 
 	res := o.Handler.Handle(Params, principal) // actually handle the request
-
 	o.Context.Respond(rw, r, route.Produces, route, res)
 
 }
@@ -188,7 +187,7 @@ func (o *StatisticOKBody) validateCountCategories(formats strfmt.Registry) error
 		return err
 	}
 
-	if err := validate.MinimumInt("statisticOK"+"."+"count_categories", "body", int64(*o.CountCategories), 0, false); err != nil {
+	if err := validate.MinimumInt("statisticOK"+"."+"count_categories", "body", *o.CountCategories, 0, false); err != nil {
 		return err
 	}
 
@@ -201,7 +200,7 @@ func (o *StatisticOKBody) validateCountIdentifiers(formats strfmt.Registry) erro
 		return err
 	}
 
-	if err := validate.MinimumInt("statisticOK"+"."+"count_identifiers", "body", int64(*o.CountIdentifiers), 0, false); err != nil {
+	if err := validate.MinimumInt("statisticOK"+"."+"count_identifiers", "body", *o.CountIdentifiers, 0, false); err != nil {
 		return err
 	}
 
@@ -214,7 +213,7 @@ func (o *StatisticOKBody) validateCountLocalizations(formats strfmt.Registry) er
 		return err
 	}
 
-	if err := validate.MinimumInt("statisticOK"+"."+"count_localizations", "body", int64(*o.CountLocalizations), 0, false); err != nil {
+	if err := validate.MinimumInt("statisticOK"+"."+"count_localizations", "body", *o.CountLocalizations, 0, false); err != nil {
 		return err
 	}
 
@@ -227,7 +226,7 @@ func (o *StatisticOKBody) validateCountUsers(formats strfmt.Registry) error {
 		return err
 	}
 
-	if err := validate.MinimumInt("statisticOK"+"."+"count_users", "body", int64(*o.CountUsers), 0, false); err != nil {
+	if err := validate.MinimumInt("statisticOK"+"."+"count_users", "body", *o.CountUsers, 0, false); err != nil {
 		return err
 	}
 
@@ -247,6 +246,38 @@ func (o *StatisticOKBody) validateStatCompletedTranslations(formats strfmt.Regis
 
 		if o.StatCompletedTranslations[i] != nil {
 			if err := o.StatCompletedTranslations[i].Validate(formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("statisticOK" + "." + "stat_completed_translations" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+// ContextValidate validate this statistic o k body based on the context it is used
+func (o *StatisticOKBody) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := o.contextValidateStatCompletedTranslations(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (o *StatisticOKBody) contextValidateStatCompletedTranslations(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(o.StatCompletedTranslations); i++ {
+
+		if o.StatCompletedTranslations[i] != nil {
+			if err := o.StatCompletedTranslations[i].ContextValidate(ctx, formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("statisticOK" + "." + "stat_completed_translations" + "." + strconv.Itoa(i))
 				}
@@ -348,6 +379,11 @@ func (o *StatisticOKBodyStatCompletedTranslationsItems0) validatePercentage(form
 		return err
 	}
 
+	return nil
+}
+
+// ContextValidate validates this statistic o k body stat completed translations items0 based on context it is used
+func (o *StatisticOKBodyStatCompletedTranslationsItems0) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

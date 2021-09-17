@@ -73,7 +73,6 @@ func (o *VersionParams) BindRequest(r *http.Request, route *middleware.MatchedRo
 	if err := o.bindPlatform(qPlatform, qhkPlatform, route.Formats); err != nil {
 		res = append(res, err)
 	}
-
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
@@ -89,6 +88,7 @@ func (o *VersionParams) bindLocalizationID(rawData []string, hasKey bool, format
 
 	// Required: false
 	// AllowEmptyValue: false
+
 	if raw == "" { // empty values pass all other validations
 		return nil
 	}
@@ -109,7 +109,7 @@ func (o *VersionParams) bindLocalizationID(rawData []string, hasKey bool, format
 // validateLocalizationID carries on validations for parameter LocalizationID
 func (o *VersionParams) validateLocalizationID(formats strfmt.Registry) error {
 
-	if err := validate.MinimumInt("localization_id", "query", int64(*o.LocalizationID), 1, false); err != nil {
+	if err := validate.MinimumInt("localization_id", "query", *o.LocalizationID, 1, false); err != nil {
 		return err
 	}
 
@@ -125,6 +125,7 @@ func (o *VersionParams) bindPlatform(rawData []string, hasKey bool, formats strf
 
 	// Required: false
 	// AllowEmptyValue: false
+
 	if raw == "" { // empty values pass all other validations
 		// Default values have been previously initialized by NewVersionParams()
 		return nil
@@ -146,7 +147,7 @@ func (o *VersionParams) bindPlatform(rawData []string, hasKey bool, formats strf
 // validatePlatform carries on validations for parameter Platform
 func (o *VersionParams) validatePlatform(formats strfmt.Registry) error {
 
-	if err := validate.MinimumInt("platform", "query", int64(*o.Platform), -1, false); err != nil {
+	if err := validate.MinimumInt("platform", "query", *o.Platform, -1, false); err != nil {
 		return err
 	}
 

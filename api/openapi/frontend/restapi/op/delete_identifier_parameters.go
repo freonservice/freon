@@ -16,7 +16,8 @@ import (
 )
 
 // NewDeleteIdentifierParams creates a new DeleteIdentifierParams object
-// no default values defined in spec.
+//
+// There are no default values defined in the spec.
 func NewDeleteIdentifierParams() DeleteIdentifierParams {
 
 	return DeleteIdentifierParams{}
@@ -52,7 +53,6 @@ func (o *DeleteIdentifierParams) BindRequest(r *http.Request, route *middleware.
 	if err := o.bindID(rID, rhkID, route.Formats); err != nil {
 		res = append(res, err)
 	}
-
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
@@ -85,7 +85,7 @@ func (o *DeleteIdentifierParams) bindID(rawData []string, hasKey bool, formats s
 // validateID carries on validations for parameter ID
 func (o *DeleteIdentifierParams) validateID(formats strfmt.Registry) error {
 
-	if err := validate.MinimumInt("id", "path", int64(o.ID), 1, false); err != nil {
+	if err := validate.MinimumInt("id", "path", o.ID, 1, false); err != nil {
 		return err
 	}
 

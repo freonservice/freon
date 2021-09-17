@@ -7,6 +7,7 @@ package op
 
 import (
 	"bytes"
+	"context"
 	"encoding/json"
 	"net/http"
 
@@ -37,7 +38,7 @@ func NewUpdateTranslation(ctx *middleware.Context, handler UpdateTranslationHand
 	return &UpdateTranslation{Context: ctx, Handler: handler}
 }
 
-/*UpdateTranslation swagger:route PUT /translation/{id} updateTranslation
+/* UpdateTranslation swagger:route PUT /translation/{id} updateTranslation
 
 update translation
 
@@ -50,17 +51,16 @@ type UpdateTranslation struct {
 func (o *UpdateTranslation) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	route, rCtx, _ := o.Context.RouteInfo(r)
 	if rCtx != nil {
-		r = rCtx
+		*r = *rCtx
 	}
 	var Params = NewUpdateTranslationParams()
-
 	uprinc, aCtx, err := o.Context.Authorize(r, route)
 	if err != nil {
 		o.Context.Respond(rw, r, route.Produces, route, err)
 		return
 	}
 	if aCtx != nil {
-		r = aCtx
+		*r = *aCtx
 	}
 	var principal *app.UserSession
 	if uprinc != nil {
@@ -73,7 +73,6 @@ func (o *UpdateTranslation) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	}
 
 	res := o.Handler.Handle(Params, principal) // actually handle the request
-
 	o.Context.Respond(rw, r, route.Produces, route, res)
 
 }
@@ -134,6 +133,11 @@ func (o *UpdateTranslationBody) validateSingular(formats strfmt.Registry) error 
 		return err
 	}
 
+	return nil
+}
+
+// ContextValidate validates this update translation body based on context it is used
+func (o *UpdateTranslationBody) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

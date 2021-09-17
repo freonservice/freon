@@ -7,6 +7,7 @@ package op
 
 import (
 	"bytes"
+	"context"
 	"encoding/json"
 	"net/http"
 
@@ -37,7 +38,7 @@ func NewUserChangePassword(ctx *middleware.Context, handler UserChangePasswordHa
 	return &UserChangePassword{Context: ctx, Handler: handler}
 }
 
-/*UserChangePassword swagger:route PUT /user/change-password userChangePassword
+/* UserChangePassword swagger:route PUT /user/change-password userChangePassword
 
 user change password
 
@@ -50,17 +51,16 @@ type UserChangePassword struct {
 func (o *UserChangePassword) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	route, rCtx, _ := o.Context.RouteInfo(r)
 	if rCtx != nil {
-		r = rCtx
+		*r = *rCtx
 	}
 	var Params = NewUserChangePasswordParams()
-
 	uprinc, aCtx, err := o.Context.Authorize(r, route)
 	if err != nil {
 		o.Context.Respond(rw, r, route.Produces, route, err)
 		return
 	}
 	if aCtx != nil {
-		r = aCtx
+		*r = *aCtx
 	}
 	var principal *app.UserSession
 	if uprinc != nil {
@@ -73,7 +73,6 @@ func (o *UserChangePassword) ServeHTTP(rw http.ResponseWriter, r *http.Request) 
 	}
 
 	res := o.Handler.Handle(Params, principal) // actually handle the request
-
 	o.Context.Respond(rw, r, route.Produces, route, res)
 
 }
@@ -165,11 +164,11 @@ func (o *UserChangePasswordBody) validateNewPassword(formats strfmt.Registry) er
 		return err
 	}
 
-	if err := validate.MinLength("args"+"."+"new_password", "body", string(*o.NewPassword), 8); err != nil {
+	if err := validate.MinLength("args"+"."+"new_password", "body", *o.NewPassword, 8); err != nil {
 		return err
 	}
 
-	if err := validate.MaxLength("args"+"."+"new_password", "body", string(*o.NewPassword), 100); err != nil {
+	if err := validate.MaxLength("args"+"."+"new_password", "body", *o.NewPassword, 100); err != nil {
 		return err
 	}
 
@@ -182,11 +181,11 @@ func (o *UserChangePasswordBody) validateOldPassword(formats strfmt.Registry) er
 		return err
 	}
 
-	if err := validate.MinLength("args"+"."+"old_password", "body", string(*o.OldPassword), 8); err != nil {
+	if err := validate.MinLength("args"+"."+"old_password", "body", *o.OldPassword, 8); err != nil {
 		return err
 	}
 
-	if err := validate.MaxLength("args"+"."+"old_password", "body", string(*o.OldPassword), 100); err != nil {
+	if err := validate.MaxLength("args"+"."+"old_password", "body", *o.OldPassword, 100); err != nil {
 		return err
 	}
 
@@ -199,14 +198,19 @@ func (o *UserChangePasswordBody) validateRepeatPassword(formats strfmt.Registry)
 		return err
 	}
 
-	if err := validate.MinLength("args"+"."+"repeat_password", "body", string(*o.RepeatPassword), 8); err != nil {
+	if err := validate.MinLength("args"+"."+"repeat_password", "body", *o.RepeatPassword, 8); err != nil {
 		return err
 	}
 
-	if err := validate.MaxLength("args"+"."+"repeat_password", "body", string(*o.RepeatPassword), 100); err != nil {
+	if err := validate.MaxLength("args"+"."+"repeat_password", "body", *o.RepeatPassword, 100); err != nil {
 		return err
 	}
 
+	return nil
+}
+
+// ContextValidate validates this user change password body based on context it is used
+func (o *UserChangePasswordBody) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

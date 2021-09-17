@@ -7,6 +7,7 @@ package op
 
 import (
 	"bytes"
+	"context"
 	"encoding/json"
 	"net/http"
 
@@ -37,7 +38,7 @@ func NewCreateTranslation(ctx *middleware.Context, handler CreateTranslationHand
 	return &CreateTranslation{Context: ctx, Handler: handler}
 }
 
-/*CreateTranslation swagger:route POST /translation createTranslation
+/* CreateTranslation swagger:route POST /translation createTranslation
 
 create new translation
 
@@ -50,17 +51,16 @@ type CreateTranslation struct {
 func (o *CreateTranslation) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	route, rCtx, _ := o.Context.RouteInfo(r)
 	if rCtx != nil {
-		r = rCtx
+		*r = *rCtx
 	}
 	var Params = NewCreateTranslationParams()
-
 	uprinc, aCtx, err := o.Context.Authorize(r, route)
 	if err != nil {
 		o.Context.Respond(rw, r, route.Produces, route, err)
 		return
 	}
 	if aCtx != nil {
-		r = aCtx
+		*r = *aCtx
 	}
 	var principal *app.UserSession
 	if uprinc != nil {
@@ -73,7 +73,6 @@ func (o *CreateTranslation) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	}
 
 	res := o.Handler.Handle(Params, principal) // actually handle the request
-
 	o.Context.Respond(rw, r, route.Produces, route, res)
 
 }
@@ -178,6 +177,11 @@ func (o *CreateTranslationBody) validateSingular(formats strfmt.Registry) error 
 		return err
 	}
 
+	return nil
+}
+
+// ContextValidate validates this create translation body based on context it is used
+func (o *CreateTranslationBody) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

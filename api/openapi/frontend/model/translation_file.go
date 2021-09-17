@@ -7,6 +7,7 @@ package model
 
 import (
 	"bytes"
+	"context"
 	"encoding/json"
 
 	"github.com/go-openapi/errors"
@@ -19,6 +20,10 @@ import (
 //
 // swagger:model TranslationFile
 type TranslationFile struct {
+
+	// created at
+	// Required: true
+	CreatedAt *int64 `json:"created_at"`
 
 	// id
 	// Required: true
@@ -44,10 +49,6 @@ type TranslationFile struct {
 	// Enum: [local]
 	StorageType *string `json:"storage_type"`
 
-	// created at
-	// Required: true
-	CreatedAt *int64 `json:"created_at"`
-
 	// updated at
 	// Required: true
 	UpdatedAt *int64 `json:"updated_at"`
@@ -56,6 +57,10 @@ type TranslationFile struct {
 // UnmarshalJSON unmarshals this object while disallowing additional properties from JSON
 func (m *TranslationFile) UnmarshalJSON(data []byte) error {
 	var props struct {
+
+		// created at
+		// Required: true
+		CreatedAt *int64 `json:"created_at"`
 
 		// id
 		// Required: true
@@ -81,10 +86,6 @@ func (m *TranslationFile) UnmarshalJSON(data []byte) error {
 		// Enum: [local]
 		StorageType *string `json:"storage_type"`
 
-		// created at
-		// Required: true
-		CreatedAt *int64 `json:"created_at"`
-
 		// updated at
 		// Required: true
 		UpdatedAt *int64 `json:"updated_at"`
@@ -96,13 +97,13 @@ func (m *TranslationFile) UnmarshalJSON(data []byte) error {
 		return err
 	}
 
+	m.CreatedAt = props.CreatedAt
 	m.ID = props.ID
 	m.Name = props.Name
 	m.Path = props.Path
 	m.Platform = props.Platform
 	m.Status = props.Status
 	m.StorageType = props.StorageType
-	m.CreatedAt = props.CreatedAt
 	m.UpdatedAt = props.UpdatedAt
 	return nil
 }
@@ -110,6 +111,10 @@ func (m *TranslationFile) UnmarshalJSON(data []byte) error {
 // Validate validates this translation file
 func (m *TranslationFile) Validate(formats strfmt.Registry) error {
 	var res []error
+
+	if err := m.validateCreatedAt(formats); err != nil {
+		res = append(res, err)
+	}
 
 	if err := m.validateID(formats); err != nil {
 		res = append(res, err)
@@ -131,10 +136,6 @@ func (m *TranslationFile) Validate(formats strfmt.Registry) error {
 		res = append(res, err)
 	}
 
-	if err := m.validateCreatedAt(formats); err != nil {
-		res = append(res, err)
-	}
-
 	if err := m.validateUpdatedAt(formats); err != nil {
 		res = append(res, err)
 	}
@@ -142,6 +143,15 @@ func (m *TranslationFile) Validate(formats strfmt.Registry) error {
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+func (m *TranslationFile) validateCreatedAt(formats strfmt.Registry) error {
+
+	if err := validate.Required("created_at", "body", m.CreatedAt); err != nil {
+		return err
+	}
+
 	return nil
 }
 
@@ -221,21 +231,17 @@ func (m *TranslationFile) validateStorageType(formats strfmt.Registry) error {
 	return nil
 }
 
-func (m *TranslationFile) validateCreatedAt(formats strfmt.Registry) error {
-
-	if err := validate.Required("created_at", "body", m.CreatedAt); err != nil {
-		return err
-	}
-
-	return nil
-}
-
 func (m *TranslationFile) validateUpdatedAt(formats strfmt.Registry) error {
 
 	if err := validate.Required("updated_at", "body", m.UpdatedAt); err != nil {
 		return err
 	}
 
+	return nil
+}
+
+// ContextValidate validates this translation file based on context it is used
+func (m *TranslationFile) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

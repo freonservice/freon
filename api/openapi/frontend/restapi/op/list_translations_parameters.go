@@ -17,7 +17,8 @@ import (
 )
 
 // NewListTranslationsParams creates a new ListTranslationsParams object
-// no default values defined in spec.
+//
+// There are no default values defined in the spec.
 func NewListTranslationsParams() ListTranslationsParams {
 
 	return ListTranslationsParams{}
@@ -54,7 +55,6 @@ func (o *ListTranslationsParams) BindRequest(r *http.Request, route *middleware.
 	if err := o.bindLocalizationID(qLocalizationID, qhkLocalizationID, route.Formats); err != nil {
 		res = append(res, err)
 	}
-
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
@@ -70,6 +70,7 @@ func (o *ListTranslationsParams) bindLocalizationID(rawData []string, hasKey boo
 
 	// Required: false
 	// AllowEmptyValue: false
+
 	if raw == "" { // empty values pass all other validations
 		return nil
 	}
@@ -90,7 +91,7 @@ func (o *ListTranslationsParams) bindLocalizationID(rawData []string, hasKey boo
 // validateLocalizationID carries on validations for parameter LocalizationID
 func (o *ListTranslationsParams) validateLocalizationID(formats strfmt.Registry) error {
 
-	if err := validate.MinimumInt("localization_id", "query", int64(*o.LocalizationID), 1, false); err != nil {
+	if err := validate.MinimumInt("localization_id", "query", *o.LocalizationID, 1, false); err != nil {
 		return err
 	}
 

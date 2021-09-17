@@ -7,6 +7,7 @@ package op
 
 import (
 	"bytes"
+	"context"
 	"encoding/json"
 	"net/http"
 
@@ -35,7 +36,7 @@ func NewLogin(ctx *middleware.Context, handler LoginHandler) *Login {
 	return &Login{Context: ctx, Handler: handler}
 }
 
-/*Login swagger:route POST /login login
+/* Login swagger:route POST /login login
 
 login user by email and password
 
@@ -48,17 +49,15 @@ type Login struct {
 func (o *Login) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	route, rCtx, _ := o.Context.RouteInfo(r)
 	if rCtx != nil {
-		r = rCtx
+		*r = *rCtx
 	}
 	var Params = NewLoginParams()
-
 	if err := o.Context.BindValidRequest(r, route, &Params); err != nil { // bind params
 		o.Context.Respond(rw, r, route.Produces, route, err)
 		return
 	}
 
 	res := o.Handler.Handle(Params) // actually handle the request
-
 	o.Context.Respond(rw, r, route.Produces, route, res)
 
 }
@@ -137,15 +136,15 @@ func (o *LoginBody) validateEmail(formats strfmt.Registry) error {
 		return err
 	}
 
-	if err := validate.MinLength("args"+"."+"email", "body", string(*o.Email), 1); err != nil {
+	if err := validate.MinLength("args"+"."+"email", "body", *o.Email, 1); err != nil {
 		return err
 	}
 
-	if err := validate.MaxLength("args"+"."+"email", "body", string(*o.Email), 255); err != nil {
+	if err := validate.MaxLength("args"+"."+"email", "body", *o.Email, 255); err != nil {
 		return err
 	}
 
-	if err := validate.Pattern("args"+"."+"email", "body", string(*o.Email), `^[\x21-\x7F]{1,64}@[\x21-\x3F\x41-\x7F]+$`); err != nil {
+	if err := validate.Pattern("args"+"."+"email", "body", *o.Email, `^[\x21-\x7F]{1,64}@[\x21-\x3F\x41-\x7F]+$`); err != nil {
 		return err
 	}
 
@@ -158,11 +157,11 @@ func (o *LoginBody) validatePassword(formats strfmt.Registry) error {
 		return err
 	}
 
-	if err := validate.MinLength("args"+"."+"password", "body", string(*o.Password), 6); err != nil {
+	if err := validate.MinLength("args"+"."+"password", "body", o.Password.String(), 6); err != nil {
 		return err
 	}
 
-	if err := validate.MaxLength("args"+"."+"password", "body", string(*o.Password), 100); err != nil {
+	if err := validate.MaxLength("args"+"."+"password", "body", o.Password.String(), 100); err != nil {
 		return err
 	}
 
@@ -170,6 +169,11 @@ func (o *LoginBody) validatePassword(formats strfmt.Registry) error {
 		return err
 	}
 
+	return nil
+}
+
+// ContextValidate validates this login body based on context it is used
+func (o *LoginBody) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 
@@ -264,6 +268,34 @@ func (o *LoginOKBody) validateUser(formats strfmt.Registry) error {
 
 	if o.User != nil {
 		if err := o.User.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("loginOK" + "." + "user")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+// ContextValidate validate this login o k body based on the context it is used
+func (o *LoginOKBody) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := o.contextValidateUser(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (o *LoginOKBody) contextValidateUser(ctx context.Context, formats strfmt.Registry) error {
+
+	if o.User != nil {
+		if err := o.User.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("loginOK" + "." + "user")
 			}
@@ -429,6 +461,11 @@ func (o *LoginOKBodyUser) validateUUIDID(formats strfmt.Registry) error {
 		return err
 	}
 
+	return nil
+}
+
+// ContextValidate validates this login o k body user based on context it is used
+func (o *LoginOKBodyUser) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

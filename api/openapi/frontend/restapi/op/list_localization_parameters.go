@@ -13,7 +13,8 @@ import (
 )
 
 // NewListLocalizationParams creates a new ListLocalizationParams object
-// no default values defined in spec.
+//
+// There are no default values defined in the spec.
 func NewListLocalizationParams() ListLocalizationParams {
 
 	return ListLocalizationParams{}

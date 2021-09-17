@@ -16,7 +16,8 @@ import (
 )
 
 // NewStatusTranslationParams creates a new StatusTranslationParams object
-// no default values defined in spec.
+//
+// There are no default values defined in the spec.
 func NewStatusTranslationParams() StatusTranslationParams {
 
 	return StatusTranslationParams{}
@@ -63,7 +64,6 @@ func (o *StatusTranslationParams) BindRequest(r *http.Request, route *middleware
 	if err := o.bindStatus(rStatus, rhkStatus, route.Formats); err != nil {
 		res = append(res, err)
 	}
-
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
@@ -96,7 +96,7 @@ func (o *StatusTranslationParams) bindID(rawData []string, hasKey bool, formats 
 // validateID carries on validations for parameter ID
 func (o *StatusTranslationParams) validateID(formats strfmt.Registry) error {
 
-	if err := validate.MinimumInt("id", "path", int64(o.ID), 1, false); err != nil {
+	if err := validate.MinimumInt("id", "path", o.ID, 1, false); err != nil {
 		return err
 	}
 
@@ -129,7 +129,7 @@ func (o *StatusTranslationParams) bindStatus(rawData []string, hasKey bool, form
 // validateStatus carries on validations for parameter Status
 func (o *StatusTranslationParams) validateStatus(formats strfmt.Registry) error {
 
-	if err := validate.MinimumInt("status", "path", int64(o.Status), 0, false); err != nil {
+	if err := validate.MinimumInt("status", "path", o.Status, 0, false); err != nil {
 		return err
 	}
 

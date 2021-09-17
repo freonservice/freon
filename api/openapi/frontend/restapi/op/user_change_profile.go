@@ -7,6 +7,7 @@ package op
 
 import (
 	"bytes"
+	"context"
 	"encoding/json"
 	"net/http"
 
@@ -37,7 +38,7 @@ func NewUserChangeProfile(ctx *middleware.Context, handler UserChangeProfileHand
 	return &UserChangeProfile{Context: ctx, Handler: handler}
 }
 
-/*UserChangeProfile swagger:route PUT /user/change-profile userChangeProfile
+/* UserChangeProfile swagger:route PUT /user/change-profile userChangeProfile
 
 user change profile
 
@@ -50,17 +51,16 @@ type UserChangeProfile struct {
 func (o *UserChangeProfile) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	route, rCtx, _ := o.Context.RouteInfo(r)
 	if rCtx != nil {
-		r = rCtx
+		*r = *rCtx
 	}
 	var Params = NewUserChangeProfileParams()
-
 	uprinc, aCtx, err := o.Context.Authorize(r, route)
 	if err != nil {
 		o.Context.Respond(rw, r, route.Produces, route, err)
 		return
 	}
 	if aCtx != nil {
-		r = aCtx
+		*r = *aCtx
 	}
 	var principal *app.UserSession
 	if uprinc != nil {
@@ -73,7 +73,6 @@ func (o *UserChangeProfile) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	}
 
 	res := o.Handler.Handle(Params, principal) // actually handle the request
-
 	o.Context.Respond(rw, r, route.Produces, route, res)
 
 }
@@ -198,11 +197,11 @@ func (o *UserChangeProfileBody) validateEmail(formats strfmt.Registry) error {
 		return err
 	}
 
-	if err := validate.MinLength("args"+"."+"email", "body", string(*o.Email), 1); err != nil {
+	if err := validate.MinLength("args"+"."+"email", "body", *o.Email, 1); err != nil {
 		return err
 	}
 
-	if err := validate.MaxLength("args"+"."+"email", "body", string(*o.Email), 100); err != nil {
+	if err := validate.MaxLength("args"+"."+"email", "body", *o.Email, 100); err != nil {
 		return err
 	}
 
@@ -215,11 +214,11 @@ func (o *UserChangeProfileBody) validateFirstName(formats strfmt.Registry) error
 		return err
 	}
 
-	if err := validate.MinLength("args"+"."+"first_name", "body", string(*o.FirstName), 1); err != nil {
+	if err := validate.MinLength("args"+"."+"first_name", "body", *o.FirstName, 1); err != nil {
 		return err
 	}
 
-	if err := validate.MaxLength("args"+"."+"first_name", "body", string(*o.FirstName), 100); err != nil {
+	if err := validate.MaxLength("args"+"."+"first_name", "body", *o.FirstName, 100); err != nil {
 		return err
 	}
 
@@ -262,7 +261,6 @@ func (o *UserChangeProfileBody) validateRoleEnum(path, location string, value st
 }
 
 func (o *UserChangeProfileBody) validateRole(formats strfmt.Registry) error {
-
 	if swag.IsZero(o.Role) { // not required
 		return nil
 	}
@@ -281,11 +279,11 @@ func (o *UserChangeProfileBody) validateSecondName(formats strfmt.Registry) erro
 		return err
 	}
 
-	if err := validate.MinLength("args"+"."+"second_name", "body", string(*o.SecondName), 1); err != nil {
+	if err := validate.MinLength("args"+"."+"second_name", "body", *o.SecondName, 1); err != nil {
 		return err
 	}
 
-	if err := validate.MaxLength("args"+"."+"second_name", "body", string(*o.SecondName), 100); err != nil {
+	if err := validate.MaxLength("args"+"."+"second_name", "body", *o.SecondName, 100); err != nil {
 		return err
 	}
 
@@ -325,7 +323,6 @@ func (o *UserChangeProfileBody) validateStatusEnum(path, location string, value 
 }
 
 func (o *UserChangeProfileBody) validateStatus(formats strfmt.Registry) error {
-
 	if swag.IsZero(o.Status) { // not required
 		return nil
 	}
@@ -335,6 +332,11 @@ func (o *UserChangeProfileBody) validateStatus(formats strfmt.Registry) error {
 		return err
 	}
 
+	return nil
+}
+
+// ContextValidate validates this user change profile body based on context it is used
+func (o *UserChangeProfileBody) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

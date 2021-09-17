@@ -17,7 +17,8 @@ import (
 )
 
 // NewListIdentifiersParams creates a new ListIdentifiersParams object
-// no default values defined in spec.
+//
+// There are no default values defined in the spec.
 func NewListIdentifiersParams() ListIdentifiersParams {
 
 	return ListIdentifiersParams{}
@@ -54,7 +55,6 @@ func (o *ListIdentifiersParams) BindRequest(r *http.Request, route *middleware.M
 	if err := o.bindCategoryID(qCategoryID, qhkCategoryID, route.Formats); err != nil {
 		res = append(res, err)
 	}
-
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
@@ -70,6 +70,7 @@ func (o *ListIdentifiersParams) bindCategoryID(rawData []string, hasKey bool, fo
 
 	// Required: false
 	// AllowEmptyValue: false
+
 	if raw == "" { // empty values pass all other validations
 		return nil
 	}
@@ -90,7 +91,7 @@ func (o *ListIdentifiersParams) bindCategoryID(rawData []string, hasKey bool, fo
 // validateCategoryID carries on validations for parameter CategoryID
 func (o *ListIdentifiersParams) validateCategoryID(formats strfmt.Registry) error {
 
-	if err := validate.MinimumInt("category_id", "query", int64(*o.CategoryID), 1, false); err != nil {
+	if err := validate.MinimumInt("category_id", "query", *o.CategoryID, 1, false); err != nil {
 		return err
 	}
 

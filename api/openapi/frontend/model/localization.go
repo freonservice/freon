@@ -7,6 +7,7 @@ package model
 
 import (
 	"bytes"
+	"context"
 	"encoding/json"
 
 	"github.com/go-openapi/errors"
@@ -20,48 +21,48 @@ import (
 // swagger:model Localization
 type Localization struct {
 
+	// created at
+	// Required: true
+	CreatedAt *int64 `json:"created_at"`
+
+	// icon
+	Icon string `json:"icon,omitempty"`
+
 	// id
 	// Required: true
 	ID *int64 `json:"id"`
-
-	// locale
-	// Required: true
-	Locale *string `json:"locale"`
 
 	// lang name
 	// Required: true
 	LangName *string `json:"lang_name"`
 
-	// icon
-	Icon string `json:"icon,omitempty"`
-
-	// created at
+	// locale
 	// Required: true
-	CreatedAt *int64 `json:"created_at"`
+	Locale *string `json:"locale"`
 }
 
 // UnmarshalJSON unmarshals this object while disallowing additional properties from JSON
 func (m *Localization) UnmarshalJSON(data []byte) error {
 	var props struct {
 
+		// created at
+		// Required: true
+		CreatedAt *int64 `json:"created_at"`
+
+		// icon
+		Icon string `json:"icon,omitempty"`
+
 		// id
 		// Required: true
 		ID *int64 `json:"id"`
-
-		// locale
-		// Required: true
-		Locale *string `json:"locale"`
 
 		// lang name
 		// Required: true
 		LangName *string `json:"lang_name"`
 
-		// icon
-		Icon string `json:"icon,omitempty"`
-
-		// created at
+		// locale
 		// Required: true
-		CreatedAt *int64 `json:"created_at"`
+		Locale *string `json:"locale"`
 	}
 
 	dec := json.NewDecoder(bytes.NewReader(data))
@@ -70,11 +71,11 @@ func (m *Localization) UnmarshalJSON(data []byte) error {
 		return err
 	}
 
-	m.ID = props.ID
-	m.Locale = props.Locale
-	m.LangName = props.LangName
-	m.Icon = props.Icon
 	m.CreatedAt = props.CreatedAt
+	m.Icon = props.Icon
+	m.ID = props.ID
+	m.LangName = props.LangName
+	m.Locale = props.Locale
 	return nil
 }
 
@@ -82,11 +83,11 @@ func (m *Localization) UnmarshalJSON(data []byte) error {
 func (m *Localization) Validate(formats strfmt.Registry) error {
 	var res []error
 
-	if err := m.validateID(formats); err != nil {
+	if err := m.validateCreatedAt(formats); err != nil {
 		res = append(res, err)
 	}
 
-	if err := m.validateLocale(formats); err != nil {
+	if err := m.validateID(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -94,7 +95,7 @@ func (m *Localization) Validate(formats strfmt.Registry) error {
 		res = append(res, err)
 	}
 
-	if err := m.validateCreatedAt(formats); err != nil {
+	if err := m.validateLocale(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -104,18 +105,18 @@ func (m *Localization) Validate(formats strfmt.Registry) error {
 	return nil
 }
 
-func (m *Localization) validateID(formats strfmt.Registry) error {
+func (m *Localization) validateCreatedAt(formats strfmt.Registry) error {
 
-	if err := validate.Required("id", "body", m.ID); err != nil {
+	if err := validate.Required("created_at", "body", m.CreatedAt); err != nil {
 		return err
 	}
 
 	return nil
 }
 
-func (m *Localization) validateLocale(formats strfmt.Registry) error {
+func (m *Localization) validateID(formats strfmt.Registry) error {
 
-	if err := validate.Required("locale", "body", m.Locale); err != nil {
+	if err := validate.Required("id", "body", m.ID); err != nil {
 		return err
 	}
 
@@ -131,12 +132,17 @@ func (m *Localization) validateLangName(formats strfmt.Registry) error {
 	return nil
 }
 
-func (m *Localization) validateCreatedAt(formats strfmt.Registry) error {
+func (m *Localization) validateLocale(formats strfmt.Registry) error {
 
-	if err := validate.Required("created_at", "body", m.CreatedAt); err != nil {
+	if err := validate.Required("locale", "body", m.Locale); err != nil {
 		return err
 	}
 
+	return nil
+}
+
+// ContextValidate validates this localization based on context it is used
+func (m *Localization) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

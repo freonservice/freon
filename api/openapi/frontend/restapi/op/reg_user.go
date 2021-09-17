@@ -7,6 +7,7 @@ package op
 
 import (
 	"bytes"
+	"context"
 	"encoding/json"
 	"net/http"
 
@@ -37,7 +38,7 @@ func NewRegUser(ctx *middleware.Context, handler RegUserHandler) *RegUser {
 	return &RegUser{Context: ctx, Handler: handler}
 }
 
-/*RegUser swagger:route POST /user/register regUser
+/* RegUser swagger:route POST /user/register regUser
 
 registration new user
 
@@ -50,17 +51,16 @@ type RegUser struct {
 func (o *RegUser) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	route, rCtx, _ := o.Context.RouteInfo(r)
 	if rCtx != nil {
-		r = rCtx
+		*r = *rCtx
 	}
 	var Params = NewRegUserParams()
-
 	uprinc, aCtx, err := o.Context.Authorize(r, route)
 	if err != nil {
 		o.Context.Respond(rw, r, route.Produces, route, err)
 		return
 	}
 	if aCtx != nil {
-		r = aCtx
+		*r = *aCtx
 	}
 	var principal *app.UserSession
 	if uprinc != nil {
@@ -73,7 +73,6 @@ func (o *RegUser) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	}
 
 	res := o.Handler.Handle(Params, principal) // actually handle the request
-
 	o.Context.Respond(rw, r, route.Produces, route, res)
 
 }
@@ -218,15 +217,15 @@ func (o *RegUserBody) validateEmail(formats strfmt.Registry) error {
 		return err
 	}
 
-	if err := validate.MinLength("args"+"."+"email", "body", string(*o.Email), 1); err != nil {
+	if err := validate.MinLength("args"+"."+"email", "body", *o.Email, 1); err != nil {
 		return err
 	}
 
-	if err := validate.MaxLength("args"+"."+"email", "body", string(*o.Email), 255); err != nil {
+	if err := validate.MaxLength("args"+"."+"email", "body", *o.Email, 255); err != nil {
 		return err
 	}
 
-	if err := validate.Pattern("args"+"."+"email", "body", string(*o.Email), `^[\x21-\x7F]{1,64}@[\x21-\x3F\x41-\x7F]+$`); err != nil {
+	if err := validate.Pattern("args"+"."+"email", "body", *o.Email, `^[\x21-\x7F]{1,64}@[\x21-\x3F\x41-\x7F]+$`); err != nil {
 		return err
 	}
 
@@ -239,11 +238,11 @@ func (o *RegUserBody) validateFirstName(formats strfmt.Registry) error {
 		return err
 	}
 
-	if err := validate.MinLength("args"+"."+"first_name", "body", string(*o.FirstName), 1); err != nil {
+	if err := validate.MinLength("args"+"."+"first_name", "body", *o.FirstName, 1); err != nil {
 		return err
 	}
 
-	if err := validate.MaxLength("args"+"."+"first_name", "body", string(*o.FirstName), 100); err != nil {
+	if err := validate.MaxLength("args"+"."+"first_name", "body", *o.FirstName, 100); err != nil {
 		return err
 	}
 
@@ -256,11 +255,11 @@ func (o *RegUserBody) validatePassword(formats strfmt.Registry) error {
 		return err
 	}
 
-	if err := validate.MinLength("args"+"."+"password", "body", string(*o.Password), 8); err != nil {
+	if err := validate.MinLength("args"+"."+"password", "body", o.Password.String(), 8); err != nil {
 		return err
 	}
 
-	if err := validate.MaxLength("args"+"."+"password", "body", string(*o.Password), 100); err != nil {
+	if err := validate.MaxLength("args"+"."+"password", "body", o.Password.String(), 100); err != nil {
 		return err
 	}
 
@@ -277,11 +276,11 @@ func (o *RegUserBody) validateRepeatPassword(formats strfmt.Registry) error {
 		return err
 	}
 
-	if err := validate.MinLength("args"+"."+"repeat_password", "body", string(*o.RepeatPassword), 8); err != nil {
+	if err := validate.MinLength("args"+"."+"repeat_password", "body", o.RepeatPassword.String(), 8); err != nil {
 		return err
 	}
 
-	if err := validate.MaxLength("args"+"."+"repeat_password", "body", string(*o.RepeatPassword), 100); err != nil {
+	if err := validate.MaxLength("args"+"."+"repeat_password", "body", o.RepeatPassword.String(), 100); err != nil {
 		return err
 	}
 
@@ -307,14 +306,19 @@ func (o *RegUserBody) validateSecondName(formats strfmt.Registry) error {
 		return err
 	}
 
-	if err := validate.MinLength("args"+"."+"second_name", "body", string(*o.SecondName), 1); err != nil {
+	if err := validate.MinLength("args"+"."+"second_name", "body", *o.SecondName, 1); err != nil {
 		return err
 	}
 
-	if err := validate.MaxLength("args"+"."+"second_name", "body", string(*o.SecondName), 100); err != nil {
+	if err := validate.MaxLength("args"+"."+"second_name", "body", *o.SecondName, 100); err != nil {
 		return err
 	}
 
+	return nil
+}
+
+// ContextValidate validates this reg user body based on context it is used
+func (o *RegUserBody) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

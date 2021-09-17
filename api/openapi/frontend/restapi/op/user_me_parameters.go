@@ -13,7 +13,8 @@ import (
 )
 
 // NewUserMeParams creates a new UserMeParams object
-// no default values defined in spec.
+//
+// There are no default values defined in the spec.
 func NewUserMeParams() UserMeParams {
 
 	return UserMeParams{}

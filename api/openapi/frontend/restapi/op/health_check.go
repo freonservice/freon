@@ -29,7 +29,7 @@ func NewHealthCheck(ctx *middleware.Context, handler HealthCheckHandler) *Health
 	return &HealthCheck{Context: ctx, Handler: handler}
 }
 
-/*HealthCheck swagger:route GET /health-check healthCheck
+/* HealthCheck swagger:route GET /health-check healthCheck
 
 Returns 200 if service works okay.
 
@@ -42,17 +42,15 @@ type HealthCheck struct {
 func (o *HealthCheck) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	route, rCtx, _ := o.Context.RouteInfo(r)
 	if rCtx != nil {
-		r = rCtx
+		*r = *rCtx
 	}
 	var Params = NewHealthCheckParams()
-
 	if err := o.Context.BindValidRequest(r, route, &Params); err != nil { // bind params
 		o.Context.Respond(rw, r, route.Produces, route, err)
 		return
 	}
 
 	res := o.Handler.Handle(Params) // actually handle the request
-
 	o.Context.Respond(rw, r, route.Produces, route, res)
 
 }

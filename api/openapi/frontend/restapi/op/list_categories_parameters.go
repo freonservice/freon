@@ -13,7 +13,8 @@ import (
 )
 
 // NewListCategoriesParams creates a new ListCategoriesParams object
-// no default values defined in spec.
+//
+// There are no default values defined in the spec.
 func NewListCategoriesParams() ListCategoriesParams {
 
 	return ListCategoriesParams{}

@@ -7,6 +7,7 @@ package op
 
 import (
 	"bytes"
+	"context"
 	"encoding/json"
 	"net/http"
 
@@ -37,7 +38,7 @@ func NewCreateLocalization(ctx *middleware.Context, handler CreateLocalizationHa
 	return &CreateLocalization{Context: ctx, Handler: handler}
 }
 
-/*CreateLocalization swagger:route POST /localization createLocalization
+/* CreateLocalization swagger:route POST /localization createLocalization
 
 create new localization type
 
@@ -50,17 +51,16 @@ type CreateLocalization struct {
 func (o *CreateLocalization) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	route, rCtx, _ := o.Context.RouteInfo(r)
 	if rCtx != nil {
-		r = rCtx
+		*r = *rCtx
 	}
 	var Params = NewCreateLocalizationParams()
-
 	uprinc, aCtx, err := o.Context.Authorize(r, route)
 	if err != nil {
 		o.Context.Respond(rw, r, route.Produces, route, err)
 		return
 	}
 	if aCtx != nil {
-		r = aCtx
+		*r = *aCtx
 	}
 	var principal *app.UserSession
 	if uprinc != nil {
@@ -73,7 +73,6 @@ func (o *CreateLocalization) ServeHTTP(rw http.ResponseWriter, r *http.Request) 
 	}
 
 	res := o.Handler.Handle(Params, principal) // actually handle the request
-
 	o.Context.Respond(rw, r, route.Produces, route, res)
 
 }
@@ -155,11 +154,11 @@ func (o *CreateLocalizationBody) validateLangName(formats strfmt.Registry) error
 		return err
 	}
 
-	if err := validate.MinLength("args"+"."+"lang_name", "body", string(*o.LangName), 1); err != nil {
+	if err := validate.MinLength("args"+"."+"lang_name", "body", *o.LangName, 1); err != nil {
 		return err
 	}
 
-	if err := validate.MaxLength("args"+"."+"lang_name", "body", string(*o.LangName), 255); err != nil {
+	if err := validate.MaxLength("args"+"."+"lang_name", "body", *o.LangName, 255); err != nil {
 		return err
 	}
 
@@ -172,14 +171,19 @@ func (o *CreateLocalizationBody) validateLocale(formats strfmt.Registry) error {
 		return err
 	}
 
-	if err := validate.MinLength("args"+"."+"locale", "body", string(*o.Locale), 2); err != nil {
+	if err := validate.MinLength("args"+"."+"locale", "body", *o.Locale, 2); err != nil {
 		return err
 	}
 
-	if err := validate.MaxLength("args"+"."+"locale", "body", string(*o.Locale), 10); err != nil {
+	if err := validate.MaxLength("args"+"."+"locale", "body", *o.Locale, 10); err != nil {
 		return err
 	}
 
+	return nil
+}
+
+// ContextValidate validates this create localization body based on context it is used
+func (o *CreateLocalizationBody) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

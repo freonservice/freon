@@ -31,7 +31,7 @@ func NewListTranslations(ctx *middleware.Context, handler ListTranslationsHandle
 	return &ListTranslations{Context: ctx, Handler: handler}
 }
 
-/*ListTranslations swagger:route GET /translations listTranslations
+/* ListTranslations swagger:route GET /translations listTranslations
 
 get full list of available translations
 
@@ -44,17 +44,16 @@ type ListTranslations struct {
 func (o *ListTranslations) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	route, rCtx, _ := o.Context.RouteInfo(r)
 	if rCtx != nil {
-		r = rCtx
+		*r = *rCtx
 	}
 	var Params = NewListTranslationsParams()
-
 	uprinc, aCtx, err := o.Context.Authorize(r, route)
 	if err != nil {
 		o.Context.Respond(rw, r, route.Produces, route, err)
 		return
 	}
 	if aCtx != nil {
-		r = aCtx
+		*r = *aCtx
 	}
 	var principal *app.UserSession
 	if uprinc != nil {
@@ -67,7 +66,6 @@ func (o *ListTranslations) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	}
 
 	res := o.Handler.Handle(Params, principal) // actually handle the request
-
 	o.Context.Respond(rw, r, route.Produces, route, res)
 
 }

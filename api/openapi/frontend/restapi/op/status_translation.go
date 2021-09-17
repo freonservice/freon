@@ -31,7 +31,7 @@ func NewStatusTranslation(ctx *middleware.Context, handler StatusTranslationHand
 	return &StatusTranslation{Context: ctx, Handler: handler}
 }
 
-/*StatusTranslation swagger:route PUT /translation/{id}/status/{status} statusTranslation
+/* StatusTranslation swagger:route PUT /translation/{id}/status/{status} statusTranslation
 
 change current status translation (hidden, draft, release)
 
@@ -44,17 +44,16 @@ type StatusTranslation struct {
 func (o *StatusTranslation) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	route, rCtx, _ := o.Context.RouteInfo(r)
 	if rCtx != nil {
-		r = rCtx
+		*r = *rCtx
 	}
 	var Params = NewStatusTranslationParams()
-
 	uprinc, aCtx, err := o.Context.Authorize(r, route)
 	if err != nil {
 		o.Context.Respond(rw, r, route.Produces, route, err)
 		return
 	}
 	if aCtx != nil {
-		r = aCtx
+		*r = *aCtx
 	}
 	var principal *app.UserSession
 	if uprinc != nil {
@@ -67,7 +66,6 @@ func (o *StatusTranslation) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	}
 
 	res := o.Handler.Handle(Params, principal) // actually handle the request
-
 	o.Context.Respond(rw, r, route.Produces, route, res)
 
 }

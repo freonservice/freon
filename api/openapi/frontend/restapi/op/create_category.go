@@ -7,6 +7,7 @@ package op
 
 import (
 	"bytes"
+	"context"
 	"encoding/json"
 	"net/http"
 
@@ -37,7 +38,7 @@ func NewCreateCategory(ctx *middleware.Context, handler CreateCategoryHandler) *
 	return &CreateCategory{Context: ctx, Handler: handler}
 }
 
-/*CreateCategory swagger:route POST /category createCategory
+/* CreateCategory swagger:route POST /category createCategory
 
 create new category
 
@@ -50,17 +51,16 @@ type CreateCategory struct {
 func (o *CreateCategory) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	route, rCtx, _ := o.Context.RouteInfo(r)
 	if rCtx != nil {
-		r = rCtx
+		*r = *rCtx
 	}
 	var Params = NewCreateCategoryParams()
-
 	uprinc, aCtx, err := o.Context.Authorize(r, route)
 	if err != nil {
 		o.Context.Respond(rw, r, route.Produces, route, err)
 		return
 	}
 	if aCtx != nil {
-		r = aCtx
+		*r = *aCtx
 	}
 	var principal *app.UserSession
 	if uprinc != nil {
@@ -73,7 +73,6 @@ func (o *CreateCategory) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	}
 
 	res := o.Handler.Handle(Params, principal) // actually handle the request
-
 	o.Context.Respond(rw, r, route.Produces, route, res)
 
 }
@@ -131,14 +130,19 @@ func (o *CreateCategoryBody) validateName(formats strfmt.Registry) error {
 		return err
 	}
 
-	if err := validate.MinLength("args"+"."+"name", "body", string(*o.Name), 1); err != nil {
+	if err := validate.MinLength("args"+"."+"name", "body", *o.Name, 1); err != nil {
 		return err
 	}
 
-	if err := validate.MaxLength("args"+"."+"name", "body", string(*o.Name), 255); err != nil {
+	if err := validate.MaxLength("args"+"."+"name", "body", *o.Name, 255); err != nil {
 		return err
 	}
 
+	return nil
+}
+
+// ContextValidate validates this create category body based on context it is used
+func (o *CreateCategoryBody) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

@@ -7,6 +7,7 @@ package model
 
 import (
 	"bytes"
+	"context"
 	"encoding/json"
 
 	"github.com/go-openapi/errors"
@@ -20,62 +21,62 @@ import (
 // swagger:model Translation
 type Translation struct {
 
+	// created at
+	// Required: true
+	CreatedAt *int64 `json:"created_at"`
+
 	// id
 	// Required: true
 	ID *int64 `json:"id"`
-
-	// localization
-	// Required: true
-	Localization *Localization `json:"localization"`
 
 	// identifier
 	// Required: true
 	Identifier *Identifier `json:"identifier"`
 
-	// singular
+	// localization
 	// Required: true
-	Singular *string `json:"singular"`
+	Localization *Localization `json:"localization"`
 
 	// plural
 	Plural string `json:"plural,omitempty"`
 
+	// singular
+	// Required: true
+	Singular *string `json:"singular"`
+
 	// status
 	Status string `json:"status,omitempty"`
-
-	// created at
-	// Required: true
-	CreatedAt *int64 `json:"created_at"`
 }
 
 // UnmarshalJSON unmarshals this object while disallowing additional properties from JSON
 func (m *Translation) UnmarshalJSON(data []byte) error {
 	var props struct {
 
+		// created at
+		// Required: true
+		CreatedAt *int64 `json:"created_at"`
+
 		// id
 		// Required: true
 		ID *int64 `json:"id"`
-
-		// localization
-		// Required: true
-		Localization *Localization `json:"localization"`
 
 		// identifier
 		// Required: true
 		Identifier *Identifier `json:"identifier"`
 
-		// singular
+		// localization
 		// Required: true
-		Singular *string `json:"singular"`
+		Localization *Localization `json:"localization"`
 
 		// plural
 		Plural string `json:"plural,omitempty"`
 
+		// singular
+		// Required: true
+		Singular *string `json:"singular"`
+
 		// status
 		Status string `json:"status,omitempty"`
-
-		// created at
-		// Required: true
-		CreatedAt *int64 `json:"created_at"`
 	}
 
 	dec := json.NewDecoder(bytes.NewReader(data))
@@ -84,13 +85,13 @@ func (m *Translation) UnmarshalJSON(data []byte) error {
 		return err
 	}
 
-	m.ID = props.ID
-	m.Localization = props.Localization
-	m.Identifier = props.Identifier
-	m.Singular = props.Singular
-	m.Plural = props.Plural
-	m.Status = props.Status
 	m.CreatedAt = props.CreatedAt
+	m.ID = props.ID
+	m.Identifier = props.Identifier
+	m.Localization = props.Localization
+	m.Plural = props.Plural
+	m.Singular = props.Singular
+	m.Status = props.Status
 	return nil
 }
 
@@ -98,11 +99,11 @@ func (m *Translation) UnmarshalJSON(data []byte) error {
 func (m *Translation) Validate(formats strfmt.Registry) error {
 	var res []error
 
-	if err := m.validateID(formats); err != nil {
+	if err := m.validateCreatedAt(formats); err != nil {
 		res = append(res, err)
 	}
 
-	if err := m.validateLocalization(formats); err != nil {
+	if err := m.validateID(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -110,11 +111,11 @@ func (m *Translation) Validate(formats strfmt.Registry) error {
 		res = append(res, err)
 	}
 
-	if err := m.validateSingular(formats); err != nil {
+	if err := m.validateLocalization(formats); err != nil {
 		res = append(res, err)
 	}
 
-	if err := m.validateCreatedAt(formats); err != nil {
+	if err := m.validateSingular(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -124,28 +125,19 @@ func (m *Translation) Validate(formats strfmt.Registry) error {
 	return nil
 }
 
-func (m *Translation) validateID(formats strfmt.Registry) error {
+func (m *Translation) validateCreatedAt(formats strfmt.Registry) error {
 
-	if err := validate.Required("id", "body", m.ID); err != nil {
+	if err := validate.Required("created_at", "body", m.CreatedAt); err != nil {
 		return err
 	}
 
 	return nil
 }
 
-func (m *Translation) validateLocalization(formats strfmt.Registry) error {
+func (m *Translation) validateID(formats strfmt.Registry) error {
 
-	if err := validate.Required("localization", "body", m.Localization); err != nil {
+	if err := validate.Required("id", "body", m.ID); err != nil {
 		return err
-	}
-
-	if m.Localization != nil {
-		if err := m.Localization.Validate(formats); err != nil {
-			if ve, ok := err.(*errors.Validation); ok {
-				return ve.ValidateName("localization")
-			}
-			return err
-		}
 	}
 
 	return nil
@@ -169,6 +161,24 @@ func (m *Translation) validateIdentifier(formats strfmt.Registry) error {
 	return nil
 }
 
+func (m *Translation) validateLocalization(formats strfmt.Registry) error {
+
+	if err := validate.Required("localization", "body", m.Localization); err != nil {
+		return err
+	}
+
+	if m.Localization != nil {
+		if err := m.Localization.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("localization")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
 func (m *Translation) validateSingular(formats strfmt.Registry) error {
 
 	if err := validate.Required("singular", "body", m.Singular); err != nil {
@@ -178,10 +188,47 @@ func (m *Translation) validateSingular(formats strfmt.Registry) error {
 	return nil
 }
 
-func (m *Translation) validateCreatedAt(formats strfmt.Registry) error {
+// ContextValidate validate this translation based on the context it is used
+func (m *Translation) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
 
-	if err := validate.Required("created_at", "body", m.CreatedAt); err != nil {
-		return err
+	if err := m.contextValidateIdentifier(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.contextValidateLocalization(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *Translation) contextValidateIdentifier(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Identifier != nil {
+		if err := m.Identifier.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("identifier")
+			}
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (m *Translation) contextValidateLocalization(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.Localization != nil {
+		if err := m.Localization.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("localization")
+			}
+			return err
+		}
 	}
 
 	return nil

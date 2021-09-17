@@ -31,7 +31,7 @@ func NewVersion(ctx *middleware.Context, handler VersionHandler) *Version {
 	return &Version{Context: ctx, Handler: handler}
 }
 
-/*Version swagger:route GET /version version
+/* Version swagger:route GET /version version
 
 get actual version of translation files ( 0 - web, 1 - ios, 2 - android) or translations (3 - get last updated date)
 
@@ -44,17 +44,16 @@ type Version struct {
 func (o *Version) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	route, rCtx, _ := o.Context.RouteInfo(r)
 	if rCtx != nil {
-		r = rCtx
+		*r = *rCtx
 	}
 	var Params = NewVersionParams()
-
 	uprinc, aCtx, err := o.Context.Authorize(r, route)
 	if err != nil {
 		o.Context.Respond(rw, r, route.Produces, route, err)
 		return
 	}
 	if aCtx != nil {
-		r = aCtx
+		*r = *aCtx
 	}
 	var principal *app.UserSession
 	if uprinc != nil {
@@ -67,7 +66,6 @@ func (o *Version) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	}
 
 	res := o.Handler.Handle(Params, principal) // actually handle the request
-
 	o.Context.Respond(rw, r, route.Produces, route, res)
 
 }

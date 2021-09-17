@@ -7,6 +7,7 @@ package model
 
 import (
 	"bytes"
+	"context"
 	"encoding/json"
 
 	"github.com/go-openapi/errors"
@@ -20,21 +21,21 @@ import (
 // swagger:model Version
 type Version struct {
 
+	// lang name
+	LangName string `json:"lang_name,omitempty"`
+
 	// locale
 	// Required: true
 	Locale *string `json:"locale"`
 
-	// lang name
-	LangName string `json:"lang_name,omitempty"`
-
 	// localization id
 	LocalizationID int64 `json:"localization_id,omitempty"`
 
-	// platform
-	Platform int64 `json:"platform,omitempty"`
-
 	// path
 	Path string `json:"path,omitempty"`
+
+	// platform
+	Platform int64 `json:"platform,omitempty"`
 
 	// updated at
 	// Required: true
@@ -45,21 +46,21 @@ type Version struct {
 func (m *Version) UnmarshalJSON(data []byte) error {
 	var props struct {
 
+		// lang name
+		LangName string `json:"lang_name,omitempty"`
+
 		// locale
 		// Required: true
 		Locale *string `json:"locale"`
 
-		// lang name
-		LangName string `json:"lang_name,omitempty"`
-
 		// localization id
 		LocalizationID int64 `json:"localization_id,omitempty"`
 
-		// platform
-		Platform int64 `json:"platform,omitempty"`
-
 		// path
 		Path string `json:"path,omitempty"`
+
+		// platform
+		Platform int64 `json:"platform,omitempty"`
 
 		// updated at
 		// Required: true
@@ -72,11 +73,11 @@ func (m *Version) UnmarshalJSON(data []byte) error {
 		return err
 	}
 
-	m.Locale = props.Locale
 	m.LangName = props.LangName
+	m.Locale = props.Locale
 	m.LocalizationID = props.LocalizationID
-	m.Platform = props.Platform
 	m.Path = props.Path
+	m.Platform = props.Platform
 	m.UpdatedAt = props.UpdatedAt
 	return nil
 }
@@ -114,6 +115,11 @@ func (m *Version) validateUpdatedAt(formats strfmt.Registry) error {
 		return err
 	}
 
+	return nil
+}
+
+// ContextValidate validates this version based on context it is used
+func (m *Version) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	return nil
 }
 

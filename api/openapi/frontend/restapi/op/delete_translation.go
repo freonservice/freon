@@ -31,7 +31,7 @@ func NewDeleteTranslation(ctx *middleware.Context, handler DeleteTranslationHand
 	return &DeleteTranslation{Context: ctx, Handler: handler}
 }
 
-/*DeleteTranslation swagger:route DELETE /translation/{id} deleteTranslation
+/* DeleteTranslation swagger:route DELETE /translation/{id} deleteTranslation
 
 delete translation
 
@@ -44,17 +44,16 @@ type DeleteTranslation struct {
 func (o *DeleteTranslation) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	route, rCtx, _ := o.Context.RouteInfo(r)
 	if rCtx != nil {
-		r = rCtx
+		*r = *rCtx
 	}
 	var Params = NewDeleteTranslationParams()
-
 	uprinc, aCtx, err := o.Context.Authorize(r, route)
 	if err != nil {
 		o.Context.Respond(rw, r, route.Produces, route, err)
 		return
 	}
 	if aCtx != nil {
-		r = aCtx
+		*r = *aCtx
 	}
 	var principal *app.UserSession
 	if uprinc != nil {
@@ -67,7 +66,6 @@ func (o *DeleteTranslation) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 	}
 
 	res := o.Handler.Handle(Params, principal) // actually handle the request
-
 	o.Context.Respond(rw, r, route.Produces, route, res)
 
 }
