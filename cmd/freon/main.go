@@ -40,6 +40,7 @@ var (
 		apiPort                int
 		grpcPort               int
 		staticPort             int
+		cpuLimit               int
 		serviceHost            string
 		migrationPath          string
 		jwtSecretPath          string
@@ -73,6 +74,7 @@ func Init() {
 	flag.StringVar(&adminCred.email, "admin.email", config.DefaultAdminEmail, "admin email cant be empty")
 	flag.StringVar(&adminCred.password, "admin.password", config.DefaultAdminPass, "admin password cant be empty")
 	flag.StringVar(&cfg.translationFilesFolder, "translation.folders", config.TranslationFilesPath, "translation files folder")
+	flag.IntVar(&cfg.cpuLimit, "cpu-limit", config.CPULimit, "maximum usage cpu")
 
 	log.SetDefaultKeyvals(structlog.KeyUnit, "main")
 }
@@ -83,7 +85,7 @@ func main() {
 	sigc := make(chan os.Signal, 1)
 	signal.Notify(sigc, syscall.SIGHUP, syscall.SIGINT, syscall.SIGQUIT, syscall.SIGABRT, syscall.SIGTERM)
 	structlog.DefaultLogger.SetLogLevel(structlog.ParseLevel(cfg.logLevel))
-	log.Info(version.Get())
+	log.Info(version.Get(), "Maximum Usage CPU", cfg.cpuLimit)
 
 	r, err := dal.New(&repo.Config{
 		Host:          dbConf.host,

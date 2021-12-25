@@ -8,7 +8,7 @@ import (
 	"github.com/freonservice/freon/internal/parser/web"
 	"github.com/pkg/errors"
 
-	"github.com/freonservice/freon/internal/entities"
+	"github.com/freonservice/freon/internal/domain"
 	"github.com/freonservice/freon/internal/filter"
 )
 
@@ -46,7 +46,7 @@ func (a *appl) CreateTranslationFile(ctx Ctx, platform, storageType string, crea
 	)
 }
 
-func (a *appl) GetTranslationFiles(ctx Ctx, f filter.TranslationFileFilter) ([]*entities.TranslationFile, error) {
+func (a *appl) GetTranslationFiles(ctx Ctx, f filter.TranslationFileFilter) ([]*domain.TranslationFile, error) {
 	c, err := a.repo.GetTranslationFiles(ctx, f)
 	if err != nil {
 		return nil, err

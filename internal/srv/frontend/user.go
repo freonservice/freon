@@ -5,7 +5,7 @@ import (
 	"github.com/freonservice/freon/api/openapi/frontend/model"
 	"github.com/freonservice/freon/api/openapi/frontend/restapi/op"
 	"github.com/freonservice/freon/internal/app"
-	"github.com/freonservice/freon/internal/entities"
+	"github.com/freonservice/freon/internal/domain"
 
 	"github.com/go-openapi/swag"
 	"github.com/pkg/errors"
@@ -83,7 +83,7 @@ func (srv *server) userChangePassword(params op.UserChangePasswordParams, sessio
 		return errUserChangePassword(log, errors.New("passwords not equals"), codePasswordsNotEquals)
 	}
 
-	err := srv.app.UpdatePassword(ctx, session.UserID, entities.ChangePassword{
+	err := srv.app.UpdatePassword(ctx, session.UserID, domain.ChangePassword{
 		PreviousPassword: swag.StringValue(params.Args.OldPassword),
 		NewPassword:      swag.StringValue(params.Args.NewPassword),
 	})

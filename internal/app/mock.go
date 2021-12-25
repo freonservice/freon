@@ -8,7 +8,7 @@ import (
 	reflect "reflect"
 
 	dao "github.com/freonservice/freon/internal/dao"
-	entities "github.com/freonservice/freon/internal/entities"
+	entities "github.com/freonservice/freon/internal/domain"
 	filter "github.com/freonservice/freon/internal/filter"
 	gomock "github.com/golang/mock/gomock"
 	uuid "github.com/google/uuid"

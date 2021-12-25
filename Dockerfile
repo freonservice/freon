@@ -1,7 +1,7 @@
 # docker build --no-cache -t freon:latest -f Dockerfile .
 
 # Accept the Go version for the image to be set as a build argument.
-ARG GO_VERSION=1.17
+ARG GO_VERSION=1.17.5
 
 # First stage: build the executable.
 FROM golang:${GO_VERSION}-alpine AS builder

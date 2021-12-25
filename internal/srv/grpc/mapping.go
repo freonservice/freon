@@ -1,11 +1,11 @@
 package grpc
 
 import (
-	"github.com/freonservice/freon/internal/entities"
+	"github.com/freonservice/freon/internal/domain"
 	api "github.com/freonservice/freon/pkg/freonApi"
 )
 
-func mappingLocalizations(ts []*entities.Localization) []*api.Localization {
+func mappingLocalizations(ts []*domain.Localization) []*api.Localization {
 	txs := make([]*api.Localization, len(ts))
 
 	for i, t := range ts {
@@ -15,7 +15,7 @@ func mappingLocalizations(ts []*entities.Localization) []*api.Localization {
 	return txs
 }
 
-func mappingLocalization(entity *entities.Localization) *api.Localization {
+func mappingLocalization(entity *domain.Localization) *api.Localization {
 	return &api.Localization{
 		Id:       entity.ID,
 		Locale:   entity.Locale,
@@ -23,7 +23,7 @@ func mappingLocalization(entity *entities.Localization) *api.Localization {
 	}
 }
 
-func mappingTranslations(ts []*entities.Translation) []*api.Translation {
+func mappingTranslations(ts []*domain.Translation) []*api.Translation {
 	txs := make([]*api.Translation, len(ts))
 
 	for i, t := range ts {
@@ -33,7 +33,7 @@ func mappingTranslations(ts []*entities.Translation) []*api.Translation {
 	return txs
 }
 
-func mappingTranslation(entity *entities.Translation) *api.Translation {
+func mappingTranslation(entity *domain.Translation) *api.Translation {
 	trx := &api.Translation{
 		Id:       entity.ID,
 		Singular: entity.Singular,

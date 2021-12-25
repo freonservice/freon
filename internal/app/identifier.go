@@ -1,7 +1,7 @@
 package app
 
 import (
-	"github.com/freonservice/freon/internal/entities"
+	"github.com/freonservice/freon/internal/domain"
 	"github.com/freonservice/freon/internal/filter"
 )
 
@@ -13,7 +13,7 @@ func (a *appl) CreateIdentifier(
 	)
 }
 
-func (a *appl) GetIdentifiers(ctx Ctx, f filter.IdentifierFilter) ([]*entities.Identifier, error) {
+func (a *appl) GetIdentifiers(ctx Ctx, f filter.IdentifierFilter) ([]*domain.Identifier, error) {
 	l, err := a.repo.GetIdentifiers(ctx, f)
 	if err != nil {
 		return nil, err

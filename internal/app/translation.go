@@ -1,7 +1,7 @@
 package app
 
 import (
-	"github.com/freonservice/freon/internal/entities"
+	"github.com/freonservice/freon/internal/domain"
 	"github.com/freonservice/freon/internal/filter"
 )
 
@@ -9,7 +9,7 @@ func (a *appl) CreateTranslation(ctx Ctx, creatorID, localizationID, identifierI
 	return a.repo.CreateTranslation(ctx, creatorID, localizationID, identifierID, singular, plural)
 }
 
-func (a *appl) GetTranslations(ctx Ctx, f filter.TranslationFilter) ([]*entities.Translation, error) {
+func (a *appl) GetTranslations(ctx Ctx, f filter.TranslationFilter) ([]*domain.Translation, error) {
 	translations, err := a.repo.GetTranslations(ctx, f)
 	return mappingArrayTranslation(translations), err
 }
@@ -26,12 +26,12 @@ func (a *appl) UpdateStatusTranslation(ctx Ctx, id, status int64) error {
 	return a.repo.UpdateStatusTranslation(ctx, id, status)
 }
 
-func (a *appl) GetTranslation(ctx Ctx, locale, identifierName string) (*entities.Translation, error) {
+func (a *appl) GetTranslation(ctx Ctx, locale, identifierName string) (*domain.Translation, error) {
 	t, err := a.repo.GetTranslation(ctx, locale, identifierName)
 	return mappingTranslation(t), err
 }
 
-func (a *appl) GetGroupedTranslations(ctx Ctx, f filter.GroupedTranslationFilter) ([]*entities.GroupedTranslations, error) {
+func (a *appl) GetGroupedTranslations(ctx Ctx, f filter.GroupedTranslationFilter) ([]*domain.GroupedTranslations, error) {
 	gts, err := a.repo.GetGroupedTranslations(ctx, f)
 	return mappingArrayGroupedTranslations(gts), err
 }
