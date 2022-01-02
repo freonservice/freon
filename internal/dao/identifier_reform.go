@@ -27,7 +27,19 @@ func (v *identifierTableType) Name() string {
 
 // Columns returns a new slice of column names for that view or table in SQL database.
 func (v *identifierTableType) Columns() []string {
-	return []string{"id", "parent_path", "name", "description", "example_text", "creator_id", "category_id", "status", "platforms", "created_at", "updated_at"}
+	return []string{
+		"id",
+		"parent_path",
+		"name",
+		"description",
+		"example_text",
+		"creator_id",
+		"category_id",
+		"status",
+		"platforms",
+		"created_at",
+		"updated_at",
+	}
 }
 
 // NewStruct makes a new struct for that view or table.
@@ -47,7 +59,24 @@ func (v *identifierTableType) PKColumnIndex() uint {
 
 // IdentifierTable represents identifiers view or table in SQL database.
 var IdentifierTable = &identifierTableType{
-	s: parse.StructInfo{Type: "Identifier", SQLSchema: "", SQLName: "identifiers", Fields: []parse.FieldInfo{{Name: "ID", Type: "int64", Column: "id"}, {Name: "ParentPath", Type: "string", Column: "parent_path"}, {Name: "Name", Type: "string", Column: "name"}, {Name: "Description", Type: "sql.NullString", Column: "description"}, {Name: "ExampleText", Type: "sql.NullString", Column: "example_text"}, {Name: "CreatorID", Type: "int64", Column: "creator_id"}, {Name: "CategoryID", Type: "sql.NullInt64", Column: "category_id"}, {Name: "Status", Type: "int64", Column: "status"}, {Name: "Platforms", Type: "string", Column: "platforms"}, {Name: "CreatedAt", Type: "time.Time", Column: "created_at"}, {Name: "UpdatedAt", Type: "*time.Time", Column: "updated_at"}}, PKFieldIndex: 0},
+	s: parse.StructInfo{
+		Type:    "Identifier",
+		SQLName: "identifiers",
+		Fields: []parse.FieldInfo{
+			{Name: "ID", Type: "int64", Column: "id"},
+			{Name: "ParentPath", Type: "string", Column: "parent_path"},
+			{Name: "Name", Type: "string", Column: "name"},
+			{Name: "Description", Type: "sql.NullString", Column: "description"},
+			{Name: "ExampleText", Type: "sql.NullString", Column: "example_text"},
+			{Name: "CreatorID", Type: "int64", Column: "creator_id"},
+			{Name: "CategoryID", Type: "sql.NullInt64", Column: "category_id"},
+			{Name: "Status", Type: "int64", Column: "status"},
+			{Name: "Platforms", Type: "string", Column: "platforms"},
+			{Name: "CreatedAt", Type: "time.Time", Column: "created_at"},
+			{Name: "UpdatedAt", Type: "*time.Time", Column: "updated_at"},
+		},
+		PKFieldIndex: 0,
+	},
 	z: new(Identifier).Values(),
 }
 
@@ -131,13 +160,11 @@ func (s *Identifier) HasPK() bool {
 	return s.ID != IdentifierTable.z[IdentifierTable.s.PKFieldIndex]
 }
 
-// SetPK sets record primary key.
+// SetPK sets record primary key, if possible.
+//
+// Deprecated: prefer direct field assignment where possible: s.ID = pk.
 func (s *Identifier) SetPK(pk interface{}) {
-	if i64, ok := pk.(int64); ok {
-		s.ID = int64(i64)
-	} else {
-		s.ID = pk.(int64)
-	}
+	reform.SetPK(s, pk)
 }
 
 // check interfaces

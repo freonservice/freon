@@ -22,5 +22,5 @@ var (
 	DBMaxOpenConns       = environ.GetIntEnv("DB_MAX_OPEN_CONNS", 10) //nolint:gomnd
 	DBMaxIdleConns       = environ.GetIntEnv("DB_MAX_IDLE_CONNS", 10) //nolint:gomnd
 	TranslationFilesPath = environ.GetStrEnv("TRANSLATION_FILES_PATH", "")
-	CPULimit             = environ.GetIntEnv("CPU_LIMIT", -1) //nolint:gomnd
+	CPULimit             = environ.GetIntEnv("CPU_LIMIT", -1)
 )

@@ -27,7 +27,12 @@ func (v *categoryTableType) Name() string {
 
 // Columns returns a new slice of column names for that view or table in SQL database.
 func (v *categoryTableType) Columns() []string {
-	return []string{"id", "name", "created_at", "updated_at"}
+	return []string{
+		"id",
+		"name",
+		"created_at",
+		"updated_at",
+	}
 }
 
 // NewStruct makes a new struct for that view or table.
@@ -47,7 +52,17 @@ func (v *categoryTableType) PKColumnIndex() uint {
 
 // CategoryTable represents categories view or table in SQL database.
 var CategoryTable = &categoryTableType{
-	s: parse.StructInfo{Type: "Category", SQLSchema: "", SQLName: "categories", Fields: []parse.FieldInfo{{Name: "ID", Type: "int64", Column: "id"}, {Name: "Name", Type: "string", Column: "name"}, {Name: "CreatedAt", Type: "time.Time", Column: "created_at"}, {Name: "UpdatedAt", Type: "*time.Time", Column: "updated_at"}}, PKFieldIndex: 0},
+	s: parse.StructInfo{
+		Type:    "Category",
+		SQLName: "categories",
+		Fields: []parse.FieldInfo{
+			{Name: "ID", Type: "int64", Column: "id"},
+			{Name: "Name", Type: "string", Column: "name"},
+			{Name: "CreatedAt", Type: "time.Time", Column: "created_at"},
+			{Name: "UpdatedAt", Type: "*time.Time", Column: "updated_at"},
+		},
+		PKFieldIndex: 0,
+	},
 	z: new(Category).Values(),
 }
 
@@ -110,13 +125,11 @@ func (s *Category) HasPK() bool {
 	return s.ID != CategoryTable.z[CategoryTable.s.PKFieldIndex]
 }
 
-// SetPK sets record primary key.
+// SetPK sets record primary key, if possible.
+//
+// Deprecated: prefer direct field assignment where possible: s.ID = pk.
 func (s *Category) SetPK(pk interface{}) {
-	if i64, ok := pk.(int64); ok {
-		s.ID = int64(i64)
-	} else {
-		s.ID = pk.(int64)
-	}
+	reform.SetPK(s, pk)
 }
 
 // check interfaces

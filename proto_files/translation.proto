@@ -1,6 +1,6 @@
 syntax = "proto3";
 package freon;
-option go_package = "pb;freonApi";
+option go_package = "pkg/freonApi";
 
 message Translation {
   int64 id = 1;

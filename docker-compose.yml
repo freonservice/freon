@@ -6,7 +6,7 @@ volumes:
 
 services:
   freon-db:
-    image: postgres:13.2
+    image: postgres:14.1
     restart: always
     ports:
       - "5432:5432"
@@ -42,6 +42,7 @@ services:
       GRPC_SERVICE_PORT: 4001
       STATIC_SERVICE_PORT: 4002
       TRANSLATION_FILES_PATH: "/docs"
+      CPU_LIMIT: 10
     depends_on:
       - freon-db
     healthcheck:

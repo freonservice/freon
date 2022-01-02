@@ -27,7 +27,18 @@ func (v *translationFileTableType) Name() string {
 
 // Columns returns a new slice of column names for that view or table in SQL database.
 func (v *translationFileTableType) Columns() []string {
-	return []string{"id", "localization_id", "creator_id", "name", "path", "platform", "status", "storage_type", "created_at", "updated_at"}
+	return []string{
+		"id",
+		"localization_id",
+		"creator_id",
+		"name",
+		"path",
+		"platform",
+		"status",
+		"storage_type",
+		"created_at",
+		"updated_at",
+	}
 }
 
 // NewStruct makes a new struct for that view or table.
@@ -47,7 +58,23 @@ func (v *translationFileTableType) PKColumnIndex() uint {
 
 // TranslationFileTable represents translation_files view or table in SQL database.
 var TranslationFileTable = &translationFileTableType{
-	s: parse.StructInfo{Type: "TranslationFile", SQLSchema: "", SQLName: "translation_files", Fields: []parse.FieldInfo{{Name: "ID", Type: "int64", Column: "id"}, {Name: "LocalizationID", Type: "int64", Column: "localization_id"}, {Name: "CreatorID", Type: "int64", Column: "creator_id"}, {Name: "Name", Type: "string", Column: "name"}, {Name: "Path", Type: "string", Column: "path"}, {Name: "Platform", Type: "int64", Column: "platform"}, {Name: "Status", Type: "int64", Column: "status"}, {Name: "StorageType", Type: "int64", Column: "storage_type"}, {Name: "CreatedAt", Type: "time.Time", Column: "created_at"}, {Name: "UpdatedAt", Type: "*time.Time", Column: "updated_at"}}, PKFieldIndex: 0},
+	s: parse.StructInfo{
+		Type:    "TranslationFile",
+		SQLName: "translation_files",
+		Fields: []parse.FieldInfo{
+			{Name: "ID", Type: "int64", Column: "id"},
+			{Name: "LocalizationID", Type: "int64", Column: "localization_id"},
+			{Name: "CreatorID", Type: "int64", Column: "creator_id"},
+			{Name: "Name", Type: "string", Column: "name"},
+			{Name: "Path", Type: "string", Column: "path"},
+			{Name: "Platform", Type: "int64", Column: "platform"},
+			{Name: "Status", Type: "int64", Column: "status"},
+			{Name: "StorageType", Type: "int64", Column: "storage_type"},
+			{Name: "CreatedAt", Type: "time.Time", Column: "created_at"},
+			{Name: "UpdatedAt", Type: "*time.Time", Column: "updated_at"},
+		},
+		PKFieldIndex: 0,
+	},
 	z: new(TranslationFile).Values(),
 }
 
@@ -128,13 +155,11 @@ func (s *TranslationFile) HasPK() bool {
 	return s.ID != TranslationFileTable.z[TranslationFileTable.s.PKFieldIndex]
 }
 
-// SetPK sets record primary key.
+// SetPK sets record primary key, if possible.
+//
+// Deprecated: prefer direct field assignment where possible: s.ID = pk.
 func (s *TranslationFile) SetPK(pk interface{}) {
-	if i64, ok := pk.(int64); ok {
-		s.ID = int64(i64)
-	} else {
-		s.ID = pk.(int64)
-	}
+	reform.SetPK(s, pk)
 }
 
 // check interfaces

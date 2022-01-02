@@ -27,7 +27,16 @@ func (v *localizationTableType) Name() string {
 
 // Columns returns a new slice of column names for that view or table in SQL database.
 func (v *localizationTableType) Columns() []string {
-	return []string{"id", "creator_id", "locale", "icon", "lang_name", "status", "created_at", "updated_at"}
+	return []string{
+		"id",
+		"creator_id",
+		"locale",
+		"icon",
+		"lang_name",
+		"status",
+		"created_at",
+		"updated_at",
+	}
 }
 
 // NewStruct makes a new struct for that view or table.
@@ -47,7 +56,21 @@ func (v *localizationTableType) PKColumnIndex() uint {
 
 // LocalizationTable represents localizations view or table in SQL database.
 var LocalizationTable = &localizationTableType{
-	s: parse.StructInfo{Type: "Localization", SQLSchema: "", SQLName: "localizations", Fields: []parse.FieldInfo{{Name: "ID", Type: "int64", Column: "id"}, {Name: "CreatorID", Type: "int64", Column: "creator_id"}, {Name: "Locale", Type: "string", Column: "locale"}, {Name: "Icon", Type: "string", Column: "icon"}, {Name: "LanguageName", Type: "string", Column: "lang_name"}, {Name: "Status", Type: "int64", Column: "status"}, {Name: "CreatedAt", Type: "time.Time", Column: "created_at"}, {Name: "UpdatedAt", Type: "*time.Time", Column: "updated_at"}}, PKFieldIndex: 0},
+	s: parse.StructInfo{
+		Type:    "Localization",
+		SQLName: "localizations",
+		Fields: []parse.FieldInfo{
+			{Name: "ID", Type: "int64", Column: "id"},
+			{Name: "CreatorID", Type: "int64", Column: "creator_id"},
+			{Name: "Locale", Type: "string", Column: "locale"},
+			{Name: "Icon", Type: "string", Column: "icon"},
+			{Name: "LanguageName", Type: "string", Column: "lang_name"},
+			{Name: "Status", Type: "int64", Column: "status"},
+			{Name: "CreatedAt", Type: "time.Time", Column: "created_at"},
+			{Name: "UpdatedAt", Type: "*time.Time", Column: "updated_at"},
+		},
+		PKFieldIndex: 0,
+	},
 	z: new(Localization).Values(),
 }
 
@@ -122,13 +145,11 @@ func (s *Localization) HasPK() bool {
 	return s.ID != LocalizationTable.z[LocalizationTable.s.PKFieldIndex]
 }
 
-// SetPK sets record primary key.
+// SetPK sets record primary key, if possible.
+//
+// Deprecated: prefer direct field assignment where possible: s.ID = pk.
 func (s *Localization) SetPK(pk interface{}) {
-	if i64, ok := pk.(int64); ok {
-		s.ID = int64(i64)
-	} else {
-		s.ID = pk.(int64)
-	}
+	reform.SetPK(s, pk)
 }
 
 // check interfaces
