@@ -1,19 +1,19 @@
 package android
 
 import (
-	"github.com/freonservice/freon/internal/entities"
+	"github.com/freonservice/freon/internal/domain"
 	iParser "github.com/freonservice/freon/internal/parser"
 )
 
 type parser struct {
-	v []*entities.Translation
+	v []*domain.Translation
 }
 
 func NewParser() iParser.Parser {
 	return &parser{}
 }
 
-func (p *parser) SetTranslations(v []*entities.Translation) {
+func (p *parser) SetTranslations(v []*domain.Translation) {
 	p.v = v
 }
 

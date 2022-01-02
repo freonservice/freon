@@ -42,6 +42,7 @@ services:
       GRPC_SERVICE_PORT: 4001
       STATIC_SERVICE_PORT: 4002
       TRANSLATION_FILES_PATH: "/docs"
+      CPU_LIMIT: 5
     depends_on:
       - freon-db
     healthcheck:

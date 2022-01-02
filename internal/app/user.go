@@ -1,15 +1,15 @@
 package app
 
 import (
-	"github.com/freonservice/freon/internal/entities"
+	"github.com/freonservice/freon/internal/domain"
 	api "github.com/freonservice/freon/pkg/freonApi"
+	"gopkg.in/reform.v1"
 
 	"github.com/google/uuid"
 	"github.com/pkg/errors"
-	"gopkg.in/reform.v1"
 )
 
-func (a *appl) AuthorizeUser(ctx Ctx, email, password string) (AccessToken, *entities.User, error) {
+func (a *appl) AuthorizeUser(ctx Ctx, email, password string) (AccessToken, *domain.User, error) {
 	user, err := a.repo.GetUserByEmail(email)
 	switch err {
 	default:
@@ -49,7 +49,7 @@ func (a *appl) AuthorizeUser(ctx Ctx, email, password string) (AccessToken, *ent
 	return token, mappingUser(user), nil
 }
 
-func (a *appl) RegisterUser(ctx Ctx, email, password, firstName, secondName string, role int64) (*entities.User, error) {
+func (a *appl) RegisterUser(ctx Ctx, email, password, firstName, secondName string, role int64) (*domain.User, error) {
 	user, err := a.repo.GetUserByEmail(email)
 	if err == nil && user != nil {
 		return nil, ErrEmailIsUsed
@@ -67,7 +67,7 @@ func (a *appl) RegisterUser(ctx Ctx, email, password, firstName, secondName stri
 	return mappingUser(newUser), nil
 }
 
-func (a *appl) GetUserByUUID(ctx Ctx, userUUID string) (*entities.User, error) {
+func (a *appl) GetUserByUUID(ctx Ctx, userUUID string) (*domain.User, error) {
 	user, err := a.repo.GetUserByUserUUID(userUUID)
 	if err != nil {
 		return nil, err
@@ -75,7 +75,7 @@ func (a *appl) GetUserByUUID(ctx Ctx, userUUID string) (*entities.User, error) {
 	return mappingUser(user), nil
 }
 
-func (a *appl) GetUserByID(ctx Ctx, userID int64) (*entities.User, error) {
+func (a *appl) GetUserByID(ctx Ctx, userID int64) (*domain.User, error) {
 	user, err := a.repo.GetUserByID(userID)
 	if err != nil {
 		return nil, err
@@ -83,7 +83,7 @@ func (a *appl) GetUserByID(ctx Ctx, userID int64) (*entities.User, error) {
 	return mappingUser(user), nil
 }
 
-func (a *appl) GetUserByEmail(ctx Ctx, email string) (*entities.User, error) {
+func (a *appl) GetUserByEmail(ctx Ctx, email string) (*domain.User, error) {
 	user, err := a.repo.GetUserByEmail(email)
 	if err != nil {
 		return nil, err
@@ -95,7 +95,7 @@ func (a *appl) LogoutUser(ctx Ctx, token string) error {
 	return a.repo.DeleteSession(ctx, token)
 }
 
-func (a *appl) UpdatePassword(ctx Ctx, userID int64, changePassword entities.ChangePassword) error {
+func (a *appl) UpdatePassword(ctx Ctx, userID int64, changePassword domain.ChangePassword) error {
 	user, err := a.repo.GetUserByID(userID)
 	if err != nil {
 		return err
@@ -117,7 +117,7 @@ func (a *appl) UpdateProfile(ctx Ctx, userID int64, email, firstName, secondName
 	return a.repo.UpdateProfile(ctx, userID, email, firstName, secondName, role, status)
 }
 
-func (a *appl) GetUsers(ctx Ctx) ([]*entities.User, error) {
+func (a *appl) GetUsers(ctx Ctx) ([]*domain.User, error) {
 	u, err := a.repo.GetUsers(ctx)
 	if err != nil {
 		return nil, err

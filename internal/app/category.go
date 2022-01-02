@@ -1,12 +1,12 @@
 package app
 
-import "github.com/freonservice/freon/internal/entities"
+import "github.com/freonservice/freon/internal/domain"
 
 func (a *appl) CreateCategory(ctx Ctx, name string) error {
 	return a.repo.CreateCategory(ctx, name)
 }
 
-func (a *appl) GetCategories(ctx Ctx) ([]*entities.Category, error) {
+func (a *appl) GetCategories(ctx Ctx) ([]*domain.Category, error) {
 	c, err := a.repo.GetCategories(ctx)
 	if err != nil {
 		return nil, err

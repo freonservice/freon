@@ -4,7 +4,7 @@ import (
 	"context"
 
 	"github.com/freonservice/freon/internal/dao"
-	"github.com/freonservice/freon/internal/entities"
+	"github.com/freonservice/freon/internal/domain"
 	"github.com/freonservice/freon/internal/filter"
 
 	"github.com/google/uuid"
@@ -16,49 +16,49 @@ type (
 	AccessToken = string
 
 	Appl interface {
-		AuthorizeUser(ctx Ctx, email, password string) (AccessToken, *entities.User, error)
-		RegisterUser(ctx Ctx, email, password, firstName, secondName string, role int64) (*entities.User, error)
-		GetUserByUUID(ctx Ctx, uuid string) (*entities.User, error)
-		GetUserByID(ctx Ctx, userID int64) (*entities.User, error)
-		GetUserByEmail(ctx Ctx, email string) (*entities.User, error)
+		AuthorizeUser(ctx Ctx, email, password string) (AccessToken, *domain.User, error)
+		RegisterUser(ctx Ctx, email, password, firstName, secondName string, role int64) (*domain.User, error)
+		GetUserByUUID(ctx Ctx, uuid string) (*domain.User, error)
+		GetUserByID(ctx Ctx, userID int64) (*domain.User, error)
+		GetUserByEmail(ctx Ctx, email string) (*domain.User, error)
 		LogoutUser(ctx Ctx, token string) error
 		UpdateStatus(ctx Ctx, userID, status int64) error
-		UpdatePassword(ctx Ctx, userID int64, changePassword entities.ChangePassword) error
+		UpdatePassword(ctx Ctx, userID int64, changePassword domain.ChangePassword) error
 		UpdateProfile(ctx Ctx, userID int64, email, firstName, secondName string, role, status int64) error
-		GetUsers(ctx Ctx) ([]*entities.User, error)
+		GetUsers(ctx Ctx) ([]*domain.User, error)
 
 		CreateLocalization(ctx Ctx, creatorID int64, name, code, icon string) error
-		GetLocalizations(ctx Ctx) ([]*entities.Localization, error)
+		GetLocalizations(ctx Ctx) ([]*domain.Localization, error)
 		DeleteLocalization(ctx Ctx, id int64) error
 
 		CreateIdentifier(
 			ctx Ctx, creatorID, categoryID, parentID int64, name, description, exampleText string, platforms []string,
 		) error
-		GetIdentifiers(ctx Ctx, f filter.IdentifierFilter) ([]*entities.Identifier, error)
+		GetIdentifiers(ctx Ctx, f filter.IdentifierFilter) ([]*domain.Identifier, error)
 		DeleteIdentifier(ctx Ctx, id int64) error
 		UpdateIdentifier(
 			ctx Ctx, id, categoryID, parentID int64, name, description, exampleText string, platforms []string,
 		) error
 
 		CreateCategory(ctx Ctx, name string) error
-		GetCategories(ctx Ctx) ([]*entities.Category, error)
+		GetCategories(ctx Ctx) ([]*domain.Category, error)
 		DeleteCategory(ctx Ctx, id int64) error
 		UpdateCategory(ctx Ctx, id int64, name string) error
 
 		CreateTranslation(ctx Ctx, creatorID, localizationID, identifierID int64, singular, plural string) error
-		GetTranslations(ctx Ctx, f filter.TranslationFilter) ([]*entities.Translation, error)
+		GetTranslations(ctx Ctx, f filter.TranslationFilter) ([]*domain.Translation, error)
 		DeleteTranslation(ctx Ctx, id int64) error
 		UpdateTranslation(ctx Ctx, id int64, singular, plural string) error
 		UpdateStatusTranslation(ctx Ctx, id, status int64) error
-		GetTranslation(ctx Ctx, locale, identifierName string) (*entities.Translation, error)
-		GetGroupedTranslations(ctx Ctx, f filter.GroupedTranslationFilter) ([]*entities.GroupedTranslations, error)
+		GetTranslation(ctx Ctx, locale, identifierName string) (*domain.Translation, error)
+		GetGroupedTranslations(ctx Ctx, f filter.GroupedTranslationFilter) ([]*domain.GroupedTranslations, error)
 
 		CreateTranslationFile(ctx Ctx, platform, storageType string, creatorID, localizationID int64) error
-		GetTranslationFiles(ctx Ctx, f filter.TranslationFileFilter) ([]*entities.TranslationFile, error)
+		GetTranslationFiles(ctx Ctx, f filter.TranslationFileFilter) ([]*domain.TranslationFile, error)
 		DeleteTranslationFile(ctx Ctx, id int64) error
 
-		GetStatistic(ctx Ctx) (*entities.Statistic, error)
-		GetVersion(ctx Ctx, localizationID, platform int64) ([]*entities.Version, error)
+		GetStatistic(ctx Ctx) (*domain.Statistic, error)
+		GetVersion(ctx Ctx, localizationID, platform int64) ([]*domain.Version, error)
 
 		HealthCheck(Ctx) (interface{}, error)
 	}

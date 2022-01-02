@@ -1,8 +1,8 @@
 .idea
-client
 .DS_Store
 .gitignore
+client
 scripts
-README.md
 proto_files
 docs
+README.md

@@ -1,8 +1,8 @@
 package app
 
-import "github.com/freonservice/freon/internal/entities"
+import "github.com/freonservice/freon/internal/domain"
 
-func (a *appl) GetStatistic(ctx Ctx) (*entities.Statistic, error) {
+func (a *appl) GetStatistic(ctx Ctx) (*domain.Statistic, error) {
 	s, err := a.repo.GetStatistic(ctx)
 	if err != nil {
 		return nil, err
@@ -10,9 +10,9 @@ func (a *appl) GetStatistic(ctx Ctx) (*entities.Statistic, error) {
 
 	stat := mappingStatistic(s)
 	sizeStatTranslations := len(s.StatTranslations)
-	stat.StatTranslations = make([]*entities.StatTranslation, sizeStatTranslations)
+	stat.StatTranslations = make([]*domain.StatTranslation, sizeStatTranslations)
 	for i := 0; i < sizeStatTranslations; i++ {
-		stat.StatTranslations[i] = &entities.StatTranslation{
+		stat.StatTranslations[i] = &domain.StatTranslation{
 			LangName:   s.StatTranslations[i].LangName,
 			Percentage: float64(s.StatTranslations[i].Fulfilled) / float64(s.CountIdentifiers) * 100,
 		}

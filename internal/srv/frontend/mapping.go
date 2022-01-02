@@ -3,20 +3,20 @@ package frontend
 import (
 	"github.com/freonservice/freon/api/openapi/frontend/model"
 	"github.com/freonservice/freon/api/openapi/frontend/restapi/op"
-	"github.com/freonservice/freon/internal/entities"
+	"github.com/freonservice/freon/internal/domain"
 	api "github.com/freonservice/freon/pkg/freonApi"
 
 	"github.com/AlekSi/pointer"
 )
 
-func apiInfo(v *entities.User, conf *model.InfoConfiguration) *model.Info {
+func apiInfo(v *domain.User, conf *model.InfoConfiguration) *model.Info {
 	return &model.Info{
 		User:          apiUser(v),
 		Configuration: conf,
 	}
 }
 
-func apiUser(v *entities.User) *model.User {
+func apiUser(v *domain.User) *model.User {
 	return &model.User{
 		ID:         &v.ID,
 		Email:      &v.Email,
@@ -29,7 +29,7 @@ func apiUser(v *entities.User) *model.User {
 	}
 }
 
-func apiArrayUser(v []*entities.User) []*model.User {
+func apiArrayUser(v []*domain.User) []*model.User {
 	var d = make([]*model.User, len(v))
 	for i, e := range v {
 		d[i] = apiUser(e)
@@ -37,7 +37,7 @@ func apiArrayUser(v []*entities.User) []*model.User {
 	return d
 }
 
-func apiLocalization(v *entities.Localization) *model.Localization {
+func apiLocalization(v *domain.Localization) *model.Localization {
 	t := v.CreatedAt.UTC().Unix()
 	return &model.Localization{
 		ID:        &v.ID,
@@ -48,7 +48,7 @@ func apiLocalization(v *entities.Localization) *model.Localization {
 	}
 }
 
-func apiArrayLocalization(v []*entities.Localization) []*model.Localization {
+func apiArrayLocalization(v []*domain.Localization) []*model.Localization {
 	var d = make([]*model.Localization, len(v))
 	for i, e := range v {
 		d[i] = apiLocalization(e)
@@ -56,7 +56,7 @@ func apiArrayLocalization(v []*entities.Localization) []*model.Localization {
 	return d
 }
 
-func apiIdentifier(v *entities.Identifier) *model.Identifier {
+func apiIdentifier(v *domain.Identifier) *model.Identifier {
 	i := &model.Identifier{
 		ID:          &v.ID,
 		Name:        &v.Name,
@@ -70,7 +70,7 @@ func apiIdentifier(v *entities.Identifier) *model.Identifier {
 	return i
 }
 
-func apiArrayIdentifier(v []*entities.Identifier) []*model.Identifier {
+func apiArrayIdentifier(v []*domain.Identifier) []*model.Identifier {
 	var d = make([]*model.Identifier, len(v))
 	for i, e := range v {
 		d[i] = apiIdentifier(e)
@@ -78,14 +78,14 @@ func apiArrayIdentifier(v []*entities.Identifier) []*model.Identifier {
 	return d
 }
 
-func apiCategory(v *entities.Category) *model.Category {
+func apiCategory(v *domain.Category) *model.Category {
 	return &model.Category{
 		ID:   &v.ID,
 		Name: &v.Name,
 	}
 }
 
-func apiArrayCategory(v []*entities.Category) []*model.Category {
+func apiArrayCategory(v []*domain.Category) []*model.Category {
 	var d = make([]*model.Category, len(v))
 	for i, e := range v {
 		d[i] = apiCategory(e)
@@ -93,7 +93,7 @@ func apiArrayCategory(v []*entities.Category) []*model.Category {
 	return d
 }
 
-func apiTranslation(v *entities.Translation) *model.Translation {
+func apiTranslation(v *domain.Translation) *model.Translation {
 	i := &model.Translation{
 		ID:           &v.ID,
 		Singular:     &v.Singular,
@@ -106,7 +106,7 @@ func apiTranslation(v *entities.Translation) *model.Translation {
 	return i
 }
 
-func apiArrayTranslation(v []*entities.Translation) []*model.Translation {
+func apiArrayTranslation(v []*domain.Translation) []*model.Translation {
 	var d = make([]*model.Translation, len(v))
 	for i, e := range v {
 		d[i] = apiTranslation(e)
@@ -114,7 +114,7 @@ func apiArrayTranslation(v []*entities.Translation) []*model.Translation {
 	return d
 }
 
-func apiStatistic(v *entities.Statistic) *op.StatisticOKBody {
+func apiStatistic(v *domain.Statistic) *op.StatisticOKBody {
 	entity := &op.StatisticOKBody{
 		CountCategories:    &v.CountCategories,
 		CountIdentifiers:   &v.CountIdentifiers,
@@ -134,7 +134,7 @@ func apiStatistic(v *entities.Statistic) *op.StatisticOKBody {
 	return entity
 }
 
-func apiTranslationFile(v *entities.TranslationFile) *model.TranslationFile {
+func apiTranslationFile(v *domain.TranslationFile) *model.TranslationFile {
 	i := &model.TranslationFile{
 		ID:          &v.ID,
 		Name:        &v.Name,
@@ -148,7 +148,7 @@ func apiTranslationFile(v *entities.TranslationFile) *model.TranslationFile {
 	return i
 }
 
-func apiArrayTranslationFiles(v []*entities.TranslationFile) []*model.TranslationFile {
+func apiArrayTranslationFiles(v []*domain.TranslationFile) []*model.TranslationFile {
 	var d = make([]*model.TranslationFile, len(v))
 	for i, e := range v {
 		d[i] = apiTranslationFile(e)
@@ -156,7 +156,7 @@ func apiArrayTranslationFiles(v []*entities.TranslationFile) []*model.Translatio
 	return d
 }
 
-func apiVersion(v *entities.Version) *model.Version {
+func apiVersion(v *domain.Version) *model.Version {
 	return &model.Version{
 		Path:           v.Path,
 		Platform:       v.Platform,
@@ -167,7 +167,7 @@ func apiVersion(v *entities.Version) *model.Version {
 	}
 }
 
-func apiArrayVersion(v []*entities.Version) []*model.Version {
+func apiArrayVersion(v []*domain.Version) []*model.Version {
 	var d = make([]*model.Version, len(v))
 	for i, e := range v {
 		d[i] = apiVersion(e)

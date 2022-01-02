@@ -27,7 +27,13 @@ func (v *userSessionTableType) Name() string {
 
 // Columns returns a new slice of column names for that view or table in SQL database.
 func (v *userSessionTableType) Columns() []string {
-	return []string{"id", "user_id", "token", "active", "created_at"}
+	return []string{
+		"id",
+		"user_id",
+		"token",
+		"active",
+		"created_at",
+	}
 }
 
 // NewStruct makes a new struct for that view or table.
@@ -47,7 +53,18 @@ func (v *userSessionTableType) PKColumnIndex() uint {
 
 // UserSessionTable represents user_sessions view or table in SQL database.
 var UserSessionTable = &userSessionTableType{
-	s: parse.StructInfo{Type: "UserSession", SQLSchema: "", SQLName: "user_sessions", Fields: []parse.FieldInfo{{Name: "ID", Type: "int64", Column: "id"}, {Name: "UserID", Type: "int64", Column: "user_id"}, {Name: "Token", Type: "string", Column: "token"}, {Name: "Active", Type: "bool", Column: "active"}, {Name: "CreatedAt", Type: "time.Time", Column: "created_at"}}, PKFieldIndex: 0},
+	s: parse.StructInfo{
+		Type:    "UserSession",
+		SQLName: "user_sessions",
+		Fields: []parse.FieldInfo{
+			{Name: "ID", Type: "int64", Column: "id"},
+			{Name: "UserID", Type: "int64", Column: "user_id"},
+			{Name: "Token", Type: "string", Column: "token"},
+			{Name: "Active", Type: "bool", Column: "active"},
+			{Name: "CreatedAt", Type: "time.Time", Column: "created_at"},
+		},
+		PKFieldIndex: 0,
+	},
 	z: new(UserSession).Values(),
 }
 
@@ -113,13 +130,11 @@ func (s *UserSession) HasPK() bool {
 	return s.ID != UserSessionTable.z[UserSessionTable.s.PKFieldIndex]
 }
 
-// SetPK sets record primary key.
+// SetPK sets record primary key, if possible.
+//
+// Deprecated: prefer direct field assignment where possible: s.ID = pk.
 func (s *UserSession) SetPK(pk interface{}) {
-	if i64, ok := pk.(int64); ok {
-		s.ID = int64(i64)
-	} else {
-		s.ID = pk.(int64)
-	}
+	reform.SetPK(s, pk)
 }
 
 // check interfaces

@@ -62,13 +62,14 @@ Command for launch service from docker
 ## Future features
 
 - [ ] Connection google-translation api for quick semi-automation translations
+- [ ] Connection [libretranslate api](https://github.com/LibreTranslate/LibreTranslate) for quick semi-automation translations
 - [ ] Generation i18n files for web
 - [ ] Generation android translations
 - [ ] Generation ios translations
 - [ ] UI improvements
 - [x] Add API and business logic for checking actual version of translations  
 - [ ] Fix supporting pluralization
-- [ ] Add AWS storages for static files
+- [ ] Add S3 compatibility storages for static files
 - [ ] Full backend test coverage
 
 ## Contribution

@@ -3,7 +3,7 @@ package repo
 import (
 	"context"
 	"database/sql"
-	"io/ioutil"
+	"os"
 
 	"github.com/cenkalti/backoff/v4"
 	"github.com/jmoiron/sqlx"
@@ -74,7 +74,7 @@ func migrationDB(db *sqlx.DB, migrationPath string) error {
 	if err != nil {
 		return err
 	}
-	files, err := ioutil.ReadDir(migrationPath)
+	files, err := os.ReadDir(migrationPath)
 	if err != nil {
 		return err
 	}
@@ -84,8 +84,8 @@ func migrationDB(db *sqlx.DB, migrationPath string) error {
 		return err
 	}
 
-	for _, m := range migrations {
-		if err := m.Up(db.DB); err != nil {
+	for i := range migrations {
+		if err := migrations[i].Up(db.DB); err != nil {
 			return err
 		}
 	}

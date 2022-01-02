@@ -1,6 +1,6 @@
 syntax = "proto3";
 package freon;
-option go_package = "pb;freonApi";
+option go_package = "pkg/freonApi";
 
 enum UserStatus {
   USER_ACTIVE = 0;
@@ -35,4 +35,9 @@ enum PlatformType {
   PLATFORM_TYPE_IOS = 1;
   PLATFORM_TYPE_ANDROID = 2;
   PLATFORM_TYPE_SKIP = 3; // skipped, using for checking new update translation with grpc
+}
+
+message TranslationSettings {
+  bool Auto = 1;
+  bool UseLibra = 2;
 }

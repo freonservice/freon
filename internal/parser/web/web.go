@@ -3,19 +3,19 @@ package web
 import (
 	"fmt"
 
-	"github.com/freonservice/freon/internal/entities"
+	"github.com/freonservice/freon/internal/domain"
 	iParser "github.com/freonservice/freon/internal/parser"
 )
 
 type parser struct {
-	v []*entities.Translation
+	v []*domain.Translation
 }
 
 func NewParser() iParser.Parser {
 	return &parser{}
 }
 
-func (p *parser) SetTranslations(v []*entities.Translation) {
+func (p *parser) SetTranslations(v []*domain.Translation) {
 	p.v = v
 }
 
@@ -23,7 +23,7 @@ func (p *parser) Generate() (string, error) {
 	var f string
 
 	for _, v := range p.v {
-		f += fmt.Sprintf("\"%s\" = \"%s\";\n", v.Localization.LanguageName, v.Singular)
+		f += fmt.Sprintf("\"%q\" = \"%q\";\n", v.Localization.LanguageName, v.Singular)
 	}
 
 	return f, nil
