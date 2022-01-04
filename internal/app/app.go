@@ -121,6 +121,11 @@ type (
 		GetVersionFromTranslations(ctx Ctx, f filter.VersionTranslationsFilter) ([]*dao.Version, error)
 	}
 
+	SettingRepo interface {
+		GetCurrentSettingState() domain.SettingConfiguration
+		SetTranslationConfiguration(ctx Ctx, data domain.TranslationConfiguration) error
+	}
+
 	Password interface {
 		Hashing(password string) ([]byte, error)
 		Compare(hashedPassword []byte, password []byte) bool
@@ -128,9 +133,10 @@ type (
 	}
 
 	appl struct {
-		repo Repo
-		auth Auth
-		pass Password
+		repo        Repo
+		auth        Auth
+		pass        Password
+		settingRepo SettingRepo
 	}
 
 	UserSession struct {
@@ -139,11 +145,12 @@ type (
 	}
 )
 
-func New(repo Repo, auth Auth, pass Password) Appl {
+func New(repo Repo, auth Auth, pass Password, settingRepo SettingRepo) Appl {
 	return &appl{
-		repo: repo,
-		auth: auth,
-		pass: pass,
+		repo:        repo,
+		auth:        auth,
+		pass:        pass,
+		settingRepo: settingRepo,
 	}
 }
 

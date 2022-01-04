@@ -270,6 +270,8 @@ func (o *LoginOKBody) validateUser(formats strfmt.Registry) error {
 		if err := o.User.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("loginOK" + "." + "user")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("loginOK" + "." + "user")
 			}
 			return err
 		}
@@ -298,6 +300,8 @@ func (o *LoginOKBody) contextValidateUser(ctx context.Context, formats strfmt.Re
 		if err := o.User.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("loginOK" + "." + "user")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("loginOK" + "." + "user")
 			}
 			return err
 		}

@@ -153,6 +153,8 @@ func (m *Translation) validateIdentifier(formats strfmt.Registry) error {
 		if err := m.Identifier.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("identifier")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("identifier")
 			}
 			return err
 		}
@@ -171,6 +173,8 @@ func (m *Translation) validateLocalization(formats strfmt.Registry) error {
 		if err := m.Localization.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("localization")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("localization")
 			}
 			return err
 		}
@@ -212,6 +216,8 @@ func (m *Translation) contextValidateIdentifier(ctx context.Context, formats str
 		if err := m.Identifier.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("identifier")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("identifier")
 			}
 			return err
 		}
@@ -226,6 +232,8 @@ func (m *Translation) contextValidateLocalization(ctx context.Context, formats s
 		if err := m.Localization.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("localization")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("localization")
 			}
 			return err
 		}

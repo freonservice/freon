@@ -2,6 +2,7 @@ version: '3.8'
 
 volumes:
   freon-db:
+  freon-badger-db:
   freon-docs:
 
 services:
@@ -38,6 +39,7 @@ services:
       DB_PASS: "password"
       DB_NAME: "freon"
       MIGRATION_PATH: "/migrations"
+      BADGER_PATH: "/badger"
       API_SERVICE_PORT: 4000
       GRPC_SERVICE_PORT: 4001
       STATIC_SERVICE_PORT: 4002
@@ -53,3 +55,4 @@ services:
       start_period: 10s
     volumes:
       - freon-docs:/docs
+      - freon-badger-db:/badger

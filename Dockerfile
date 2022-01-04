@@ -24,7 +24,7 @@ ENV CGO_ENABLED=0
 RUN go get golang.org/x/tools/cmd/goimports && wget -O - -q https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh| sh
 
 # Create folder for transaction files
-RUN mkdir -p /docs
+RUN mkdir -p /docs && mkdir -p /badger
 
 # Set the working directory outside $GOPATH to enable the support for modules.
 WORKDIR /src
@@ -58,6 +58,9 @@ COPY --from=builder /src/migrations /migrations
 
 # Import folder for translation files
 COPY --from=builder --chown=nobody:nobody /docs /docs
+
+# Import folder for badger files
+COPY --from=builder --chown=nobody:nobody /badger /badger
 
 # Perform any further action as an unprivileged user.
 USER nobody:nobody

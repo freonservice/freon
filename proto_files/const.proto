@@ -37,7 +37,7 @@ enum PlatformType {
   PLATFORM_TYPE_SKIP = 3; // skipped, using for checking new update translation with grpc
 }
 
-message TranslationSettings {
+message TranslationConfiguration {
   bool Auto = 1;
   bool UseLibra = 2;
 }

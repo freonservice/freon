@@ -248,6 +248,8 @@ func (o *StatisticOKBody) validateStatCompletedTranslations(formats strfmt.Regis
 			if err := o.StatCompletedTranslations[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("statisticOK" + "." + "stat_completed_translations" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("statisticOK" + "." + "stat_completed_translations" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -280,6 +282,8 @@ func (o *StatisticOKBody) contextValidateStatCompletedTranslations(ctx context.C
 			if err := o.StatCompletedTranslations[i].ContextValidate(ctx, formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("statisticOK" + "." + "stat_completed_translations" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("statisticOK" + "." + "stat_completed_translations" + "." + strconv.Itoa(i))
 				}
 				return err
 			}

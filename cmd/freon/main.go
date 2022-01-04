@@ -43,6 +43,7 @@ var (
 		cpuLimit               int
 		serviceHost            string
 		migrationPath          string
+		badgerPath             string
 		jwtSecretPath          string
 		translationFilesFolder string
 	}
@@ -69,7 +70,8 @@ func Init() {
 	flag.IntVar(&cfg.grpcPort, "grpc.port", config.GrpcServicePort, "listen `grpc port` must be >0")
 	flag.IntVar(&cfg.staticPort, "static.port", config.StaticServicePort, "listen `static port` must be >0")
 	flag.StringVar(&cfg.serviceHost, "service.host", config.ServiceHost, "listen `service host`")
-	flag.StringVar(&cfg.migrationPath, "migration_path", config.MigrationPath, "migration path cant be empty")
+	flag.StringVar(&cfg.migrationPath, "migration.path", config.MigrationPath, "migration path cant be empty")
+	flag.StringVar(&cfg.badgerPath, "badger.path", config.BadgerPath, "badger path cant be empty")
 	flag.StringVar(&cfg.jwtSecretPath, "jwt_secret_path", config.JwtSecretKey, "jwt secret path cant be empty")
 	flag.StringVar(&adminCred.email, "admin.email", config.DefaultAdminEmail, "admin email cant be empty")
 	flag.StringVar(&adminCred.password, "admin.password", config.DefaultAdminPass, "admin password cant be empty")

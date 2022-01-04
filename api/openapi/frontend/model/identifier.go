@@ -123,6 +123,8 @@ func (m *Identifier) validateCategory(formats strfmt.Registry) error {
 		if err := m.Category.Validate(formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("category")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("category")
 			}
 			return err
 		}
@@ -186,6 +188,8 @@ func (m *Identifier) contextValidateCategory(ctx context.Context, formats strfmt
 		if err := m.Category.ContextValidate(ctx, formats); err != nil {
 			if ve, ok := err.(*errors.Validation); ok {
 				return ve.ValidateName("category")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("category")
 			}
 			return err
 		}

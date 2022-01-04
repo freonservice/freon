@@ -34,8 +34,13 @@ func runServe(repo *dal.Repo, ctxShutdown Ctx, shutdown func()) error {
 		return errors.Wrap(err, "generate doc folders")
 	}
 
+	settingRepo, err := dal.NewSettingRepo(cfg.badgerPath)
+	if err != nil {
+		return errors.Wrap(err, "badger error")
+	}
+
 	authorization := auth.NewAuth(cfg.jwtSecretPath, repo, log)
-	appl := app.New(repo, authorization, password.New())
+	appl := app.New(repo, authorization, password.New(), settingRepo)
 
 	err = createFirstAdmin(appl)
 	if err != nil {

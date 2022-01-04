@@ -482,4 +482,5 @@ MigrationBackup/
 
 cmd/client
 docs
+badger
 *.go-e

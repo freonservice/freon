@@ -13,7 +13,8 @@ func testNew(t *testing.T) (func(), Appl, *MockRepo, *MockAuth, *MockPassword) {
 	mockRepo := NewMockRepo(ctrl)
 	mockAuth := NewMockAuth(ctrl)
 	mockPassword := NewMockPassword(ctrl)
+	mockSettingRepo := NewMockSettingRepo(ctrl)
 
-	a := New(mockRepo, mockAuth, mockPassword)
+	a := New(mockRepo, mockAuth, mockPassword, mockSettingRepo)
 	return ctrl.Finish, a, mockRepo, mockAuth, mockPassword
 }

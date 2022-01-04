@@ -8,7 +8,7 @@ import (
 	reflect "reflect"
 
 	dao "github.com/freonservice/freon/internal/dao"
-	entities "github.com/freonservice/freon/internal/domain"
+	domain "github.com/freonservice/freon/internal/domain"
 	filter "github.com/freonservice/freon/internal/filter"
 	gomock "github.com/golang/mock/gomock"
 	uuid "github.com/google/uuid"
@@ -39,11 +39,11 @@ func (m *MockAppl) EXPECT() *MockApplMockRecorder {
 }
 
 // AuthorizeUser mocks base method.
-func (m *MockAppl) AuthorizeUser(ctx Ctx, email, password string) (AccessToken, *entities.User, error) {
+func (m *MockAppl) AuthorizeUser(ctx Ctx, email, password string) (AccessToken, *domain.User, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "AuthorizeUser", ctx, email, password)
 	ret0, _ := ret[0].(AccessToken)
-	ret1, _ := ret[1].(*entities.User)
+	ret1, _ := ret[1].(*domain.User)
 	ret2, _ := ret[2].(error)
 	return ret0, ret1, ret2
 }
@@ -195,10 +195,10 @@ func (mr *MockApplMockRecorder) DeleteTranslationFile(ctx, id interface{}) *gomo
 }
 
 // GetCategories mocks base method.
-func (m *MockAppl) GetCategories(ctx Ctx) ([]*entities.Category, error) {
+func (m *MockAppl) GetCategories(ctx Ctx) ([]*domain.Category, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetCategories", ctx)
-	ret0, _ := ret[0].([]*entities.Category)
+	ret0, _ := ret[0].([]*domain.Category)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -210,10 +210,10 @@ func (mr *MockApplMockRecorder) GetCategories(ctx interface{}) *gomock.Call {
 }
 
 // GetGroupedTranslations mocks base method.
-func (m *MockAppl) GetGroupedTranslations(ctx Ctx, f filter.GroupedTranslationFilter) ([]*entities.GroupedTranslations, error) {
+func (m *MockAppl) GetGroupedTranslations(ctx Ctx, f filter.GroupedTranslationFilter) ([]*domain.GroupedTranslations, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetGroupedTranslations", ctx, f)
-	ret0, _ := ret[0].([]*entities.GroupedTranslations)
+	ret0, _ := ret[0].([]*domain.GroupedTranslations)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -225,10 +225,10 @@ func (mr *MockApplMockRecorder) GetGroupedTranslations(ctx, f interface{}) *gomo
 }
 
 // GetIdentifiers mocks base method.
-func (m *MockAppl) GetIdentifiers(ctx Ctx, f filter.IdentifierFilter) ([]*entities.Identifier, error) {
+func (m *MockAppl) GetIdentifiers(ctx Ctx, f filter.IdentifierFilter) ([]*domain.Identifier, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetIdentifiers", ctx, f)
-	ret0, _ := ret[0].([]*entities.Identifier)
+	ret0, _ := ret[0].([]*domain.Identifier)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -240,10 +240,10 @@ func (mr *MockApplMockRecorder) GetIdentifiers(ctx, f interface{}) *gomock.Call 
 }
 
 // GetLocalizations mocks base method.
-func (m *MockAppl) GetLocalizations(ctx Ctx) ([]*entities.Localization, error) {
+func (m *MockAppl) GetLocalizations(ctx Ctx) ([]*domain.Localization, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetLocalizations", ctx)
-	ret0, _ := ret[0].([]*entities.Localization)
+	ret0, _ := ret[0].([]*domain.Localization)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -255,10 +255,10 @@ func (mr *MockApplMockRecorder) GetLocalizations(ctx interface{}) *gomock.Call {
 }
 
 // GetStatistic mocks base method.
-func (m *MockAppl) GetStatistic(ctx Ctx) (*entities.Statistic, error) {
+func (m *MockAppl) GetStatistic(ctx Ctx) (*domain.Statistic, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetStatistic", ctx)
-	ret0, _ := ret[0].(*entities.Statistic)
+	ret0, _ := ret[0].(*domain.Statistic)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -270,10 +270,10 @@ func (mr *MockApplMockRecorder) GetStatistic(ctx interface{}) *gomock.Call {
 }
 
 // GetTranslation mocks base method.
-func (m *MockAppl) GetTranslation(ctx Ctx, locale, identifierName string) (*entities.Translation, error) {
+func (m *MockAppl) GetTranslation(ctx Ctx, locale, identifierName string) (*domain.Translation, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetTranslation", ctx, locale, identifierName)
-	ret0, _ := ret[0].(*entities.Translation)
+	ret0, _ := ret[0].(*domain.Translation)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -285,10 +285,10 @@ func (mr *MockApplMockRecorder) GetTranslation(ctx, locale, identifierName inter
 }
 
 // GetTranslationFiles mocks base method.
-func (m *MockAppl) GetTranslationFiles(ctx Ctx, f filter.TranslationFileFilter) ([]*entities.TranslationFile, error) {
+func (m *MockAppl) GetTranslationFiles(ctx Ctx, f filter.TranslationFileFilter) ([]*domain.TranslationFile, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetTranslationFiles", ctx, f)
-	ret0, _ := ret[0].([]*entities.TranslationFile)
+	ret0, _ := ret[0].([]*domain.TranslationFile)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -300,10 +300,10 @@ func (mr *MockApplMockRecorder) GetTranslationFiles(ctx, f interface{}) *gomock.
 }
 
 // GetTranslations mocks base method.
-func (m *MockAppl) GetTranslations(ctx Ctx, f filter.TranslationFilter) ([]*entities.Translation, error) {
+func (m *MockAppl) GetTranslations(ctx Ctx, f filter.TranslationFilter) ([]*domain.Translation, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetTranslations", ctx, f)
-	ret0, _ := ret[0].([]*entities.Translation)
+	ret0, _ := ret[0].([]*domain.Translation)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -315,10 +315,10 @@ func (mr *MockApplMockRecorder) GetTranslations(ctx, f interface{}) *gomock.Call
 }
 
 // GetUserByEmail mocks base method.
-func (m *MockAppl) GetUserByEmail(ctx Ctx, email string) (*entities.User, error) {
+func (m *MockAppl) GetUserByEmail(ctx Ctx, email string) (*domain.User, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetUserByEmail", ctx, email)
-	ret0, _ := ret[0].(*entities.User)
+	ret0, _ := ret[0].(*domain.User)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -330,10 +330,10 @@ func (mr *MockApplMockRecorder) GetUserByEmail(ctx, email interface{}) *gomock.C
 }
 
 // GetUserByID mocks base method.
-func (m *MockAppl) GetUserByID(ctx Ctx, userID int64) (*entities.User, error) {
+func (m *MockAppl) GetUserByID(ctx Ctx, userID int64) (*domain.User, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetUserByID", ctx, userID)
-	ret0, _ := ret[0].(*entities.User)
+	ret0, _ := ret[0].(*domain.User)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -345,10 +345,10 @@ func (mr *MockApplMockRecorder) GetUserByID(ctx, userID interface{}) *gomock.Cal
 }
 
 // GetUserByUUID mocks base method.
-func (m *MockAppl) GetUserByUUID(ctx Ctx, uuid string) (*entities.User, error) {
+func (m *MockAppl) GetUserByUUID(ctx Ctx, uuid string) (*domain.User, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetUserByUUID", ctx, uuid)
-	ret0, _ := ret[0].(*entities.User)
+	ret0, _ := ret[0].(*domain.User)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -360,10 +360,10 @@ func (mr *MockApplMockRecorder) GetUserByUUID(ctx, uuid interface{}) *gomock.Cal
 }
 
 // GetUsers mocks base method.
-func (m *MockAppl) GetUsers(ctx Ctx) ([]*entities.User, error) {
+func (m *MockAppl) GetUsers(ctx Ctx) ([]*domain.User, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetUsers", ctx)
-	ret0, _ := ret[0].([]*entities.User)
+	ret0, _ := ret[0].([]*domain.User)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -375,10 +375,10 @@ func (mr *MockApplMockRecorder) GetUsers(ctx interface{}) *gomock.Call {
 }
 
 // GetVersion mocks base method.
-func (m *MockAppl) GetVersion(ctx Ctx, localizationID, platform int64) ([]*entities.Version, error) {
+func (m *MockAppl) GetVersion(ctx Ctx, localizationID, platform int64) ([]*domain.Version, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetVersion", ctx, localizationID, platform)
-	ret0, _ := ret[0].([]*entities.Version)
+	ret0, _ := ret[0].([]*domain.Version)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -419,10 +419,10 @@ func (mr *MockApplMockRecorder) LogoutUser(ctx, token interface{}) *gomock.Call 
 }
 
 // RegisterUser mocks base method.
-func (m *MockAppl) RegisterUser(ctx Ctx, email, password, firstName, secondName string, role int64) (*entities.User, error) {
+func (m *MockAppl) RegisterUser(ctx Ctx, email, password, firstName, secondName string, role int64) (*domain.User, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "RegisterUser", ctx, email, password, firstName, secondName, role)
-	ret0, _ := ret[0].(*entities.User)
+	ret0, _ := ret[0].(*domain.User)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -462,7 +462,7 @@ func (mr *MockApplMockRecorder) UpdateIdentifier(ctx, id, categoryID, parentID, 
 }
 
 // UpdatePassword mocks base method.
-func (m *MockAppl) UpdatePassword(ctx Ctx, userID int64, changePassword entities.ChangePassword) error {
+func (m *MockAppl) UpdatePassword(ctx Ctx, userID int64, changePassword domain.ChangePassword) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "UpdatePassword", ctx, userID, changePassword)
 	ret0, _ := ret[0].(error)
@@ -1156,6 +1156,57 @@ func (m *MockRepo) UpdateTranslation(ctx Ctx, id int64, singular, plural string)
 func (mr *MockRepoMockRecorder) UpdateTranslation(ctx, id, singular, plural interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateTranslation", reflect.TypeOf((*MockRepo)(nil).UpdateTranslation), ctx, id, singular, plural)
+}
+
+// MockSettingRepo is a mock of SettingRepo interface.
+type MockSettingRepo struct {
+	ctrl     *gomock.Controller
+	recorder *MockSettingRepoMockRecorder
+}
+
+// MockSettingRepoMockRecorder is the mock recorder for MockSettingRepo.
+type MockSettingRepoMockRecorder struct {
+	mock *MockSettingRepo
+}
+
+// NewMockSettingRepo creates a new mock instance.
+func NewMockSettingRepo(ctrl *gomock.Controller) *MockSettingRepo {
+	mock := &MockSettingRepo{ctrl: ctrl}
+	mock.recorder = &MockSettingRepoMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockSettingRepo) EXPECT() *MockSettingRepoMockRecorder {
+	return m.recorder
+}
+
+// GetCurrentSettingState mocks base method.
+func (m *MockSettingRepo) GetCurrentSettingState() domain.SettingConfiguration {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetCurrentSettingState")
+	ret0, _ := ret[0].(domain.SettingConfiguration)
+	return ret0
+}
+
+// GetCurrentSettingState indicates an expected call of GetCurrentSettingState.
+func (mr *MockSettingRepoMockRecorder) GetCurrentSettingState() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetCurrentSettingState", reflect.TypeOf((*MockSettingRepo)(nil).GetCurrentSettingState))
+}
+
+// SetTranslationConfiguration mocks base method.
+func (m *MockSettingRepo) SetTranslationConfiguration(ctx Ctx, data domain.TranslationConfiguration) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "SetTranslationConfiguration", ctx, data)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// SetTranslationConfiguration indicates an expected call of SetTranslationConfiguration.
+func (mr *MockSettingRepoMockRecorder) SetTranslationConfiguration(ctx, data interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetTranslationConfiguration", reflect.TypeOf((*MockSettingRepo)(nil).SetTranslationConfiguration), ctx, data)
 }
 
 // MockPassword is a mock of Password interface.

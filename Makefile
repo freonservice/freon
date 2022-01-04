@@ -11,13 +11,13 @@ GO_BUILD_ARGS = \
   " \
 
 build-freon:
-	go build ${GO_BUILD_ARGS} -o ${PROJECTNAME} ./cmd/${PROJECTNAME}
+	GOOS=linux GOARCH=amd64 go build ${GO_BUILD_ARGS} -o ${PROJECTNAME} ./cmd/${PROJECTNAME}
 
 genny-generate:
 	genny -in=./internal/srv/frontend/error.go -out=./internal/srv/frontend/gen.error.go gen "HealthCheck=Login,LogoutUser,RegUser,CreateLocalization,UserMe,Info,ListLocalization,DeleteLocalization,CreateIdentifier,ListIdentifiers,DeleteIdentifier,CreateCategory,ListCategories,DeleteCategory,UpdateCategory,UpdateIdentifier,CreateTranslation,ListTranslations,DeleteTranslation,UpdateTranslation,StatusTranslation,UserChangePassword,UserChangeProfile,ListUser,Statistic,ListTranslationFiles,DeleteTranslationFile,Version"
 
 mockgen-create:
-	mockgen -package=app -source=./internal/app/app.go -destination=./internal/app/mock.go Appl,Auth,Repo,Password
+	mockgen -package=app -source=./internal/app/app.go -destination=./internal/app/mock.go Appl,Auth,Repo,Password,SettingRepo
 
 proto-generate:
 	protoc -I./proto_files -I./vendor --go_out=. --go_opt=paths=import --go-grpc_out=. --go-grpc_opt=paths=import,require_unimplemented_servers=false ./proto_files/const.proto
