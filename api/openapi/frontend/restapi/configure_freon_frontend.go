@@ -154,6 +154,16 @@ func configureAPI(api *op.FreonFrontendAPI) http.Handler {
 			return op.RegUserNotImplemented()
 		})
 	}
+	if api.SettingTranslationHandler == nil {
+		api.SettingTranslationHandler = op.SettingTranslationHandlerFunc(func(params op.SettingTranslationParams, principal *app.UserSession) op.SettingTranslationResponder {
+			return op.SettingTranslationNotImplemented()
+		})
+	}
+	if api.SettingsHandler == nil {
+		api.SettingsHandler = op.SettingsHandlerFunc(func(params op.SettingsParams, principal *app.UserSession) op.SettingsResponder {
+			return op.SettingsNotImplemented()
+		})
+	}
 	if api.StatisticHandler == nil {
 		api.StatisticHandler = op.StatisticHandlerFunc(func(params op.StatisticParams, principal *app.UserSession) op.StatisticResponder {
 			return op.StatisticNotImplemented()

@@ -60,6 +60,8 @@ type (
 		GetStatistic(ctx Ctx) (*domain.Statistic, error)
 		GetVersion(ctx Ctx, localizationID, platform int64) ([]*domain.Version, error)
 
+		GetCurrentSettingState() domain.SettingConfiguration
+
 		HealthCheck(Ctx) (interface{}, error)
 	}
 
@@ -144,6 +146,10 @@ type (
 		UserUUID string
 	}
 )
+
+func (a *appl) GetCurrentSettingState() domain.SettingConfiguration {
+	return a.settingRepo.GetCurrentSettingState()
+}
 
 func New(repo Repo, auth Auth, pass Password, settingRepo SettingRepo) Appl {
 	return &appl{

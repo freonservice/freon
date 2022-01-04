@@ -598,6 +598,73 @@ func init() {
         }
       }
     },
+    "/setting/translation": {
+      "put": {
+        "security": [
+          {
+            "JWTBearer": []
+          }
+        ],
+        "summary": "settingTranslation",
+        "operationId": "settingTranslation",
+        "parameters": [
+          {
+            "name": "args",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "auto": {
+                  "type": "boolean"
+                },
+                "use_libra": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "$ref": "#/responses/NoContent"
+          },
+          "default": {
+            "$ref": "#/responses/Error"
+          }
+        }
+      }
+    },
+    "/settings": {
+      "get": {
+        "security": [
+          {
+            "JWTBearer": []
+          }
+        ],
+        "summary": "settings",
+        "operationId": "settings",
+        "responses": {
+          "200": {
+            "description": "get service statistic",
+            "schema": {
+              "type": "object",
+              "required": [
+                "translation"
+              ],
+              "properties": {
+                "translation": {
+                  "$ref": "#/definitions/TranslationConfiguration"
+                }
+              }
+            }
+          },
+          "default": {
+            "$ref": "#/responses/Error"
+          }
+        }
+      }
+    },
     "/statistic": {
       "get": {
         "security": [
@@ -1434,6 +1501,21 @@ func init() {
         }
       }
     },
+    "TranslationConfiguration": {
+      "type": "object",
+      "required": [
+        "auto",
+        "use_libra"
+      ],
+      "properties": {
+        "auto": {
+          "type": "boolean"
+        },
+        "use_libra": {
+          "type": "boolean"
+        }
+      }
+    },
     "TranslationFile": {
       "type": "object",
       "required": [
@@ -2182,6 +2264,79 @@ func init() {
         "responses": {
           "204": {
             "description": "No content in answer"
+          },
+          "default": {
+            "description": "General errors using same model as used by go-swagger for validation errors.",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/setting/translation": {
+      "put": {
+        "security": [
+          {
+            "JWTBearer": []
+          }
+        ],
+        "summary": "settingTranslation",
+        "operationId": "settingTranslation",
+        "parameters": [
+          {
+            "name": "args",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "auto": {
+                  "type": "boolean"
+                },
+                "use_libra": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No content in answer"
+          },
+          "default": {
+            "description": "General errors using same model as used by go-swagger for validation errors.",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/settings": {
+      "get": {
+        "security": [
+          {
+            "JWTBearer": []
+          }
+        ],
+        "summary": "settings",
+        "operationId": "settings",
+        "responses": {
+          "200": {
+            "description": "get service statistic",
+            "schema": {
+              "type": "object",
+              "required": [
+                "translation"
+              ],
+              "properties": {
+                "translation": {
+                  "$ref": "#/definitions/TranslationConfiguration"
+                }
+              }
+            }
           },
           "default": {
             "description": "General errors using same model as used by go-swagger for validation errors.",
@@ -3126,6 +3281,21 @@ func init() {
         },
         "status": {
           "type": "string"
+        }
+      }
+    },
+    "TranslationConfiguration": {
+      "type": "object",
+      "required": [
+        "auto",
+        "use_libra"
+      ],
+      "properties": {
+        "auto": {
+          "type": "boolean"
+        },
+        "use_libra": {
+          "type": "boolean"
         }
       }
     },

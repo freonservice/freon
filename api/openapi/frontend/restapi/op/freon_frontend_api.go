@@ -107,6 +107,12 @@ func NewFreonFrontendAPI(spec *loads.Document) *FreonFrontendAPI {
 		RegUserHandler: RegUserHandlerFunc(func(params RegUserParams, principal *app.UserSession) RegUserResponder {
 			return RegUserNotImplemented()
 		}),
+		SettingTranslationHandler: SettingTranslationHandlerFunc(func(params SettingTranslationParams, principal *app.UserSession) SettingTranslationResponder {
+			return SettingTranslationNotImplemented()
+		}),
+		SettingsHandler: SettingsHandlerFunc(func(params SettingsParams, principal *app.UserSession) SettingsResponder {
+			return SettingsNotImplemented()
+		}),
 		StatisticHandler: StatisticHandlerFunc(func(params StatisticParams, principal *app.UserSession) StatisticResponder {
 			return StatisticNotImplemented()
 		}),
@@ -229,6 +235,10 @@ type FreonFrontendAPI struct {
 	LogoutUserHandler LogoutUserHandler
 	// RegUserHandler sets the operation handler for the reg user operation
 	RegUserHandler RegUserHandler
+	// SettingTranslationHandler sets the operation handler for the setting translation operation
+	SettingTranslationHandler SettingTranslationHandler
+	// SettingsHandler sets the operation handler for the settings operation
+	SettingsHandler SettingsHandler
 	// StatisticHandler sets the operation handler for the statistic operation
 	StatisticHandler StatisticHandler
 	// StatusTranslationHandler sets the operation handler for the status translation operation
@@ -392,6 +402,12 @@ func (o *FreonFrontendAPI) Validate() error {
 	}
 	if o.RegUserHandler == nil {
 		unregistered = append(unregistered, "RegUserHandler")
+	}
+	if o.SettingTranslationHandler == nil {
+		unregistered = append(unregistered, "SettingTranslationHandler")
+	}
+	if o.SettingsHandler == nil {
+		unregistered = append(unregistered, "SettingsHandler")
 	}
 	if o.StatisticHandler == nil {
 		unregistered = append(unregistered, "StatisticHandler")
@@ -606,6 +622,14 @@ func (o *FreonFrontendAPI) initHandlerCache() {
 		o.handlers["POST"] = make(map[string]http.Handler)
 	}
 	o.handlers["POST"]["/user/register"] = NewRegUser(o.context, o.RegUserHandler)
+	if o.handlers["PUT"] == nil {
+		o.handlers["PUT"] = make(map[string]http.Handler)
+	}
+	o.handlers["PUT"]["/setting/translation"] = NewSettingTranslation(o.context, o.SettingTranslationHandler)
+	if o.handlers["GET"] == nil {
+		o.handlers["GET"] = make(map[string]http.Handler)
+	}
+	o.handlers["GET"]["/settings"] = NewSettings(o.context, o.SettingsHandler)
 	if o.handlers["GET"] == nil {
 		o.handlers["GET"] = make(map[string]http.Handler)
 	}

@@ -822,6 +822,47 @@ paths:
         default:
           $ref: '#/responses/Error'
 
+  /setting/translation:
+    put:
+      operationId: settingTranslation
+      summary: settingTranslation
+      security:
+        - JWTBearer: [ ]
+      parameters:
+        - name: args
+          in: body
+          required: true
+          schema:
+            type: object
+            properties:
+              auto:
+                type: boolean
+              use_libra:
+                type: boolean
+      responses:
+        '204': { $ref: '#/responses/NoContent' }
+        default:
+          $ref: '#/responses/Error'
+
+  /settings:
+    get:
+      operationId: settings
+      summary: settings
+      security:
+        - JWTBearer: [ ]
+      responses:
+        '200':
+          description: get service statistic
+          schema:
+            type: object
+            required:
+              - translation
+            properties:
+              translation:
+                $ref: '#/definitions/TranslationConfiguration'
+        default:
+          $ref: '#/responses/Error'
+
 definitions:
   Error:
     type: object
@@ -992,6 +1033,17 @@ definitions:
         type: string
       created_at:
         type: integer
+
+  TranslationConfiguration:
+    type: object
+    required:
+      - auto
+      - use_libra
+    properties:
+      auto:
+        type: boolean
+      use_libra:
+        type: boolean
 
   Info:
     type: object

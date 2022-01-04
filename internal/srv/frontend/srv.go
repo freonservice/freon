@@ -82,6 +82,8 @@ func NewServer(auth app.Auth, appl app.Appl, cfg Config) (*restapi.Server, error
 	api.ListTranslationFilesHandler = op.ListTranslationFilesHandlerFunc(srv.listTranslationFiles)
 	api.DeleteTranslationFileHandler = op.DeleteTranslationFileHandlerFunc(srv.deleteTranslationFile)
 	api.VersionHandler = op.VersionHandlerFunc(srv.version)
+	api.SettingsHandler = op.SettingsHandlerFunc(srv.settings)
+	api.SettingTranslationHandler = op.SettingTranslationHandlerFunc(srv.settingTranslation)
 
 	server := restapi.NewServer(api)
 	server.Host = cfg.Addr.Host()

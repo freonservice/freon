@@ -24,13 +24,10 @@ func (s *SettingRepo) updateSettingTranslateState() error {
 		}
 
 		var value []byte
-		err = item.Value(func(val []byte) error {
+		_ = item.Value(func(val []byte) error {
 			value = val
 			return nil
 		})
-		if err != nil {
-			return err
-		}
 
 		var data freonApi.TranslationConfiguration
 		err = proto.Unmarshal(value, &data)
