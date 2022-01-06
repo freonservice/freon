@@ -17,7 +17,7 @@ import (
 // SettingsOKCode is the HTTP code returned for type SettingsOK
 const SettingsOKCode int = 200
 
-/*SettingsOK get service statistic
+/*SettingsOK get current settings full system (translation, storage, etc)
 
 swagger:response settingsOK
 */

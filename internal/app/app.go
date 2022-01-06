@@ -61,6 +61,7 @@ type (
 		GetVersion(ctx Ctx, localizationID, platform int64) ([]*domain.Version, error)
 
 		GetCurrentSettingState() domain.SettingConfiguration
+		SetTranslationConfiguration(ctx Ctx, data domain.TranslationConfiguration) error
 
 		HealthCheck(Ctx) (interface{}, error)
 	}
@@ -149,6 +150,10 @@ type (
 
 func (a *appl) GetCurrentSettingState() domain.SettingConfiguration {
 	return a.settingRepo.GetCurrentSettingState()
+}
+
+func (a *appl) SetTranslationConfiguration(ctx Ctx, data domain.TranslationConfiguration) error {
+	return a.settingRepo.SetTranslationConfiguration(ctx, data)
 }
 
 func New(repo Repo, auth Auth, pass Password, settingRepo SettingRepo) Appl {

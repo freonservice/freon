@@ -618,8 +618,9 @@ func init() {
                 "auto": {
                   "type": "boolean"
                 },
-                "use_libra": {
-                  "type": "boolean"
+                "use": {
+                  "type": "integer",
+                  "format": "int32"
                 }
               }
             }
@@ -646,7 +647,7 @@ func init() {
         "operationId": "settings",
         "responses": {
           "200": {
-            "description": "get service statistic",
+            "description": "get current settings full system (translation, storage, etc)",
             "schema": {
               "type": "object",
               "required": [
@@ -1505,14 +1506,15 @@ func init() {
       "type": "object",
       "required": [
         "auto",
-        "use_libra"
+        "use"
       ],
       "properties": {
         "auto": {
           "type": "boolean"
         },
-        "use_libra": {
-          "type": "boolean"
+        "use": {
+          "type": "integer",
+          "format": "int32"
         }
       }
     },
@@ -2294,8 +2296,9 @@ func init() {
                 "auto": {
                   "type": "boolean"
                 },
-                "use_libra": {
-                  "type": "boolean"
+                "use": {
+                  "type": "integer",
+                  "format": "int32"
                 }
               }
             }
@@ -2325,7 +2328,7 @@ func init() {
         "operationId": "settings",
         "responses": {
           "200": {
-            "description": "get service statistic",
+            "description": "get current settings full system (translation, storage, etc)",
             "schema": {
               "type": "object",
               "required": [
@@ -3288,14 +3291,15 @@ func init() {
       "type": "object",
       "required": [
         "auto",
-        "use_libra"
+        "use"
       ],
       "properties": {
         "auto": {
           "type": "boolean"
         },
-        "use_libra": {
-          "type": "boolean"
+        "use": {
+          "type": "integer",
+          "format": "int32"
         }
       }
     },

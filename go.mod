@@ -32,7 +32,6 @@ require (
 	github.com/stretchr/testify v1.7.0
 	golang.org/x/crypto v0.0.0-20211215153901-e495a2d5b3d3
 	golang.org/x/net v0.0.0-20211216030914-fe4d6282115f
-	golang.org/x/tools v0.1.8 // indirect
 	google.golang.org/grpc v1.43.0
 	google.golang.org/protobuf v1.27.1
 	gopkg.in/reform.v1 v1.5.1

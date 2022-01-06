@@ -83,8 +83,8 @@ type SettingTranslationBody struct {
 	// auto
 	Auto bool `json:"auto,omitempty"`
 
-	// use libra
-	UseLibra bool `json:"use_libra,omitempty"`
+	// use
+	Use int32 `json:"use,omitempty"`
 }
 
 // UnmarshalJSON unmarshals this object while disallowing additional properties from JSON
@@ -94,8 +94,8 @@ func (o *SettingTranslationBody) UnmarshalJSON(data []byte) error {
 		// auto
 		Auto bool `json:"auto,omitempty"`
 
-		// use libra
-		UseLibra bool `json:"use_libra,omitempty"`
+		// use
+		Use int32 `json:"use,omitempty"`
 	}
 
 	dec := json.NewDecoder(bytes.NewReader(data))
@@ -105,7 +105,7 @@ func (o *SettingTranslationBody) UnmarshalJSON(data []byte) error {
 	}
 
 	o.Auto = props.Auto
-	o.UseLibra = props.UseLibra
+	o.Use = props.Use
 	return nil
 }
 

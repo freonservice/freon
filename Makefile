@@ -14,7 +14,7 @@ build-freon:
 	GOOS=linux GOARCH=amd64 go build ${GO_BUILD_ARGS} -o ${PROJECTNAME} ./cmd/${PROJECTNAME}
 
 genny-generate:
-	genny -in=./internal/srv/frontend/error.go -out=./internal/srv/frontend/gen.error.go gen "HealthCheck=Login,LogoutUser,RegUser,CreateLocalization,UserMe,Info,ListLocalization,DeleteLocalization,CreateIdentifier,ListIdentifiers,DeleteIdentifier,CreateCategory,ListCategories,DeleteCategory,UpdateCategory,UpdateIdentifier,CreateTranslation,ListTranslations,DeleteTranslation,UpdateTranslation,StatusTranslation,UserChangePassword,UserChangeProfile,ListUser,Statistic,ListTranslationFiles,DeleteTranslationFile,Version"
+	genny -in=./internal/srv/frontend/error.go -out=./internal/srv/frontend/gen.error.go gen "HealthCheck=Login,LogoutUser,RegUser,CreateLocalization,UserMe,Info,ListLocalization,DeleteLocalization,CreateIdentifier,ListIdentifiers,DeleteIdentifier,CreateCategory,ListCategories,DeleteCategory,UpdateCategory,UpdateIdentifier,CreateTranslation,ListTranslations,DeleteTranslation,UpdateTranslation,StatusTranslation,UserChangePassword,UserChangeProfile,ListUser,Statistic,ListTranslationFiles,DeleteTranslationFile,Version,SettingTranslation"
 
 mockgen-create:
 	mockgen -package=app -source=./internal/app/app.go -destination=./internal/app/mock.go Appl,Auth,Repo,Password,SettingRepo

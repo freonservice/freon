@@ -25,9 +25,9 @@ type TranslationConfiguration struct {
 	// Required: true
 	Auto *bool `json:"auto"`
 
-	// use libra
+	// use
 	// Required: true
-	UseLibra *bool `json:"use_libra"`
+	Use *int32 `json:"use"`
 }
 
 // UnmarshalJSON unmarshals this object while disallowing additional properties from JSON
@@ -38,9 +38,9 @@ func (m *TranslationConfiguration) UnmarshalJSON(data []byte) error {
 		// Required: true
 		Auto *bool `json:"auto"`
 
-		// use libra
+		// use
 		// Required: true
-		UseLibra *bool `json:"use_libra"`
+		Use *int32 `json:"use"`
 	}
 
 	dec := json.NewDecoder(bytes.NewReader(data))
@@ -50,7 +50,7 @@ func (m *TranslationConfiguration) UnmarshalJSON(data []byte) error {
 	}
 
 	m.Auto = props.Auto
-	m.UseLibra = props.UseLibra
+	m.Use = props.Use
 	return nil
 }
 
@@ -62,7 +62,7 @@ func (m *TranslationConfiguration) Validate(formats strfmt.Registry) error {
 		res = append(res, err)
 	}
 
-	if err := m.validateUseLibra(formats); err != nil {
+	if err := m.validateUse(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -81,9 +81,9 @@ func (m *TranslationConfiguration) validateAuto(formats strfmt.Registry) error {
 	return nil
 }
 
-func (m *TranslationConfiguration) validateUseLibra(formats strfmt.Registry) error {
+func (m *TranslationConfiguration) validateUse(formats strfmt.Registry) error {
 
-	if err := validate.Required("use_libra", "body", m.UseLibra); err != nil {
+	if err := validate.Required("use", "body", m.Use); err != nil {
 		return err
 	}
 

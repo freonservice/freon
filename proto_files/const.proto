@@ -28,6 +28,7 @@ enum StatusTranslation {
 
 enum StorageType {
   STORAGE_TYPE_LOCAL = 0;
+  STORAGE_TYPE_S3 = 1;
 }
 
 enum PlatformType {
@@ -37,7 +38,12 @@ enum PlatformType {
   PLATFORM_TYPE_SKIP = 3; // skipped, using for checking new update translation with grpc
 }
 
+enum TranslationSource {
+  TRANSLATION_LIBRA = 0;
+  TRANSLATION_GOOGLE = 1;
+}
+
 message TranslationConfiguration {
   bool Auto = 1;
-  bool UseLibra = 2;
+  TranslationSource Use = 2;
 }

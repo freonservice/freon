@@ -1,8 +1,8 @@
 package domain
 
 type TranslationConfiguration struct {
-	Auto     bool
-	UseLibra bool
+	Auto bool
+	Use  int32
 }
 
 type SettingConfiguration struct {

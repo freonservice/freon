@@ -516,3 +516,21 @@ func errVersion(log Log, err error, code errCode) op.VersionResponder { //nolint
 		Message: swag.String(msg),
 	})
 }
+
+func errSettingTranslation(log Log, err error, code errCode) op.SettingTranslationResponder { //nolint:dupl
+	if code.status < http.StatusInternalServerError {
+		log.Info("client error", def.LogHTTPStatus, code.status, "code", code.status, "err", err)
+	} else {
+		log.PrintErr("server error", def.LogHTTPStatus, code.status, "code", code.status, "err", err)
+	}
+
+	msg := err.Error()
+	if code.status == http.StatusInternalServerError {
+		msg = internalError
+	}
+
+	return op.NewSettingTranslationDefault(code.status).WithPayload(&model.Error{
+		Code:    swag.Int32(int32(code.status)),
+		Message: swag.String(msg),
+	})
+}
