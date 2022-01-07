@@ -127,6 +127,7 @@ type (
 	SettingRepo interface {
 		GetCurrentSettingState() domain.SettingConfiguration
 		SetTranslationConfiguration(ctx Ctx, data domain.TranslationConfiguration) error
+		SetStorageConfiguration(ctx Ctx, data domain.StorageConfiguration) error
 	}
 
 	Password interface {

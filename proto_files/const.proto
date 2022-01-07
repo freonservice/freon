@@ -39,11 +39,21 @@ enum PlatformType {
 }
 
 enum TranslationSource {
-  TRANSLATION_LIBRA = 0;
-  TRANSLATION_GOOGLE = 1;
+  TRANSLATION_NONE = 0;
+  TRANSLATION_LIBRA = 1;
+  TRANSLATION_GOOGLE = 2;
 }
 
 message TranslationConfiguration {
   bool Auto = 1;
   TranslationSource Use = 2;
+}
+
+message StorageConfiguration {
+  StorageType Use = 1;
+}
+
+message SettingConfiguration {
+  StorageConfiguration Storage = 1;
+  TranslationConfiguration Translation = 2;
 }

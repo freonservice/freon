@@ -209,6 +209,20 @@ func (mr *MockApplMockRecorder) GetCategories(ctx interface{}) *gomock.Call {
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetCategories", reflect.TypeOf((*MockAppl)(nil).GetCategories), ctx)
 }
 
+// GetCurrentSettingState mocks base method.
+func (m *MockAppl) GetCurrentSettingState() domain.SettingConfiguration {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetCurrentSettingState")
+	ret0, _ := ret[0].(domain.SettingConfiguration)
+	return ret0
+}
+
+// GetCurrentSettingState indicates an expected call of GetCurrentSettingState.
+func (mr *MockApplMockRecorder) GetCurrentSettingState() *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetCurrentSettingState", reflect.TypeOf((*MockAppl)(nil).GetCurrentSettingState))
+}
+
 // GetGroupedTranslations mocks base method.
 func (m *MockAppl) GetGroupedTranslations(ctx Ctx, f filter.GroupedTranslationFilter) ([]*domain.GroupedTranslations, error) {
 	m.ctrl.T.Helper()
@@ -431,6 +445,20 @@ func (m *MockAppl) RegisterUser(ctx Ctx, email, password, firstName, secondName 
 func (mr *MockApplMockRecorder) RegisterUser(ctx, email, password, firstName, secondName, role interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RegisterUser", reflect.TypeOf((*MockAppl)(nil).RegisterUser), ctx, email, password, firstName, secondName, role)
+}
+
+// SetTranslationConfiguration mocks base method.
+func (m *MockAppl) SetTranslationConfiguration(ctx Ctx, data domain.TranslationConfiguration) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "SetTranslationConfiguration", ctx, data)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// SetTranslationConfiguration indicates an expected call of SetTranslationConfiguration.
+func (mr *MockApplMockRecorder) SetTranslationConfiguration(ctx, data interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetTranslationConfiguration", reflect.TypeOf((*MockAppl)(nil).SetTranslationConfiguration), ctx, data)
 }
 
 // UpdateCategory mocks base method.
@@ -1193,6 +1221,20 @@ func (m *MockSettingRepo) GetCurrentSettingState() domain.SettingConfiguration {
 func (mr *MockSettingRepoMockRecorder) GetCurrentSettingState() *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetCurrentSettingState", reflect.TypeOf((*MockSettingRepo)(nil).GetCurrentSettingState))
+}
+
+// SetStorageConfiguration mocks base method.
+func (m *MockSettingRepo) SetStorageConfiguration(ctx Ctx, data domain.StorageConfiguration) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "SetStorageConfiguration", ctx, data)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// SetStorageConfiguration indicates an expected call of SetStorageConfiguration.
+func (mr *MockSettingRepoMockRecorder) SetStorageConfiguration(ctx, data interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetStorageConfiguration", reflect.TypeOf((*MockSettingRepo)(nil).SetStorageConfiguration), ctx, data)
 }
 
 // SetTranslationConfiguration mocks base method.

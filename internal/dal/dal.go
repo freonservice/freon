@@ -49,7 +49,12 @@ func NewSettingRepo(path string) (*SettingRepo, error) {
 		return nil, err
 	}
 
-	err = r.updateSettingTranslateState()
+	err = r.getSettingTranslateState()
+	if err != nil {
+		return nil, err
+	}
+
+	err = r.getSettingStorageState()
 	if err != nil {
 		return nil, err
 	}
