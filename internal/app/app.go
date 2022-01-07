@@ -62,6 +62,7 @@ type (
 
 		GetCurrentSettingState() domain.SettingConfiguration
 		SetTranslationConfiguration(ctx Ctx, data domain.TranslationConfiguration) error
+		SetStorageConfiguration(ctx Ctx, data domain.StorageConfiguration) error
 
 		HealthCheck(Ctx) (interface{}, error)
 	}
@@ -155,6 +156,10 @@ func (a *appl) GetCurrentSettingState() domain.SettingConfiguration {
 
 func (a *appl) SetTranslationConfiguration(ctx Ctx, data domain.TranslationConfiguration) error {
 	return a.settingRepo.SetTranslationConfiguration(ctx, data)
+}
+
+func (a *appl) SetStorageConfiguration(ctx Ctx, data domain.StorageConfiguration) error {
+	return a.settingRepo.SetStorageConfiguration(ctx, data)
 }
 
 func New(repo Repo, auth Auth, pass Password, settingRepo SettingRepo) Appl {

@@ -83,6 +83,9 @@ func (o *Settings) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 // swagger:model SettingsOKBody
 type SettingsOKBody struct {
 
+	// storage
+	Storage *model.StorageConfiguration `json:"storage,omitempty"`
+
 	// translation
 	// Required: true
 	Translation *model.TranslationConfiguration `json:"translation"`
@@ -91,6 +94,9 @@ type SettingsOKBody struct {
 // UnmarshalJSON unmarshals this object while disallowing additional properties from JSON
 func (o *SettingsOKBody) UnmarshalJSON(data []byte) error {
 	var props struct {
+
+		// storage
+		Storage *model.StorageConfiguration `json:"storage,omitempty"`
 
 		// translation
 		// Required: true
@@ -103,6 +109,7 @@ func (o *SettingsOKBody) UnmarshalJSON(data []byte) error {
 		return err
 	}
 
+	o.Storage = props.Storage
 	o.Translation = props.Translation
 	return nil
 }
@@ -111,6 +118,10 @@ func (o *SettingsOKBody) UnmarshalJSON(data []byte) error {
 func (o *SettingsOKBody) Validate(formats strfmt.Registry) error {
 	var res []error
 
+	if err := o.validateStorage(formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := o.validateTranslation(formats); err != nil {
 		res = append(res, err)
 	}
@@ -118,6 +129,25 @@ func (o *SettingsOKBody) Validate(formats strfmt.Registry) error {
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+func (o *SettingsOKBody) validateStorage(formats strfmt.Registry) error {
+	if swag.IsZero(o.Storage) { // not required
+		return nil
+	}
+
+	if o.Storage != nil {
+		if err := o.Storage.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("settingsOK" + "." + "storage")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("settingsOK" + "." + "storage")
+			}
+			return err
+		}
+	}
+
 	return nil
 }
 
@@ -145,6 +175,10 @@ func (o *SettingsOKBody) validateTranslation(formats strfmt.Registry) error {
 func (o *SettingsOKBody) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
 	var res []error
 
+	if err := o.contextValidateStorage(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := o.contextValidateTranslation(ctx, formats); err != nil {
 		res = append(res, err)
 	}
@@ -152,6 +186,22 @@ func (o *SettingsOKBody) ContextValidate(ctx context.Context, formats strfmt.Reg
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+func (o *SettingsOKBody) contextValidateStorage(ctx context.Context, formats strfmt.Registry) error {
+
+	if o.Storage != nil {
+		if err := o.Storage.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("settingsOK" + "." + "storage")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("settingsOK" + "." + "storage")
+			}
+			return err
+		}
+	}
+
 	return nil
 }
 

@@ -107,6 +107,9 @@ func NewFreonFrontendAPI(spec *loads.Document) *FreonFrontendAPI {
 		RegUserHandler: RegUserHandlerFunc(func(params RegUserParams, principal *app.UserSession) RegUserResponder {
 			return RegUserNotImplemented()
 		}),
+		SettingStorageHandler: SettingStorageHandlerFunc(func(params SettingStorageParams, principal *app.UserSession) SettingStorageResponder {
+			return SettingStorageNotImplemented()
+		}),
 		SettingTranslationHandler: SettingTranslationHandlerFunc(func(params SettingTranslationParams, principal *app.UserSession) SettingTranslationResponder {
 			return SettingTranslationNotImplemented()
 		}),
@@ -235,6 +238,8 @@ type FreonFrontendAPI struct {
 	LogoutUserHandler LogoutUserHandler
 	// RegUserHandler sets the operation handler for the reg user operation
 	RegUserHandler RegUserHandler
+	// SettingStorageHandler sets the operation handler for the setting storage operation
+	SettingStorageHandler SettingStorageHandler
 	// SettingTranslationHandler sets the operation handler for the setting translation operation
 	SettingTranslationHandler SettingTranslationHandler
 	// SettingsHandler sets the operation handler for the settings operation
@@ -402,6 +407,9 @@ func (o *FreonFrontendAPI) Validate() error {
 	}
 	if o.RegUserHandler == nil {
 		unregistered = append(unregistered, "RegUserHandler")
+	}
+	if o.SettingStorageHandler == nil {
+		unregistered = append(unregistered, "SettingStorageHandler")
 	}
 	if o.SettingTranslationHandler == nil {
 		unregistered = append(unregistered, "SettingTranslationHandler")
@@ -622,6 +630,10 @@ func (o *FreonFrontendAPI) initHandlerCache() {
 		o.handlers["POST"] = make(map[string]http.Handler)
 	}
 	o.handlers["POST"]["/user/register"] = NewRegUser(o.context, o.RegUserHandler)
+	if o.handlers["PUT"] == nil {
+		o.handlers["PUT"] = make(map[string]http.Handler)
+	}
+	o.handlers["PUT"]["/setting/storage"] = NewSettingStorage(o.context, o.SettingStorageHandler)
 	if o.handlers["PUT"] == nil {
 		o.handlers["PUT"] = make(map[string]http.Handler)
 	}

@@ -154,6 +154,11 @@ func configureAPI(api *op.FreonFrontendAPI) http.Handler {
 			return op.RegUserNotImplemented()
 		})
 	}
+	if api.SettingStorageHandler == nil {
+		api.SettingStorageHandler = op.SettingStorageHandlerFunc(func(params op.SettingStorageParams, principal *app.UserSession) op.SettingStorageResponder {
+			return op.SettingStorageNotImplemented()
+		})
+	}
 	if api.SettingTranslationHandler == nil {
 		api.SettingTranslationHandler = op.SettingTranslationHandlerFunc(func(params op.SettingTranslationParams, principal *app.UserSession) op.SettingTranslationResponder {
 			return op.SettingTranslationNotImplemented()

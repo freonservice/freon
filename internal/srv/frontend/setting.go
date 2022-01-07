@@ -17,6 +17,9 @@ func (srv *server) settings(params op.SettingsParams, session *app.UserSession) 
 			Auto: pointer.ToBool(state.Translation.Auto),
 			Use:  pointer.ToInt32(state.Translation.Use),
 		},
+		Storage: &model.StorageConfiguration{
+			Use: pointer.ToInt32(state.Storage.Use),
+		},
 	})
 }
 
@@ -33,4 +36,18 @@ func (srv *server) settingTranslation(params op.SettingTranslationParams, sessio
 	case nil:
 	}
 	return op.NewSettingTranslationNoContent()
+}
+
+func (srv *server) settingStorage(params op.SettingStorageParams, session *app.UserSession) op.SettingStorageResponder {
+	ctx, log := fromRequest(params.HTTPRequest, session)
+	err := srv.app.SetStorageConfiguration(ctx, domain.StorageConfiguration{
+		Use: params.Args.Use,
+	})
+	switch errors.Cause(err) {
+	default:
+		log.PrintErr(errors.WithStack(err))
+		return errSettingStorage(log, err, codeInternal)
+	case nil:
+	}
+	return op.NewSettingStorageNoContent()
 }

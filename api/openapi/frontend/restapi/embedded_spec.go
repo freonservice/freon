@@ -598,6 +598,41 @@ func init() {
         }
       }
     },
+    "/setting/storage": {
+      "put": {
+        "security": [
+          {
+            "JWTBearer": []
+          }
+        ],
+        "summary": "settingStorage",
+        "operationId": "settingStorage",
+        "parameters": [
+          {
+            "name": "args",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "use": {
+                  "type": "integer",
+                  "format": "int32"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "$ref": "#/responses/NoContent"
+          },
+          "default": {
+            "$ref": "#/responses/Error"
+          }
+        }
+      }
+    },
     "/setting/translation": {
       "put": {
         "security": [
@@ -654,6 +689,9 @@ func init() {
                 "translation"
               ],
               "properties": {
+                "storage": {
+                  "$ref": "#/definitions/StorageConfiguration"
+                },
                 "translation": {
                   "$ref": "#/definitions/TranslationConfiguration"
                 }
@@ -1469,6 +1507,18 @@ func init() {
         }
       }
     },
+    "StorageConfiguration": {
+      "type": "object",
+      "required": [
+        "use"
+      ],
+      "properties": {
+        "use": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
     "Translation": {
       "type": "object",
       "required": [
@@ -2276,6 +2326,44 @@ func init() {
         }
       }
     },
+    "/setting/storage": {
+      "put": {
+        "security": [
+          {
+            "JWTBearer": []
+          }
+        ],
+        "summary": "settingStorage",
+        "operationId": "settingStorage",
+        "parameters": [
+          {
+            "name": "args",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "use": {
+                  "type": "integer",
+                  "format": "int32"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No content in answer"
+          },
+          "default": {
+            "description": "General errors using same model as used by go-swagger for validation errors.",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
     "/setting/translation": {
       "put": {
         "security": [
@@ -2335,6 +2423,9 @@ func init() {
                 "translation"
               ],
               "properties": {
+                "storage": {
+                  "$ref": "#/definitions/StorageConfiguration"
+                },
                 "translation": {
                   "$ref": "#/definitions/TranslationConfiguration"
                 }
@@ -3251,6 +3342,18 @@ func init() {
         },
         "percentage": {
           "type": "number"
+        }
+      }
+    },
+    "StorageConfiguration": {
+      "type": "object",
+      "required": [
+        "use"
+      ],
+      "properties": {
+        "use": {
+          "type": "integer",
+          "format": "int32"
         }
       }
     },
