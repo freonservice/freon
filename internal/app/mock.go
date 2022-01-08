@@ -447,6 +447,20 @@ func (mr *MockApplMockRecorder) RegisterUser(ctx, email, password, firstName, se
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RegisterUser", reflect.TypeOf((*MockAppl)(nil).RegisterUser), ctx, email, password, firstName, secondName, role)
 }
 
+// SetStorageConfiguration mocks base method.
+func (m *MockAppl) SetStorageConfiguration(ctx Ctx, data domain.StorageConfiguration) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "SetStorageConfiguration", ctx, data)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// SetStorageConfiguration indicates an expected call of SetStorageConfiguration.
+func (mr *MockApplMockRecorder) SetStorageConfiguration(ctx, data interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetStorageConfiguration", reflect.TypeOf((*MockAppl)(nil).SetStorageConfiguration), ctx, data)
+}
+
 // SetTranslationConfiguration mocks base method.
 func (m *MockAppl) SetTranslationConfiguration(ctx Ctx, data domain.TranslationConfiguration) error {
 	m.ctrl.T.Helper()
