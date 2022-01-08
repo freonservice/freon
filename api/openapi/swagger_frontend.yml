@@ -543,7 +543,7 @@ paths:
                   type: string
               storage_type:
                 type: string
-                enum: [ local ]
+                enum: [ local, s3 ]
                 default: local
       responses:
         '204': { $ref: '#/responses/NoContent' }

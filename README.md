@@ -63,12 +63,12 @@ Command for launch service from docker
 
 - [ ] Connection google-translation api for quick semi-automation translations
 - [ ] Connection [libretranslate api](https://github.com/LibreTranslate/LibreTranslate) for quick semi-automation translations
-- [ ] Generation i18n files for web
-- [ ] Generation android translations
-- [ ] Generation ios translations
+- [x] Generation i18n files for web (.json)
+- [x] Generation android translations (.xml)
+- [x] Generation ios translations (.strings, .stringsdict)
 - [ ] UI improvements
 - [x] Add API and business logic for checking actual version of translations  
-- [ ] Fix supporting pluralization
+- [x] Fix supporting pluralization
 - [ ] Add S3 compatibility storages for static files
 - [ ] Full backend test coverage
 
@@ -86,11 +86,11 @@ You can install *git hooks* for convenient work:
 We try to keep the project clean, so we write tests and use the linter.
 
 ## Requirements for development
-- [Go 1.16](https://golang.org/dl/)
+- [Go 1.17.5](https://golang.org/dl/)
 - [MockGen 1.6.0](https://github.com/golang/mock)
 - [Genny](https://github.com/cheekybits/genny)
 - [Swagger 0.27.0](https://github.com/go-swagger/go-swagger)
-- [Protoc 3.17.3](https://grpc.io/docs/protoc-installation/)
+- [Protoc 3.19.1](https://grpc.io/docs/protoc-installation/)
 
 ## License
 

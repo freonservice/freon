@@ -2,29 +2,45 @@ package ios
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/freonservice/freon/internal/domain"
-	iParser "github.com/freonservice/freon/internal/parser"
+	"github.com/freonservice/freon/internal/parser"
 )
 
-type parser struct {
+type generator struct {
 	v []*domain.Translation
 }
 
-func NewParser() iParser.Parser {
-	return &parser{}
+func NewGenerator() parser.Generator {
+	return &generator{}
 }
 
-func (p *parser) SetTranslations(v []*domain.Translation) {
+func (p *generator) SetTranslations(v []*domain.Translation) parser.Generator {
 	p.v = v
+	return p
 }
 
-func (p *parser) Generate() (string, error) {
-	var f string
+func (p *generator) SetFormat(format parser.Format) parser.Generator {
+	return p
+}
+
+func (p *generator) SetPluralFormat(format parser.PluralFormat) parser.Generator {
+	return p
+}
+
+func (p *generator) Generate() (string, error) {
+	var f strings.Builder
+	f.Grow(50) //nolint:gomnd
 
 	for _, v := range p.v {
-		f += fmt.Sprintf("\"%q\" = \"%q\";\n", v.Localization.LanguageName, v.Singular)
+		if len(v.Plural) > 0 {
+			f.WriteString(fmt.Sprintf("%q = %q;\n", v.Identifier.Name, v.Singular))
+			f.WriteString(fmt.Sprintf("%q = %q;\n", v.Identifier.Name, v.Singular))
+		} else {
+			f.WriteString(fmt.Sprintf("%q = %q;\n", v.Identifier.Name, v.Singular))
+		}
 	}
 
-	return f, nil
+	return f.String(), nil
 }

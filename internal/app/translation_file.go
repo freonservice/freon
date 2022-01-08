@@ -3,13 +3,16 @@ package app
 import (
 	"fmt"
 	"os"
-	"time"
-
-	"github.com/freonservice/freon/internal/parser/web"
-	"github.com/pkg/errors"
 
 	"github.com/freonservice/freon/internal/domain"
 	"github.com/freonservice/freon/internal/filter"
+	"github.com/freonservice/freon/internal/parser"
+	"github.com/freonservice/freon/internal/parser/android"
+	"github.com/freonservice/freon/internal/parser/ios"
+	"github.com/freonservice/freon/internal/parser/web"
+	api "github.com/freonservice/freon/pkg/freonApi"
+
+	"github.com/pkg/errors"
 )
 
 func (a *appl) CreateTranslationFile(ctx Ctx, platform, storageType string, creatorID, localizationID int64) error {
@@ -18,15 +21,36 @@ func (a *appl) CreateTranslationFile(ctx Ctx, platform, storageType string, crea
 		return err
 	}
 
-	// Generate translation FILE
-	parser := web.NewParser()
-	parser.SetTranslations(nil)
-	text, err := parser.Generate()
+	data, err := a.repo.GetTranslations(ctx, filter.TranslationFilter{LocalizationID: localizationID})
 	if err != nil {
 		return err
 	}
-	fileName := fmt.Sprintf("%s.%d.json", localization.LanguageName, time.Now().Unix())
-	f, err := os.Create(fileName)
+	translations := mappingArrayTranslation(data)
+
+	// Generate translation FILE
+	var p parser.Generator
+	var fileFormat string
+	platformType := getPlatformByString(platform)
+	switch api.PlatformType(platformType) { //nolint:exhaustive
+	case api.PlatformType_PLATFORM_TYPE_IOS:
+		p = ios.NewGenerator()
+		fileFormat = "strings"
+	case api.PlatformType_PLATFORM_TYPE_ANDROID:
+		p = android.NewGenerator()
+		fileFormat = "xml"
+	default:
+		p = web.NewGenerator().SetPluralFormat(parser.PluralFormat18N)
+		fileFormat = "json"
+	}
+	p.SetTranslations(translations)
+	text, err := p.Generate()
+	if err != nil {
+		return err
+	}
+
+	fileName := fmt.Sprintf("%s.%s", localization.Locale, fileFormat)
+	fullPath := a.config.TranslationFilesPath + "/" + platform + "/" + fileName
+	f, err := os.Create(fullPath)
 	if err != nil {
 		return errors.Wrap(err, "CreateTranslationFile os.Create file")
 	}
@@ -40,9 +64,11 @@ func (a *appl) CreateTranslationFile(ctx Ctx, platform, storageType string, crea
 	return a.repo.CreateTranslationFile(
 		ctx,
 		fileName,
-		"translation.json",
-		getPlatformByString(platform), getStorageTypeByString(storageType),
-		creatorID, localizationID,
+		fullPath,
+		getPlatformByString(platform),
+		getStorageTypeByString(storageType),
+		creatorID,
+		localizationID,
 	)
 }
 
