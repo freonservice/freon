@@ -40,7 +40,8 @@ func runServe(repo *dal.Repo, ctxShutdown Ctx, shutdown func()) error {
 	}
 
 	authorization := auth.NewAuth(cfg.jwtSecretPath, repo, log)
-	appl := app.New(repo, authorization, password.New(), settingRepo)
+	config := app.Config{TranslationFilesPath: cfg.translationFilesFolder}
+	appl := app.New(repo, authorization, password.New(), settingRepo, config)
 
 	err = createFirstAdmin(appl)
 	if err != nil {

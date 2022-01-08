@@ -912,7 +912,8 @@ func init() {
                   "type": "string",
                   "default": "local",
                   "enum": [
-                    "local"
+                    "local",
+                    "s3"
                   ]
                 }
               }
@@ -2653,7 +2654,8 @@ func init() {
                   "type": "string",
                   "default": "local",
                   "enum": [
-                    "local"
+                    "local",
+                    "s3"
                   ]
                 }
               }

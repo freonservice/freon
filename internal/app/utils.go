@@ -50,7 +50,9 @@ func getPlatformByString(platform string) int64 {
 }
 
 func getStorageTypeByString(storageType string) int64 {
-	switch storageType { //nolint:gocritic
+	switch storageType {
+	case "s3":
+		return int64(api.StorageType_STORAGE_TYPE_S3)
 	default:
 		return int64(api.StorageType_STORAGE_TYPE_LOCAL)
 	}

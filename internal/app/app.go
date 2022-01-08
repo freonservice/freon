@@ -137,11 +137,16 @@ type (
 		Generate(length int) string
 	}
 
+	Config struct {
+		TranslationFilesPath string
+	}
+
 	appl struct {
 		repo        Repo
 		auth        Auth
 		pass        Password
 		settingRepo SettingRepo
+		config      Config
 	}
 
 	UserSession struct {
@@ -162,12 +167,13 @@ func (a *appl) SetStorageConfiguration(ctx Ctx, data domain.StorageConfiguration
 	return a.settingRepo.SetStorageConfiguration(ctx, data)
 }
 
-func New(repo Repo, auth Auth, pass Password, settingRepo SettingRepo) Appl {
+func New(repo Repo, auth Auth, pass Password, settingRepo SettingRepo, config Config) Appl {
 	return &appl{
 		repo:        repo,
 		auth:        auth,
 		pass:        pass,
 		settingRepo: settingRepo,
+		config:      config,
 	}
 }
 

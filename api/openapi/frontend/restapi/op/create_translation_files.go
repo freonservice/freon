@@ -91,7 +91,7 @@ type CreateTranslationFilesBody struct {
 	Platforms []string `json:"platforms"`
 
 	// storage type
-	// Enum: [local]
+	// Enum: [local s3]
 	StorageType *string `json:"storage_type,omitempty"`
 }
 
@@ -108,7 +108,7 @@ func (o *CreateTranslationFilesBody) UnmarshalJSON(data []byte) error {
 		Platforms []string `json:"platforms"`
 
 		// storage type
-		// Enum: [local]
+		// Enum: [local s3]
 		StorageType *string `json:"storage_type,omitempty"`
 	}
 
@@ -168,7 +168,7 @@ var createTranslationFilesBodyTypeStorageTypePropEnum []interface{}
 
 func init() {
 	var res []string
-	if err := json.Unmarshal([]byte(`["local"]`), &res); err != nil {
+	if err := json.Unmarshal([]byte(`["local","s3"]`), &res); err != nil {
 		panic(err)
 	}
 	for _, v := range res {
@@ -180,6 +180,9 @@ const (
 
 	// CreateTranslationFilesBodyStorageTypeLocal captures enum value "local"
 	CreateTranslationFilesBodyStorageTypeLocal string = "local"
+
+	// CreateTranslationFilesBodyStorageTypeS3 captures enum value "s3"
+	CreateTranslationFilesBodyStorageTypeS3 string = "s3"
 )
 
 // prop value enum
