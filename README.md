@@ -63,9 +63,9 @@ Command for launch service from docker
 
 - [ ] Connection google-translation api for quick semi-automation translations
 - [ ] Connection [libretranslate api](https://github.com/LibreTranslate/LibreTranslate) for quick semi-automation translations
-- [x] Generation i18n files for web
-- [x] Generation android translations
-- [x] Generation ios translations
+- [x] Generation i18n files for web (.json)
+- [x] Generation android translations (.xml)
+- [x] Generation ios translations (.strings, .stringsdict)
 - [ ] UI improvements
 - [x] Add API and business logic for checking actual version of translations  
 - [x] Fix supporting pluralization
