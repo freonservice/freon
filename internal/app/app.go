@@ -6,6 +6,7 @@ import (
 	"github.com/freonservice/freon/internal/dao"
 	"github.com/freonservice/freon/internal/domain"
 	"github.com/freonservice/freon/internal/filter"
+	"github.com/freonservice/freon/internal/storage"
 
 	"github.com/google/uuid"
 	"github.com/jmoiron/sqlx"
@@ -147,6 +148,7 @@ type (
 		pass        Password
 		settingRepo SettingRepo
 		config      Config
+		storage     storage.Storage
 	}
 
 	UserSession struct {
@@ -167,13 +169,14 @@ func (a *appl) SetStorageConfiguration(ctx Ctx, data domain.StorageConfiguration
 	return a.settingRepo.SetStorageConfiguration(ctx, data)
 }
 
-func New(repo Repo, auth Auth, pass Password, settingRepo SettingRepo, config Config) Appl {
+func New(repo Repo, auth Auth, pass Password, settingRepo SettingRepo, config Config, dataStorage storage.Storage) Appl {
 	return &appl{
 		repo:        repo,
 		auth:        auth,
 		pass:        pass,
 		settingRepo: settingRepo,
 		config:      config,
+		storage:     dataStorage,
 	}
 }
 

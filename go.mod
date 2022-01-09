@@ -5,6 +5,7 @@ go 1.16
 require (
 	github.com/AlekSi/pointer v1.2.0
 	github.com/MarcSky/environ v0.0.0-20210108171713-01302f164ac8
+	github.com/aws/aws-sdk-go v1.36.30
 	github.com/cenkalti/backoff/v4 v4.1.2
 	github.com/dgraph-io/badger/v3 v3.2103.2
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible

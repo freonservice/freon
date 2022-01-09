@@ -25,4 +25,14 @@ var (
 	DBMaxIdleConns        = environ.GetIntEnv("DB_MAX_IDLE_CONNS", 10) //nolint:gomnd
 	TranslationFilesPath  = environ.GetStrEnv("TRANSLATION_FILES_PATH", "")
 	CPULimit              = environ.GetIntEnv("CPU_LIMIT", -1)
+
+	S3SecretAccessKey = environ.GetStrEnv("S3_SECRET_ACCESS_KEY", "")
+	S3AccessKeyID     = environ.GetStrEnv("S3_ACCESS_KEY_ID", "")
+	S3Region          = environ.GetStrEnv("S3_REGION", "eu-west-1")
+	S3URL             = environ.GetStrEnv("S3_URL", "http://localhost:9000")
+	S3AppleBucket     = environ.GetStrEnv("S3_APPLE_BUCKET", "apple")
+	S3AndroidBucket   = environ.GetStrEnv("S3_ANDROID_BUCKET", "android")
+	S3WebBucket       = environ.GetStrEnv("S3_WEB_BUCKET", "web")
+	S3DisableSSL      = environ.GetBoolEnv("S3_DISABLE_SSL", true)
+	S3ForcePathStyle  = environ.GetBoolEnv("S3_FORCE_PATH_STYLE", true)
 )

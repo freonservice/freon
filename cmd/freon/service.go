@@ -13,6 +13,8 @@ import (
 	"github.com/freonservice/freon/internal/password"
 	"github.com/freonservice/freon/internal/srv/frontend"
 	grpcServer "github.com/freonservice/freon/internal/srv/grpc"
+	"github.com/freonservice/freon/internal/storage"
+	"github.com/freonservice/freon/internal/storage/s3"
 	"github.com/freonservice/freon/internal/utils"
 	"github.com/freonservice/freon/pkg/concurrent"
 	"github.com/freonservice/freon/pkg/freonApi"
@@ -30,27 +32,40 @@ type service struct {
 	grpcSrv     *grpc.Server
 }
 
-func runServe(repo *dal.Repo, ctxShutdown Ctx, shutdown func()) error {
-	err := utils.CreateOrCheckTranslationFilesFolder(cfg.translationFilesFolder)
-	if err != nil {
-		return errors.Wrap(err, "generate doc folders")
+func runServe(repo *dal.Repo, settingRepo *dal.SettingRepo, ctxShutdown Ctx, shutdown func()) error {
+	var (
+		err         error
+		dataStorage storage.Storage
+
+		srv           = service{}
+		authorization = auth.NewAuth(cfg.jwtSecretPath, repo, log)
+		config        = app.Config{TranslationFilesPath: cfg.translationFilesFolder}
+		state         = settingRepo.GetCurrentSettingState()
+	)
+
+	if state.Storage.Use == int32(freonApi.StorageType_STORAGE_TYPE_S3) {
+		dataStorage, err = s3.NewStorage(&s3.StorageConfiguration{
+			SecretAccessKey: s3Storage.secretAccessKey,
+			AccessKeyID:     s3Storage.accessKeyID,
+			Region:          s3Storage.region,
+			AppleBucket:     s3Storage.appleBucket,
+			AndroidBucket:   s3Storage.androidBucket,
+			WebBucket:       s3Storage.webBucket,
+			URL:             s3Storage.url,
+			DisableSSL:      s3Storage.disableSSL,
+			ForcePathStyle:  s3Storage.forcePathStyle,
+		}, log)
+		if err != nil {
+			return errors.Wrap(err, "s3 storage configuration")
+		}
 	}
 
-	settingRepo, err := dal.NewSettingRepo(cfg.badgerPath)
-	if err != nil {
-		return errors.Wrap(err, "badger error")
-	}
-
-	authorization := auth.NewAuth(cfg.jwtSecretPath, repo, log)
-	config := app.Config{TranslationFilesPath: cfg.translationFilesFolder}
-	appl := app.New(repo, authorization, password.New(), settingRepo, config)
-
+	appl := app.New(repo, authorization, password.New(), settingRepo, config, dataStorage)
 	err = createFirstAdmin(appl)
 	if err != nil {
 		return errors.Wrap(err, "failed create admin")
 	}
 
-	srv := service{}
 	srv.frontendSrv, err = frontend.NewServer(authorization, appl, frontend.Config{
 		Addr: netx.NewAddr(cfg.serviceHost, cfg.apiPort),
 	})
@@ -58,8 +73,11 @@ func runServe(repo *dal.Repo, ctxShutdown Ctx, shutdown func()) error {
 		return errors.Wrap(err, "failed to frontend.NewServer")
 	}
 
-	state := appl.GetCurrentSettingState()
 	if state.Storage.Use == int32(freonApi.StorageType_STORAGE_TYPE_LOCAL) {
+		err = utils.CreateOrCheckTranslationFilesFolder(cfg.translationFilesFolder)
+		if err != nil {
+			return errors.Wrap(err, "generation docs folder")
+		}
 		go srv.serverDocsStatic()
 	}
 

@@ -18,6 +18,7 @@ genny-generate:
 
 mockgen-create:
 	mockgen -package=app -source=./internal/app/app.go -destination=./internal/app/mock.go Appl,Auth,Repo,Password,SettingRepo
+	mockgen -package=app -source=./internal/storage/storage.go -destination=./internal/app/storage.mock.go Storage
 
 proto-generate:
 	protoc -I./proto_files -I./vendor --go_out=. --go_opt=paths=import --go-grpc_out=. --go-grpc_opt=paths=import,require_unimplemented_servers=false ./proto_files/const.proto

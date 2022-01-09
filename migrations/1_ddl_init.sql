@@ -165,7 +165,6 @@ DROP INDEX users_email_uindex;
 DROP INDEX users_uuid_id_uindex;
 
 DROP TABLE translation_files;
-DROP INDEX translation_files_name_uindex;
 DROP INDEX translation_files_path_uindex;
 
 DROP SCHEMA public;
