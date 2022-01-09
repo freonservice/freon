@@ -1,0 +1,55 @@
+version: '3.8'
+
+volumes:
+  freon-db:
+  freon-docs:
+
+services:
+  freon-db:
+    image: postgres:13.2
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: freon
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: password
+    volumes:
+      - freon-db:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD", "pg_isready"]
+      interval: 1s
+      timeout: 3s
+      retries: 30
+
+  freon:
+    image: freonservice/freonservice
+    restart: always
+    ports:
+      - "4000:4000"
+      - "4001:4001"
+      - "4002:4002"
+    environment:
+      JWT_SECRET_KEY: prod_secret_key
+      DB_HOST: freon-db
+      DB_PORT: 5432
+      DB_USER: "root"
+      DB_PASS: "password"
+      DB_NAME: "freon"
+      MIGRATION_PATH: "/migrations"
+      SERVICE_HOST: "0.0.0.0"
+      API_SERVICE_PORT: 4000
+      GRPC_SERVICE_PORT: 4001
+      STATIC_SERVICE_PORT: 4002
+      TRANSLATION_FILES_PATH: "/docs"
+      CPU_LIMIT: 5
+    depends_on:
+      - freon-db
+    healthcheck:
+      test: ["CMD", "curl -f http://localhost:4000/api/internal/health-check || exit 1"]
+      interval: 10s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    volumes:
+      - freon-docs:/docs
