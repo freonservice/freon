@@ -31,6 +31,7 @@ services:
       - "4000:4000"
       - "4001:4001"
       - "4002:4002"
+      - "4003:4003"
     environment:
       JWT_SECRET_KEY: my_secret_key
       DB_HOST: freon-db
@@ -42,7 +43,8 @@ services:
       BADGER_PATH: "/badger"
       API_SERVICE_PORT: 4000
       GRPC_SERVICE_PORT: 4001
-      STATIC_SERVICE_PORT: 4002
+      WEB_STATIC_SERVICE_PORT: 4002
+      DOCS_STATIC_SERVICE_PORT: 4003
       TRANSLATION_FILES_PATH: "/docs"
       CPU_LIMIT: 10
     depends_on:

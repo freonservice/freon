@@ -7,13 +7,13 @@ create extension if not exists ltree;
 create table if not exists public.users
 (
     id          SERIAL PRIMARY KEY,
-    email       varchar(25)  not null,
+    email       varchar(50)  not null,
     password    varchar(100) not null,
     first_name  varchar(255),
     second_name varchar(255),
     uuid_id     varchar(36)  not null,
-    status      integer      not null       default 0,
-    role        integer      not null       default 0,
+    status      smallint     not null       default 0,
+    role        smallint     not null       default 0,
     created_at  timestamp without time zone default (now() at time zone 'utc'),
     updated_at  timestamp without time zone
 );
@@ -32,7 +32,7 @@ create table if not exists public.localizations
             references public.users,
     locale     varchar(10)  not null,
     lang_name  varchar(100) not null,
-    status     integer      not null       default 0,
+    status     smallint     not null       default 0,
     icon       text,
     created_at timestamp without time zone default (now() at time zone 'utc'),
     updated_at timestamp without time zone
@@ -65,7 +65,7 @@ create table if not exists public.identifiers
     name         varchar(255) not null,
     description  text,
     example_text text,
-    status       integer      not null                      default 0,
+    status       smallint     not null                      default 0,
     platforms    varchar(255),
     created_at   timestamp without time zone                default (now() at time zone 'utc'),
     updated_at   timestamp without time zone
@@ -83,7 +83,7 @@ create table if not exists public.localization_identifiers
     identifier_id   integer
         constraint localization_identifiers_identifier_id_fk
             references public.identifiers on delete cascade,
-    status          integer not null            default 0,
+    status          smallint not null           default 0,
     created_at      timestamp without time zone default (now() at time zone 'utc'),
     updated_at      timestamp without time zone
 );
@@ -100,9 +100,9 @@ create table if not exists public.translations
     creator_id      integer
         constraint translations_users_creator_id_fk
             references public.users,
-    singular        text    not null,
+    singular        text     not null,
     plural          text,
-    status          integer not null            default 0,
+    status          smallint not null           default 0,
     created_at      timestamp without time zone default (now() at time zone 'utc'),
     updated_at      timestamp without time zone
 );
@@ -118,9 +118,9 @@ create table if not exists public.translation_files
             references public.users,
     name            varchar(255) not null,
     path            varchar(255) not null,
-    platform        integer      not null       default 0,
-    status          integer      not null       default 0,
-    storage_type    integer      not null       default 0,
+    platform        smallint     not null       default 0,
+    status          smallint     not null       default 0,
+    storage_type    smallint     not null       default 0,
     created_at      timestamp without time zone default (now() at time zone 'utc'),
     updated_at      timestamp without time zone
 );

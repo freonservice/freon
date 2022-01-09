@@ -39,7 +39,8 @@ var (
 		logLevel               string
 		apiPort                int
 		grpcPort               int
-		staticPort             int
+		webStaticPort          int
+		docsStaticPort         int
 		cpuLimit               int
 		serviceHost            string
 		migrationPath          string
@@ -68,7 +69,8 @@ func Init() {
 	flag.IntVar(&dbConf.maxOpenConns, "db.maxOpenConns", config.DBMaxOpenConns, "db max open conns must be set")
 	flag.IntVar(&cfg.apiPort, "api.port", config.APIServicePort, "listen `api port` must be >0")
 	flag.IntVar(&cfg.grpcPort, "grpc.port", config.GrpcServicePort, "listen `grpc port` must be >0")
-	flag.IntVar(&cfg.staticPort, "static.port", config.StaticServicePort, "listen `static port` must be >0")
+	flag.IntVar(&cfg.webStaticPort, "web.static.port", config.WebStaticServicePort, "listen `web static port` must be >0")
+	flag.IntVar(&cfg.docsStaticPort, "docs.static.port", config.DocsStaticServicePort, "listen `docs static port` must be >0")
 	flag.StringVar(&cfg.serviceHost, "service.host", config.ServiceHost, "listen `service host`")
 	flag.StringVar(&cfg.migrationPath, "migration.path", config.MigrationPath, "migration path cant be empty")
 	flag.StringVar(&cfg.badgerPath, "badger.path", config.BadgerPath, "badger path cant be empty")

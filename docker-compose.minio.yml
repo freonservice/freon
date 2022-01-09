@@ -5,21 +5,9 @@ volumes:
   freon-docs:
   freon-badger-db:
   libra-data:
+  minio-data:
 
 services:
-  libra:
-    image: libretranslate/libretranslate:latest
-    restart: unless-stopped
-    ports:
-      - "127.0.0.1:5000:5000"
-    environment:
-      LT_DEBUG: "True"
-      LT_LOAD_ONLY: "en,ru,de"
-      LT_HOST: "0.0.0.0"
-      LT_PORT: "5000"
-      LT_FRONTEND_LANGUAGE_SOURCE: "ru"
-      LT_FRONTEND_LANGUAGE_TARGET: "en"
-
   freon-db:
     image: postgres:14.1
     restart: always
@@ -72,3 +60,17 @@ services:
     volumes:
       - freon-docs:/docs
       - freon-badger-db:/badger
+
+  minio:
+    container_name: "minio"
+    image: quay.io/minio/minio
+    restart: always
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    environment:
+      - MINIO_ROOT_USER=freon
+      - MINIO_ROOT_PASSWORD=password
+    command: server /data --console-address ":9001"
+    volumes:
+      - minio-data:/data

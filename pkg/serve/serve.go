@@ -77,15 +77,14 @@ func ServerGRPC(ctx Ctx, addr netx.Addr, srv *grpc.Server) error {
 	return nil
 }
 
-func ServerStatic(ctx Ctx, addr netx.Addr) error {
+func ServerWebStatic(ctx Ctx, addr netx.Addr) error {
 	log := structlog.FromContext(ctx, nil).New(def.LogServer, addr.String())
-	const FSPATH = "./web/"
 
 	listen, err := net.Listen("tcp", addr.String())
 	if err != nil {
 		return err
 	}
-	log.Info("serve", "service", "static", "addr", addr.String())
+	log.Info("serve", "service", "web static", "addr", addr.String())
 
 	errc := make(chan error, 1)
 	go func() { errc <- http.Serve(listen, nil) }()
@@ -108,11 +107,11 @@ func ServerStatic(ctx Ctx, addr netx.Addr) error {
 	select {
 	case err = <-errc:
 	case <-ctx.Done():
-		log.Info("Stopping static server")
+		log.Info("Stopping web static server")
 	}
 	if err != nil {
 		return log.Err("failed to serve static", "err", err)
 	}
-	log.Info("shutdown service name static")
+	log.Info("shutdown service name web static")
 	return nil
 }

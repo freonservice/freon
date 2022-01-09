@@ -10,9 +10,15 @@ import (
 	"github.com/freonservice/freon/internal/parser/android"
 	"github.com/freonservice/freon/internal/parser/ios"
 	"github.com/freonservice/freon/internal/parser/web"
+	"github.com/freonservice/freon/internal/utils"
 	api "github.com/freonservice/freon/pkg/freonApi"
 
 	"github.com/pkg/errors"
+)
+
+const (
+	defaultAppleFile   = "Localizable.strings"
+	defaultAndroidFile = "strings.xml"
 )
 
 func (a *appl) CreateTranslationFile(ctx Ctx, platform, storageType string, creatorID, localizationID int64) error {
@@ -29,18 +35,28 @@ func (a *appl) CreateTranslationFile(ctx Ctx, platform, storageType string, crea
 
 	// Generate translation FILE
 	var p parser.Generator
-	var fileFormat string
+	var fileName string
+	var localizationFolder string
+	var storageFullPath = a.config.TranslationFilesPath + "/" + platform
+	var webFullPath = "/docs/" + platform
 	platformType := getPlatformByString(platform)
 	switch api.PlatformType(platformType) { //nolint:exhaustive
 	case api.PlatformType_PLATFORM_TYPE_IOS:
 		p = ios.NewGenerator()
-		fileFormat = "strings"
+		localizationFolder = "/" + localization.Locale + ".lproj"
+		storageFullPath += localizationFolder
+		webFullPath += localizationFolder
+		fileName = defaultAppleFile
+		_ = utils.CheckAndCreateFolder(storageFullPath)
 	case api.PlatformType_PLATFORM_TYPE_ANDROID:
 		p = android.NewGenerator()
-		fileFormat = "xml"
+		localizationFolder = "/values-" + localization.Locale
+		storageFullPath += localizationFolder
+		webFullPath += localizationFolder
+		fileName = defaultAndroidFile
+		_ = utils.CheckAndCreateFolder(storageFullPath)
 	default:
 		p = web.NewGenerator().SetPluralFormat(parser.PluralFormat18N)
-		fileFormat = "json"
 	}
 	p.SetTranslations(translations)
 	text, err := p.Generate()
@@ -48,9 +64,12 @@ func (a *appl) CreateTranslationFile(ctx Ctx, platform, storageType string, crea
 		return err
 	}
 
-	fileName := fmt.Sprintf("%s.%s", localization.Locale, fileFormat)
-	fullPath := a.config.TranslationFilesPath + "/" + platform + "/" + fileName
-	f, err := os.Create(fullPath)
+	if api.PlatformType(platformType) == api.PlatformType_PLATFORM_TYPE_WEB {
+		fileName = fmt.Sprintf("%s.json", localization.Locale)
+	}
+	storageFullPath += "/" + fileName
+	webFullPath += "/" + fileName
+	f, err := os.Create(storageFullPath)
 	if err != nil {
 		return errors.Wrap(err, "CreateTranslationFile os.Create file")
 	}
@@ -64,7 +83,7 @@ func (a *appl) CreateTranslationFile(ctx Ctx, platform, storageType string, crea
 	return a.repo.CreateTranslationFile(
 		ctx,
 		fileName,
-		fullPath,
+		webFullPath,
 		getPlatformByString(platform),
 		getStorageTypeByString(storageType),
 		creatorID,

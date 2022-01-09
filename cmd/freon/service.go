@@ -2,6 +2,8 @@ package main
 
 import (
 	"context"
+	"fmt"
+	"net/http"
 	"time"
 
 	"github.com/freonservice/freon/api/openapi/frontend/restapi"
@@ -56,11 +58,16 @@ func runServe(repo *dal.Repo, ctxShutdown Ctx, shutdown func()) error {
 		return errors.Wrap(err, "failed to frontend.NewServer")
 	}
 
+	state := appl.GetCurrentSettingState()
+	if state.Storage.Use == int32(freonApi.StorageType_STORAGE_TYPE_LOCAL) {
+		go srv.serverDocsStatic()
+	}
+
 	srv.grpcSrv = grpcServer.NewServer(appl)
 	err = concurrent.Serve(ctxShutdown, shutdown,
 		srv.serveFrontendOpenAPI,
 		srv.serveGRPC,
-		srv.serveStatic,
+		srv.serveWebStatic,
 	)
 	if err != nil {
 		return errors.Wrap(err, "failed to serve")
@@ -78,9 +85,9 @@ func (srv *service) serveGRPC(ctx Ctx) error {
 	return serve.ServerGRPC(ctx, addr, srv.grpcSrv)
 }
 
-func (srv *service) serveStatic(ctx Ctx) error {
-	addr := netx.NewAddr(cfg.serviceHost, cfg.staticPort)
-	return serve.ServerStatic(ctx, addr)
+func (srv *service) serveWebStatic(ctx Ctx) error {
+	addr := netx.NewAddr(cfg.serviceHost, cfg.webStaticPort)
+	return serve.ServerWebStatic(ctx, addr)
 }
 
 func createFirstAdmin(appl app.Appl) error {
@@ -101,4 +108,15 @@ func createFirstAdmin(appl app.Appl) error {
 		return err
 	}
 	return nil
+}
+
+func (srv *service) serverDocsStatic() {
+	fs := http.FileServer(http.Dir("./docs"))
+	http.Handle("/docs/", http.StripPrefix("/docs/", fs))
+
+	log.Println("Starting service docs static with port", cfg.docsStaticPort)
+	err := http.ListenAndServe(fmt.Sprintf(":%d", cfg.docsStaticPort), nil)
+	if err != nil {
+		log.Fatal(err, "docs static serving")
+	}
 }
