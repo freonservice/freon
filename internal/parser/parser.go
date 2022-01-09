@@ -23,5 +23,5 @@ type Generator interface {
 	SetTranslations(t []*domain.Translation) Generator
 	SetFormat(format Format) Generator             // web-json, ios-strings, android-xml
 	SetPluralFormat(format PluralFormat) Generator // json, i18n
-	Generate() (string, error)
+	Generate() ([]string, error)
 }

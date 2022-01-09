@@ -1,5 +1,0 @@
-The syntax of this file is: "<key>" = "<value>";
-
-"account.by_user" = "by %@ and %@"
-let localizedString = NSLocalizedString("account.by_user", comment: "any comment")
-let wantedString = String(format: localizedString, "Peter","Larry")

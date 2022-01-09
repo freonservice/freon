@@ -29,7 +29,7 @@ func (p *generator) SetPluralFormat(format parser.PluralFormat) parser.Generator
 	return p
 }
 
-func (p *generator) Generate() (string, error) {
+func (p *generator) Generate() ([]string, error) {
 	var f strings.Builder
 	f.Grow(50) //nolint:gomnd
 
@@ -44,7 +44,7 @@ func (p *generator) Generate() (string, error) {
 		}
 	}
 	f.WriteString("</resources>")
-	return f.String(), nil
+	return []string{f.String()}, nil
 }
 
 func (p *generator) wrapSingleString(key, value string) string {

@@ -3,6 +3,7 @@ package app
 import (
 	"fmt"
 	"os"
+	"strings"
 
 	"github.com/freonservice/freon/internal/domain"
 	"github.com/freonservice/freon/internal/filter"
@@ -17,7 +18,7 @@ import (
 )
 
 const (
-	defaultAppleFile   = "Localizable.strings"
+	defaultAppleFile   = "Localizable" // hidden format .strings/.stringsdict
 	defaultAndroidFile = "strings.xml"
 )
 
@@ -39,7 +40,7 @@ func (a *appl) CreateTranslationFile(ctx Ctx, platform, storageType string, crea
 	var localizationFolder string
 	var storageFullPath = a.config.TranslationFilesPath + "/" + platform
 	var webFullPath = "/docs/" + platform
-	platformType := getPlatformByString(platform)
+	var platformType = getPlatformByString(platform)
 	switch api.PlatformType(platformType) { //nolint:exhaustive
 	case api.PlatformType_PLATFORM_TYPE_IOS:
 		p = ios.NewGenerator()
@@ -47,14 +48,12 @@ func (a *appl) CreateTranslationFile(ctx Ctx, platform, storageType string, crea
 		storageFullPath += localizationFolder
 		webFullPath += localizationFolder
 		fileName = defaultAppleFile
-		_ = utils.CheckAndCreateFolder(storageFullPath)
 	case api.PlatformType_PLATFORM_TYPE_ANDROID:
 		p = android.NewGenerator()
 		localizationFolder = "/values-" + localization.Locale
 		storageFullPath += localizationFolder
 		webFullPath += localizationFolder
 		fileName = defaultAndroidFile
-		_ = utils.CheckAndCreateFolder(storageFullPath)
 	default:
 		p = web.NewGenerator().SetPluralFormat(parser.PluralFormat18N)
 	}
@@ -66,18 +65,28 @@ func (a *appl) CreateTranslationFile(ctx Ctx, platform, storageType string, crea
 
 	if api.PlatformType(platformType) == api.PlatformType_PLATFORM_TYPE_WEB {
 		fileName = fmt.Sprintf("%s.json", localization.Locale)
+	} else {
+		err = utils.CheckAndCreateFolder(storageFullPath)
+		if err != nil {
+			return err
+		}
 	}
-	storageFullPath += "/" + fileName
-	webFullPath += "/" + fileName
-	f, err := os.Create(storageFullPath)
-	if err != nil {
-		return errors.Wrap(err, "CreateTranslationFile os.Create file")
-	}
-	defer f.Close()
 
-	_, err = f.WriteString(text)
+	if api.PlatformType(platformType) == api.PlatformType_PLATFORM_TYPE_IOS {
+		iosFormat := []string{".strings", ".stringsdict"}
+		var webPaths []string
+		for i := range text {
+			err = a.saveFileLocalStorage(storageFullPath+"/"+fileName+iosFormat[i], text[i])
+			webPaths = append(webPaths, webFullPath+"/"+fileName+iosFormat[i])
+		}
+		webFullPath = strings.Join(webPaths, ",")
+	} else {
+		storageFullPath += "/" + fileName
+		webFullPath += "/" + fileName
+		err = a.saveFileLocalStorage(storageFullPath, text[0])
+	}
 	if err != nil {
-		return errors.Wrap(err, "CreateTranslationFile WriteString")
+		return err
 	}
 
 	return a.repo.CreateTranslationFile(
@@ -101,4 +110,19 @@ func (a *appl) GetTranslationFiles(ctx Ctx, f filter.TranslationFileFilter) ([]*
 
 func (a *appl) DeleteTranslationFile(ctx Ctx, id int64) error {
 	return a.repo.DeleteTranslationFile(ctx, id)
+}
+
+func (a *appl) saveFileLocalStorage(path, text string) error {
+	f, err := os.Create(path)
+	if err != nil {
+		return errors.Wrap(err, "saveFileLocalStorage os.Create file")
+	}
+	defer f.Close()
+
+	_, err = f.WriteString(text)
+	if err != nil {
+		return errors.Wrap(err, "saveFileLocalStorage WriteString")
+	}
+
+	return nil
 }

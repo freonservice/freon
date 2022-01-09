@@ -125,9 +125,6 @@ create table if not exists public.translation_files
     updated_at      timestamp without time zone
 );
 
-create unique index if not exists translation_files_name_uindex
-    on public.translation_files (name);
-
 create unique index if not exists translation_files_path_uindex
     on public.translation_files (path);
 

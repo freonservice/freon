@@ -33,14 +33,14 @@ func (p *generator) SetPluralFormat(format parser.PluralFormat) parser.Generator
 	return p
 }
 
-func (p *generator) Generate() (string, error) {
+func (p *generator) Generate() ([]string, error) {
 	var text string
 	switch p.pluralFormat { //nolint:exhaustive
 	case parser.PluralFormat18N:
 		text = p.generatePlural18N()
 	default:
 	}
-	return text, nil
+	return []string{text}, nil
 }
 
 func (p *generator) generatePlural18N() string {
