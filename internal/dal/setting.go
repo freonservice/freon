@@ -9,8 +9,8 @@ import (
 )
 
 const (
-	settingStorageKey     = "setting.storage"
-	settingTranslationKey = "setting.translation"
+	settingStorageKey     = "settingStorage"
+	settingTranslationKey = "settingTranslation"
 )
 
 func (s *SettingRepo) get(key string, txn *badger.Txn) ([]byte, error) {
@@ -22,14 +22,7 @@ func (s *SettingRepo) get(key string, txn *badger.Txn) ([]byte, error) {
 		return []byte{}, nil
 	case nil:
 	}
-
-	var value []byte
-	_ = item.Value(func(val []byte) error {
-		value = val
-		return nil
-	})
-
-	return value, nil
+	return item.ValueCopy(nil)
 }
 
 func (s *SettingRepo) getSettingTranslateState() error {
@@ -38,13 +31,11 @@ func (s *SettingRepo) getSettingTranslateState() error {
 		if err != nil {
 			return err
 		}
-
 		var data freonApi.TranslationConfiguration
 		err = proto.Unmarshal(value, &data)
 		if err != nil {
 			return err
 		}
-
 		s.state.Translation = domain.TranslationConfiguration{
 			Auto: data.Auto,
 			Use:  int32(data.Use),
@@ -63,7 +54,12 @@ func (s *SettingRepo) SetTranslationConfiguration(ctx Ctx, data domain.Translati
 		if err != nil {
 			return err
 		}
-		return txn.Set(value, []byte(settingTranslationKey))
+		err = txn.Set([]byte(settingTranslationKey), value)
+		if err != nil {
+			return err
+		}
+		s.state.Translation = data
+		return nil
 	})
 }
 
@@ -73,13 +69,11 @@ func (s *SettingRepo) getSettingStorageState() error {
 		if err != nil {
 			return err
 		}
-
 		var data freonApi.StorageConfiguration
 		err = proto.Unmarshal(value, &data)
 		if err != nil {
 			return err
 		}
-
 		s.state.Storage = domain.StorageConfiguration{
 			Use: int32(data.Use),
 		}
@@ -96,7 +90,12 @@ func (s *SettingRepo) SetStorageConfiguration(ctx Ctx, data domain.StorageConfig
 		if err != nil {
 			return err
 		}
-		return txn.Set(value, []byte(settingStorageKey))
+		err = txn.Set([]byte(settingStorageKey), value)
+		if err != nil {
+			return err
+		}
+		s.state.Storage = data
+		return nil
 	})
 }
 

@@ -5,31 +5,31 @@ import (
 	"strings"
 
 	"github.com/freonservice/freon/internal/domain"
-	"github.com/freonservice/freon/internal/parser"
+	gen "github.com/freonservice/freon/internal/generator"
 )
 
 type generator struct {
 	v []*domain.Translation
 }
 
-func NewGenerator() parser.Generator {
+func NewGenerator() gen.Generator {
 	return &generator{}
 }
 
-func (p *generator) SetTranslations(v []*domain.Translation) parser.Generator {
+func (p *generator) SetTranslations(v []*domain.Translation) gen.Generator {
 	p.v = v
 	return p
 }
 
-func (p *generator) SetFormat(format parser.Format) parser.Generator {
+func (p *generator) SetFormat(format gen.Format) gen.Generator {
 	return p
 }
 
-func (p *generator) SetPluralFormat(format parser.PluralFormat) parser.Generator {
+func (p *generator) SetPluralFormat(format gen.PluralFormat) gen.Generator {
 	return p
 }
 
-func (p *generator) Generate() ([]string, error) {
+func (p *generator) Generate() (gen.Document, error) {
 	var f strings.Builder
 	f.Grow(50) //nolint:gomnd
 
@@ -44,7 +44,9 @@ func (p *generator) Generate() ([]string, error) {
 		}
 	}
 	f.WriteString("</resources>")
-	return []string{f.String()}, nil
+	return gen.Document{
+		TextFirst: f.String(),
+	}, nil
 }
 
 func (p *generator) wrapSingleString(key, value string) string {

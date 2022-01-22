@@ -116,8 +116,11 @@ create table if not exists public.translation_files
     creator_id      integer
         constraint translation_files_users_creator_id_fk
             references public.users,
-    name            varchar(255) not null,
-    path            varchar(255) not null,
+    names           varchar(500) not null, -- storing list names with comma-separator for android/ios and without for web
+    web_folder_path varchar(255) not null, -- folder for documents available from web
+    fs_folder_path  varchar(255) not null, -- folder for documents available from fs
+    s3_file_id      varchar(100),
+    s3_bucket       varchar(100),
     platform        smallint     not null       default 0,
     status          smallint     not null       default 0,
     storage_type    smallint     not null       default 0,

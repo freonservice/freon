@@ -61,7 +61,7 @@ Command for launch service from docker
 
 ## Future features
 
-- [ ] Connection google-translation api for quick semi-automation translations
+- [ ] Connection google-translation api for quick **semi**-automation translations
 - [ ] Connection [libretranslate api](https://github.com/LibreTranslate/LibreTranslate) for quick semi-automation translations
 - [x] Generation i18n files for web (.json)
 - [x] Generation android translations (.xml)
@@ -69,7 +69,7 @@ Command for launch service from docker
 - [ ] UI improvements
 - [x] Add API and business logic for checking actual version of translations  
 - [x] Fix supporting pluralization
-- [ ] Add S3 compatibility storages for static files
+- [x] Add S3 compatibility storages for static files
 - [ ] Full backend test coverage
 
 ## Contribution

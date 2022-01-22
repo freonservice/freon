@@ -14,6 +14,8 @@ type TranslationFile struct {
 	CreatorID      int64      `reform:"creator_id"`
 	Name           string     `reform:"name"`
 	Path           string     `reform:"path"`
+	S3FileID       string     `reform:"s3_file_id"`
+	S3Bucket       string     `reform:"s3_bucket"`
 	Platform       int64      `reform:"platform"`
 	Status         int64      `reform:"status"`
 	StorageType    int64      `reform:"storage_type"`

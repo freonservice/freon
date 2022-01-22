@@ -1,4 +1,4 @@
-package parser
+package generator
 
 import (
 	"github.com/freonservice/freon/internal/domain"
@@ -8,6 +8,7 @@ type Format int8
 
 const (
 	AppleStrings Format = iota
+	AppleXliff   Format = iota
 	AndroidStrings
 	WebJSON
 )
@@ -23,5 +24,10 @@ type Generator interface {
 	SetTranslations(t []*domain.Translation) Generator
 	SetFormat(format Format) Generator             // web-json, ios-strings, android-xml
 	SetPluralFormat(format PluralFormat) Generator // json, i18n
-	Generate() ([]string, error)
+	Generate() (Document, error)
+}
+
+type Document struct {
+	TextFirst  string
+	TextSecond string
 }

@@ -116,7 +116,7 @@ type (
 		GetTranslation(ctx Ctx, locale, identifierName string) (*dao.Translation, error)
 		GetGroupedTranslations(ctx Ctx, f filter.GroupedTranslationFilter) (map[string][]*dao.Translation, error)
 
-		CreateTranslationFile(ctx Ctx, name, path string, platform, storageType, creatorID, localizationID int64) error
+		CreateTranslationFile(ctx Ctx, name, path, s3fileID, s3bucket string, platform, storageType, creatorID, localizationID int64) error
 		GetTranslationFile(ctx Ctx, id int64) (*dao.TranslationFile, error)
 		GetTranslationFiles(ctx Ctx, f filter.TranslationFileFilter) ([]*dao.TranslationFile, error)
 		DeleteTranslationFile(ctx Ctx, id int64) error

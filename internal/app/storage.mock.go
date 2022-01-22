@@ -5,6 +5,9 @@
 package app
 
 import (
+	reflect "reflect"
+
+	storage "github.com/freonservice/freon/internal/storage"
 	gomock "github.com/golang/mock/gomock"
 )
 
@@ -29,4 +32,19 @@ func NewMockStorage(ctrl *gomock.Controller) *MockStorage {
 // EXPECT returns an object that allows the caller to indicate expected use.
 func (m *MockStorage) EXPECT() *MockStorageMockRecorder {
 	return m.recorder
+}
+
+// Create mocks base method.
+func (m *MockStorage) Create(parameter storage.FileParameter) (*storage.File, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Create", parameter)
+	ret0, _ := ret[0].(*storage.File)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// Create indicates an expected call of Create.
+func (mr *MockStorageMockRecorder) Create(parameter interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Create", reflect.TypeOf((*MockStorage)(nil).Create), parameter)
 }

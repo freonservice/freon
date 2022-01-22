@@ -33,6 +33,8 @@ func (v *translationFileTableType) Columns() []string {
 		"creator_id",
 		"name",
 		"path",
+		"s3_file_id",
+		"s3_bucket",
 		"platform",
 		"status",
 		"storage_type",
@@ -67,6 +69,8 @@ var TranslationFileTable = &translationFileTableType{
 			{Name: "CreatorID", Type: "int64", Column: "creator_id"},
 			{Name: "Name", Type: "string", Column: "name"},
 			{Name: "Path", Type: "string", Column: "path"},
+			{Name: "S3FileID", Type: "string", Column: "s3_file_id"},
+			{Name: "S3Bucket", Type: "string", Column: "s3_bucket"},
 			{Name: "Platform", Type: "int64", Column: "platform"},
 			{Name: "Status", Type: "int64", Column: "status"},
 			{Name: "StorageType", Type: "int64", Column: "storage_type"},
@@ -80,17 +84,19 @@ var TranslationFileTable = &translationFileTableType{
 
 // String returns a string representation of this struct or record.
 func (s TranslationFile) String() string {
-	res := make([]string, 10)
+	res := make([]string, 12)
 	res[0] = "ID: " + reform.Inspect(s.ID, true)
 	res[1] = "LocalizationID: " + reform.Inspect(s.LocalizationID, true)
 	res[2] = "CreatorID: " + reform.Inspect(s.CreatorID, true)
 	res[3] = "Name: " + reform.Inspect(s.Name, true)
 	res[4] = "Path: " + reform.Inspect(s.Path, true)
-	res[5] = "Platform: " + reform.Inspect(s.Platform, true)
-	res[6] = "Status: " + reform.Inspect(s.Status, true)
-	res[7] = "StorageType: " + reform.Inspect(s.StorageType, true)
-	res[8] = "CreatedAt: " + reform.Inspect(s.CreatedAt, true)
-	res[9] = "UpdatedAt: " + reform.Inspect(s.UpdatedAt, true)
+	res[5] = "S3FileID: " + reform.Inspect(s.S3FileID, true)
+	res[6] = "S3Bucket: " + reform.Inspect(s.S3Bucket, true)
+	res[7] = "Platform: " + reform.Inspect(s.Platform, true)
+	res[8] = "Status: " + reform.Inspect(s.Status, true)
+	res[9] = "StorageType: " + reform.Inspect(s.StorageType, true)
+	res[10] = "CreatedAt: " + reform.Inspect(s.CreatedAt, true)
+	res[11] = "UpdatedAt: " + reform.Inspect(s.UpdatedAt, true)
 	return strings.Join(res, ", ")
 }
 
@@ -103,6 +109,8 @@ func (s *TranslationFile) Values() []interface{} {
 		s.CreatorID,
 		s.Name,
 		s.Path,
+		s.S3FileID,
+		s.S3Bucket,
 		s.Platform,
 		s.Status,
 		s.StorageType,
@@ -120,6 +128,8 @@ func (s *TranslationFile) Pointers() []interface{} {
 		&s.CreatorID,
 		&s.Name,
 		&s.Path,
+		&s.S3FileID,
+		&s.S3Bucket,
 		&s.Platform,
 		&s.Status,
 		&s.StorageType,

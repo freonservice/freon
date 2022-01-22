@@ -10,14 +10,14 @@ import (
 func CreateOrCheckTranslationFilesFolder(currentPath string) error {
 	var err error
 
-	err = CheckAndCreateFolder(currentPath)
+	err = CheckOrCreateFolder(currentPath)
 	if err != nil {
 		return errors.Wrap(err, "internal.utils.GenerateDocFolders error with creating folder /docs")
 	}
 
 	var platforms = []string{currentPath + "/ios", currentPath + "/android", currentPath + "/web"}
 	for i := range platforms {
-		err = CheckAndCreateFolder(platforms[i])
+		err = CheckOrCreateFolder(platforms[i])
 		if err != nil {
 			return errors.Wrapf(err, "internal.utils.GenerateDocFolders error with creating folder %s", platforms[i])
 		}
@@ -26,7 +26,7 @@ func CreateOrCheckTranslationFilesFolder(currentPath string) error {
 	return nil
 }
 
-func CheckAndCreateFolder(path string) error {
+func CheckOrCreateFolder(path string) error {
 	_, err := os.Stat(path)
 	if os.IsNotExist(err) {
 		err = os.Mkdir(path, os.ModePerm)

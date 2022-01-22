@@ -707,17 +707,17 @@ func (mr *MockRepoMockRecorder) CreateTranslation(ctx, creatorID, localizationID
 }
 
 // CreateTranslationFile mocks base method.
-func (m *MockRepo) CreateTranslationFile(ctx Ctx, name, path string, platform, storageType, creatorID, localizationID int64) error {
+func (m *MockRepo) CreateTranslationFile(ctx Ctx, name, path, s3fileID, s3bucket string, platform, storageType, creatorID, localizationID int64) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "CreateTranslationFile", ctx, name, path, platform, storageType, creatorID, localizationID)
+	ret := m.ctrl.Call(m, "CreateTranslationFile", ctx, name, path, s3fileID, s3bucket, platform, storageType, creatorID, localizationID)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // CreateTranslationFile indicates an expected call of CreateTranslationFile.
-func (mr *MockRepoMockRecorder) CreateTranslationFile(ctx, name, path, platform, storageType, creatorID, localizationID interface{}) *gomock.Call {
+func (mr *MockRepoMockRecorder) CreateTranslationFile(ctx, name, path, s3fileID, s3bucket, platform, storageType, creatorID, localizationID interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateTranslationFile", reflect.TypeOf((*MockRepo)(nil).CreateTranslationFile), ctx, name, path, platform, storageType, creatorID, localizationID)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateTranslationFile", reflect.TypeOf((*MockRepo)(nil).CreateTranslationFile), ctx, name, path, s3fileID, s3bucket, platform, storageType, creatorID, localizationID)
 }
 
 // CreateUser mocks base method.

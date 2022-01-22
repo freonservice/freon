@@ -4,43 +4,43 @@ import (
 	"fmt"
 
 	"github.com/freonservice/freon/internal/domain"
-	"github.com/freonservice/freon/internal/parser"
+	gen "github.com/freonservice/freon/internal/generator"
 )
 
 type generator struct {
 	v []*domain.Translation
 
-	format       parser.Format
-	pluralFormat parser.PluralFormat
+	format       gen.Format
+	pluralFormat gen.PluralFormat
 }
 
-func NewGenerator() parser.Generator {
+func NewGenerator() gen.Generator {
 	return &generator{}
 }
 
-func (p *generator) SetTranslations(v []*domain.Translation) parser.Generator {
+func (p *generator) SetTranslations(v []*domain.Translation) gen.Generator {
 	p.v = v
 	return p
 }
 
-func (p *generator) SetFormat(format parser.Format) parser.Generator {
+func (p *generator) SetFormat(format gen.Format) gen.Generator {
 	p.format = format
 	return p
 }
 
-func (p *generator) SetPluralFormat(format parser.PluralFormat) parser.Generator {
+func (p *generator) SetPluralFormat(format gen.PluralFormat) gen.Generator {
 	p.pluralFormat = format
 	return p
 }
 
-func (p *generator) Generate() ([]string, error) {
+func (p *generator) Generate() (gen.Document, error) {
 	var text string
 	switch p.pluralFormat { //nolint:exhaustive
-	case parser.PluralFormat18N:
+	case gen.PluralFormat18N:
 		text = p.generatePlural18N()
 	default:
 	}
-	return []string{text}, nil
+	return gen.Document{TextFirst: text}, nil
 }
 
 func (p *generator) generatePlural18N() string {

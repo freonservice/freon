@@ -9,7 +9,8 @@ type Storage struct {
 }
 
 func NewSetting(path string) (*Storage, error) {
-	db, err := badger.Open(badger.DefaultOptions(path).WithInMemory(false))
+	opts := badger.DefaultOptions(path)
+	db, err := badger.Open(opts)
 	if err != nil {
 		return nil, err
 	}

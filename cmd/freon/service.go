@@ -43,6 +43,8 @@ func runServe(repo *dal.Repo, settingRepo *dal.SettingRepo, ctxShutdown Ctx, shu
 		state         = settingRepo.GetCurrentSettingState()
 	)
 
+	log.Println(state)
+
 	if state.Storage.Use == int32(freonApi.StorageType_STORAGE_TYPE_S3) {
 		dataStorage, err = s3.NewStorage(&s3.StorageConfiguration{
 			SecretAccessKey: s3Storage.secretAccessKey,

@@ -113,7 +113,7 @@ func main() {
 	structlog.DefaultLogger.SetLogLevel(structlog.ParseLevel(cfg.logLevel))
 	log.Info(version.Get(), "Maximum Usage CPU", cfg.cpuLimit)
 
-	r, err := dal.New(&repo.Config{
+	dbRepo, err := dal.New(&repo.Config{
 		Host:          dbConf.host,
 		Port:          dbConf.port,
 		Name:          dbConf.name,
@@ -133,7 +133,7 @@ func main() {
 	}
 
 	ctxShutdown, shutdown := context.WithCancel(context.Background())
-	err = runServe(r, settingRepo, ctxShutdown, shutdown)
+	err = runServe(dbRepo, settingRepo, ctxShutdown, shutdown)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -141,7 +141,7 @@ func main() {
 	<-sigc
 	log.Println("Graceful stop server")
 	shutdown()
-	r.Close()
-	log.Println("Close badger with error", settingRepo.Close())
+	dbRepo.Close()
+	_ = settingRepo.Close()
 	os.Exit(0)
 }

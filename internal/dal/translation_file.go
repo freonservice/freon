@@ -11,13 +11,18 @@ import (
 	"github.com/AlekSi/pointer"
 )
 
-func (r *Repo) CreateTranslationFile(ctx Ctx, name, path string, platform, storageType, creatorID, localizationID int64) error {
+func (r *Repo) CreateTranslationFile(
+	ctx Ctx, name, path, s3fileID, s3bucket string,
+	platform, storageType, creatorID, localizationID int64,
+) error {
 	entity := &dao.TranslationFile{
 		LocalizationID: localizationID,
 		CreatorID:      creatorID,
 		Name:           name,
 		Path:           path,
 		Platform:       platform,
+		S3FileID:       s3fileID,
+		S3Bucket:       s3bucket,
 		Status:         int64(api.Status_ACTIVE),
 		StorageType:    storageType,
 		CreatedAt:      time.Now().UTC(),
@@ -45,8 +50,6 @@ func (r *Repo) GetTranslationFiles(ctx Ctx, f filter.TranslationFileFilter) ([]*
 	rows, err := f.CreateRows(ctx, r.ReformDB)
 	if err != nil {
 		return nil, err
-	} else if rows.Err() != nil {
-		return nil, rows.Err()
 	}
 	defer rows.Close()
 
@@ -64,7 +67,7 @@ func (r *Repo) GetTranslationFiles(ctx Ctx, f filter.TranslationFileFilter) ([]*
 		}
 		entities = append(entities, entity)
 	}
-	if err != nil && err != sql.ErrNoRows {
+	if rows.Err() != nil && rows.Err() != sql.ErrNoRows {
 		return nil, err
 	}
 	return entities, nil
