@@ -19,7 +19,7 @@ type store struct {
 	logger *structlog.Logger
 }
 
-func NewStorage(logger *structlog.Logger, docsPath string) storage.Storage {
+func NewStorage(docsPath string, logger *structlog.Logger) storage.Storage {
 	return &store{
 		docsPath: docsPath,
 		logger:   logger,

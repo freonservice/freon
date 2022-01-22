@@ -14,6 +14,7 @@ import (
 	"github.com/freonservice/freon/internal/srv/frontend"
 	grpcServer "github.com/freonservice/freon/internal/srv/grpc"
 	"github.com/freonservice/freon/internal/storage"
+	"github.com/freonservice/freon/internal/storage/local"
 	"github.com/freonservice/freon/internal/storage/s3"
 	"github.com/freonservice/freon/internal/utils"
 	"github.com/freonservice/freon/pkg/concurrent"
@@ -39,13 +40,11 @@ func runServe(repo *dal.Repo, settingRepo *dal.SettingRepo, ctxShutdown Ctx, shu
 
 		srv           = service{}
 		authorization = auth.NewAuth(cfg.jwtSecretPath, repo, log)
-		config        = app.Config{TranslationFilesPath: cfg.translationFilesFolder}
 		state         = settingRepo.GetCurrentSettingState()
 	)
 
-	log.Println(state)
-
-	if state.Storage.Use == int32(freonApi.StorageType_STORAGE_TYPE_S3) {
+	switch state.Storage.Use {
+	case int32(freonApi.StorageType_STORAGE_TYPE_S3):
 		dataStorage, err = s3.NewStorage(&s3.StorageConfiguration{
 			SecretAccessKey: s3Storage.secretAccessKey,
 			AccessKeyID:     s3Storage.accessKeyID,
@@ -60,9 +59,11 @@ func runServe(repo *dal.Repo, settingRepo *dal.SettingRepo, ctxShutdown Ctx, shu
 		if err != nil {
 			return errors.Wrap(err, "s3 storage configuration")
 		}
+	default:
+		dataStorage = local.NewStorage(cfg.translationFilesFolder, log)
 	}
 
-	appl := app.New(repo, authorization, password.New(), settingRepo, config, dataStorage)
+	appl := app.New(repo, authorization, password.New(), settingRepo, app.Config{}, dataStorage)
 	err = createFirstAdmin(appl)
 	if err != nil {
 		return errors.Wrap(err, "failed create admin")

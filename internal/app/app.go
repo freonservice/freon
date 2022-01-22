@@ -138,9 +138,7 @@ type (
 		Generate(length int) string
 	}
 
-	Config struct {
-		TranslationFilesPath string
-	}
+	Config struct{}
 
 	appl struct {
 		repo        Repo

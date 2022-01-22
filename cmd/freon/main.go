@@ -131,6 +131,7 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+	log.Printf("Current Setting State %+v\n", settingRepo.GetCurrentSettingState())
 
 	ctxShutdown, shutdown := context.WithCancel(context.Background())
 	err = runServe(dbRepo, settingRepo, ctxShutdown, shutdown)
