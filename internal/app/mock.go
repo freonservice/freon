@@ -10,9 +10,11 @@ import (
 	dao "github.com/freonservice/freon/internal/dao"
 	domain "github.com/freonservice/freon/internal/domain"
 	filter "github.com/freonservice/freon/internal/filter"
+	translation "github.com/freonservice/freon/internal/translation"
 	gomock "github.com/golang/mock/gomock"
 	uuid "github.com/google/uuid"
 	sqlx "github.com/jmoiron/sqlx"
+	language "golang.org/x/text/language"
 )
 
 // MockAppl is a mock of Appl interface.
@@ -283,6 +285,21 @@ func (mr *MockApplMockRecorder) GetStatistic(ctx interface{}) *gomock.Call {
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetStatistic", reflect.TypeOf((*MockAppl)(nil).GetStatistic), ctx)
 }
 
+// GetSupportedLanguages mocks base method.
+func (m *MockAppl) GetSupportedLanguages(ctx Ctx) ([]translation.Language, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetSupportedLanguages", ctx)
+	ret0, _ := ret[0].([]translation.Language)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetSupportedLanguages indicates an expected call of GetSupportedLanguages.
+func (mr *MockApplMockRecorder) GetSupportedLanguages(ctx interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetSupportedLanguages", reflect.TypeOf((*MockAppl)(nil).GetSupportedLanguages), ctx)
+}
+
 // GetTranslation mocks base method.
 func (m *MockAppl) GetTranslation(ctx Ctx, locale, identifierName string) (*domain.Translation, error) {
 	m.ctrl.T.Helper()
@@ -473,6 +490,21 @@ func (m *MockAppl) SetTranslationConfiguration(ctx Ctx, data domain.TranslationC
 func (mr *MockApplMockRecorder) SetTranslationConfiguration(ctx, data interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SetTranslationConfiguration", reflect.TypeOf((*MockAppl)(nil).SetTranslationConfiguration), ctx, data)
+}
+
+// Translate mocks base method.
+func (m *MockAppl) Translate(ctx Ctx, text string, source, target language.Tag) (string, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Translate", ctx, text, source, target)
+	ret0, _ := ret[0].(string)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// Translate indicates an expected call of Translate.
+func (mr *MockApplMockRecorder) Translate(ctx, text, source, target interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Translate", reflect.TypeOf((*MockAppl)(nil).Translate), ctx, text, source, target)
 }
 
 // UpdateCategory mocks base method.

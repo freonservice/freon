@@ -9,4 +9,5 @@ var (
 	ErrUserNotActive      = errors.New("user not active")
 	ErrUserIsBanned       = errors.New("user is banned")
 	ErrPasswordNotCorrect = errors.New("password is not correct")
+	ErrAutoTranslation    = errors.New("auto translation not supported")
 )

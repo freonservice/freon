@@ -5,8 +5,10 @@ import (
 	"github.com/freonservice/freon/internal/app"
 	"github.com/freonservice/freon/internal/filter"
 
+	"github.com/AlekSi/pointer"
 	"github.com/go-openapi/swag"
 	"github.com/pkg/errors"
+	"golang.org/x/text/language"
 )
 
 func (srv *server) createTranslation(params op.CreateTranslationParams, session *app.UserSession) op.CreateTranslationResponder {
@@ -94,4 +96,32 @@ func (srv *server) statusTranslation(params op.StatusTranslationParams, session 
 	}
 
 	return op.NewStatusTranslationNoContent()
+}
+
+func (srv *server) autoTranslation(params op.AutoTranslationParams, session *app.UserSession) op.AutoTranslationResponder {
+	ctx, log := fromRequest(params.HTTPRequest, session)
+
+	source, err := language.Parse(swag.StringValue(params.Args.Source))
+	if err != nil {
+		return errAutoTranslation(log, err, codeInternal)
+	}
+
+	target, err := language.Parse(swag.StringValue(params.Args.Target))
+	if err != nil {
+		return errAutoTranslation(log, err, codeInternal)
+	}
+
+	translate, err := srv.app.Translate(ctx, swag.StringValue(params.Args.Text), source, target)
+	switch errors.Cause(err) {
+	default:
+		log.PrintErr(errors.WithStack(err))
+		return errAutoTranslation(log, err, codeInternal)
+	case app.ErrAutoTranslation:
+		return errAutoTranslation(log, err, codeAutoTranslationNotSupported)
+	case nil:
+	}
+
+	return op.NewAutoTranslationOK().WithPayload(&op.AutoTranslationOKBody{
+		Text: pointer.ToString(translate),
+	})
 }

@@ -47,6 +47,7 @@ var (
 		badgerPath             string
 		jwtSecretPath          string
 		translationFilesFolder string
+		libraURL               string
 	}
 
 	s3Storage struct {
@@ -91,6 +92,7 @@ func Init() {
 	flag.StringVar(&adminCred.password, "admin.password", config.DefaultAdminPass, "admin password cant be empty")
 	flag.StringVar(&cfg.translationFilesFolder, "translation.folders", config.TranslationFilesPath, "translation files folder")
 	flag.IntVar(&cfg.cpuLimit, "cpu-limit", config.CPULimit, "maximum usage cpu")
+	flag.StringVar(&cfg.libraURL, "libra.url", config.LibraURL, "libra api url")
 
 	flag.StringVar(&s3Storage.secretAccessKey, "s3.secret-access-key", config.S3SecretAccessKey, "s3.secret-access-key cant be empty")
 	flag.StringVar(&s3Storage.accessKeyID, "s3.access-key-id", config.S3AccessKeyID, "s3.access-key-id cant be empty")

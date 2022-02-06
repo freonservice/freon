@@ -35,6 +35,66 @@ func init() {
   },
   "basePath": "/api/internal",
   "paths": {
+    "/auto-translation": {
+      "post": {
+        "security": [
+          {
+            "JWTBearer": []
+          }
+        ],
+        "summary": "create auto translation (with libra or other service)",
+        "operationId": "autoTranslation",
+        "parameters": [
+          {
+            "name": "args",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": [
+                "text",
+                "source",
+                "target"
+              ],
+              "properties": {
+                "source": {
+                  "type": "string",
+                  "minLength": 2
+                },
+                "target": {
+                  "type": "string",
+                  "minLength": 2
+                },
+                "text": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "required": [
+                "text"
+              ],
+              "properties": {
+                "text": {
+                  "type": "string",
+                  "format": "string"
+                }
+              }
+            }
+          },
+          "default": {
+            "$ref": "#/responses/Error"
+          }
+        }
+      }
+    },
     "/categories": {
       "get": {
         "security": [
@@ -765,6 +825,31 @@ func init() {
         }
       }
     },
+    "/supported-languages": {
+      "get": {
+        "security": [
+          {
+            "JWTBearer": []
+          }
+        ],
+        "summary": "supported-languages",
+        "operationId": "supportedLanguages",
+        "responses": {
+          "200": {
+            "description": "get list of all supported languages",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Language"
+              }
+            }
+          },
+          "default": {
+            "$ref": "#/responses/Error"
+          }
+        }
+      }
+    },
     "/translation": {
       "post": {
         "security": [
@@ -1482,6 +1567,22 @@ func init() {
         }
       }
     },
+    "Language": {
+      "type": "object",
+      "required": [
+        "code",
+        "name"
+      ],
+      "properties": {
+        "code": {
+          "type": "string",
+          "minLength": 2
+        },
+        "name": {
+          "type": "string"
+        }
+      }
+    },
     "Localization": {
       "type": "object",
       "required": [
@@ -1719,6 +1820,69 @@ func init() {
   },
   "basePath": "/api/internal",
   "paths": {
+    "/auto-translation": {
+      "post": {
+        "security": [
+          {
+            "JWTBearer": []
+          }
+        ],
+        "summary": "create auto translation (with libra or other service)",
+        "operationId": "autoTranslation",
+        "parameters": [
+          {
+            "name": "args",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": [
+                "text",
+                "source",
+                "target"
+              ],
+              "properties": {
+                "source": {
+                  "type": "string",
+                  "minLength": 2
+                },
+                "target": {
+                  "type": "string",
+                  "minLength": 2
+                },
+                "text": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "required": [
+                "text"
+              ],
+              "properties": {
+                "text": {
+                  "type": "string",
+                  "format": "string"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "General errors using same model as used by go-swagger for validation errors.",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
     "/categories": {
       "get": {
         "security": [
@@ -2486,6 +2650,34 @@ func init() {
                     "$ref": "#/definitions/StatCompletedTranslationsItems0"
                   }
                 }
+              }
+            }
+          },
+          "default": {
+            "description": "General errors using same model as used by go-swagger for validation errors.",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/supported-languages": {
+      "get": {
+        "security": [
+          {
+            "JWTBearer": []
+          }
+        ],
+        "summary": "supported-languages",
+        "operationId": "supportedLanguages",
+        "responses": {
+          "200": {
+            "description": "get list of all supported languages",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Language"
               }
             }
           },
@@ -3272,6 +3464,22 @@ func init() {
       "properties": {
         "has_auto_translation": {
           "type": "boolean"
+        }
+      }
+    },
+    "Language": {
+      "type": "object",
+      "required": [
+        "code",
+        "name"
+      ],
+      "properties": {
+        "code": {
+          "type": "string",
+          "minLength": 2
+        },
+        "name": {
+          "type": "string"
         }
       }
     },

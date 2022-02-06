@@ -44,6 +44,9 @@ func NewFreonFrontendAPI(spec *loads.Document) *FreonFrontendAPI {
 
 		JSONProducer: runtime.JSONProducer(),
 
+		AutoTranslationHandler: AutoTranslationHandlerFunc(func(params AutoTranslationParams, principal *app.UserSession) AutoTranslationResponder {
+			return AutoTranslationNotImplemented()
+		}),
 		CreateCategoryHandler: CreateCategoryHandlerFunc(func(params CreateCategoryParams, principal *app.UserSession) CreateCategoryResponder {
 			return CreateCategoryNotImplemented()
 		}),
@@ -122,6 +125,9 @@ func NewFreonFrontendAPI(spec *loads.Document) *FreonFrontendAPI {
 		StatusTranslationHandler: StatusTranslationHandlerFunc(func(params StatusTranslationParams, principal *app.UserSession) StatusTranslationResponder {
 			return StatusTranslationNotImplemented()
 		}),
+		SupportedLanguagesHandler: SupportedLanguagesHandlerFunc(func(params SupportedLanguagesParams, principal *app.UserSession) SupportedLanguagesResponder {
+			return SupportedLanguagesNotImplemented()
+		}),
 		UpdateCategoryHandler: UpdateCategoryHandlerFunc(func(params UpdateCategoryParams, principal *app.UserSession) UpdateCategoryResponder {
 			return UpdateCategoryNotImplemented()
 		}),
@@ -196,6 +202,8 @@ type FreonFrontendAPI struct {
 	// APIAuthorizer provides access control (ACL/RBAC/ABAC) by providing access to the request and authenticated principal
 	APIAuthorizer runtime.Authorizer
 
+	// AutoTranslationHandler sets the operation handler for the auto translation operation
+	AutoTranslationHandler AutoTranslationHandler
 	// CreateCategoryHandler sets the operation handler for the create category operation
 	CreateCategoryHandler CreateCategoryHandler
 	// CreateIdentifierHandler sets the operation handler for the create identifier operation
@@ -248,6 +256,8 @@ type FreonFrontendAPI struct {
 	StatisticHandler StatisticHandler
 	// StatusTranslationHandler sets the operation handler for the status translation operation
 	StatusTranslationHandler StatusTranslationHandler
+	// SupportedLanguagesHandler sets the operation handler for the supported languages operation
+	SupportedLanguagesHandler SupportedLanguagesHandler
 	// UpdateCategoryHandler sets the operation handler for the update category operation
 	UpdateCategoryHandler UpdateCategoryHandler
 	// UpdateIdentifierHandler sets the operation handler for the update identifier operation
@@ -345,6 +355,9 @@ func (o *FreonFrontendAPI) Validate() error {
 		unregistered = append(unregistered, "AuthorizationAuth")
 	}
 
+	if o.AutoTranslationHandler == nil {
+		unregistered = append(unregistered, "AutoTranslationHandler")
+	}
 	if o.CreateCategoryHandler == nil {
 		unregistered = append(unregistered, "CreateCategoryHandler")
 	}
@@ -422,6 +435,9 @@ func (o *FreonFrontendAPI) Validate() error {
 	}
 	if o.StatusTranslationHandler == nil {
 		unregistered = append(unregistered, "StatusTranslationHandler")
+	}
+	if o.SupportedLanguagesHandler == nil {
+		unregistered = append(unregistered, "SupportedLanguagesHandler")
 	}
 	if o.UpdateCategoryHandler == nil {
 		unregistered = append(unregistered, "UpdateCategoryHandler")
@@ -549,6 +565,10 @@ func (o *FreonFrontendAPI) initHandlerCache() {
 	if o.handlers["POST"] == nil {
 		o.handlers["POST"] = make(map[string]http.Handler)
 	}
+	o.handlers["POST"]["/auto-translation"] = NewAutoTranslation(o.context, o.AutoTranslationHandler)
+	if o.handlers["POST"] == nil {
+		o.handlers["POST"] = make(map[string]http.Handler)
+	}
 	o.handlers["POST"]["/category"] = NewCreateCategory(o.context, o.CreateCategoryHandler)
 	if o.handlers["POST"] == nil {
 		o.handlers["POST"] = make(map[string]http.Handler)
@@ -650,6 +670,10 @@ func (o *FreonFrontendAPI) initHandlerCache() {
 		o.handlers["PUT"] = make(map[string]http.Handler)
 	}
 	o.handlers["PUT"]["/translation/{id}/status/{status}"] = NewStatusTranslation(o.context, o.StatusTranslationHandler)
+	if o.handlers["GET"] == nil {
+		o.handlers["GET"] = make(map[string]http.Handler)
+	}
+	o.handlers["GET"]["/supported-languages"] = NewSupportedLanguages(o.context, o.SupportedLanguagesHandler)
 	if o.handlers["PUT"] == nil {
 		o.handlers["PUT"] = make(map[string]http.Handler)
 	}
