@@ -484,3 +484,6 @@ cmd/client
 docs
 badger
 *.go-e
+
+# frontend build folder
+frontend
