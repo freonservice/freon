@@ -10,6 +10,7 @@ require (
 	github.com/dgraph-io/badger/v3 v3.2103.2
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/felixge/httpsnoop v1.0.2
+	github.com/freonservice/libretranslate-sdk v0.0.0-20220107131201-21f7c07073b3
 	github.com/go-openapi/errors v0.20.1
 	github.com/go-openapi/loads v0.21.0
 	github.com/go-openapi/runtime v0.21.0
@@ -33,6 +34,7 @@ require (
 	github.com/stretchr/testify v1.7.0
 	golang.org/x/crypto v0.0.0-20211215153901-e495a2d5b3d3
 	golang.org/x/net v0.0.0-20220107192237-5cfca573fb4d
+	golang.org/x/text v0.3.7
 	google.golang.org/grpc v1.43.0
 	google.golang.org/protobuf v1.27.1
 	gopkg.in/reform.v1 v1.5.1

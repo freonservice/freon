@@ -552,3 +552,39 @@ func errSettingStorage(log Log, err error, code errCode) op.SettingStorageRespon
 		Message: swag.String(msg),
 	})
 }
+
+func errAutoTranslation(log Log, err error, code errCode) op.AutoTranslationResponder { //nolint:dupl
+	if code.status < http.StatusInternalServerError {
+		log.Info("client error", def.LogHTTPStatus, code.status, "code", code.status, "err", err)
+	} else {
+		log.PrintErr("server error", def.LogHTTPStatus, code.status, "code", code.status, "err", err)
+	}
+
+	msg := err.Error()
+	if code.status == http.StatusInternalServerError {
+		msg = internalError
+	}
+
+	return op.NewAutoTranslationDefault(code.status).WithPayload(&model.Error{
+		Code:    swag.Int32(int32(code.status)),
+		Message: swag.String(msg),
+	})
+}
+
+func errSupportedLanguages(log Log, err error, code errCode) op.SupportedLanguagesResponder { //nolint:dupl
+	if code.status < http.StatusInternalServerError {
+		log.Info("client error", def.LogHTTPStatus, code.status, "code", code.status, "err", err)
+	} else {
+		log.PrintErr("server error", def.LogHTTPStatus, code.status, "code", code.status, "err", err)
+	}
+
+	msg := err.Error()
+	if code.status == http.StatusInternalServerError {
+		msg = internalError
+	}
+
+	return op.NewSupportedLanguagesDefault(code.status).WithPayload(&model.Error{
+		Code:    swag.Int32(int32(code.status)),
+		Message: swag.String(msg),
+	})
+}

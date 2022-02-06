@@ -7,9 +7,11 @@ import (
 	"github.com/freonservice/freon/internal/domain"
 	"github.com/freonservice/freon/internal/filter"
 	"github.com/freonservice/freon/internal/storage"
+	iface "github.com/freonservice/freon/internal/translation"
 
 	"github.com/google/uuid"
 	"github.com/jmoiron/sqlx"
+	"golang.org/x/text/language"
 )
 
 type (
@@ -64,6 +66,9 @@ type (
 		GetCurrentSettingState() domain.SettingConfiguration
 		SetTranslationConfiguration(ctx Ctx, data domain.TranslationConfiguration) error
 		SetStorageConfiguration(ctx Ctx, data domain.StorageConfiguration) error
+
+		GetSupportedLanguages(ctx Ctx) ([]iface.Language, error)
+		Translate(ctx Ctx, text string, source, target language.Tag) (string, error)
 
 		HealthCheck(Ctx) (interface{}, error)
 	}
@@ -138,14 +143,12 @@ type (
 		Generate(length int) string
 	}
 
-	Config struct{}
-
 	appl struct {
 		repo        Repo
 		auth        Auth
 		pass        Password
 		settingRepo SettingRepo
-		config      Config
+		translation iface.Translation
 		storage     storage.Storage
 	}
 
@@ -167,17 +170,31 @@ func (a *appl) SetStorageConfiguration(ctx Ctx, data domain.StorageConfiguration
 	return a.settingRepo.SetStorageConfiguration(ctx, data)
 }
 
-func New(repo Repo, auth Auth, pass Password, settingRepo SettingRepo, config Config, dataStorage storage.Storage) Appl {
+func New(repo Repo, auth Auth, pass Password, settingRepo SettingRepo, translation iface.Translation, dataStorage storage.Storage) Appl {
 	return &appl{
 		repo:        repo,
 		auth:        auth,
 		pass:        pass,
 		settingRepo: settingRepo,
-		config:      config,
+		translation: translation,
 		storage:     dataStorage,
 	}
 }
 
 func (a *appl) HealthCheck(_ Ctx) (interface{}, error) {
 	return "OK", nil
+}
+
+func (a *appl) GetSupportedLanguages(ctx Ctx) ([]iface.Language, error) {
+	if a.translation == nil {
+		return nil, ErrAutoTranslation
+	}
+	return a.translation.Languages(ctx)
+}
+
+func (a *appl) Translate(ctx Ctx, text string, source, target language.Tag) (string, error) {
+	if a.settingRepo.GetCurrentSettingState().Translation.Use == 0 {
+		return "", ErrAutoTranslation
+	}
+	return a.translation.Translate(ctx, text, source, target)
 }

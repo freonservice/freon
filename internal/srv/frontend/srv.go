@@ -85,6 +85,8 @@ func NewServer(auth app.Auth, appl app.Appl, cfg Config) (*restapi.Server, error
 	api.SettingsHandler = op.SettingsHandlerFunc(srv.settings)
 	api.SettingTranslationHandler = op.SettingTranslationHandlerFunc(srv.settingTranslation)
 	api.SettingStorageHandler = op.SettingStorageHandlerFunc(srv.settingStorage)
+	api.SupportedLanguagesHandler = op.SupportedLanguagesHandlerFunc(srv.supportedLanguages)
+	api.AutoTranslationHandler = op.AutoTranslationHandlerFunc(srv.autoTranslation)
 
 	server := restapi.NewServer(api)
 	server.Host = cfg.Addr.Host()

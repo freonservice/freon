@@ -16,6 +16,8 @@ import (
 	"github.com/freonservice/freon/internal/storage"
 	"github.com/freonservice/freon/internal/storage/local"
 	"github.com/freonservice/freon/internal/storage/s3"
+	iface "github.com/freonservice/freon/internal/translation"
+	"github.com/freonservice/freon/internal/translation/libra"
 	"github.com/freonservice/freon/internal/utils"
 	"github.com/freonservice/freon/pkg/concurrent"
 	"github.com/freonservice/freon/pkg/freonApi"
@@ -37,6 +39,7 @@ func runServe(repo *dal.Repo, settingRepo *dal.SettingRepo, ctxShutdown Ctx, shu
 	var (
 		err         error
 		dataStorage storage.Storage
+		translation iface.Translation
 
 		srv           = service{}
 		authorization = auth.NewAuth(cfg.jwtSecretPath, repo, log)
@@ -63,7 +66,13 @@ func runServe(repo *dal.Repo, settingRepo *dal.SettingRepo, ctxShutdown Ctx, shu
 		dataStorage = local.NewStorage(cfg.translationFilesFolder, log)
 	}
 
-	appl := app.New(repo, authorization, password.New(), settingRepo, app.Config{}, dataStorage)
+	switch state.Translation.Use {
+	case int32(freonApi.TranslationSource_TRANSLATION_LIBRA):
+		translation = libra.NewLibraTranslation(cfg.libraURL)
+	default:
+	}
+
+	appl := app.New(repo, authorization, password.New(), settingRepo, translation, dataStorage)
 	err = createFirstAdmin(appl)
 	if err != nil {
 		return errors.Wrap(err, "failed create admin")

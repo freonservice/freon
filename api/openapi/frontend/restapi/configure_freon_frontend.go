@@ -49,6 +49,11 @@ func configureAPI(api *op.FreonFrontendAPI) http.Handler {
 	// Example:
 	// api.APIAuthorizer = security.Authorized()
 
+	if api.AutoTranslationHandler == nil {
+		api.AutoTranslationHandler = op.AutoTranslationHandlerFunc(func(params op.AutoTranslationParams, principal *app.UserSession) op.AutoTranslationResponder {
+			return op.AutoTranslationNotImplemented()
+		})
+	}
 	if api.CreateCategoryHandler == nil {
 		api.CreateCategoryHandler = op.CreateCategoryHandlerFunc(func(params op.CreateCategoryParams, principal *app.UserSession) op.CreateCategoryResponder {
 			return op.CreateCategoryNotImplemented()
@@ -177,6 +182,11 @@ func configureAPI(api *op.FreonFrontendAPI) http.Handler {
 	if api.StatusTranslationHandler == nil {
 		api.StatusTranslationHandler = op.StatusTranslationHandlerFunc(func(params op.StatusTranslationParams, principal *app.UserSession) op.StatusTranslationResponder {
 			return op.StatusTranslationNotImplemented()
+		})
+	}
+	if api.SupportedLanguagesHandler == nil {
+		api.SupportedLanguagesHandler = op.SupportedLanguagesHandlerFunc(func(params op.SupportedLanguagesParams, principal *app.UserSession) op.SupportedLanguagesResponder {
+			return op.SupportedLanguagesNotImplemented()
 		})
 	}
 	if api.UpdateCategoryHandler == nil {

@@ -26,4 +26,6 @@ var (
 	codeIdentifierIsExist   = newErrCode(http.StatusConflict, "Identifier is exist")
 	codeCategoryIsExist     = newErrCode(http.StatusConflict, "Category is exist")
 	codePasswordsNotEquals  = newErrCode(http.StatusConflict, "Passwords not equals")
+
+	codeAutoTranslationNotSupported = newErrCode(http.StatusBadRequest, "auto translation not supported")
 )

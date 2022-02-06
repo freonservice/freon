@@ -887,6 +887,62 @@ paths:
         default:
           $ref: '#/responses/Error'
 
+  /supported-languages:
+    get:
+      operationId: supportedLanguages
+      summary: supported-languages
+      security:
+        - JWTBearer: [ ]
+      responses:
+        '200':
+          description: get list of all supported languages
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Language'
+        default:
+          $ref: '#/responses/Error'
+
+  /auto-translation:
+    post:
+      operationId: autoTranslation
+      summary: create auto translation (with libra or other service)
+      security:
+        - JWTBearer: [ ]
+      parameters:
+        - name: args
+          in: body
+          required: true
+          schema:
+            type: object
+            required:
+              - text
+              - source
+              - target
+            properties:
+              text:
+                type: string
+                minLength: 1
+              source:
+                type: string
+                minLength: 2
+              target:
+                type: string
+                minLength: 2
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: object
+            required:
+              - text
+            properties:
+              text:
+                type: string
+                format: string
+        default:
+          $ref: '#/responses/Error'
+
 definitions:
   Error:
     type: object
@@ -1069,6 +1125,18 @@ definitions:
       use:
         type: integer
         format: int32
+
+  Language:
+    type: object
+    required:
+      - code
+      - name
+    properties:
+      code:
+        type: string
+        minLength: 2
+      name:
+        type: string
 
   StorageConfiguration:
     type: object
