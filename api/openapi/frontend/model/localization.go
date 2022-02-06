@@ -25,9 +25,6 @@ type Localization struct {
 	// Required: true
 	CreatedAt *int64 `json:"created_at"`
 
-	// icon
-	Icon string `json:"icon,omitempty"`
-
 	// id
 	// Required: true
 	ID *int64 `json:"id"`
@@ -49,9 +46,6 @@ func (m *Localization) UnmarshalJSON(data []byte) error {
 		// Required: true
 		CreatedAt *int64 `json:"created_at"`
 
-		// icon
-		Icon string `json:"icon,omitempty"`
-
 		// id
 		// Required: true
 		ID *int64 `json:"id"`
@@ -72,7 +66,6 @@ func (m *Localization) UnmarshalJSON(data []byte) error {
 	}
 
 	m.CreatedAt = props.CreatedAt
-	m.Icon = props.Icon
 	m.ID = props.ID
 	m.LangName = props.LangName
 	m.Locale = props.Locale

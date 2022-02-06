@@ -12,7 +12,6 @@ type Localization struct {
 	ID           int64      `reform:"id,pk"`
 	CreatorID    int64      `reform:"creator_id"`
 	Locale       string     `reform:"locale"`
-	Icon         string     `reform:"icon"`
 	LanguageName string     `reform:"lang_name"`
 	Status       int64      `reform:"status"`
 	CreatedAt    time.Time  `reform:"created_at"`

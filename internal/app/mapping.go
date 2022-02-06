@@ -37,7 +37,6 @@ func mappingLocalization(localization *dao.Localization) *domain.Localization {
 		ID:           localization.ID,
 		Locale:       localization.Locale,
 		LanguageName: localization.LanguageName,
-		Icon:         localization.Icon,
 		Status:       localization.Status,
 		CreatedAt:    localization.CreatedAt,
 	}

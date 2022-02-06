@@ -85,17 +85,17 @@ func (mr *MockApplMockRecorder) CreateIdentifier(ctx, creatorID, categoryID, par
 }
 
 // CreateLocalization mocks base method.
-func (m *MockAppl) CreateLocalization(ctx Ctx, creatorID int64, name, code, icon string) error {
+func (m *MockAppl) CreateLocalization(ctx Ctx, creatorID int64, name, code string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "CreateLocalization", ctx, creatorID, name, code, icon)
+	ret := m.ctrl.Call(m, "CreateLocalization", ctx, creatorID, name, code)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // CreateLocalization indicates an expected call of CreateLocalization.
-func (mr *MockApplMockRecorder) CreateLocalization(ctx, creatorID, name, code, icon interface{}) *gomock.Call {
+func (mr *MockApplMockRecorder) CreateLocalization(ctx, creatorID, name, code interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateLocalization", reflect.TypeOf((*MockAppl)(nil).CreateLocalization), ctx, creatorID, name, code, icon)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateLocalization", reflect.TypeOf((*MockAppl)(nil).CreateLocalization), ctx, creatorID, name, code)
 }
 
 // CreateTranslation mocks base method.
@@ -710,18 +710,18 @@ func (mr *MockRepoMockRecorder) CreateIdentifier(ctx, createID, categoryID, pare
 }
 
 // CreateLocalization mocks base method.
-func (m *MockRepo) CreateLocalization(ctx Ctx, creatorID int64, locale, languageName, icon string) (*dao.Localization, error) {
+func (m *MockRepo) CreateLocalization(ctx Ctx, creatorID int64, locale, languageName string) (*dao.Localization, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "CreateLocalization", ctx, creatorID, locale, languageName, icon)
+	ret := m.ctrl.Call(m, "CreateLocalization", ctx, creatorID, locale, languageName)
 	ret0, _ := ret[0].(*dao.Localization)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // CreateLocalization indicates an expected call of CreateLocalization.
-func (mr *MockRepoMockRecorder) CreateLocalization(ctx, creatorID, locale, languageName, icon interface{}) *gomock.Call {
+func (mr *MockRepoMockRecorder) CreateLocalization(ctx, creatorID, locale, languageName interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateLocalization", reflect.TypeOf((*MockRepo)(nil).CreateLocalization), ctx, creatorID, locale, languageName, icon)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateLocalization", reflect.TypeOf((*MockRepo)(nil).CreateLocalization), ctx, creatorID, locale, languageName)
 }
 
 // CreateTranslation mocks base method.

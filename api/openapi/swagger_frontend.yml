@@ -1017,8 +1017,6 @@ definitions:
         type: string
       lang_name:
         type: string
-      icon:
-        type: string
       created_at:
         type: integer
 

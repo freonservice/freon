@@ -37,8 +37,9 @@ func (s *SettingRepo) getSettingTranslateState() error {
 			return err
 		}
 		s.state.Translation = domain.TranslationConfiguration{
-			Auto: data.Auto,
-			Use:  int32(data.Use),
+			Auto:         data.Auto,
+			Use:          int32(data.Use),
+			CodeLanguage: data.CodeLanguage,
 		}
 		return nil
 	})
@@ -47,8 +48,9 @@ func (s *SettingRepo) getSettingTranslateState() error {
 func (s *SettingRepo) SetTranslationConfiguration(ctx Ctx, data domain.TranslationConfiguration) error {
 	return s.DB.Update(func(txn *badger.Txn) error {
 		val := freonApi.TranslationConfiguration{
-			Auto: data.Auto,
-			Use:  freonApi.TranslationSource(data.Use),
+			Auto:         data.Auto,
+			Use:          freonApi.TranslationSource(data.Use),
+			CodeLanguage: data.CodeLanguage,
 		}
 		value, err := proto.Marshal(&val)
 		if err != nil {

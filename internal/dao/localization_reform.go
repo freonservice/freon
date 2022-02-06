@@ -31,7 +31,6 @@ func (v *localizationTableType) Columns() []string {
 		"id",
 		"creator_id",
 		"locale",
-		"icon",
 		"lang_name",
 		"status",
 		"created_at",
@@ -63,7 +62,6 @@ var LocalizationTable = &localizationTableType{
 			{Name: "ID", Type: "int64", Column: "id"},
 			{Name: "CreatorID", Type: "int64", Column: "creator_id"},
 			{Name: "Locale", Type: "string", Column: "locale"},
-			{Name: "Icon", Type: "string", Column: "icon"},
 			{Name: "LanguageName", Type: "string", Column: "lang_name"},
 			{Name: "Status", Type: "int64", Column: "status"},
 			{Name: "CreatedAt", Type: "time.Time", Column: "created_at"},
@@ -76,15 +74,14 @@ var LocalizationTable = &localizationTableType{
 
 // String returns a string representation of this struct or record.
 func (s Localization) String() string {
-	res := make([]string, 8)
+	res := make([]string, 7)
 	res[0] = "ID: " + reform.Inspect(s.ID, true)
 	res[1] = "CreatorID: " + reform.Inspect(s.CreatorID, true)
 	res[2] = "Locale: " + reform.Inspect(s.Locale, true)
-	res[3] = "Icon: " + reform.Inspect(s.Icon, true)
-	res[4] = "LanguageName: " + reform.Inspect(s.LanguageName, true)
-	res[5] = "Status: " + reform.Inspect(s.Status, true)
-	res[6] = "CreatedAt: " + reform.Inspect(s.CreatedAt, true)
-	res[7] = "UpdatedAt: " + reform.Inspect(s.UpdatedAt, true)
+	res[3] = "LanguageName: " + reform.Inspect(s.LanguageName, true)
+	res[4] = "Status: " + reform.Inspect(s.Status, true)
+	res[5] = "CreatedAt: " + reform.Inspect(s.CreatedAt, true)
+	res[6] = "UpdatedAt: " + reform.Inspect(s.UpdatedAt, true)
 	return strings.Join(res, ", ")
 }
 
@@ -95,7 +92,6 @@ func (s *Localization) Values() []interface{} {
 		s.ID,
 		s.CreatorID,
 		s.Locale,
-		s.Icon,
 		s.LanguageName,
 		s.Status,
 		s.CreatedAt,
@@ -110,7 +106,6 @@ func (s *Localization) Pointers() []interface{} {
 		&s.ID,
 		&s.CreatorID,
 		&s.Locale,
-		&s.Icon,
 		&s.LanguageName,
 		&s.Status,
 		&s.CreatedAt,

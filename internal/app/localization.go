@@ -2,8 +2,8 @@ package app
 
 import "github.com/freonservice/freon/internal/domain"
 
-func (a *appl) CreateLocalization(ctx Ctx, creatorID int64, name, code, icon string) error {
-	_, err := a.repo.CreateLocalization(ctx, creatorID, name, code, icon)
+func (a *appl) CreateLocalization(ctx Ctx, creatorID int64, name, code string) error {
+	_, err := a.repo.CreateLocalization(ctx, creatorID, name, code)
 	return err
 }
 

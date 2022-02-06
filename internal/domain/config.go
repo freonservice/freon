@@ -5,11 +5,16 @@ type StorageConfiguration struct {
 }
 
 type TranslationConfiguration struct {
-	Auto bool
-	Use  int32
+	Auto         bool
+	Use          int32
+	CodeLanguage string
 }
 
 type SettingConfiguration struct {
 	Storage     StorageConfiguration
 	Translation TranslationConfiguration
+}
+
+func (t TranslationConfiguration) UseAutoTranslation() bool {
+	return t.Use > 0 && t.Auto
 }

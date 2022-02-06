@@ -12,7 +12,7 @@ import (
 	"gopkg.in/reform.v1"
 )
 
-func (r *Repo) CreateLocalization(ctx Ctx, creatorID int64, locale, languageName, icon string) (*dao.Localization, error) {
+func (r *Repo) CreateLocalization(ctx Ctx, creatorID int64, locale, languageName string) (*dao.Localization, error) {
 	var err error
 	entity := new(dao.Localization)
 	err = r.ReformDB.InTransactionContext(ctx, &sql.TxOptions{}, func(tx *reform.TX) error {
@@ -20,7 +20,6 @@ func (r *Repo) CreateLocalization(ctx Ctx, creatorID int64, locale, languageName
 			CreatorID:    creatorID,
 			Locale:       locale,
 			LanguageName: languageName,
-			Icon:         icon,
 			CreatedAt:    time.Now().UTC(),
 			UpdatedAt:    pointer.ToTime(time.Now().UTC()),
 		}
@@ -82,8 +81,6 @@ func (r *Repo) GetLocalizations(ctx Ctx) ([]*dao.Localization, error) {
 	)
 	if err != nil {
 		return nil, err
-	} else if rows.Err() != nil {
-		return nil, rows.Err()
 	}
 	defer rows.Close()
 
@@ -95,7 +92,10 @@ func (r *Repo) GetLocalizations(ctx Ctx) ([]*dao.Localization, error) {
 		}
 		entities = append(entities, &entity)
 	}
-	if err != reform.ErrNoRows {
+	if rows.Err() != nil {
+		return nil, rows.Err()
+	}
+	if err != nil && err != reform.ErrNoRows {
 		return nil, err
 	}
 	return entities, nil

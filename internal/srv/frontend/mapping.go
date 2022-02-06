@@ -38,13 +38,11 @@ func apiArrayUser(v []*domain.User) []*model.User {
 }
 
 func apiLocalization(v *domain.Localization) *model.Localization {
-	t := v.CreatedAt.UTC().Unix()
 	return &model.Localization{
 		ID:        &v.ID,
 		Locale:    &v.Locale,
 		LangName:  &v.LanguageName,
-		Icon:      v.Icon,
-		CreatedAt: &t,
+		CreatedAt: pointer.ToInt64(v.CreatedAt.UTC().Unix()),
 	}
 }
 

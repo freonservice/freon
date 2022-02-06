@@ -30,7 +30,7 @@ type (
 		UpdateProfile(ctx Ctx, userID int64, email, firstName, secondName string, role, status int64) error
 		GetUsers(ctx Ctx) ([]*domain.User, error)
 
-		CreateLocalization(ctx Ctx, creatorID int64, name, code, icon string) error
+		CreateLocalization(ctx Ctx, creatorID int64, name, code string) error
 		GetLocalizations(ctx Ctx) ([]*domain.Localization, error)
 		DeleteLocalization(ctx Ctx, id int64) error
 
@@ -95,7 +95,7 @@ type (
 		SessionByAccessToken(ctx Ctx, token AccessToken) (*dao.UserSession, error)
 		DeleteSession(ctx Ctx, token AccessToken) error
 
-		CreateLocalization(ctx Ctx, creatorID int64, locale, languageName, icon string) (*dao.Localization, error)
+		CreateLocalization(ctx Ctx, creatorID int64, locale, languageName string) (*dao.Localization, error)
 		GetLocalization(ctx Ctx, id int64) (*dao.Localization, error)
 		GetLocalizations(ctx Ctx) ([]*dao.Localization, error)
 		DeleteLocalization(ctx Ctx, id int64) error
@@ -147,7 +147,7 @@ type (
 		repo        Repo
 		auth        Auth
 		pass        Password
-		settingRepo SettingRepo
+		setting     SettingRepo
 		translation iface.Translation
 		storage     storage.Storage
 	}
@@ -159,23 +159,23 @@ type (
 )
 
 func (a *appl) GetCurrentSettingState() domain.SettingConfiguration {
-	return a.settingRepo.GetCurrentSettingState()
+	return a.setting.GetCurrentSettingState()
 }
 
 func (a *appl) SetTranslationConfiguration(ctx Ctx, data domain.TranslationConfiguration) error {
-	return a.settingRepo.SetTranslationConfiguration(ctx, data)
+	return a.setting.SetTranslationConfiguration(ctx, data)
 }
 
 func (a *appl) SetStorageConfiguration(ctx Ctx, data domain.StorageConfiguration) error {
-	return a.settingRepo.SetStorageConfiguration(ctx, data)
+	return a.setting.SetStorageConfiguration(ctx, data)
 }
 
-func New(repo Repo, auth Auth, pass Password, settingRepo SettingRepo, translation iface.Translation, dataStorage storage.Storage) Appl {
+func New(repo Repo, auth Auth, pass Password, setting SettingRepo, translation iface.Translation, dataStorage storage.Storage) Appl {
 	return &appl{
 		repo:        repo,
 		auth:        auth,
 		pass:        pass,
-		settingRepo: settingRepo,
+		setting:     setting,
 		translation: translation,
 		storage:     dataStorage,
 	}
@@ -193,7 +193,7 @@ func (a *appl) GetSupportedLanguages(ctx Ctx) ([]iface.Language, error) {
 }
 
 func (a *appl) Translate(ctx Ctx, text string, source, target language.Tag) (string, error) {
-	if a.settingRepo.GetCurrentSettingState().Translation.Use == 0 {
+	if a.setting.GetCurrentSettingState().Translation.Use == 0 {
 		return "", ErrAutoTranslation
 	}
 	return a.translation.Translate(ctx, text, source, target)

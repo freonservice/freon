@@ -59,6 +59,10 @@ Command for launch service from docker
 
 ![Translation page](https://github.com/freonservice/freon/blob/master/freon-page.png)
 
+## Architecture
+
+![Architecture](https://github.com/freonservice/freon/blob/master/freon.jpeg)
+
 ## Future features
 
 - [ ] Connection google-translation api for quick **semi**-automation translations

@@ -17,7 +17,6 @@ func (srv *server) createLocalization(params op.CreateLocalizationParams, sessio
 		session.UserID,
 		swag.StringValue(params.Args.Locale),
 		swag.StringValue(params.Args.LangName),
-		params.Args.Icon,
 	)
 	switch errors.Cause(err) {
 	default:

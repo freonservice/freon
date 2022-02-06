@@ -1595,9 +1595,6 @@ func init() {
         "created_at": {
           "type": "integer"
         },
-        "icon": {
-          "type": "string"
-        },
         "id": {
           "type": "integer"
         },
@@ -3494,9 +3491,6 @@ func init() {
       "properties": {
         "created_at": {
           "type": "integer"
-        },
-        "icon": {
-          "type": "string"
         },
         "id": {
           "type": "integer"
