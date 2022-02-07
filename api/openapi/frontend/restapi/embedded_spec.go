@@ -31,7 +31,7 @@ func init() {
   "info": {
     "description": "Frontend Server for rest api",
     "title": "Freon Frontend",
-    "version": "0.0.2"
+    "version": "0.0.3"
   },
   "basePath": "/api/internal",
   "paths": {
@@ -1830,7 +1830,7 @@ func init() {
   "info": {
     "description": "Frontend Server for rest api",
     "title": "Freon Frontend",
-    "version": "0.0.2"
+    "version": "0.0.3"
   },
   "basePath": "/api/internal",
   "paths": {

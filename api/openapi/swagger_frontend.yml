@@ -2,7 +2,7 @@ swagger: '2.0'
 
 info:
   title: Freon Frontend
-  version: 0.0.2
+  version: 0.0.3
   description: Frontend Server for rest api
 basePath: /api/internal
 schemes:

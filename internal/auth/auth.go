@@ -9,7 +9,6 @@ import (
 	"github.com/freonservice/freon/internal/app"
 	"github.com/freonservice/freon/internal/auth/cache"
 	"github.com/freonservice/freon/internal/auth/cache/memory"
-	"github.com/freonservice/freon/internal/config"
 	api "github.com/freonservice/freon/pkg/freonApi"
 
 	"github.com/dgrijalva/jwt-go"
@@ -22,7 +21,7 @@ import (
 const (
 	audienceToken = "freon"
 	issuerToken   = "auth-freon" //nolint:gosec // this is not secret
-	sessionExpire = 10 * time.Second
+	cacheTTL      = 10 * time.Second
 )
 
 var (
@@ -34,6 +33,7 @@ type (
 		storage   cache.Storage
 		repo      app.Repo
 		secretKey []byte
+		expTime   time.Duration
 		logger    *structlog.Logger
 	}
 
@@ -43,11 +43,12 @@ type (
 	}
 )
 
-func NewAuth(secret string, repo app.Repo, logger *structlog.Logger) app.Auth {
+func NewAuth(secret string, repo app.Repo, expTime time.Duration, logger *structlog.Logger) app.Auth {
 	return &auth{
 		secretKey: []byte(secret),
 		repo:      repo,
 		storage:   memory.NewStorage(),
+		expTime:   expTime,
 		logger:    logger,
 	}
 }
@@ -103,7 +104,7 @@ func (a *auth) GenerateAuthToken(uID uuid.UUID) (string, error) {
 	claims := jwt.StandardClaims{
 		Id:        uID.String(),
 		Audience:  audienceToken,
-		ExpiresAt: time.Now().UTC().Add(config.JwtTokenLifetime).Unix(),
+		ExpiresAt: time.Now().UTC().Add(a.expTime).Unix(),
 		IssuedAt:  time.Now().UTC().Unix(),
 		Issuer:    issuerToken,
 	}
@@ -130,7 +131,7 @@ func (a *auth) session(userUUID, token string) (*session, error) {
 	a.storage.Set(userUUID, memory.Item{
 		UserID:     sess.UserID,
 		Status:     sess.User.Status,
-		Expiration: time.Now().UTC().Add(sessionExpire).Unix(),
+		Expiration: time.Now().UTC().Add(cacheTTL).Unix(),
 	})
 
 	return &session{

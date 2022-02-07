@@ -10,7 +10,6 @@ import (
 	dao "github.com/freonservice/freon/internal/dao"
 	domain "github.com/freonservice/freon/internal/domain"
 	filter "github.com/freonservice/freon/internal/filter"
-	translation "github.com/freonservice/freon/internal/translation"
 	gomock "github.com/golang/mock/gomock"
 	uuid "github.com/google/uuid"
 	sqlx "github.com/jmoiron/sqlx"
@@ -286,10 +285,10 @@ func (mr *MockApplMockRecorder) GetStatistic(ctx interface{}) *gomock.Call {
 }
 
 // GetSupportedLanguages mocks base method.
-func (m *MockAppl) GetSupportedLanguages(ctx Ctx) ([]translation.Language, error) {
+func (m *MockAppl) GetSupportedLanguages(ctx Ctx) ([]*domain.Language, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetSupportedLanguages", ctx)
-	ret0, _ := ret[0].([]translation.Language)
+	ret0, _ := ret[0].([]*domain.Language)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -909,6 +908,21 @@ func (m *MockRepo) GetIdentifiers(ctx Ctx, f filter.IdentifierFilter) ([]*dao.Id
 func (mr *MockRepoMockRecorder) GetIdentifiers(ctx, f interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetIdentifiers", reflect.TypeOf((*MockRepo)(nil).GetIdentifiers), ctx, f)
+}
+
+// GetLanguages mocks base method.
+func (m *MockRepo) GetLanguages(ctx Ctx) ([]*dao.Language, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetLanguages", ctx)
+	ret0, _ := ret[0].([]*dao.Language)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetLanguages indicates an expected call of GetLanguages.
+func (mr *MockRepoMockRecorder) GetLanguages(ctx interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetLanguages", reflect.TypeOf((*MockRepo)(nil).GetLanguages), ctx)
 }
 
 // GetLocalization mocks base method.

@@ -42,7 +42,7 @@ func runServe(repo *dal.Repo, settingRepo *dal.SettingRepo, ctxShutdown Ctx, shu
 		translation iface.Translation
 
 		srv           = service{}
-		authorization = auth.NewAuth(cfg.jwtSecretPath, repo, log)
+		authorization = auth.NewAuth(cfg.jwtSecretPath, repo, cfg.jwtExpiration, log)
 		state         = settingRepo.GetCurrentSettingState()
 	)
 

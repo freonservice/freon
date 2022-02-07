@@ -22,8 +22,8 @@ var (
 	DefaultAdminPass  = environ.GetStrEnv("DEFAULT_ADMIN_PASS", "adminpassword")
 
 	// Auth Configuration
-	JwtSecretKey     = environ.MustGetString("JWT_SECRET_KEY")
-	JwtTokenLifetime = environ.GetTimeDurationEnv("JWT_TOKEN_LIFETIME", "24h")
+	JwtSecretKey      = environ.MustGetString("JWT_SECRET_KEY")
+	JwtExpirationTime = environ.GetTimeDurationEnv("JWT_EXPIRATION_TIME", "24h")
 
 	// Postgres DB Configuration
 	DBHost         = environ.MustGetString("DB_HOST")

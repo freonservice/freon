@@ -66,7 +66,7 @@ Command for launch service from docker
 ## Future features
 
 - [ ] Connection google-translation api for quick **semi**-automation translations
-- [ ] Connection [libretranslate api](https://github.com/LibreTranslate/LibreTranslate) for quick semi-automation translations
+- [x] Connection [libretranslate api](https://github.com/LibreTranslate/LibreTranslate) for quick semi-automation translations
 - [x] Generation i18n files for web (.json)
 - [x] Generation android translations (.xml)
 - [x] Generation ios translations (.strings, .stringsdict)
@@ -93,7 +93,7 @@ We try to keep the project clean, so we write tests and use the linter.
 - [Go 1.17.5](https://golang.org/dl/)
 - [MockGen 1.6.0](https://github.com/golang/mock)
 - [Genny](https://github.com/cheekybits/genny)
-- [Swagger 0.27.0](https://github.com/go-swagger/go-swagger)
+- [Swagger 0.29.0](https://github.com/go-swagger/go-swagger)
 - [Protoc 3.19.1](https://grpc.io/docs/protoc-installation/)
 
 ## License

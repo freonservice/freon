@@ -46,6 +46,7 @@ var (
 		migrationPath          string
 		badgerPath             string
 		jwtSecretPath          string
+		jwtExpiration          time.Duration
 		translationFilesFolder string
 		libraURL               string
 		defaultLanguage        string
@@ -89,6 +90,7 @@ func Init() {
 	flag.StringVar(&cfg.migrationPath, "migration.path", config.MigrationPath, "migration path cant be empty")
 	flag.StringVar(&cfg.badgerPath, "badger.path", config.BadgerPath, "badger path cant be empty")
 	flag.StringVar(&cfg.jwtSecretPath, "jwt_secret_path", config.JwtSecretKey, "jwt secret path cant be empty")
+	flag.DurationVar(&cfg.jwtExpiration, "jwt_expiration_time", config.JwtExpirationTime, "jwt expiration time")
 	flag.StringVar(&adminCred.email, "admin.email", config.DefaultAdminEmail, "admin email cant be empty")
 	flag.StringVar(&adminCred.password, "admin.password", config.DefaultAdminPass, "admin password cant be empty")
 	flag.StringVar(&cfg.translationFilesFolder, "translation.folders", config.TranslationFilesPath, "translation files folder")

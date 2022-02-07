@@ -67,14 +67,12 @@ func recovery(next http.Handler) http.Handler {
 	})
 }
 
-func makeAccessLog() middlewareFunc {
+func makeHTTPErrorLog() middlewareFunc {
 	return func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			m := httpsnoop.CaptureMetrics(next, w, r)
 			log := structlog.FromContext(r.Context(), nil)
-			if m.Code < http.StatusInternalServerError {
-				log.Info("handled", def.LogHTTPStatus, m.Code, "Method", r.Method, "URL", r.URL.Path)
-			} else {
+			if m.Code >= http.StatusInternalServerError {
 				log.PrintErr("failed to handle", def.LogHTTPStatus, m.Code, "Method", r.Method, "URL", r.URL.Path)
 			}
 		})

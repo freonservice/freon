@@ -1,6 +1,8 @@
 package domain
 
-import "time"
+import (
+	"time"
+)
 
 type User struct {
 	ID         int64
@@ -115,4 +117,9 @@ type Version struct {
 	Locale         string
 	LangName       string
 	LocalizationID int64
+}
+
+type Language struct {
+	Name string
+	Code string
 }

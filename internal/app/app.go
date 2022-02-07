@@ -8,6 +8,7 @@ import (
 	"github.com/freonservice/freon/internal/filter"
 	"github.com/freonservice/freon/internal/storage"
 	iface "github.com/freonservice/freon/internal/translation"
+	"github.com/freonservice/freon/pkg/freonApi"
 
 	"github.com/google/uuid"
 	"github.com/jmoiron/sqlx"
@@ -68,7 +69,7 @@ type (
 		SetTranslationConfiguration(ctx Ctx, data domain.TranslationConfiguration) error
 		SetStorageConfiguration(ctx Ctx, data domain.StorageConfiguration) error
 
-		GetSupportedLanguages(ctx Ctx) ([]iface.Language, error)
+		GetSupportedLanguages(ctx Ctx) ([]*domain.Language, error)
 		Translate(ctx Ctx, text string, source, target language.Tag) (string, error)
 
 		HealthCheck(Ctx) (interface{}, error)
@@ -131,6 +132,8 @@ type (
 		GetStatistic(ctx Ctx) (*dao.Statistic, error)
 		GetVersionFromTranslationFiles(ctx Ctx, f filter.VersionTranslationFilesFilter) ([]*dao.Version, error)
 		GetVersionFromTranslations(ctx Ctx, f filter.VersionTranslationsFilter) ([]*dao.Version, error)
+
+		GetLanguages(ctx Ctx) ([]*dao.Language, error)
 	}
 
 	SettingRepo interface {
@@ -191,11 +194,17 @@ func (a *appl) HealthCheck(_ Ctx) (interface{}, error) {
 	return "OK", nil
 }
 
-func (a *appl) GetSupportedLanguages(ctx Ctx) ([]iface.Language, error) {
-	if a.translation == nil {
-		return nil, ErrAutoTranslation
+func (a *appl) GetSupportedLanguages(ctx Ctx) ([]*domain.Language, error) {
+	switch a.setting.GetCurrentSettingState().Translation.Use {
+	case int32(freonApi.TranslationSource_TRANSLATION_LIBRA):
+		return a.translation.Languages(ctx)
+	default:
 	}
-	return a.translation.Languages(ctx)
+	languages, err := a.repo.GetLanguages(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return mappingArrayLanguages(languages), nil
 }
 
 func (a *appl) Translate(ctx Ctx, text string, source, target language.Tag) (string, error) {

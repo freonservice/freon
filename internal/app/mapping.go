@@ -195,3 +195,14 @@ func apiArrayVersion(v []*dao.Version) []*domain.Version {
 	}
 	return d
 }
+
+func mappingArrayLanguages(languages []*dao.Language) []*domain.Language {
+	d := make([]*domain.Language, len(languages))
+	for i := range languages {
+		d[i] = &domain.Language{
+			Name: languages[i].Name,
+			Code: languages[i].Locale,
+		}
+	}
+	return d
+}
