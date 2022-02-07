@@ -389,7 +389,9 @@ paths:
                 type: integer
               description:
                 type: string
-              example_text:
+              text_singular:
+                type: string
+              text_plural:
                 type: string
               platforms:
                 type: array
@@ -467,7 +469,9 @@ paths:
                 type: integer
               description:
                 type: string
-              example_text:
+              text_singular:
+                type: string
+              text_plural:
                 type: string
               platforms:
                 type: array
@@ -840,6 +844,9 @@ paths:
               use:
                 type: integer
                 format: int32
+              main_language:
+                type: string
+                minLength: 2
       responses:
         '204': { $ref: '#/responses/NoContent' }
         default:
@@ -1035,7 +1042,9 @@ definitions:
         maxLength: 255
       description:
         type: string
-      example_text:
+      text_singular:
+        type: string
+      text_plural:
         type: string
       category:
         $ref: '#/definitions/Category'
@@ -1117,12 +1126,15 @@ definitions:
     required:
       - auto
       - use
+      - main_language
     properties:
       auto:
         type: boolean
       use:
         type: integer
         format: int32
+      main_language:
+        type: string
 
   Language:
     type: object

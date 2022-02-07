@@ -275,9 +275,6 @@ func init() {
                 "description": {
                   "type": "string"
                 },
-                "example_text": {
-                  "type": "string"
-                },
                 "name": {
                   "type": "string",
                   "maxLength": 255,
@@ -291,6 +288,12 @@ func init() {
                   "items": {
                     "type": "string"
                   }
+                },
+                "text_plural": {
+                  "type": "string"
+                },
+                "text_singular": {
+                  "type": "string"
                 }
               }
             }
@@ -339,9 +342,6 @@ func init() {
                 "description": {
                   "type": "string"
                 },
-                "example_text": {
-                  "type": "string"
-                },
                 "name": {
                   "type": "string",
                   "maxLength": 255,
@@ -355,6 +355,12 @@ func init() {
                   "items": {
                     "type": "string"
                   }
+                },
+                "text_plural": {
+                  "type": "string"
+                },
+                "text_singular": {
+                  "type": "string"
                 }
               }
             }
@@ -712,6 +718,10 @@ func init() {
               "properties": {
                 "auto": {
                   "type": "boolean"
+                },
+                "main_language": {
+                  "type": "string",
+                  "minLength": 2
                 },
                 "use": {
                   "type": "integer",
@@ -1524,9 +1534,6 @@ func init() {
         "description": {
           "type": "string"
         },
-        "example_text": {
-          "type": "string"
-        },
         "id": {
           "type": "integer"
         },
@@ -1541,6 +1548,12 @@ func init() {
           "items": {
             "type": "string"
           }
+        },
+        "text_plural": {
+          "type": "string"
+        },
+        "text_singular": {
+          "type": "string"
         }
       }
     },
@@ -1655,11 +1668,15 @@ func init() {
       "type": "object",
       "required": [
         "auto",
-        "use"
+        "use",
+        "main_language"
       ],
       "properties": {
         "auto": {
           "type": "boolean"
+        },
+        "main_language": {
+          "type": "string"
         },
         "use": {
           "type": "integer",
@@ -2075,9 +2092,6 @@ func init() {
                 "description": {
                   "type": "string"
                 },
-                "example_text": {
-                  "type": "string"
-                },
                 "name": {
                   "type": "string",
                   "maxLength": 255,
@@ -2091,6 +2105,12 @@ func init() {
                   "items": {
                     "type": "string"
                   }
+                },
+                "text_plural": {
+                  "type": "string"
+                },
+                "text_singular": {
+                  "type": "string"
                 }
               }
             }
@@ -2142,9 +2162,6 @@ func init() {
                 "description": {
                   "type": "string"
                 },
-                "example_text": {
-                  "type": "string"
-                },
                 "name": {
                   "type": "string",
                   "maxLength": 255,
@@ -2158,6 +2175,12 @@ func init() {
                   "items": {
                     "type": "string"
                   }
+                },
+                "text_plural": {
+                  "type": "string"
+                },
+                "text_singular": {
+                  "type": "string"
                 }
               }
             }
@@ -2545,6 +2568,10 @@ func init() {
               "properties": {
                 "auto": {
                   "type": "boolean"
+                },
+                "main_language": {
+                  "type": "string",
+                  "minLength": 2
                 },
                 "use": {
                   "type": "integer",
@@ -3410,9 +3437,6 @@ func init() {
         "description": {
           "type": "string"
         },
-        "example_text": {
-          "type": "string"
-        },
         "id": {
           "type": "integer"
         },
@@ -3427,6 +3451,12 @@ func init() {
           "items": {
             "type": "string"
           }
+        },
+        "text_plural": {
+          "type": "string"
+        },
+        "text_singular": {
+          "type": "string"
         }
       }
     },
@@ -3598,11 +3628,15 @@ func init() {
       "type": "object",
       "required": [
         "auto",
-        "use"
+        "use",
+        "main_language"
       ],
       "properties": {
         "auto": {
           "type": "boolean"
+        },
+        "main_language": {
+          "type": "string"
         },
         "use": {
           "type": "integer",

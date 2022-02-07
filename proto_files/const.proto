@@ -47,7 +47,7 @@ enum TranslationSource {
 message TranslationConfiguration {
   bool Auto = 1;
   TranslationSource Use = 2;
-  string CodeLanguage = 3;
+  string MainLanguage = 3;
 }
 
 message StorageConfiguration {

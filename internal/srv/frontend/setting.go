@@ -14,8 +14,9 @@ func (srv *server) settings(params op.SettingsParams, session *app.UserSession) 
 	state := srv.app.GetCurrentSettingState()
 	return op.NewSettingsOK().WithPayload(&op.SettingsOKBody{
 		Translation: &model.TranslationConfiguration{
-			Auto: pointer.ToBool(state.Translation.Auto),
-			Use:  pointer.ToInt32(state.Translation.Use),
+			Auto:         pointer.ToBool(state.Translation.Auto),
+			Use:          pointer.ToInt32(state.Translation.Use),
+			MainLanguage: pointer.ToString(state.Translation.MainLanguage),
 		},
 		Storage: &model.StorageConfiguration{
 			Use: pointer.ToInt32(state.Storage.Use),
@@ -26,8 +27,9 @@ func (srv *server) settings(params op.SettingsParams, session *app.UserSession) 
 func (srv *server) settingTranslation(params op.SettingTranslationParams, session *app.UserSession) op.SettingTranslationResponder {
 	ctx, log := fromRequest(params.HTTPRequest, session)
 	err := srv.app.SetTranslationConfiguration(ctx, domain.TranslationConfiguration{
-		Auto: params.Args.Auto,
-		Use:  params.Args.Use,
+		Auto:         params.Args.Auto,
+		Use:          params.Args.Use,
+		MainLanguage: params.Args.MainLanguage,
 	})
 	switch errors.Cause(err) {
 	default:

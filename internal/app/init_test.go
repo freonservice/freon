@@ -4,6 +4,7 @@ import (
 	"testing"
 
 	"github.com/golang/mock/gomock"
+	"github.com/powerman/structlog"
 	_ "github.com/smartystreets/goconvey/convey"
 )
 
@@ -16,6 +17,6 @@ func testNew(t *testing.T) (func(), Appl, *MockRepo, *MockAuth, *MockPassword) {
 	mockSettingRepo := NewMockSettingRepo(ctrl)
 	mockStorage := NewMockStorage(ctrl)
 
-	a := New(mockRepo, mockAuth, mockPassword, mockSettingRepo, nil, mockStorage)
+	a := New(mockRepo, mockAuth, mockPassword, mockSettingRepo, nil, mockStorage, structlog.New())
 	return ctrl.Finish, a, mockRepo, mockAuth, mockPassword
 }

@@ -23,7 +23,8 @@ func (srv *server) createIdentifier( //nolint:dupl
 		params.Args.ParentID,
 		swag.StringValue(params.Args.Name),
 		params.Args.Description,
-		params.Args.ExampleText,
+		params.Args.TextSingular,
+		params.Args.TextPlural,
 		params.Args.Platforms,
 	)
 	switch errors.Cause(err) {
@@ -86,7 +87,8 @@ func (srv *server) updateIdentifier( //nolint:dupl
 		params.Args.ParentID,
 		swag.StringValue(params.Args.Name),
 		params.Args.Description,
-		params.Args.ExampleText,
+		params.Args.TextSingular,
+		params.Args.TextPlural,
 		params.Args.Platforms,
 	)
 	switch errors.Cause(err) {

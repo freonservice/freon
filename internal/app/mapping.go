@@ -52,14 +52,15 @@ func mappingArrayLocalization(localizations []*dao.Localization) []*domain.Local
 
 func mappingIdentifier(identifier *dao.Identifier) *domain.Identifier {
 	i := &domain.Identifier{
-		ID:          identifier.ID,
-		Name:        identifier.Name,
-		Description: identifier.Description.String,
-		ExampleText: identifier.ExampleText.String,
-		Status:      identifier.Status,
-		Platforms:   []string{},
-		NamedList:   []string{},
-		CreatedAt:   identifier.CreatedAt,
+		ID:           identifier.ID,
+		Name:         identifier.Name,
+		Description:  identifier.Description.String,
+		TextSingular: identifier.TextSingular.String,
+		TextPlural:   identifier.TextPlural.String,
+		Status:       identifier.Status,
+		Platforms:    []string{},
+		NamedList:    []string{},
+		CreatedAt:    identifier.CreatedAt,
 	}
 	if len(identifier.Platforms) > 0 {
 		i.Platforms = strings.Split(identifier.Platforms, ",")
@@ -97,7 +98,7 @@ func mappingArrayCategory(categories []*dao.Category) []*domain.Category {
 func mappingTranslation(translation *dao.Translation) *domain.Translation {
 	entity := &domain.Translation{
 		ID:        translation.ID,
-		Singular:  translation.Singular,
+		Singular:  translation.Singular.String,
 		Plural:    translation.Plural.String,
 		Status:    translation.Status,
 		CreatedAt: translation.CreatedAt,

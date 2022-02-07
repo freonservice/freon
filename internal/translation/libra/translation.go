@@ -3,6 +3,7 @@ package libra
 import (
 	"context"
 	"log"
+	"time"
 
 	iface "github.com/freonservice/freon/internal/translation"
 	libra "github.com/freonservice/libretranslate-sdk"
@@ -15,9 +16,9 @@ type translation struct {
 	client libra.Client
 }
 
-func NewLibraTranslation(apiURL string) iface.Translation {
+func NewLibraTranslation(apiURL string, timeout time.Duration) iface.Translation {
 	return &translation{
-		client: libra.NewLibreTranslate(apiURL),
+		client: libra.NewLibreTranslate(apiURL).SetConnTimeout(timeout),
 	}
 }
 

@@ -15,6 +15,7 @@ var (
 	TranslationFilesPath  = environ.GetStrEnv("TRANSLATION_FILES_PATH", "")
 	CPULimit              = environ.GetIntEnv("CPU_LIMIT", -1)
 	LibraURL              = environ.GetStrEnv("LIBRA_API_URL", "http://127.0.0.1:5000")
+	DefaultLanguage       = environ.GetStrEnv("DEFAULT_LANGUAGE", "en")
 
 	// Default Admin User
 	DefaultAdminEmail = environ.GetStrEnv("DEFAULT_ADMIN_EMAIL", "admin@admin.com")

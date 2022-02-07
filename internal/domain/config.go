@@ -7,7 +7,7 @@ type StorageConfiguration struct {
 type TranslationConfiguration struct {
 	Auto         bool
 	Use          int32
-	CodeLanguage string
+	MainLanguage string // main language using like source for translations
 }
 
 type SettingConfiguration struct {

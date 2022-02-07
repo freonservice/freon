@@ -40,7 +40,7 @@ type SettingRepo struct {
 	state domain.SettingConfiguration
 }
 
-func NewSettingRepo(path string) (*SettingRepo, error) {
+func NewSettingRepo(path, defaultLanguage string) (*SettingRepo, error) {
 	r := &SettingRepo{}
 	var err error
 
@@ -52,6 +52,10 @@ func NewSettingRepo(path string) (*SettingRepo, error) {
 	err = r.getSettingTranslateState()
 	if err != nil {
 		return nil, err
+	}
+
+	if r.state.Translation.MainLanguage == "" {
+		r.state.Translation.MainLanguage = defaultLanguage
 	}
 
 	err = r.getSettingStorageState()

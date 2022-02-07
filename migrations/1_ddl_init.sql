@@ -33,7 +33,6 @@ create table if not exists public.localizations
     locale     varchar(10)  not null,
     lang_name  varchar(100) not null,
     status     smallint     not null       default 0,
-    icon       text,
     created_at timestamp without time zone default (now() at time zone 'utc'),
     updated_at timestamp without time zone
 );
@@ -54,21 +53,22 @@ create unique index if not exists categories_name_uindex
 
 create table if not exists public.identifiers
 (
-    id           SERIAL PRIMARY KEY,
-    creator_id   integer
+    id            SERIAL PRIMARY KEY,
+    creator_id    integer
         constraint identifiers_users_user_id_fk
             references public.users,
-    category_id  integer
+    category_id   integer
         constraint identifiers_categories_category_id_fk
             references public.categories on delete set null default null,
-    parent_path  ltree,
-    name         varchar(255) not null,
-    description  text,
-    example_text text,
-    status       smallint     not null                      default 0,
-    platforms    varchar(255),
-    created_at   timestamp without time zone                default (now() at time zone 'utc'),
-    updated_at   timestamp without time zone
+    parent_path   ltree,
+    name          varchar(255) not null,
+    description   text,
+    text_singular text,
+    text_plural   text,
+    status        smallint     not null                     default 0,
+    platforms     varchar(255),
+    created_at    timestamp without time zone               default (now() at time zone 'utc'),
+    updated_at    timestamp without time zone
 );
 
 create unique index if not exists identifiers_name_uindex
@@ -100,7 +100,7 @@ create table if not exists public.translations
     creator_id      integer
         constraint translations_users_creator_id_fk
             references public.users,
-    singular        text     not null,
+    singular        text,
     plural          text,
     status          smallint not null           default 0,
     created_at      timestamp without time zone default (now() at time zone 'utc'),

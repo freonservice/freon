@@ -29,10 +29,11 @@ func (v *identifierTableType) Name() string {
 func (v *identifierTableType) Columns() []string {
 	return []string{
 		"id",
-		"parent_path",
 		"name",
+		"parent_path",
 		"description",
-		"example_text",
+		"text_singular",
+		"text_plural",
 		"creator_id",
 		"category_id",
 		"status",
@@ -64,10 +65,11 @@ var IdentifierTable = &identifierTableType{
 		SQLName: "identifiers",
 		Fields: []parse.FieldInfo{
 			{Name: "ID", Type: "int64", Column: "id"},
-			{Name: "ParentPath", Type: "string", Column: "parent_path"},
 			{Name: "Name", Type: "string", Column: "name"},
+			{Name: "ParentPath", Type: "string", Column: "parent_path"},
 			{Name: "Description", Type: "sql.NullString", Column: "description"},
-			{Name: "ExampleText", Type: "sql.NullString", Column: "example_text"},
+			{Name: "TextSingular", Type: "sql.NullString", Column: "text_singular"},
+			{Name: "TextPlural", Type: "sql.NullString", Column: "text_plural"},
 			{Name: "CreatorID", Type: "int64", Column: "creator_id"},
 			{Name: "CategoryID", Type: "sql.NullInt64", Column: "category_id"},
 			{Name: "Status", Type: "int64", Column: "status"},
@@ -82,18 +84,19 @@ var IdentifierTable = &identifierTableType{
 
 // String returns a string representation of this struct or record.
 func (s Identifier) String() string {
-	res := make([]string, 11)
+	res := make([]string, 12)
 	res[0] = "ID: " + reform.Inspect(s.ID, true)
-	res[1] = "ParentPath: " + reform.Inspect(s.ParentPath, true)
-	res[2] = "Name: " + reform.Inspect(s.Name, true)
+	res[1] = "Name: " + reform.Inspect(s.Name, true)
+	res[2] = "ParentPath: " + reform.Inspect(s.ParentPath, true)
 	res[3] = "Description: " + reform.Inspect(s.Description, true)
-	res[4] = "ExampleText: " + reform.Inspect(s.ExampleText, true)
-	res[5] = "CreatorID: " + reform.Inspect(s.CreatorID, true)
-	res[6] = "CategoryID: " + reform.Inspect(s.CategoryID, true)
-	res[7] = "Status: " + reform.Inspect(s.Status, true)
-	res[8] = "Platforms: " + reform.Inspect(s.Platforms, true)
-	res[9] = "CreatedAt: " + reform.Inspect(s.CreatedAt, true)
-	res[10] = "UpdatedAt: " + reform.Inspect(s.UpdatedAt, true)
+	res[4] = "TextSingular: " + reform.Inspect(s.TextSingular, true)
+	res[5] = "TextPlural: " + reform.Inspect(s.TextPlural, true)
+	res[6] = "CreatorID: " + reform.Inspect(s.CreatorID, true)
+	res[7] = "CategoryID: " + reform.Inspect(s.CategoryID, true)
+	res[8] = "Status: " + reform.Inspect(s.Status, true)
+	res[9] = "Platforms: " + reform.Inspect(s.Platforms, true)
+	res[10] = "CreatedAt: " + reform.Inspect(s.CreatedAt, true)
+	res[11] = "UpdatedAt: " + reform.Inspect(s.UpdatedAt, true)
 	return strings.Join(res, ", ")
 }
 
@@ -102,10 +105,11 @@ func (s Identifier) String() string {
 func (s *Identifier) Values() []interface{} {
 	return []interface{}{
 		s.ID,
-		s.ParentPath,
 		s.Name,
+		s.ParentPath,
 		s.Description,
-		s.ExampleText,
+		s.TextSingular,
+		s.TextPlural,
 		s.CreatorID,
 		s.CategoryID,
 		s.Status,
@@ -120,10 +124,11 @@ func (s *Identifier) Values() []interface{} {
 func (s *Identifier) Pointers() []interface{} {
 	return []interface{}{
 		&s.ID,
-		&s.ParentPath,
 		&s.Name,
+		&s.ParentPath,
 		&s.Description,
-		&s.ExampleText,
+		&s.TextSingular,
+		&s.TextPlural,
 		&s.CreatorID,
 		&s.CategoryID,
 		&s.Status,

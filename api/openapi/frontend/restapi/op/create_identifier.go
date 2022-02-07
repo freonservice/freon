@@ -88,9 +88,6 @@ type CreateIdentifierBody struct {
 	// description
 	Description string `json:"description,omitempty"`
 
-	// example text
-	ExampleText string `json:"example_text,omitempty"`
-
 	// name
 	// Required: true
 	// Max Length: 255
@@ -102,6 +99,12 @@ type CreateIdentifierBody struct {
 
 	// platforms
 	Platforms []string `json:"platforms"`
+
+	// text plural
+	TextPlural string `json:"text_plural,omitempty"`
+
+	// text singular
+	TextSingular string `json:"text_singular,omitempty"`
 }
 
 // UnmarshalJSON unmarshals this object while disallowing additional properties from JSON
@@ -114,9 +117,6 @@ func (o *CreateIdentifierBody) UnmarshalJSON(data []byte) error {
 		// description
 		Description string `json:"description,omitempty"`
 
-		// example text
-		ExampleText string `json:"example_text,omitempty"`
-
 		// name
 		// Required: true
 		// Max Length: 255
@@ -128,6 +128,12 @@ func (o *CreateIdentifierBody) UnmarshalJSON(data []byte) error {
 
 		// platforms
 		Platforms []string `json:"platforms"`
+
+		// text plural
+		TextPlural string `json:"text_plural,omitempty"`
+
+		// text singular
+		TextSingular string `json:"text_singular,omitempty"`
 	}
 
 	dec := json.NewDecoder(bytes.NewReader(data))
@@ -138,10 +144,11 @@ func (o *CreateIdentifierBody) UnmarshalJSON(data []byte) error {
 
 	o.CategoryID = props.CategoryID
 	o.Description = props.Description
-	o.ExampleText = props.ExampleText
 	o.Name = props.Name
 	o.ParentID = props.ParentID
 	o.Platforms = props.Platforms
+	o.TextPlural = props.TextPlural
+	o.TextSingular = props.TextSingular
 	return nil
 }
 
