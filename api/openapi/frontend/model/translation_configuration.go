@@ -25,6 +25,10 @@ type TranslationConfiguration struct {
 	// Required: true
 	Auto *bool `json:"auto"`
 
+	// main language
+	// Required: true
+	MainLanguage *string `json:"main_language"`
+
 	// use
 	// Required: true
 	Use *int32 `json:"use"`
@@ -38,6 +42,10 @@ func (m *TranslationConfiguration) UnmarshalJSON(data []byte) error {
 		// Required: true
 		Auto *bool `json:"auto"`
 
+		// main language
+		// Required: true
+		MainLanguage *string `json:"main_language"`
+
 		// use
 		// Required: true
 		Use *int32 `json:"use"`
@@ -50,6 +58,7 @@ func (m *TranslationConfiguration) UnmarshalJSON(data []byte) error {
 	}
 
 	m.Auto = props.Auto
+	m.MainLanguage = props.MainLanguage
 	m.Use = props.Use
 	return nil
 }
@@ -59,6 +68,10 @@ func (m *TranslationConfiguration) Validate(formats strfmt.Registry) error {
 	var res []error
 
 	if err := m.validateAuto(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validateMainLanguage(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -75,6 +88,15 @@ func (m *TranslationConfiguration) Validate(formats strfmt.Registry) error {
 func (m *TranslationConfiguration) validateAuto(formats strfmt.Registry) error {
 
 	if err := validate.Required("auto", "body", m.Auto); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (m *TranslationConfiguration) validateMainLanguage(formats strfmt.Registry) error {
+
+	if err := validate.Required("main_language", "body", m.MainLanguage); err != nil {
 		return err
 	}
 

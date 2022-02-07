@@ -26,7 +26,7 @@ func (srv *server) supportedLanguages(params op.SupportedLanguagesParams, sessio
 	for i := range languages {
 		l[i] = &model.Language{
 			Name: pointer.ToString(languages[i].Name),
-			Code: pointer.ToString(languages[i].Code.String()),
+			Code: pointer.ToString(languages[i].Code),
 		}
 	}
 

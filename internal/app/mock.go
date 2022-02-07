@@ -10,7 +10,6 @@ import (
 	dao "github.com/freonservice/freon/internal/dao"
 	domain "github.com/freonservice/freon/internal/domain"
 	filter "github.com/freonservice/freon/internal/filter"
-	translation "github.com/freonservice/freon/internal/translation"
 	gomock "github.com/golang/mock/gomock"
 	uuid "github.com/google/uuid"
 	sqlx "github.com/jmoiron/sqlx"
@@ -71,17 +70,17 @@ func (mr *MockApplMockRecorder) CreateCategory(ctx, name interface{}) *gomock.Ca
 }
 
 // CreateIdentifier mocks base method.
-func (m *MockAppl) CreateIdentifier(ctx Ctx, creatorID, categoryID, parentID int64, name, description, exampleText string, platforms []string) error {
+func (m *MockAppl) CreateIdentifier(ctx Ctx, creatorID, categoryID, parentID int64, name, description, textSingular, textPlural string, platforms []string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "CreateIdentifier", ctx, creatorID, categoryID, parentID, name, description, exampleText, platforms)
+	ret := m.ctrl.Call(m, "CreateIdentifier", ctx, creatorID, categoryID, parentID, name, description, textSingular, textPlural, platforms)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // CreateIdentifier indicates an expected call of CreateIdentifier.
-func (mr *MockApplMockRecorder) CreateIdentifier(ctx, creatorID, categoryID, parentID, name, description, exampleText, platforms interface{}) *gomock.Call {
+func (mr *MockApplMockRecorder) CreateIdentifier(ctx, creatorID, categoryID, parentID, name, description, textSingular, textPlural, platforms interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateIdentifier", reflect.TypeOf((*MockAppl)(nil).CreateIdentifier), ctx, creatorID, categoryID, parentID, name, description, exampleText, platforms)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateIdentifier", reflect.TypeOf((*MockAppl)(nil).CreateIdentifier), ctx, creatorID, categoryID, parentID, name, description, textSingular, textPlural, platforms)
 }
 
 // CreateLocalization mocks base method.
@@ -286,10 +285,10 @@ func (mr *MockApplMockRecorder) GetStatistic(ctx interface{}) *gomock.Call {
 }
 
 // GetSupportedLanguages mocks base method.
-func (m *MockAppl) GetSupportedLanguages(ctx Ctx) ([]translation.Language, error) {
+func (m *MockAppl) GetSupportedLanguages(ctx Ctx) ([]*domain.Language, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetSupportedLanguages", ctx)
-	ret0, _ := ret[0].([]translation.Language)
+	ret0, _ := ret[0].([]*domain.Language)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -522,17 +521,17 @@ func (mr *MockApplMockRecorder) UpdateCategory(ctx, id, name interface{}) *gomoc
 }
 
 // UpdateIdentifier mocks base method.
-func (m *MockAppl) UpdateIdentifier(ctx Ctx, id, categoryID, parentID int64, name, description, exampleText string, platforms []string) error {
+func (m *MockAppl) UpdateIdentifier(ctx Ctx, id, categoryID, parentID int64, name, description, textSingular, textPlural string, platforms []string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "UpdateIdentifier", ctx, id, categoryID, parentID, name, description, exampleText, platforms)
+	ret := m.ctrl.Call(m, "UpdateIdentifier", ctx, id, categoryID, parentID, name, description, textSingular, textPlural, platforms)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // UpdateIdentifier indicates an expected call of UpdateIdentifier.
-func (mr *MockApplMockRecorder) UpdateIdentifier(ctx, id, categoryID, parentID, name, description, exampleText, platforms interface{}) *gomock.Call {
+func (mr *MockApplMockRecorder) UpdateIdentifier(ctx, id, categoryID, parentID, name, description, textSingular, textPlural, platforms interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateIdentifier", reflect.TypeOf((*MockAppl)(nil).UpdateIdentifier), ctx, id, categoryID, parentID, name, description, exampleText, platforms)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateIdentifier", reflect.TypeOf((*MockAppl)(nil).UpdateIdentifier), ctx, id, categoryID, parentID, name, description, textSingular, textPlural, platforms)
 }
 
 // UpdatePassword mocks base method.
@@ -696,17 +695,18 @@ func (mr *MockRepoMockRecorder) CreateCategory(ctx, name interface{}) *gomock.Ca
 }
 
 // CreateIdentifier mocks base method.
-func (m *MockRepo) CreateIdentifier(ctx Ctx, createID, categoryID, parentID int64, name, description, exampleText, platforms string) error {
+func (m *MockRepo) CreateIdentifier(ctx Ctx, createID, categoryID, parentID int64, name, description, textSingular, textPlural, platforms string) (int64, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "CreateIdentifier", ctx, createID, categoryID, parentID, name, description, exampleText, platforms)
-	ret0, _ := ret[0].(error)
-	return ret0
+	ret := m.ctrl.Call(m, "CreateIdentifier", ctx, createID, categoryID, parentID, name, description, textSingular, textPlural, platforms)
+	ret0, _ := ret[0].(int64)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
 }
 
 // CreateIdentifier indicates an expected call of CreateIdentifier.
-func (mr *MockRepoMockRecorder) CreateIdentifier(ctx, createID, categoryID, parentID, name, description, exampleText, platforms interface{}) *gomock.Call {
+func (mr *MockRepoMockRecorder) CreateIdentifier(ctx, createID, categoryID, parentID, name, description, textSingular, textPlural, platforms interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateIdentifier", reflect.TypeOf((*MockRepo)(nil).CreateIdentifier), ctx, createID, categoryID, parentID, name, description, exampleText, platforms)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateIdentifier", reflect.TypeOf((*MockRepo)(nil).CreateIdentifier), ctx, createID, categoryID, parentID, name, description, textSingular, textPlural, platforms)
 }
 
 // CreateLocalization mocks base method.
@@ -908,6 +908,21 @@ func (m *MockRepo) GetIdentifiers(ctx Ctx, f filter.IdentifierFilter) ([]*dao.Id
 func (mr *MockRepoMockRecorder) GetIdentifiers(ctx, f interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetIdentifiers", reflect.TypeOf((*MockRepo)(nil).GetIdentifiers), ctx, f)
+}
+
+// GetLanguages mocks base method.
+func (m *MockRepo) GetLanguages(ctx Ctx) ([]*dao.Language, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetLanguages", ctx)
+	ret0, _ := ret[0].([]*dao.Language)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetLanguages indicates an expected call of GetLanguages.
+func (mr *MockRepoMockRecorder) GetLanguages(ctx interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetLanguages", reflect.TypeOf((*MockRepo)(nil).GetLanguages), ctx)
 }
 
 // GetLocalization mocks base method.
@@ -1149,17 +1164,17 @@ func (mr *MockRepoMockRecorder) UpdateCategory(ctx, id, name interface{}) *gomoc
 }
 
 // UpdateIdentifier mocks base method.
-func (m *MockRepo) UpdateIdentifier(ctx Ctx, id, categoryID, parentID int64, name, description, exampleText, platforms string) error {
+func (m *MockRepo) UpdateIdentifier(ctx Ctx, id, categoryID, parentID int64, name, description, textSingular, textPlural, platforms string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "UpdateIdentifier", ctx, id, categoryID, parentID, name, description, exampleText, platforms)
+	ret := m.ctrl.Call(m, "UpdateIdentifier", ctx, id, categoryID, parentID, name, description, textSingular, textPlural, platforms)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // UpdateIdentifier indicates an expected call of UpdateIdentifier.
-func (mr *MockRepoMockRecorder) UpdateIdentifier(ctx, id, categoryID, parentID, name, description, exampleText, platforms interface{}) *gomock.Call {
+func (mr *MockRepoMockRecorder) UpdateIdentifier(ctx, id, categoryID, parentID, name, description, textSingular, textPlural, platforms interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateIdentifier", reflect.TypeOf((*MockRepo)(nil).UpdateIdentifier), ctx, id, categoryID, parentID, name, description, exampleText, platforms)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateIdentifier", reflect.TypeOf((*MockRepo)(nil).UpdateIdentifier), ctx, id, categoryID, parentID, name, description, textSingular, textPlural, platforms)
 }
 
 // UpdatePassword mocks base method.
@@ -1230,6 +1245,20 @@ func (m *MockRepo) UpdateTranslation(ctx Ctx, id int64, singular, plural string)
 func (mr *MockRepoMockRecorder) UpdateTranslation(ctx, id, singular, plural interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateTranslation", reflect.TypeOf((*MockRepo)(nil).UpdateTranslation), ctx, id, singular, plural)
+}
+
+// UpdateTranslationWithMeta mocks base method.
+func (m *MockRepo) UpdateTranslationWithMeta(ctx Ctx, localizationID, identifierID int64, singular, plural string) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "UpdateTranslationWithMeta", ctx, localizationID, identifierID, singular, plural)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpdateTranslationWithMeta indicates an expected call of UpdateTranslationWithMeta.
+func (mr *MockRepoMockRecorder) UpdateTranslationWithMeta(ctx, localizationID, identifierID, singular, plural interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateTranslationWithMeta", reflect.TypeOf((*MockRepo)(nil).UpdateTranslationWithMeta), ctx, localizationID, identifierID, singular, plural)
 }
 
 // MockSettingRepo is a mock of SettingRepo interface.

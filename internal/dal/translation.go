@@ -22,12 +22,13 @@ func (r *Repo) CreateTranslation(ctx Ctx, creatorID, localizationID, identifierI
 			CreatorID:      creatorID,
 			LocalizationID: localizationID,
 			IdentifierID:   identifierID,
-			Singular:       singular,
+			Singular:       sql.NullString{String: singular, Valid: true},
 			Plural:         sql.NullString{String: plural, Valid: true},
 			CreatedAt:      time.Now().UTC(),
 			UpdatedAt:      pointer.ToTime(time.Now().UTC()),
 			Status:         int64(api.Status_NOT_ACTIVE),
 		}
+
 		if err := tx.Save(entity); err != nil {
 			return err
 		}
@@ -53,7 +54,7 @@ func (r *Repo) GetTranslations(ctx Ctx, f filter.TranslationFilter) ([]*dao.Tran
 			&entity.ID, &entity.Singular, &entity.Plural, &entity.Status, &entity.CreatedAt,
 			&entity.Localization.ID, &entity.Localization.Locale, &entity.Localization.LanguageName,
 			&entity.Identifier.ID, &entity.Identifier.Name, &entity.Identifier.Description,
-			&entity.Identifier.ExampleText, &entity.Identifier.Platforms,
+			&entity.Identifier.TextSingular, &entity.Identifier.Platforms,
 		)
 		if err != nil {
 			break
@@ -73,11 +74,13 @@ func (r *Repo) UpdateTranslation(ctx Ctx, id int64, singular, plural string) err
 		return err
 	}
 
-	if singular == "" {
-		t.Status = int64(api.StatusTranslation_HIDDEN)
-	} else {
-		t.Singular = singular
+	t.Status = int64(api.StatusTranslation_HIDDEN)
+	if len(singular) > 0 || len(plural) > 0 {
 		t.Status = int64(api.StatusTranslation_DRAFT)
+	}
+
+	if singular != "" {
+		t.Singular = sql.NullString{String: singular, Valid: true}
 	}
 	if plural != "" {
 		t.Plural = sql.NullString{String: plural, Valid: true}
@@ -85,6 +88,29 @@ func (r *Repo) UpdateTranslation(ctx Ctx, id int64, singular, plural string) err
 	t.UpdatedAt = pointer.ToTime(time.Now().UTC())
 
 	return r.ReformDB.Save(&t)
+}
+
+func (r *Repo) UpdateTranslationWithMeta(ctx Ctx, localizationID, identifierID int64, singular, plural string) error {
+	var (
+		sqlSingular sql.NullString
+		sqlPlural   sql.NullString
+
+		status = api.StatusTranslation_HIDDEN
+	)
+
+	if len(singular) > 0 || len(plural) > 0 {
+		status = api.StatusTranslation_DRAFT
+	}
+
+	if singular != "" {
+		sqlSingular = sql.NullString{String: singular, Valid: true}
+	}
+	if plural != "" {
+		sqlPlural = sql.NullString{String: plural, Valid: true}
+	}
+
+	_, err := r.DB.ExecContext(ctx, sqlUpdateTranslation, int64(status), sqlSingular, sqlPlural, localizationID, identifierID)
+	return err
 }
 
 func (r *Repo) DeleteTranslation(ctx Ctx, id int64) error {
@@ -137,7 +163,7 @@ func (r *Repo) GetGroupedTranslations(ctx Ctx, f filter.GroupedTranslationFilter
 			&entity.ID, &entity.Singular, &entity.Plural, &entity.Status, &entity.CreatedAt,
 			&entity.Localization.ID, &entity.Localization.Locale, &entity.Localization.LanguageName,
 			&entity.Identifier.ID, &entity.Identifier.Name, &entity.Identifier.Description,
-			&entity.Identifier.ExampleText, &entity.Identifier.Platforms,
+			&entity.Identifier.TextSingular, &entity.Identifier.Platforms,
 		)
 		if err != nil {
 			break

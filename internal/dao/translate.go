@@ -14,7 +14,7 @@ type Translation struct {
 	LocalizationID int64          `reform:"localization_id"`
 	IdentifierID   int64          `reform:"identifier_id"`
 	CreatorID      int64          `reform:"creator_id"`
-	Singular       string         `reform:"singular"`
+	Singular       sql.NullString `reform:"singular"`
 	Plural         sql.NullString `reform:"plural"`
 	Status         int64          `reform:"status"`
 	CreatedAt      time.Time      `reform:"created_at"`

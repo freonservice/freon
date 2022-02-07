@@ -15,6 +15,10 @@ const (
 	sqlUpdateUserSession       = `UPDATE user_sessions SET active = false WHERE token = $1`
 	sqlUpdateNameCategory      = `UPDATE categories SET name = $1, updated_at = NOW() WHERE id = $2`
 	sqlUpdateStatusTranslation = `UPDATE translations SET status = $1, updated_at = NOW() WHERE id = $2`
+	sqlUpdateTranslation       = `
+		UPDATE translations SET status = $1, singular = $2, plural = $3, updated_at = NOW() 
+		WHERE localization_id = $4 AND identifier_id = $5
+	`
 
 	sqlDeleteIdentifier      = `DELETE FROM identifiers WHERE id = $1`
 	sqlDeleteLocalization    = `DELETE FROM localizations WHERE id = $1`

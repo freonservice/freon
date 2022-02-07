@@ -56,11 +56,12 @@ func apiArrayLocalization(v []*domain.Localization) []*model.Localization {
 
 func apiIdentifier(v *domain.Identifier) *model.Identifier {
 	i := &model.Identifier{
-		ID:          &v.ID,
-		Name:        &v.Name,
-		Description: v.Description,
-		ExampleText: v.ExampleText,
-		Platforms:   v.Platforms,
+		ID:           &v.ID,
+		Name:         &v.Name,
+		Description:  v.Description,
+		TextSingular: v.TextSingular,
+		TextPlural:   v.TextPlural,
+		Platforms:    v.Platforms,
 	}
 	if v.Category != nil && v.Category.ID > 0 {
 		i.Category = apiCategory(v.Category)

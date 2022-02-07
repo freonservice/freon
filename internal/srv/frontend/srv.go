@@ -96,8 +96,8 @@ func NewServer(auth app.Auth, appl app.Appl, cfg Config) (*restapi.Server, error
 	globalMiddlewares := func(handler http.Handler) http.Handler {
 		xffmw, _ := xff.Default()
 		logger := makeLogger(cfg.BasePath)
-		accesslog := makeAccessLog()
-		return noCache(xffmw.Handler(logger(recovery(accesslog(
+		httpErrorLog := makeHTTPErrorLog()
+		return noCache(xffmw.Handler(logger(httpErrorLog(recovery(
 			middleware.Spec(cfg.BasePath, restapi.FlatSwaggerJSON, cors(handler)))))))
 	}
 

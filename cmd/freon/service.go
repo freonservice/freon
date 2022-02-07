@@ -42,7 +42,7 @@ func runServe(repo *dal.Repo, settingRepo *dal.SettingRepo, ctxShutdown Ctx, shu
 		translation iface.Translation
 
 		srv           = service{}
-		authorization = auth.NewAuth(cfg.jwtSecretPath, repo, log)
+		authorization = auth.NewAuth(cfg.jwtSecretPath, repo, cfg.jwtExpiration, log)
 		state         = settingRepo.GetCurrentSettingState()
 	)
 
@@ -68,11 +68,11 @@ func runServe(repo *dal.Repo, settingRepo *dal.SettingRepo, ctxShutdown Ctx, shu
 
 	switch state.Translation.Use {
 	case int32(freonApi.TranslationSource_TRANSLATION_LIBRA):
-		translation = libra.NewLibraTranslation(cfg.libraURL)
+		translation = libra.NewLibraTranslation(cfg.libraURL, 15*time.Second) //nolint:gomnd
 	default:
 	}
 
-	appl := app.New(repo, authorization, password.New(), settingRepo, translation, dataStorage)
+	appl := app.New(repo, authorization, password.New(), settingRepo, translation, dataStorage, log)
 	err = createFirstAdmin(appl)
 	if err != nil {
 		return errors.Wrap(err, "failed create admin")

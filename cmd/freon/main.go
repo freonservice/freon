@@ -46,8 +46,10 @@ var (
 		migrationPath          string
 		badgerPath             string
 		jwtSecretPath          string
+		jwtExpiration          time.Duration
 		translationFilesFolder string
 		libraURL               string
+		defaultLanguage        string
 	}
 
 	s3Storage struct {
@@ -88,11 +90,13 @@ func Init() {
 	flag.StringVar(&cfg.migrationPath, "migration.path", config.MigrationPath, "migration path cant be empty")
 	flag.StringVar(&cfg.badgerPath, "badger.path", config.BadgerPath, "badger path cant be empty")
 	flag.StringVar(&cfg.jwtSecretPath, "jwt_secret_path", config.JwtSecretKey, "jwt secret path cant be empty")
+	flag.DurationVar(&cfg.jwtExpiration, "jwt_expiration_time", config.JwtExpirationTime, "jwt expiration time")
 	flag.StringVar(&adminCred.email, "admin.email", config.DefaultAdminEmail, "admin email cant be empty")
 	flag.StringVar(&adminCred.password, "admin.password", config.DefaultAdminPass, "admin password cant be empty")
 	flag.StringVar(&cfg.translationFilesFolder, "translation.folders", config.TranslationFilesPath, "translation files folder")
 	flag.IntVar(&cfg.cpuLimit, "cpu-limit", config.CPULimit, "maximum usage cpu")
 	flag.StringVar(&cfg.libraURL, "libra.url", config.LibraURL, "libra api url")
+	flag.StringVar(&cfg.defaultLanguage, "defaultLanguage", config.DefaultLanguage, "default target language")
 
 	flag.StringVar(&s3Storage.secretAccessKey, "s3.secret-access-key", config.S3SecretAccessKey, "s3.secret-access-key cant be empty")
 	flag.StringVar(&s3Storage.accessKeyID, "s3.access-key-id", config.S3AccessKeyID, "s3.access-key-id cant be empty")
@@ -129,7 +133,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	settingRepo, err := dal.NewSettingRepo(cfg.badgerPath)
+	settingRepo, err := dal.NewSettingRepo(cfg.badgerPath, cfg.defaultLanguage)
 	if err != nil {
 		log.Fatal(err)
 	}

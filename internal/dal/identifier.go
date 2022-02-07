@@ -17,25 +17,26 @@ import (
 
 func (r *Repo) CreateIdentifier(
 	ctx Ctx, creatorID, categoryID, parentID int64,
-	name, description, exampleText, platforms string,
-) error {
-	var err error
-	return r.ReformDB.InTransactionContext(ctx, &sql.TxOptions{}, func(tx *reform.TX) error {
-		identifier := &dao.Identifier{
-			CreatorID:   creatorID,
-			Name:        name,
-			Description: sql.NullString{String: description, Valid: true},
-			ExampleText: sql.NullString{String: exampleText, Valid: true},
-			Platforms:   platforms,
-			CreatedAt:   time.Now().UTC(),
-			UpdatedAt:   pointer.ToTime(time.Now().UTC()),
+	name, description, textSingular, textPlural, platforms string,
+) (int64, error) {
+	identifier := &dao.Identifier{}
+	err := r.ReformDB.InTransactionContext(ctx, &sql.TxOptions{}, func(tx *reform.TX) error {
+		identifier = &dao.Identifier{
+			CreatorID:    creatorID,
+			Name:         name,
+			Description:  sql.NullString{String: description, Valid: true},
+			TextSingular: sql.NullString{String: textSingular, Valid: true},
+			TextPlural:   sql.NullString{String: textPlural, Valid: true},
+			Platforms:    platforms,
+			CreatedAt:    time.Now().UTC(),
+			UpdatedAt:    pointer.ToTime(time.Now().UTC()),
 		}
 
 		if categoryID > 0 {
 			identifier.CategoryID = sql.NullInt64{Int64: categoryID, Valid: true}
 		}
 
-		if err = tx.Save(identifier); err != nil {
+		if err := tx.Save(identifier); err != nil {
 			if isDuplicateKeyValue(err) {
 				return ErrDuplicateKeyValue
 			}
@@ -43,7 +44,7 @@ func (r *Repo) CreateIdentifier(
 		}
 
 		if parentID > 0 {
-			parent, err := r.GetIdentifierByID(tx, parentID) // nolint:govet
+			parent, err := r.GetIdentifierByID(tx, parentID)
 			if err != nil {
 				return err
 			}
@@ -52,7 +53,7 @@ func (r *Repo) CreateIdentifier(
 			identifier.ParentPath = fmt.Sprintf("%d", identifier.ID)
 		}
 
-		err = tx.Save(identifier)
+		err := tx.Save(identifier)
 		if err != nil {
 			return err
 		}
@@ -89,6 +90,7 @@ func (r *Repo) CreateIdentifier(
 
 		return nil
 	})
+	return identifier.ID, err
 }
 
 func (r *Repo) GetIdentifiers(ctx Ctx, f filter.IdentifierFilter) ([]*dao.Identifier, error) {
@@ -105,7 +107,7 @@ func (r *Repo) GetIdentifiers(ctx Ctx, f filter.IdentifierFilter) ([]*dao.Identi
 		entity := new(dao.Identifier)
 		err = rows.Scan(
 			&entity.ID, &entity.Name, &entity.Description,
-			&entity.ExampleText, &entity.Platforms, &entity.CategoryID,
+			&entity.TextSingular, &entity.TextPlural, &entity.Platforms, &entity.CategoryID,
 		)
 		if err != nil {
 			break
@@ -167,7 +169,7 @@ func (r *Repo) GetIdentifierByID(tx *reform.TX, id int64) (*dao.Identifier, erro
 
 func (r *Repo) UpdateIdentifier(
 	ctx app.Ctx, id, categoryID, parentID int64,
-	name, description, exampleText, platforms string,
+	name, description, textSingular, textPlural, platforms string,
 ) error {
 	var i dao.Identifier
 	err := r.ReformDB.FindOneTo(&i, "id", id)
@@ -177,14 +179,15 @@ func (r *Repo) UpdateIdentifier(
 
 	i.Name = name
 	i.Description = sql.NullString{String: description, Valid: true}
-	i.ExampleText = sql.NullString{String: exampleText, Valid: true}
+	i.TextSingular = sql.NullString{String: textSingular, Valid: true}
+	i.TextPlural = sql.NullString{String: textPlural, Valid: true}
 	i.UpdatedAt = pointer.ToTime(time.Now().UTC())
 	i.Platforms = platforms
 	if categoryID > 0 {
 		i.CategoryID = sql.NullInt64{Int64: categoryID, Valid: true}
 	}
 
-	if err := r.ReformDB.Save(&i); err != nil {
+	if err = r.ReformDB.Save(&i); err != nil {
 		if isDuplicateKeyValue(err) {
 			return ErrDuplicateKeyValue
 		}

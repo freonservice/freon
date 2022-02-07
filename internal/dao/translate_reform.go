@@ -65,7 +65,7 @@ var TranslationTable = &translationTableType{
 			{Name: "LocalizationID", Type: "int64", Column: "localization_id"},
 			{Name: "IdentifierID", Type: "int64", Column: "identifier_id"},
 			{Name: "CreatorID", Type: "int64", Column: "creator_id"},
-			{Name: "Singular", Type: "string", Column: "singular"},
+			{Name: "Singular", Type: "sql.NullString", Column: "singular"},
 			{Name: "Plural", Type: "sql.NullString", Column: "plural"},
 			{Name: "Status", Type: "int64", Column: "status"},
 			{Name: "CreatedAt", Type: "time.Time", Column: "created_at"},

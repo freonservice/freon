@@ -11,13 +11,13 @@ This service will allow content managers to conveniently make changes to localiz
 
 ## Build Status
 
-Development, beta-release
+*Development, beta-release*
 
 ### Building
 
 The Freon service consists of two parts - backend (Golang) and frontend (ReactJS). The Web Interface is compiled as a ready-made bundle with the assembled JS code, which is launched through the proxy server built into the backend for quick and easy access to the admin panel.
 
-All information is stored in Postgres database, static documents (generated translations) are stored in volume docker image and can be easily requested as static files through URL.
+All information is stored in Postgres database, static documents (generated translations) are stored in local (docker volume) or S3 storages and can be easily requested as static files through URL.
 
 Communication interface with Freon service:
 - **Rest API.** Used to interact with mobile applications, services and the admin panel.
@@ -66,7 +66,7 @@ Command for launch service from docker
 ## Future features
 
 - [ ] Connection google-translation api for quick **semi**-automation translations
-- [ ] Connection [libretranslate api](https://github.com/LibreTranslate/LibreTranslate) for quick semi-automation translations
+- [x] Connection [libretranslate api](https://github.com/LibreTranslate/LibreTranslate) for quick semi-automation translations
 - [x] Generation i18n files for web (.json)
 - [x] Generation android translations (.xml)
 - [x] Generation ios translations (.strings, .stringsdict)
@@ -93,7 +93,7 @@ We try to keep the project clean, so we write tests and use the linter.
 - [Go 1.17.5](https://golang.org/dl/)
 - [MockGen 1.6.0](https://github.com/golang/mock)
 - [Genny](https://github.com/cheekybits/genny)
-- [Swagger 0.27.0](https://github.com/go-swagger/go-swagger)
+- [Swagger 0.29.0](https://github.com/go-swagger/go-swagger)
 - [Protoc 3.19.1](https://grpc.io/docs/protoc-installation/)
 
 ## License

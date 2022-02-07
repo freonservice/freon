@@ -11,9 +11,11 @@ import (
 	"encoding/json"
 	"net/http"
 
+	"github.com/go-openapi/errors"
 	"github.com/go-openapi/runtime/middleware"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
+	"github.com/go-openapi/validate"
 
 	"github.com/freonservice/freon/internal/app"
 )
@@ -83,6 +85,10 @@ type SettingTranslationBody struct {
 	// auto
 	Auto bool `json:"auto,omitempty"`
 
+	// main language
+	// Min Length: 2
+	MainLanguage string `json:"main_language,omitempty"`
+
 	// use
 	Use int32 `json:"use,omitempty"`
 }
@@ -93,6 +99,10 @@ func (o *SettingTranslationBody) UnmarshalJSON(data []byte) error {
 
 		// auto
 		Auto bool `json:"auto,omitempty"`
+
+		// main language
+		// Min Length: 2
+		MainLanguage string `json:"main_language,omitempty"`
 
 		// use
 		Use int32 `json:"use,omitempty"`
@@ -105,12 +115,34 @@ func (o *SettingTranslationBody) UnmarshalJSON(data []byte) error {
 	}
 
 	o.Auto = props.Auto
+	o.MainLanguage = props.MainLanguage
 	o.Use = props.Use
 	return nil
 }
 
 // Validate validates this setting translation body
 func (o *SettingTranslationBody) Validate(formats strfmt.Registry) error {
+	var res []error
+
+	if err := o.validateMainLanguage(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (o *SettingTranslationBody) validateMainLanguage(formats strfmt.Registry) error {
+	if swag.IsZero(o.MainLanguage) { // not required
+		return nil
+	}
+
+	if err := validate.MinLength("args"+"."+"main_language", "body", o.MainLanguage, 2); err != nil {
+		return err
+	}
+
 	return nil
 }
 

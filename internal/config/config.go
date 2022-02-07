@@ -15,14 +15,15 @@ var (
 	TranslationFilesPath  = environ.GetStrEnv("TRANSLATION_FILES_PATH", "")
 	CPULimit              = environ.GetIntEnv("CPU_LIMIT", -1)
 	LibraURL              = environ.GetStrEnv("LIBRA_API_URL", "http://127.0.0.1:5000")
+	DefaultLanguage       = environ.GetStrEnv("DEFAULT_LANGUAGE", "en")
 
 	// Default Admin User
 	DefaultAdminEmail = environ.GetStrEnv("DEFAULT_ADMIN_EMAIL", "admin@admin.com")
 	DefaultAdminPass  = environ.GetStrEnv("DEFAULT_ADMIN_PASS", "adminpassword")
 
 	// Auth Configuration
-	JwtSecretKey     = environ.MustGetString("JWT_SECRET_KEY")
-	JwtTokenLifetime = environ.GetTimeDurationEnv("JWT_TOKEN_LIFETIME", "24h")
+	JwtSecretKey      = environ.MustGetString("JWT_SECRET_KEY")
+	JwtExpirationTime = environ.GetTimeDurationEnv("JWT_EXPIRATION_TIME", "24h")
 
 	// Postgres DB Configuration
 	DBHost         = environ.MustGetString("DB_HOST")

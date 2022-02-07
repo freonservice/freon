@@ -8,9 +8,11 @@ import (
 	"github.com/freonservice/freon/internal/filter"
 	"github.com/freonservice/freon/internal/storage"
 	iface "github.com/freonservice/freon/internal/translation"
+	"github.com/freonservice/freon/pkg/freonApi"
 
 	"github.com/google/uuid"
 	"github.com/jmoiron/sqlx"
+	"github.com/powerman/structlog"
 	"golang.org/x/text/language"
 )
 
@@ -35,12 +37,12 @@ type (
 		DeleteLocalization(ctx Ctx, id int64) error
 
 		CreateIdentifier(
-			ctx Ctx, creatorID, categoryID, parentID int64, name, description, exampleText string, platforms []string,
+			ctx Ctx, creatorID, categoryID, parentID int64, name, description, textSingular, textPlural string, platforms []string,
 		) error
 		GetIdentifiers(ctx Ctx, f filter.IdentifierFilter) ([]*domain.Identifier, error)
 		DeleteIdentifier(ctx Ctx, id int64) error
 		UpdateIdentifier(
-			ctx Ctx, id, categoryID, parentID int64, name, description, exampleText string, platforms []string,
+			ctx Ctx, id, categoryID, parentID int64, name, description, textSingular, textPlural string, platforms []string,
 		) error
 
 		CreateCategory(ctx Ctx, name string) error
@@ -67,7 +69,7 @@ type (
 		SetTranslationConfiguration(ctx Ctx, data domain.TranslationConfiguration) error
 		SetStorageConfiguration(ctx Ctx, data domain.StorageConfiguration) error
 
-		GetSupportedLanguages(ctx Ctx) ([]iface.Language, error)
+		GetSupportedLanguages(ctx Ctx) ([]*domain.Language, error)
 		Translate(ctx Ctx, text string, source, target language.Tag) (string, error)
 
 		HealthCheck(Ctx) (interface{}, error)
@@ -101,12 +103,12 @@ type (
 		DeleteLocalization(ctx Ctx, id int64) error
 
 		CreateIdentifier(
-			ctx Ctx, createID, categoryID, parentID int64, name, description, exampleText, platforms string,
-		) error
+			ctx Ctx, createID, categoryID, parentID int64, name, description, textSingular, textPlural, platforms string,
+		) (int64, error)
 		GetIdentifiers(ctx Ctx, f filter.IdentifierFilter) ([]*dao.Identifier, error)
 		DeleteIdentifier(ctx Ctx, id int64) error
 		UpdateIdentifier(
-			ctx Ctx, id, categoryID, parentID int64, name, description, exampleText, platforms string) error
+			ctx Ctx, id, categoryID, parentID int64, name, description, textSingular, textPlural, platforms string) error
 		UpdateStatusTranslation(ctx Ctx, id, status int64) error
 
 		CreateCategory(ctx Ctx, name string) error
@@ -118,6 +120,7 @@ type (
 		GetTranslations(ctx Ctx, f filter.TranslationFilter) ([]*dao.Translation, error)
 		DeleteTranslation(ctx Ctx, id int64) error
 		UpdateTranslation(ctx Ctx, id int64, singular, plural string) error
+		UpdateTranslationWithMeta(ctx Ctx, localizationID, identifierID int64, singular, plural string) error
 		GetTranslation(ctx Ctx, locale, identifierName string) (*dao.Translation, error)
 		GetGroupedTranslations(ctx Ctx, f filter.GroupedTranslationFilter) (map[string][]*dao.Translation, error)
 
@@ -129,6 +132,8 @@ type (
 		GetStatistic(ctx Ctx) (*dao.Statistic, error)
 		GetVersionFromTranslationFiles(ctx Ctx, f filter.VersionTranslationFilesFilter) ([]*dao.Version, error)
 		GetVersionFromTranslations(ctx Ctx, f filter.VersionTranslationsFilter) ([]*dao.Version, error)
+
+		GetLanguages(ctx Ctx) ([]*dao.Language, error)
 	}
 
 	SettingRepo interface {
@@ -150,6 +155,7 @@ type (
 		setting     SettingRepo
 		translation iface.Translation
 		storage     storage.Storage
+		logger      *structlog.Logger
 	}
 
 	UserSession struct {
@@ -170,7 +176,9 @@ func (a *appl) SetStorageConfiguration(ctx Ctx, data domain.StorageConfiguration
 	return a.setting.SetStorageConfiguration(ctx, data)
 }
 
-func New(repo Repo, auth Auth, pass Password, setting SettingRepo, translation iface.Translation, dataStorage storage.Storage) Appl {
+func New(
+	repo Repo, auth Auth, pass Password, setting SettingRepo,
+	translation iface.Translation, dataStorage storage.Storage, logger *structlog.Logger) Appl {
 	return &appl{
 		repo:        repo,
 		auth:        auth,
@@ -178,6 +186,7 @@ func New(repo Repo, auth Auth, pass Password, setting SettingRepo, translation i
 		setting:     setting,
 		translation: translation,
 		storage:     dataStorage,
+		logger:      logger,
 	}
 }
 
@@ -185,11 +194,17 @@ func (a *appl) HealthCheck(_ Ctx) (interface{}, error) {
 	return "OK", nil
 }
 
-func (a *appl) GetSupportedLanguages(ctx Ctx) ([]iface.Language, error) {
-	if a.translation == nil {
-		return nil, ErrAutoTranslation
+func (a *appl) GetSupportedLanguages(ctx Ctx) ([]*domain.Language, error) {
+	switch a.setting.GetCurrentSettingState().Translation.Use {
+	case int32(freonApi.TranslationSource_TRANSLATION_LIBRA):
+		return a.translation.Languages(ctx)
+	default:
 	}
-	return a.translation.Languages(ctx)
+	languages, err := a.repo.GetLanguages(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return mappingArrayLanguages(languages), nil
 }
 
 func (a *appl) Translate(ctx Ctx, text string, source, target language.Tag) (string, error) {

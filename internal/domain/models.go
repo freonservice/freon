@@ -1,6 +1,8 @@
 package domain
 
-import "time"
+import (
+	"time"
+)
 
 type User struct {
 	ID         int64
@@ -25,7 +27,6 @@ type Localization struct {
 	CreatorID    int64
 	Locale       string
 	LanguageName string
-	Icon         string
 	Status       int64
 	CreatedAt    time.Time
 	UpdatedAt    time.Time
@@ -48,18 +49,19 @@ type Category struct {
 }
 
 type Identifier struct {
-	ID          int64
-	CreatorID   int64
-	CategoryID  int64
-	Name        string
-	Description string
-	ExampleText string
-	Status      int64
-	Platforms   []string
-	NamedList   []string
-	CreatedAt   time.Time
-	UpdatedAt   time.Time
-	Category    *Category
+	ID           int64
+	CreatorID    int64
+	CategoryID   int64
+	Name         string
+	Description  string
+	TextSingular string
+	TextPlural   string
+	Status       int64
+	Platforms    []string
+	NamedList    []string
+	CreatedAt    time.Time
+	UpdatedAt    time.Time
+	Category     *Category
 
 	ParentNames []string
 }
@@ -115,4 +117,9 @@ type Version struct {
 	Locale         string
 	LangName       string
 	LocalizationID int64
+}
+
+type Language struct {
+	Name string
+	Code string
 }
