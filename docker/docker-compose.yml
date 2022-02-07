@@ -25,7 +25,7 @@ services:
 
   freon:
     build:
-      context: .
+      context: ../Dockerfile
     restart: always
     ports:
       - "4000:4000"
