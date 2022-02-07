@@ -5,7 +5,7 @@ go 1.16
 require (
 	github.com/AlekSi/pointer v1.2.0
 	github.com/MarcSky/environ v0.0.0-20210108171713-01302f164ac8
-	github.com/aws/aws-sdk-go v1.42.47
+	github.com/aws/aws-sdk-go v1.42.48
 	github.com/cenkalti/backoff/v4 v4.1.2
 	github.com/dgraph-io/badger/v3 v3.2103.2
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
@@ -15,7 +15,7 @@ require (
 	github.com/go-openapi/loads v0.21.1
 	github.com/go-openapi/runtime v0.23.0
 	github.com/go-openapi/spec v0.20.4
-	github.com/go-openapi/strfmt v0.21.1
+	github.com/go-openapi/strfmt v0.21.2
 	github.com/go-openapi/swag v0.21.1
 	github.com/go-openapi/validate v0.20.3
 	github.com/golang/mock v1.6.0

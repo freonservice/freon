@@ -21,12 +21,9 @@ func (a *appl) CreateIdentifier(
 		return err
 	}
 
-	var hasExampleText = len(textSingular) > 0 || len(textPlural) > 0
-	if a.setting.GetCurrentSettingState().Translation.UseAutoTranslation() && hasExampleText {
-		err = a.updateTranslationsForIdentifier(ctx, identifierID, textSingular, textPlural)
-		if err != nil {
-			return err
-		}
+	err = a.updateTranslationsForIdentifier(ctx, identifierID, textSingular, textPlural)
+	if err != nil {
+		return err
 	}
 
 	return nil
@@ -54,23 +51,30 @@ func (a *appl) UpdateIdentifier(
 		return err
 	}
 
-	var hasExampleText = len(textSingular) > 0 || len(textPlural) > 0
-	if a.setting.GetCurrentSettingState().Translation.UseAutoTranslation() && hasExampleText {
-		err = a.updateTranslationsForIdentifier(ctx, id, textSingular, textPlural)
+	err = a.updateTranslationsForIdentifier(ctx, id, textSingular, textPlural)
+	if err != nil {
+		return err
 	}
 
 	return err
 }
 
 func (a *appl) updateTranslationsForIdentifier(ctx context.Context, identifierID int64, singular, plural string) error {
+	var hasExampleText = len(singular) > 0 || len(plural) > 0
+	if !a.setting.GetCurrentSettingState().Translation.UseAutoTranslation() || !hasExampleText {
+		return nil
+	}
+
 	localizations, err := a.GetLocalizations(ctx)
 	if err != nil {
 		return err
 	}
+
 	sourceLanguage, err := language.Parse(a.setting.GetCurrentSettingState().Translation.MainLanguage)
 	if err != nil {
 		return err
 	}
+
 	for i := range localizations {
 		go func(localization *domain.Localization) {
 			var err error

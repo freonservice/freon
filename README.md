@@ -11,13 +11,13 @@ This service will allow content managers to conveniently make changes to localiz
 
 ## Build Status
 
-Development, beta-release
+*Development, beta-release*
 
 ### Building
 
 The Freon service consists of two parts - backend (Golang) and frontend (ReactJS). The Web Interface is compiled as a ready-made bundle with the assembled JS code, which is launched through the proxy server built into the backend for quick and easy access to the admin panel.
 
-All information is stored in Postgres database, static documents (generated translations) are stored in volume docker image and can be easily requested as static files through URL.
+All information is stored in Postgres database, static documents (generated translations) are stored in local (docker volume) or S3 storages and can be easily requested as static files through URL.
 
 Communication interface with Freon service:
 - **Rest API.** Used to interact with mobile applications, services and the admin panel.
