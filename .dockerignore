@@ -5,4 +5,6 @@ client
 scripts
 proto_files
 docs
+docker
+wiki
 README.md

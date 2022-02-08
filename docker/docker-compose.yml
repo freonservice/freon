@@ -34,6 +34,7 @@ services:
       - "4003:4003"
     environment:
       JWT_SECRET_KEY: my_secret_key
+      JWT_EXPIRATION_TIME: "10h"
       DB_HOST: freon-db
       DB_PORT: 5432
       DB_USER: "root"
@@ -46,6 +47,7 @@ services:
       WEB_STATIC_SERVICE_PORT: 4002
       DOCS_STATIC_SERVICE_PORT: 4003
       TRANSLATION_FILES_PATH: "/docs"
+      LIBRA_API_URL: "http://127.0.0.1:5000"
       CPU_LIMIT: 10
     depends_on:
       - freon-db

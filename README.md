@@ -57,11 +57,11 @@ Command for launch service from docker
 
 ## Example of interface
 
-![Translation page](https://github.com/freonservice/freon/blob/master/freon-page.png)
+![Translation page](https://github.com/freonservice/freon/blob/master/wiki/freon-page.png)
 
 ## Architecture
 
-![Architecture](https://github.com/freonservice/freon/blob/master/freon.jpeg)
+![Architecture](https://github.com/freonservice/freon/blob/master/wiki/freon.jpeg)
 
 ## Future features
 

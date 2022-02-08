@@ -9,10 +9,10 @@ enum UserStatus {
 }
 
 enum UserRole {
-  USER_ROLE_ADMIN = 0;
+  USER_ROLE_USER = 0;
   USER_ROLE_TRANSLATOR = 1;
   USER_ROLE_MODERATOR = 2;
-  USER_ROLE_USER = 3;
+  USER_ROLE_ADMIN = 3;
 }
 
 enum Status {

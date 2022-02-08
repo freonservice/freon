@@ -19,17 +19,19 @@ func (i IdentifierFilter) CreateRows(ctx context.Context, r *reform.DB) (*sql.Ro
 	if i.CategoryID > 0 {
 		rows, err = r.QueryContext(
 			ctx,
-			"SELECT "+
-				"id, name, description, text_singular, text_plural, platforms, category_id "+
-				"FROM identifiers WHERE status=$1 AND category_id=$2 ORDER BY created_at DESC",
+			`
+				select id, name, description, text_singular, text_plural, platforms, category_id 
+				from identifiers where status=$1 and category_id=$2 order by created_at DESC
+			`,
 			i.Status, i.CategoryID,
 		)
 	} else {
 		rows, err = r.QueryContext(
 			ctx,
-			"SELECT "+
-				"id, name, description, text_singular, text_plural, platforms, category_id  "+
-				"FROM identifiers WHERE status=$1 ORDER BY created_at DESC",
+			`
+				select id, name, description, text_singular, text_plural, platforms, category_id 
+				from identifiers where status=$1 order by created_at DESC
+			`,
 			i.Status,
 		)
 	}
