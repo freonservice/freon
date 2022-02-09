@@ -47,6 +47,9 @@ func NewFreonFrontendAPI(spec *loads.Document) *FreonFrontendAPI {
 		AutoTranslationHandler: AutoTranslationHandlerFunc(func(params AutoTranslationParams, principal *app.UserSession) AutoTranslationResponder {
 			return AutoTranslationNotImplemented()
 		}),
+		AutoTranslationByIDHandler: AutoTranslationByIDHandlerFunc(func(params AutoTranslationByIDParams, principal *app.UserSession) AutoTranslationByIDResponder {
+			return AutoTranslationByIDNotImplemented()
+		}),
 		CreateCategoryHandler: CreateCategoryHandlerFunc(func(params CreateCategoryParams, principal *app.UserSession) CreateCategoryResponder {
 			return CreateCategoryNotImplemented()
 		}),
@@ -109,6 +112,9 @@ func NewFreonFrontendAPI(spec *loads.Document) *FreonFrontendAPI {
 		}),
 		RegUserHandler: RegUserHandlerFunc(func(params RegUserParams, principal *app.UserSession) RegUserResponder {
 			return RegUserNotImplemented()
+		}),
+		SettingFirstLaunchHandler: SettingFirstLaunchHandlerFunc(func(params SettingFirstLaunchParams, principal *app.UserSession) SettingFirstLaunchResponder {
+			return SettingFirstLaunchNotImplemented()
 		}),
 		SettingStorageHandler: SettingStorageHandlerFunc(func(params SettingStorageParams, principal *app.UserSession) SettingStorageResponder {
 			return SettingStorageNotImplemented()
@@ -204,6 +210,8 @@ type FreonFrontendAPI struct {
 
 	// AutoTranslationHandler sets the operation handler for the auto translation operation
 	AutoTranslationHandler AutoTranslationHandler
+	// AutoTranslationByIDHandler sets the operation handler for the auto translation by ID operation
+	AutoTranslationByIDHandler AutoTranslationByIDHandler
 	// CreateCategoryHandler sets the operation handler for the create category operation
 	CreateCategoryHandler CreateCategoryHandler
 	// CreateIdentifierHandler sets the operation handler for the create identifier operation
@@ -246,6 +254,8 @@ type FreonFrontendAPI struct {
 	LogoutUserHandler LogoutUserHandler
 	// RegUserHandler sets the operation handler for the reg user operation
 	RegUserHandler RegUserHandler
+	// SettingFirstLaunchHandler sets the operation handler for the setting first launch operation
+	SettingFirstLaunchHandler SettingFirstLaunchHandler
 	// SettingStorageHandler sets the operation handler for the setting storage operation
 	SettingStorageHandler SettingStorageHandler
 	// SettingTranslationHandler sets the operation handler for the setting translation operation
@@ -358,6 +368,9 @@ func (o *FreonFrontendAPI) Validate() error {
 	if o.AutoTranslationHandler == nil {
 		unregistered = append(unregistered, "AutoTranslationHandler")
 	}
+	if o.AutoTranslationByIDHandler == nil {
+		unregistered = append(unregistered, "AutoTranslationByIDHandler")
+	}
 	if o.CreateCategoryHandler == nil {
 		unregistered = append(unregistered, "CreateCategoryHandler")
 	}
@@ -420,6 +433,9 @@ func (o *FreonFrontendAPI) Validate() error {
 	}
 	if o.RegUserHandler == nil {
 		unregistered = append(unregistered, "RegUserHandler")
+	}
+	if o.SettingFirstLaunchHandler == nil {
+		unregistered = append(unregistered, "SettingFirstLaunchHandler")
 	}
 	if o.SettingStorageHandler == nil {
 		unregistered = append(unregistered, "SettingStorageHandler")
@@ -566,6 +582,10 @@ func (o *FreonFrontendAPI) initHandlerCache() {
 		o.handlers["POST"] = make(map[string]http.Handler)
 	}
 	o.handlers["POST"]["/auto-translation"] = NewAutoTranslation(o.context, o.AutoTranslationHandler)
+	if o.handlers["PUT"] == nil {
+		o.handlers["PUT"] = make(map[string]http.Handler)
+	}
+	o.handlers["PUT"]["/auto-translation/{id}"] = NewAutoTranslationByID(o.context, o.AutoTranslationByIDHandler)
 	if o.handlers["POST"] == nil {
 		o.handlers["POST"] = make(map[string]http.Handler)
 	}
@@ -650,6 +670,10 @@ func (o *FreonFrontendAPI) initHandlerCache() {
 		o.handlers["POST"] = make(map[string]http.Handler)
 	}
 	o.handlers["POST"]["/user/register"] = NewRegUser(o.context, o.RegUserHandler)
+	if o.handlers["PUT"] == nil {
+		o.handlers["PUT"] = make(map[string]http.Handler)
+	}
+	o.handlers["PUT"]["/setting/disable-first-launch"] = NewSettingFirstLaunch(o.context, o.SettingFirstLaunchHandler)
 	if o.handlers["PUT"] == nil {
 		o.handlers["PUT"] = make(map[string]http.Handler)
 	}

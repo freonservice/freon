@@ -12,6 +12,7 @@ import {
 import {forwardTo, getHeaders} from "../utils";
 
 const loginUrl = `${apiServerURL}/api/internal/login`;
+const logoutUrl = `${apiServerURL}/api/internal/logout`;
 
 function loginApi(email, password) {
     return fetch(loginUrl, {
@@ -44,8 +45,6 @@ function* loginWorker(action) {
     }
     return resp;
 }
-
-const logoutUrl = `${apiServerURL}/api/internal/logout`;
 
 function logoutApi() {
     return fetch(logoutUrl, {

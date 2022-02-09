@@ -55,6 +55,20 @@ func (mr *MockApplMockRecorder) AuthorizeUser(ctx, email, password interface{}) 
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AuthorizeUser", reflect.TypeOf((*MockAppl)(nil).AuthorizeUser), ctx, email, password)
 }
 
+// CreateAutoTranslationByID mocks base method.
+func (m *MockAppl) CreateAutoTranslationByID(ctx Ctx, id int64) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "CreateAutoTranslationByID", ctx, id)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// CreateAutoTranslationByID indicates an expected call of CreateAutoTranslationByID.
+func (mr *MockApplMockRecorder) CreateAutoTranslationByID(ctx, id interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateAutoTranslationByID", reflect.TypeOf((*MockAppl)(nil).CreateAutoTranslationByID), ctx, id)
+}
+
 // CreateCategory mocks base method.
 func (m *MockAppl) CreateCategory(ctx Ctx, name string) error {
 	m.ctrl.T.Helper()
@@ -193,6 +207,20 @@ func (m *MockAppl) DeleteTranslationFile(ctx Ctx, id int64) error {
 func (mr *MockApplMockRecorder) DeleteTranslationFile(ctx, id interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteTranslationFile", reflect.TypeOf((*MockAppl)(nil).DeleteTranslationFile), ctx, id)
+}
+
+// DisableSettingFirstLaunch mocks base method.
+func (m *MockAppl) DisableSettingFirstLaunch(ctx Ctx) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "DisableSettingFirstLaunch", ctx)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// DisableSettingFirstLaunch indicates an expected call of DisableSettingFirstLaunch.
+func (mr *MockApplMockRecorder) DisableSettingFirstLaunch(ctx interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DisableSettingFirstLaunch", reflect.TypeOf((*MockAppl)(nil).DisableSettingFirstLaunch), ctx)
 }
 
 // GetCategories mocks base method.
@@ -985,6 +1013,21 @@ func (mr *MockRepoMockRecorder) GetTranslation(ctx, locale, identifierName inter
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetTranslation", reflect.TypeOf((*MockRepo)(nil).GetTranslation), ctx, locale, identifierName)
 }
 
+// GetTranslationByID mocks base method.
+func (m *MockRepo) GetTranslationByID(ctx Ctx, id int64) (*dao.Translation, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetTranslationByID", ctx, id)
+	ret0, _ := ret[0].(*dao.Translation)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetTranslationByID indicates an expected call of GetTranslationByID.
+func (mr *MockRepoMockRecorder) GetTranslationByID(ctx, id interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetTranslationByID", reflect.TypeOf((*MockRepo)(nil).GetTranslationByID), ctx, id)
+}
+
 // GetTranslationFile mocks base method.
 func (m *MockRepo) GetTranslationFile(ctx Ctx, id int64) (*dao.TranslationFile, error) {
 	m.ctrl.T.Helper()
@@ -1282,6 +1325,20 @@ func NewMockSettingRepo(ctrl *gomock.Controller) *MockSettingRepo {
 // EXPECT returns an object that allows the caller to indicate expected use.
 func (m *MockSettingRepo) EXPECT() *MockSettingRepoMockRecorder {
 	return m.recorder
+}
+
+// DisableSettingFirstLaunch mocks base method.
+func (m *MockSettingRepo) DisableSettingFirstLaunch(ctx Ctx) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "DisableSettingFirstLaunch", ctx)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// DisableSettingFirstLaunch indicates an expected call of DisableSettingFirstLaunch.
+func (mr *MockSettingRepoMockRecorder) DisableSettingFirstLaunch(ctx interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DisableSettingFirstLaunch", reflect.TypeOf((*MockSettingRepo)(nil).DisableSettingFirstLaunch), ctx)
 }
 
 // GetCurrentSettingState mocks base method.

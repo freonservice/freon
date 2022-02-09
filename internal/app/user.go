@@ -10,7 +10,7 @@ import (
 )
 
 func (a *appl) AuthorizeUser(ctx Ctx, email, password string) (AccessToken, *domain.User, error) {
-	user, err := a.repo.GetUserByEmail(email)
+	user, err := a.svc.repo.GetUserByEmail(email)
 	switch err {
 	default:
 		return "", nil, err
@@ -27,7 +27,7 @@ func (a *appl) AuthorizeUser(ctx Ctx, email, password string) (AccessToken, *dom
 	case int64(api.UserStatus_USER_ACTIVE):
 	}
 
-	if !a.pass.Compare([]byte(user.Password), []byte(password)) {
+	if !a.svc.pass.Compare([]byte(user.Password), []byte(password)) {
 		return "", nil, ErrWrongPassword
 	}
 
@@ -36,12 +36,12 @@ func (a *appl) AuthorizeUser(ctx Ctx, email, password string) (AccessToken, *dom
 		return "", nil, errors.Wrap(err, "app.AuthorizeUser uuid parsing error")
 	}
 
-	token, err := a.auth.GenerateAuthToken(userID)
+	token, err := a.svc.auth.GenerateAuthToken(userID)
 	if err != nil {
 		return "", nil, errors.Wrap(err, "app.AuthorizeUser generation auth token error")
 	}
 
-	err = a.repo.SaveSession(ctx, user.ID, token)
+	err = a.svc.repo.SaveSession(ctx, user.ID, token)
 	if err != nil {
 		return "", nil, errors.Wrap(err, "app.AuthorizeUser save session error")
 	}
@@ -50,17 +50,17 @@ func (a *appl) AuthorizeUser(ctx Ctx, email, password string) (AccessToken, *dom
 }
 
 func (a *appl) RegisterUser(ctx Ctx, email, password, firstName, secondName string, role int64) (*domain.User, error) {
-	user, err := a.repo.GetUserByEmail(email)
+	user, err := a.svc.repo.GetUserByEmail(email)
 	if err == nil && user != nil {
 		return nil, ErrEmailIsUsed
 	}
 
-	passwordHash, err := a.pass.Hashing(password)
+	passwordHash, err := a.svc.pass.Hashing(password)
 	if err != nil {
 		return nil, errors.Wrap(err, "app.RegisterUser hashing password error")
 	}
 
-	newUser, err := a.repo.CreateUser(ctx, email, string(passwordHash), firstName, secondName, role)
+	newUser, err := a.svc.repo.CreateUser(ctx, email, string(passwordHash), firstName, secondName, role)
 	if err != nil {
 		return nil, errors.Wrap(err, "app.RegisterUser create user error")
 	}
@@ -68,7 +68,7 @@ func (a *appl) RegisterUser(ctx Ctx, email, password, firstName, secondName stri
 }
 
 func (a *appl) GetUserByUUID(ctx Ctx, userUUID string) (*domain.User, error) {
-	user, err := a.repo.GetUserByUserUUID(userUUID)
+	user, err := a.svc.repo.GetUserByUserUUID(userUUID)
 	if err != nil {
 		return nil, err
 	}
@@ -76,7 +76,7 @@ func (a *appl) GetUserByUUID(ctx Ctx, userUUID string) (*domain.User, error) {
 }
 
 func (a *appl) GetUserByID(ctx Ctx, userID int64) (*domain.User, error) {
-	user, err := a.repo.GetUserByID(userID)
+	user, err := a.svc.repo.GetUserByID(userID)
 	if err != nil {
 		return nil, err
 	}
@@ -84,7 +84,7 @@ func (a *appl) GetUserByID(ctx Ctx, userID int64) (*domain.User, error) {
 }
 
 func (a *appl) GetUserByEmail(ctx Ctx, email string) (*domain.User, error) {
-	user, err := a.repo.GetUserByEmail(email)
+	user, err := a.svc.repo.GetUserByEmail(email)
 	if err != nil {
 		return nil, err
 	}
@@ -92,33 +92,33 @@ func (a *appl) GetUserByEmail(ctx Ctx, email string) (*domain.User, error) {
 }
 
 func (a *appl) LogoutUser(ctx Ctx, token string) error {
-	return a.repo.DeleteSession(ctx, token)
+	return a.svc.repo.DeleteSession(ctx, token)
 }
 
 func (a *appl) UpdatePassword(ctx Ctx, userID int64, changePassword domain.ChangePassword) error {
-	user, err := a.repo.GetUserByID(userID)
+	user, err := a.svc.repo.GetUserByID(userID)
 	if err != nil {
 		return err
 	}
 
-	if !a.pass.Compare([]byte(user.Password), []byte(changePassword.PreviousPassword)) {
+	if !a.svc.pass.Compare([]byte(user.Password), []byte(changePassword.PreviousPassword)) {
 		return ErrPasswordNotCorrect
 	}
 
-	passwordHash, err := a.pass.Hashing(changePassword.NewPassword)
+	passwordHash, err := a.svc.pass.Hashing(changePassword.NewPassword)
 	if err != nil {
 		return err
 	}
 
-	return a.repo.UpdatePassword(ctx, user.ID, string(passwordHash))
+	return a.svc.repo.UpdatePassword(ctx, user.ID, string(passwordHash))
 }
 
 func (a *appl) UpdateProfile(ctx Ctx, userID int64, email, firstName, secondName string, role, status int64) error {
-	return a.repo.UpdateProfile(ctx, userID, email, firstName, secondName, role, status)
+	return a.svc.repo.UpdateProfile(ctx, userID, email, firstName, secondName, role, status)
 }
 
 func (a *appl) GetUsers(ctx Ctx) ([]*domain.User, error) {
-	u, err := a.repo.GetUsers(ctx)
+	u, err := a.svc.repo.GetUsers(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -126,5 +126,5 @@ func (a *appl) GetUsers(ctx Ctx) ([]*domain.User, error) {
 }
 
 func (a *appl) UpdateStatus(ctx Ctx, userID, status int64) error {
-	return a.repo.UpdateStatus(ctx, userID, status)
+	return a.svc.repo.UpdateStatus(ctx, userID, status)
 }

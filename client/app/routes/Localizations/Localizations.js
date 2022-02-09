@@ -17,8 +17,9 @@ import {
     createLocalizationRequest,
     listLocalizationsRequest,
 } from '../../redux/localizations/actions';
+import {listLanguagesRequest} from '../../redux/languages/actions';
+
 import * as PropTypes from 'prop-types';
-import lang from '../../../lang.json';
 
 const defaultChosenLocalization = {locale: '', name: ''};
 
@@ -27,8 +28,8 @@ class Localizations extends React.Component {
         super(props);
 
         this.props.listLocalizationsRequest();
+        this.props.listLanguagesRequest();
         this.state = {
-            languages: JSON.parse(JSON.stringify(lang)),
             chosenLocalization: defaultChosenLocalization,
         };
     }
@@ -38,7 +39,7 @@ class Localizations extends React.Component {
         if (data.length === 0) {
             return;
         }
-        localization = this.state.languages.find(o => o.name === data[0].name);
+        localization = this.props.listLanguages.find(o => o.code === data[0].code);
 
         this.setState(function (previousState) {
             return {...previousState, chosenLocalization: localization};
@@ -47,18 +48,16 @@ class Localizations extends React.Component {
 
     handleSubmitLocalization = (e) => {
         e.preventDefault();
-        const {locale, name, icon} = this.state.chosenLocalization;
-        if (locale.trim() === '' || name.trim() === '') {
+        const {code, name} = this.state.chosenLocalization;
+        if (code.trim() === '' || name.trim() === '') {
             toast.success(contentSuccess('Value not valid!'));
             return;
         }
-        console.log(icon);
-        this.props.createLocalizationRequest(locale, name);
-        // toast.success(contentSuccess('Localization successful added!'));
+        this.props.createLocalizationRequest(code, name);
     };
 
     render() {
-        const {listLocalizations, errorMsg} = this.props;
+        const {listLocalizations, listLanguages, errorMsg} = this.props;
         if (errorMsg !== '') {
             alert(errorMsg);
         }
@@ -80,7 +79,7 @@ class Localizations extends React.Component {
                             chosenLocalization={this.state.chosenLocalization}
                             handleChooseLocalization={this.handleChooseLocalization}
                             handleSubmitLocalization={this.handleSubmitLocalization}
-                            languages={this.state.languages}
+                            listLanguages={listLanguages}
                         />
                     </Col>
                 </Row>
@@ -113,19 +112,23 @@ const contentSuccess = (description) => (
 
 Localizations.propTypes = {
     listLocalizations: PropTypes.array,
+    listLanguages: PropTypes.array,
     listLocalizationsRequest: PropTypes.func.isRequired,
+    listLanguagesRequest: PropTypes.func.isRequired,
     createLocalizationRequest: PropTypes.func.isRequired,
     errorMsg: PropTypes.string,
 };
 
 const mapStateToProps = (state) => ({
     listLocalizations: state.localizations.listLocalizations,
+    listLanguages: state.languages.listLanguages,
     errorMsg: state.localizations.error,
 });
 
 const mapDispatchToProps = {
     listLocalizationsRequest,
     createLocalizationRequest,
+    listLanguagesRequest,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Localizations);

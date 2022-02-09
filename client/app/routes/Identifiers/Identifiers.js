@@ -21,7 +21,7 @@ import {
 } from '../../redux/identifiers/actions';
 import {listCategoriesRequest} from '../../redux/categories/actions';
 
-const defaultChosenIdentifier = {id: 0, name: '', description: '', example_text: '', platforms: []};
+const defaultChosenIdentifier = {id: 0, name: '', description: '', text_singular: '', text_plural: '', platforms: []};
 
 class Identifiers extends React.Component {
     constructor(props) {

@@ -50,8 +50,18 @@ message TranslationConfiguration {
   string MainLanguage = 3;
 }
 
+message S3Configuration {
+  string SecretAccessKey = 1;
+  string AccessKeyID = 2;
+  string Region = 3;
+  string Endpoint = 4;
+  bool DisableSSL = 5;
+  bool ForcePathStyle = 6;
+}
+
 message StorageConfiguration {
   StorageType Use = 1;
+  S3Configuration S3Configuration = 2;
 }
 
 message SettingConfiguration {

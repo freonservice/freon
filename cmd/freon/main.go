@@ -52,18 +52,6 @@ var (
 		defaultLanguage        string
 	}
 
-	s3Storage struct {
-		secretAccessKey string
-		accessKeyID     string
-		region          string
-		appleBucket     string
-		androidBucket   string
-		webBucket       string
-		url             string
-		disableSSL      bool
-		forcePathStyle  bool
-	}
-
 	adminCred struct {
 		email    string
 		password string
@@ -97,16 +85,6 @@ func Init() {
 	flag.IntVar(&cfg.cpuLimit, "cpu-limit", config.CPULimit, "maximum usage cpu")
 	flag.StringVar(&cfg.libraURL, "libra.url", config.LibraURL, "libra api url")
 	flag.StringVar(&cfg.defaultLanguage, "defaultLanguage", config.DefaultLanguage, "default target language")
-
-	flag.StringVar(&s3Storage.secretAccessKey, "s3.secret-access-key", config.S3SecretAccessKey, "s3.secret-access-key cant be empty")
-	flag.StringVar(&s3Storage.accessKeyID, "s3.access-key-id", config.S3AccessKeyID, "s3.access-key-id cant be empty")
-	flag.StringVar(&s3Storage.region, "s3.region", config.S3Region, "s3.region cant be empty")
-	flag.StringVar(&s3Storage.url, "s3.url", config.S3URL, "s3.url cant be empty")
-	flag.StringVar(&s3Storage.appleBucket, "s3.apple-bucket", config.S3AppleBucket, "s3.apple-bucket cant be empty")
-	flag.StringVar(&s3Storage.androidBucket, "s3.android-bucket", config.S3AndroidBucket, "s3.android-bucket cant be empty")
-	flag.StringVar(&s3Storage.webBucket, "s3.web-bucket", config.S3WebBucket, "s3.web-bucket cant be empty")
-	flag.BoolVar(&s3Storage.disableSSL, "s3.disable-ssl", config.S3DisableSSL, "s3.disable-ssl cant be empty")
-	flag.BoolVar(&s3Storage.forcePathStyle, "s3.force-path-style", config.S3ForcePathStyle, "s3.force-path-style cant be empty")
 
 	log.SetDefaultKeyvals(structlog.KeyUnit, "main")
 }

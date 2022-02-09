@@ -95,6 +95,34 @@ func init() {
         }
       }
     },
+    "/auto-translation/{id}": {
+      "put": {
+        "security": [
+          {
+            "JWTBearer": []
+          }
+        ],
+        "summary": "create automatical translation by translation_id",
+        "operationId": "autoTranslationByID",
+        "parameters": [
+          {
+            "minimum": 1,
+            "type": "integer",
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "$ref": "#/responses/NoContent"
+          },
+          "default": {
+            "$ref": "#/responses/Error"
+          }
+        }
+      }
+    },
     "/categories": {
       "get": {
         "security": [
@@ -664,6 +692,25 @@ func init() {
         }
       }
     },
+    "/setting/disable-first-launch": {
+      "put": {
+        "security": [
+          {
+            "JWTBearer": []
+          }
+        ],
+        "summary": "setting first launch",
+        "operationId": "settingFirstLaunch",
+        "responses": {
+          "204": {
+            "$ref": "#/responses/NoContent"
+          },
+          "default": {
+            "$ref": "#/responses/Error"
+          }
+        }
+      }
+    },
     "/setting/storage": {
       "put": {
         "security": [
@@ -756,9 +803,15 @@ func init() {
             "schema": {
               "type": "object",
               "required": [
-                "translation"
+                "translation",
+                "storage",
+                "first_launch"
               ],
               "properties": {
+                "first_launch": {
+                  "type": "boolean",
+                  "default": true
+                },
                 "storage": {
                   "$ref": "#/definitions/StorageConfiguration"
                 },
@@ -879,7 +932,8 @@ func init() {
               "required": [
                 "localization_id",
                 "identifier_id",
-                "singular"
+                "singular",
+                "plural"
               ],
               "properties": {
                 "identifier_id": {
@@ -1619,12 +1673,46 @@ func init() {
         }
       }
     },
+    "S3StorageConfiguration": {
+      "type": "object",
+      "required": [
+        "secret_access_key",
+        "access_key_id",
+        "region",
+        "endpoint",
+        "disableSSL",
+        "force_path_style"
+      ],
+      "properties": {
+        "access_key_id": {
+          "type": "string"
+        },
+        "disableSSL": {
+          "type": "string"
+        },
+        "endpoint": {
+          "type": "string"
+        },
+        "force_path_style": {
+          "type": "string"
+        },
+        "region": {
+          "type": "string"
+        },
+        "secret_access_key": {
+          "type": "string"
+        }
+      }
+    },
     "StorageConfiguration": {
       "type": "object",
       "required": [
         "use"
       ],
       "properties": {
+        "s3_storage_conf": {
+          "$ref": "#/definitions/S3StorageConfiguration"
+        },
         "use": {
           "type": "integer",
           "format": "int32"
@@ -1638,6 +1726,7 @@ func init() {
         "localization",
         "identifier",
         "singular",
+        "plural",
         "created_at"
       ],
       "properties": {
@@ -1887,6 +1976,37 @@ func init() {
                 }
               }
             }
+          },
+          "default": {
+            "description": "General errors using same model as used by go-swagger for validation errors.",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/auto-translation/{id}": {
+      "put": {
+        "security": [
+          {
+            "JWTBearer": []
+          }
+        ],
+        "summary": "create automatical translation by translation_id",
+        "operationId": "autoTranslationByID",
+        "parameters": [
+          {
+            "minimum": 1,
+            "type": "integer",
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No content in answer"
           },
           "default": {
             "description": "General errors using same model as used by go-swagger for validation errors.",
@@ -2511,6 +2631,28 @@ func init() {
         }
       }
     },
+    "/setting/disable-first-launch": {
+      "put": {
+        "security": [
+          {
+            "JWTBearer": []
+          }
+        ],
+        "summary": "setting first launch",
+        "operationId": "settingFirstLaunch",
+        "responses": {
+          "204": {
+            "description": "No content in answer"
+          },
+          "default": {
+            "description": "General errors using same model as used by go-swagger for validation errors.",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
     "/setting/storage": {
       "put": {
         "security": [
@@ -2609,9 +2751,15 @@ func init() {
             "schema": {
               "type": "object",
               "required": [
-                "translation"
+                "translation",
+                "storage",
+                "first_launch"
               ],
               "properties": {
+                "first_launch": {
+                  "type": "boolean",
+                  "default": true
+                },
                 "storage": {
                   "$ref": "#/definitions/StorageConfiguration"
                 },
@@ -2733,7 +2881,8 @@ func init() {
               "required": [
                 "localization_id",
                 "identifier_id",
-                "singular"
+                "singular",
+                "plural"
               ],
               "properties": {
                 "identifier_id": {
@@ -3564,6 +3713,37 @@ func init() {
         }
       }
     },
+    "S3StorageConfiguration": {
+      "type": "object",
+      "required": [
+        "secret_access_key",
+        "access_key_id",
+        "region",
+        "endpoint",
+        "disableSSL",
+        "force_path_style"
+      ],
+      "properties": {
+        "access_key_id": {
+          "type": "string"
+        },
+        "disableSSL": {
+          "type": "string"
+        },
+        "endpoint": {
+          "type": "string"
+        },
+        "force_path_style": {
+          "type": "string"
+        },
+        "region": {
+          "type": "string"
+        },
+        "secret_access_key": {
+          "type": "string"
+        }
+      }
+    },
     "StatCompletedTranslationsItems0": {
       "type": "object",
       "required": [
@@ -3585,6 +3765,9 @@ func init() {
         "use"
       ],
       "properties": {
+        "s3_storage_conf": {
+          "$ref": "#/definitions/S3StorageConfiguration"
+        },
         "use": {
           "type": "integer",
           "format": "int32"
@@ -3598,6 +3781,7 @@ func init() {
         "localization",
         "identifier",
         "singular",
+        "plural",
         "created_at"
       ],
       "properties": {

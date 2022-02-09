@@ -45,6 +45,8 @@ export const UserSidebar = () => (
         >
             <SidebarMenu.Item title="Profile" to='/settings/profile-edit' exact/>
             <SidebarMenu.Item title="Security" to='/settings/security-edit' exact/>
+            <SidebarMenu.Item title="Storage" to='/settings/storage-edit' exact/>
+            <SidebarMenu.Item title="Translation" to='/settings/translation-edit' exact/>
         </SidebarMenu.Item>
 
     </SidebarMenu>

@@ -15,7 +15,7 @@ export class Action extends React.Component {
     render() {
         const isEdit = this.props.chosenLocalization.id > 0;
         const {
-            languages,
+            listLanguages,
             chosenLocalization,
             handleChooseLocalization,
             handleSubmitLocalization,
@@ -34,7 +34,7 @@ export class Action extends React.Component {
                                 id="list-available-localizations-for-id"
                                 defaultSelected={[]}
                                 labelKey="name"
-                                options={languages}
+                                options={listLanguages}
                                 placeholder="Choose a localization..."
                                 onChange={handleChooseLocalization}
                             />
@@ -42,7 +42,7 @@ export class Action extends React.Component {
                         <FormGroup>
                             <Input
                                 type="text"
-                                value={chosenLocalization.locale}
+                                value={chosenLocalization.code}
                                 placeholder="Language code (ex: Czech)"
                                 disabled={true}
                             />
@@ -63,5 +63,5 @@ Action.propTypes = {
     chosenLocalization: PropTypes.object.isRequired,
     handleChooseLocalization: PropTypes.func.isRequired,
     handleSubmitLocalization: PropTypes.func.isRequired,
-    languages: PropTypes.array.isRequired,
+    listLanguages: PropTypes.array.isRequired,
 };

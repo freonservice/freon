@@ -8,6 +8,8 @@ import translations from './translations/reducer';
 import users from './users/reducer';
 import stat from './stat/reducer';
 import translationFiles from './translationFiles/reducer';
+import languages from './languages/reducer';
+import settings from './settings/reducer';
 
 export default combineReducers({
     login,
@@ -18,5 +20,7 @@ export default combineReducers({
     translations,
     users,
     stat,
-    translationFiles
+    translationFiles,
+    languages,
+    settings
 });

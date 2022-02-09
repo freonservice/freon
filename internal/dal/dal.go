@@ -63,5 +63,10 @@ func NewSettingRepo(path, defaultLanguage string) (*SettingRepo, error) {
 		return nil, err
 	}
 
+	err = r.getSettingFirstLaunchState()
+	if err != nil {
+		return nil, err
+	}
+
 	return r, nil
 }

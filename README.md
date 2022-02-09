@@ -9,6 +9,10 @@ The service consists of two parts - a backend written in Golang and a frontend w
 
 This service will allow content managers to conveniently make changes to localization files, monitor support for various languages, and seamlessly pull them up for applications without the need to update in the application store (App Store, Google Play, etc.) or instant update in web app.
 
+## First Launch Configuration
+
+Configurations of storage type and main language chosen due
+
 ## Build Status
 
 *Development, beta-release*

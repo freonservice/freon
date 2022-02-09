@@ -41,14 +41,15 @@ function* getIdentifiersWorker() {
 }
 
 function createIdentifierApi(action) {
-    const {name, description, example_text, categoryId, platforms, namedList} = action;
+    const {name, description, text_singular, text_plural, categoryId, platforms} = action;
     return fetch(createIdentifierUrl, {
         method: 'POST',
         headers: getHeaders(),
         body: JSON.stringify({
             name,
             description,
-            example_text,
+            text_singular,
+            text_plural,
             'category_id': categoryId,
             platforms,
         }),
@@ -90,14 +91,15 @@ function* deleteIdentifierWorker(action) {
 }
 
 function updateIdentifierApi(action) {
-    const {id, name, description, example_text, categoryId, platforms, namedList} = action;
+    const {id, name, description, text_singular, text_plural, categoryId, platforms} = action;
     return fetch(deleteOrUpdateIdentifierUrl + id, {
         method: 'PUT',
         headers: getHeaders(),
         body: JSON.stringify({
             name,
             description,
-            example_text,
+            text_singular,
+            text_plural,
             'category_id': categoryId,
             platforms,
         }),

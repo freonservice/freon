@@ -83,8 +83,13 @@ func (o *Settings) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
 // swagger:model SettingsOKBody
 type SettingsOKBody struct {
 
+	// first launch
+	// Required: true
+	FirstLaunch bool `json:"first_launch"`
+
 	// storage
-	Storage *model.StorageConfiguration `json:"storage,omitempty"`
+	// Required: true
+	Storage *model.StorageConfiguration `json:"storage"`
 
 	// translation
 	// Required: true
@@ -95,8 +100,13 @@ type SettingsOKBody struct {
 func (o *SettingsOKBody) UnmarshalJSON(data []byte) error {
 	var props struct {
 
+		// first launch
+		// Required: true
+		FirstLaunch bool `json:"first_launch"`
+
 		// storage
-		Storage *model.StorageConfiguration `json:"storage,omitempty"`
+		// Required: true
+		Storage *model.StorageConfiguration `json:"storage"`
 
 		// translation
 		// Required: true
@@ -109,6 +119,7 @@ func (o *SettingsOKBody) UnmarshalJSON(data []byte) error {
 		return err
 	}
 
+	o.FirstLaunch = props.FirstLaunch
 	o.Storage = props.Storage
 	o.Translation = props.Translation
 	return nil
@@ -117,6 +128,10 @@ func (o *SettingsOKBody) UnmarshalJSON(data []byte) error {
 // Validate validates this settings o k body
 func (o *SettingsOKBody) Validate(formats strfmt.Registry) error {
 	var res []error
+
+	if err := o.validateFirstLaunch(formats); err != nil {
+		res = append(res, err)
+	}
 
 	if err := o.validateStorage(formats); err != nil {
 		res = append(res, err)
@@ -132,9 +147,19 @@ func (o *SettingsOKBody) Validate(formats strfmt.Registry) error {
 	return nil
 }
 
+func (o *SettingsOKBody) validateFirstLaunch(formats strfmt.Registry) error {
+
+	if err := validate.Required("settingsOK"+"."+"first_launch", "body", bool(o.FirstLaunch)); err != nil {
+		return err
+	}
+
+	return nil
+}
+
 func (o *SettingsOKBody) validateStorage(formats strfmt.Registry) error {
-	if swag.IsZero(o.Storage) { // not required
-		return nil
+
+	if err := validate.Required("settingsOK"+"."+"storage", "body", o.Storage); err != nil {
+		return err
 	}
 
 	if o.Storage != nil {

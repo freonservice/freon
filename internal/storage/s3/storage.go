@@ -6,6 +6,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/freonservice/freon/internal/domain"
 	"github.com/freonservice/freon/internal/storage"
 	api "github.com/freonservice/freon/pkg/freonApi"
 
@@ -21,6 +22,10 @@ import (
 
 const (
 	uploadTimeout = 15 * time.Second
+
+	appleBucket   = "apple"
+	androidBucket = "android"
+	webBucket     = "web"
 )
 
 type client struct {
@@ -92,18 +97,18 @@ func (c *client) Create(parameter storage.FileParameter) (*storage.File, error) 
 	}, nil
 }
 
-func NewStorage(config *StorageConfiguration, logger *structlog.Logger) (storage.Storage, error) {
-	err := config.checkValidity()
+func NewStorage(storageConf *domain.S3Configuration, logger *structlog.Logger) (storage.Storage, error) {
+	err := storageConf.IsValid()
 	if err != nil {
 		return nil, err
 	}
 
 	s3Config := &aws.Config{
-		Credentials:      credentials.NewStaticCredentials(config.AccessKeyID, config.SecretAccessKey, ""),
-		Endpoint:         aws.String(config.URL),
-		Region:           aws.String(config.Region),
-		DisableSSL:       aws.Bool(config.DisableSSL),
-		S3ForcePathStyle: aws.Bool(config.ForcePathStyle),
+		Credentials:      credentials.NewStaticCredentials(storageConf.AccessKeyID, storageConf.SecretAccessKey, ""),
+		Endpoint:         aws.String(storageConf.Endpoint),
+		Region:           aws.String(storageConf.Region),
+		DisableSSL:       aws.Bool(storageConf.DisableSSL),
+		S3ForcePathStyle: aws.Bool(storageConf.ForcePathStyle),
 	}
 	newSession, err := session.NewSession(s3Config)
 	if err != nil {
@@ -112,9 +117,9 @@ func NewStorage(config *StorageConfiguration, logger *structlog.Logger) (storage
 
 	c := &client{
 		client:        s3.New(newSession),
-		appleBucket:   config.AppleBucket,
-		androidBucket: config.AndroidBucket,
-		webBucket:     config.WebBucket,
+		appleBucket:   appleBucket,
+		androidBucket: androidBucket,
+		webBucket:     webBucket,
 		logger:        logger,
 	}
 

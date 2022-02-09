@@ -35,6 +35,7 @@ export class TranslationAction extends React.Component {
 
     handleSaveButton = () => {
         const {id, singular, plural} = this.state.translation;
+        console.log(id, singular, plural)
         this.props.updateTranslationRequest(id, singular.trim(), plural.trim());
         this.props.history.goBack();
     };

@@ -33,7 +33,6 @@ export class TranslationTable extends React.Component {
         this.props.updateStatusTranslationRequest(id, status);
     };
 
-
     createColumnDefinitions() {
         return [
             {
@@ -116,9 +115,13 @@ export class TranslationTable extends React.Component {
                         <dl className="row">
                             <dt className="col-sm-6 text-right">Description</dt>
                             <dd className="col-sm-6">{row.identifier.description}</dd>
-                            <dt className="col-sm-6 text-right">Example Text</dt>
+                            <dt className="col-sm-6 text-right">Example text singular</dt>
                             <dd className="col-sm-6">
-                                {row.identifier.example_text.substring(0, 100) + '...'}
+                                {row.identifier.text_singular.substring(0, 100) + '...'}
+                            </dd>
+                            <dt className="col-sm-6 text-right">Example text plural</dt>
+                            <dd className="col-sm-6">
+                                {row.identifier.text_plural.substring(0, 100) + '...'}
                             </dd>
                         </dl>
                     </Col>

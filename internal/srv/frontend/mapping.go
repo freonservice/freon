@@ -96,7 +96,7 @@ func apiTranslation(v *domain.Translation) *model.Translation {
 	i := &model.Translation{
 		ID:           &v.ID,
 		Singular:     &v.Singular,
-		Plural:       v.Plural,
+		Plural:       &v.Plural,
 		Localization: apiLocalization(v.Localization),
 		Identifier:   apiIdentifier(v.Identifier),
 		Status:       getTranslationStatus(api.StatusTranslation(v.Status)),

@@ -20,7 +20,7 @@ func (srv *server) createTranslation(params op.CreateTranslationParams, session 
 		swag.Int64Value(params.Args.LocalizationID),
 		swag.Int64Value(params.Args.IdentifierID),
 		swag.StringValue(params.Args.Singular),
-		params.Args.Plural,
+		swag.StringValue(params.Args.Plural),
 	)
 	switch errors.Cause(err) {
 	default:
@@ -116,7 +116,7 @@ func (srv *server) autoTranslation(params op.AutoTranslationParams, session *app
 	default:
 		log.PrintErr(errors.WithStack(err))
 		return errAutoTranslation(log, err, codeInternal)
-	case app.ErrAutoTranslation:
+	case app.ErrAutoTranslationDisable:
 		return errAutoTranslation(log, err, codeAutoTranslationNotSupported)
 	case nil:
 	}
@@ -124,4 +124,18 @@ func (srv *server) autoTranslation(params op.AutoTranslationParams, session *app
 	return op.NewAutoTranslationOK().WithPayload(&op.AutoTranslationOKBody{
 		Text: pointer.ToString(translate),
 	})
+}
+
+func (srv *server) autoTranslationByID(params op.AutoTranslationByIDParams, session *app.UserSession) op.AutoTranslationByIDResponder {
+	ctx, log := fromRequest(params.HTTPRequest, session)
+
+	err := srv.app.CreateAutoTranslationByID(ctx, params.ID)
+	switch errors.Cause(err) {
+	default:
+		log.PrintErr(errors.WithStack(err))
+		return errAutoTranslationByID(log, err, codeInternal)
+	case nil:
+	}
+
+	return op.NewAutoTranslationByIDNoContent()
 }

@@ -176,3 +176,25 @@ func (r *Repo) GetGroupedTranslations(ctx Ctx, f filter.GroupedTranslationFilter
 
 	return gts, nil
 }
+
+func (r *Repo) GetTranslationByID(ctx Ctx, id int64) (*dao.Translation, error) {
+	entity := new(dao.Translation)
+	entity.Localization = new(dao.Localization)
+	entity.Identifier = new(dao.Identifier)
+
+	row := r.DB.QueryRowContext(ctx, sqlSelectTranslationByID, id)
+	err := row.Scan(
+		&entity.Singular, &entity.Plural,
+		&entity.IdentifierID, &entity.LocalizationID,
+		&entity.Status, &entity.Localization.Locale,
+	)
+	switch errors.Cause(err) {
+	default:
+		return nil, err
+	case sql.ErrNoRows:
+		return nil, app.ErrNotFound
+	case nil:
+	}
+
+	return entity, nil
+}

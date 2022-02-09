@@ -38,7 +38,8 @@ type Translation struct {
 	Localization *Localization `json:"localization"`
 
 	// plural
-	Plural string `json:"plural,omitempty"`
+	// Required: true
+	Plural *string `json:"plural"`
 
 	// singular
 	// Required: true
@@ -69,7 +70,8 @@ func (m *Translation) UnmarshalJSON(data []byte) error {
 		Localization *Localization `json:"localization"`
 
 		// plural
-		Plural string `json:"plural,omitempty"`
+		// Required: true
+		Plural *string `json:"plural"`
 
 		// singular
 		// Required: true
@@ -112,6 +114,10 @@ func (m *Translation) Validate(formats strfmt.Registry) error {
 	}
 
 	if err := m.validateLocalization(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if err := m.validatePlural(formats); err != nil {
 		res = append(res, err)
 	}
 
@@ -178,6 +184,15 @@ func (m *Translation) validateLocalization(formats strfmt.Registry) error {
 			}
 			return err
 		}
+	}
+
+	return nil
+}
+
+func (m *Translation) validatePlural(formats strfmt.Registry) error {
+
+	if err := validate.Required("plural", "body", m.Plural); err != nil {
+		return err
 	}
 
 	return nil
