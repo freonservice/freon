@@ -22,11 +22,11 @@ mockgen-create:
 	mockgen -package=app -source=./internal/translation/iface.go -destination=./internal/app/translation.mock.go Translation
 
 proto-generate:
-	protoc -I./proto_files -I./vendor --go_out=. --go_opt=paths=import --go-grpc_out=. --go-grpc_opt=paths=import,require_unimplemented_servers=false ./proto_files/const.proto
-	protoc -I./proto_files -I./vendor --go_out=. --go_opt=paths=import --go-grpc_out=. --go-grpc_opt=paths=import,require_unimplemented_servers=false ./proto_files/localization.proto
-	protoc -I./proto_files -I./vendor --go_out=. --go_opt=paths=import --go-grpc_out=. --go-grpc_opt=paths=import,require_unimplemented_servers=false ./proto_files/translation.proto
-	protoc -I./proto_files -I./vendor --go_out=. --go_opt=paths=import --go-grpc_out=. --go-grpc_opt=paths=import,require_unimplemented_servers=false ./proto_files/translation_file.proto
-	protoc -I./proto_files -I./vendor --go_out=. --go_opt=paths=import --go-grpc_out=. --go-grpc_opt=paths=import,require_unimplemented_servers=false ./proto_files/freon_service.proto
+	protoc -I./proto_files --go_out=. --go_opt=paths=import --go-grpc_out=. --go-grpc_opt=paths=import,require_unimplemented_servers=false ./proto_files/const.proto
+	protoc -I./proto_files --go_out=. --go_opt=paths=import --go-grpc_out=. --go-grpc_opt=paths=import,require_unimplemented_servers=false ./proto_files/localization.proto
+	protoc -I./proto_files --go_out=. --go_opt=paths=import --go-grpc_out=. --go-grpc_opt=paths=import,require_unimplemented_servers=false ./proto_files/translation.proto
+	protoc -I./proto_files --go_out=. --go_opt=paths=import --go-grpc_out=. --go-grpc_opt=paths=import,require_unimplemented_servers=false ./proto_files/translation_file.proto
+	protoc -I./proto_files --go_out=. --go_opt=paths=import --go-grpc_out=. --go-grpc_opt=paths=import,require_unimplemented_servers=false ./proto_files/freon_service.proto
 
 reform-generate:
 	reform internal/dao
