@@ -94,11 +94,11 @@ You can install *git hooks* for convenient work:
 We try to keep the project clean, so we write tests and use the linter.
 
 ## Requirements for development
-- [Go 1.17.5](https://golang.org/dl/)
+- [Go 1.18.1](https://golang.org/dl/)
 - [MockGen 1.6.0](https://github.com/golang/mock)
 - [Genny](https://github.com/cheekybits/genny)
 - [Swagger 0.29.0](https://github.com/go-swagger/go-swagger)
-- [Protoc 3.19.1](https://grpc.io/docs/protoc-installation/)
+- [Protoc 3.20.0](https://grpc.io/docs/protoc-installation/)
 
 ## License
 
