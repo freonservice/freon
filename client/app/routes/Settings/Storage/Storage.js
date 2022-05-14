@@ -18,7 +18,8 @@ import {
 import {HeaderMain} from '../../components/HeaderMain';
 import * as PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import {updateSettingStorageRequest} from "../../../redux/settings/actions";
+import {listSettingsRequest, updateSettingStorageRequest} from "../../../redux/settings/actions";
+import useDispatchPromise from "../../../dispatch";
 
 export class Storage extends React.Component {
     constructor(props) {
@@ -26,7 +27,16 @@ export class Storage extends React.Component {
 
         this.state = {
             storage: this.props.storage,
+            dispatch: useDispatchPromise()
         };
+
+    }
+
+    componentDidMount() {
+        this.state.dispatch(listSettingsRequest()).then(data => {
+            // do something..
+            console.log("Loaded", data.payload, "posts");
+        });
     }
 
     handleChange = (e) => {
@@ -103,7 +113,8 @@ export class Storage extends React.Component {
 
 Storage.propTypes = {
     updateSettingStorageRequest: PropTypes.func.isRequired,
-    storage: PropTypes.object
+    storage: PropTypes.object,
+    listSettingsRequest: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -112,6 +123,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = {
     updateSettingStorageRequest,
+    listSettingsRequest,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Storage);
