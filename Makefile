@@ -30,3 +30,9 @@ proto-generate:
 
 reform-generate:
 	reform internal/dao
+
+services-up:
+	docker-compose -f docker/docker-compose.yml up -d freon-db
+
+services-down:
+	docker-compose -f docker/docker-compose.yml down

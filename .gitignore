@@ -485,6 +485,9 @@ docs
 badger
 *.go-e
 gen
+docker/freon-badger-db
+docker/freon-data-db
+docker/freon-docs
 
 # frontend build folder
 frontend

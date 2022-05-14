@@ -1,10 +1,5 @@
 version: '3.8'
 
-volumes:
-  freon-db:
-  freon-badger-db:
-  freon-docs:
-
 services:
   freon-db:
     image: postgres:14.1
@@ -16,7 +11,7 @@ services:
       POSTGRES_USER: root
       POSTGRES_PASSWORD: password
     volumes:
-      - freon-db:/var/lib/postgresql/data
+      - ./freon-data-db:/var/lib/postgresql/data
     healthcheck:
       test: [ "CMD", "pg_isready" ]
       interval: 1s
@@ -58,5 +53,5 @@ services:
       retries: 3
       start_period: 10s
     volumes:
-      - freon-docs:/docs
-      - freon-badger-db:/badger
+      - ./freon-docs:/docs
+      - ./freon-badger-db:/badger
