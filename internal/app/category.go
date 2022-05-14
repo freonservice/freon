@@ -3,11 +3,11 @@ package app
 import "github.com/freonservice/freon/internal/domain"
 
 func (a *appl) CreateCategory(ctx Ctx, name string) error {
-	return a.repo.CreateCategory(ctx, name)
+	return a.svc.repo.CreateCategory(ctx, name)
 }
 
 func (a *appl) GetCategories(ctx Ctx) ([]*domain.Category, error) {
-	c, err := a.repo.GetCategories(ctx)
+	c, err := a.svc.repo.GetCategories(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -15,9 +15,9 @@ func (a *appl) GetCategories(ctx Ctx) ([]*domain.Category, error) {
 }
 
 func (a *appl) DeleteCategory(ctx Ctx, id int64) error {
-	return a.repo.DeleteCategory(ctx, id)
+	return a.svc.repo.DeleteCategory(ctx, id)
 }
 
 func (a *appl) UpdateCategory(ctx Ctx, id int64, name string) error {
-	return a.repo.UpdateCategory(ctx, id, name)
+	return a.svc.repo.UpdateCategory(ctx, id, name)
 }

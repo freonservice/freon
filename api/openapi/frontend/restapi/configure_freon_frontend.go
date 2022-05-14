@@ -54,6 +54,11 @@ func configureAPI(api *op.FreonFrontendAPI) http.Handler {
 			return op.AutoTranslationNotImplemented()
 		})
 	}
+	if api.AutoTranslationByIDHandler == nil {
+		api.AutoTranslationByIDHandler = op.AutoTranslationByIDHandlerFunc(func(params op.AutoTranslationByIDParams, principal *app.UserSession) op.AutoTranslationByIDResponder {
+			return op.AutoTranslationByIDNotImplemented()
+		})
+	}
 	if api.CreateCategoryHandler == nil {
 		api.CreateCategoryHandler = op.CreateCategoryHandlerFunc(func(params op.CreateCategoryParams, principal *app.UserSession) op.CreateCategoryResponder {
 			return op.CreateCategoryNotImplemented()
@@ -157,6 +162,11 @@ func configureAPI(api *op.FreonFrontendAPI) http.Handler {
 	if api.RegUserHandler == nil {
 		api.RegUserHandler = op.RegUserHandlerFunc(func(params op.RegUserParams, principal *app.UserSession) op.RegUserResponder {
 			return op.RegUserNotImplemented()
+		})
+	}
+	if api.SettingFirstLaunchHandler == nil {
+		api.SettingFirstLaunchHandler = op.SettingFirstLaunchHandlerFunc(func(params op.SettingFirstLaunchParams, principal *app.UserSession) op.SettingFirstLaunchResponder {
+			return op.SettingFirstLaunchNotImplemented()
 		})
 	}
 	if api.SettingStorageHandler == nil {

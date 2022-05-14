@@ -13,7 +13,7 @@ func (a *appl) GetVersion(ctx Ctx, localizationID, platform int64) ([]*domain.Ve
 		data []*dao.Version
 	)
 	if platform >= int64(freonApi.PlatformType_PLATFORM_TYPE_WEB) && platform <= int64(freonApi.PlatformType_PLATFORM_TYPE_ANDROID) {
-		data, err = a.repo.GetVersionFromTranslationFiles(
+		data, err = a.svc.repo.GetVersionFromTranslationFiles(
 			ctx,
 			filter.VersionTranslationFilesFilter{
 				LocalizationID: localizationID,
@@ -21,7 +21,7 @@ func (a *appl) GetVersion(ctx Ctx, localizationID, platform int64) ([]*domain.Ve
 			},
 		)
 	} else {
-		data, err = a.repo.GetVersionFromTranslations(
+		data, err = a.svc.repo.GetVersionFromTranslations(
 			ctx,
 			filter.VersionTranslationsFilter{LocalizationID: localizationID},
 		)

@@ -17,8 +17,6 @@ func (srv *server) supportedLanguages(params op.SupportedLanguagesParams, sessio
 	default:
 		log.PrintErr(errors.WithStack(err))
 		return errSupportedLanguages(log, err, codeInternal)
-	case app.ErrAutoTranslation:
-		return errSupportedLanguages(log, err, codeAutoTranslationNotSupported)
 	case nil:
 	}
 

@@ -3,7 +3,7 @@ package app
 import "github.com/freonservice/freon/internal/domain"
 
 func (a *appl) GetStatistic(ctx Ctx) (*domain.Statistic, error) {
-	s, err := a.repo.GetStatistic(ctx)
+	s, err := a.svc.repo.GetStatistic(ctx)
 	if err != nil {
 		return nil, err
 	}

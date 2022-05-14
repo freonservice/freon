@@ -128,8 +128,8 @@ create table if not exists public.translation_files
     updated_at      timestamp without time zone
 );
 
-create unique index if not exists translation_files_path_uindex
-    on public.translation_files (path);
+-- create unique index if not exists translation_files_web_folder_path_uindex
+--     on public.translation_files (web_folder_path);
 
 create table if not exists public.user_sessions
 (

@@ -1,7 +1,7 @@
 # docker build --no-cache -t freon:latest -f Dockerfile .
 
 # Accept the Go version for the image to be set as a build argument.
-ARG GO_VERSION=1.17.6
+ARG GO_VERSION=1.18.1
 
 # First stage: build the executable.
 FROM golang:${GO_VERSION}-alpine AS builder
@@ -21,9 +21,9 @@ RUN apk add --no-cache ca-certificates git tzdata make
 ENV CGO_ENABLED=0
 
 # Prebuild requirements
-RUN go get golang.org/x/tools/cmd/goimports && wget -O - -q https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh| sh
+RUN go install golang.org/x/tools/cmd/goimports@latest && wget -O - -q https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh| sh
 
-# Create folder for transaction files
+# Create folder for translation files and settings
 RUN mkdir -p /docs && mkdir -p /badger
 
 # Set the working directory outside $GOPATH to enable the support for modules.

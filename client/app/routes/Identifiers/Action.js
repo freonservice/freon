@@ -15,7 +15,6 @@ import PropTypes from 'prop-types';
 import {Typeahead} from 'react-bootstrap-typeahead';
 import {toast} from 'react-toastify';
 import {Media} from 'reactstrap';
-import TagsInput from '../../components/TagsInput';
 
 const defaultPlatforms = {
     'web': {id: 0, label: 'web', name: 'web', checked: true},
@@ -62,7 +61,7 @@ export class Action extends React.Component {
 
     handleSubmitIdentifier = (e) => {
         e.preventDefault();
-        const {id, name, description, example_text} = this.props.chosenIdentifier;
+        const {id, name, description, text_singular, text_plural} = this.props.chosenIdentifier;
         const {namedList} = this.state;
 
         let categoryId = 0;
@@ -86,9 +85,9 @@ export class Action extends React.Component {
         }
 
         if (id > 0) {
-            this.props.updateIdentifierRequest(id, name, description, example_text, categoryId, newPlatforms, namedList);
+            this.props.updateIdentifierRequest(id, name, description, text_singular, text_plural, categoryId, newPlatforms, namedList);
         } else {
-            this.props.createIdentifierRequest(name, description, example_text, categoryId, newPlatforms, namedList);
+            this.props.createIdentifierRequest(name, description, text_singular, text_plural, categoryId, newPlatforms, namedList);
         }
         this.handleResetChosenIdentifier();
     };
@@ -100,7 +99,7 @@ export class Action extends React.Component {
             handleChangeIdentifierInformation
         } = this.props;
         const isEdit = chosenIdentifier.id > 0;
-        const {platforms, chosenCategory, namedList} = this.state;
+        const {platforms, chosenCategory} = this.state;
 
         if (isEdit) {
             platforms['web'].checked = false;
@@ -164,10 +163,19 @@ export class Action extends React.Component {
                         <FormGroup>
                             <Input
                                 type="textarea"
-                                value={chosenIdentifier.example_text}
+                                value={chosenIdentifier.text_singular}
                                 onChange={(e) => handleChangeIdentifierInformation(e)}
-                                name="example_text"
-                                placeholder="Example translated text (Optional)"
+                                name="text_singular"
+                                placeholder="Example text singular (Optional)"
+                            />
+                        </FormGroup>
+                        <FormGroup>
+                            <Input
+                                type="textarea"
+                                value={chosenIdentifier.text_plural}
+                                onChange={(e) => handleChangeIdentifierInformation(e)}
+                                name="text_plural"
+                                placeholder="Example text plural (Optional)"
                             />
                         </FormGroup>
                         <FormGroup className="mt-2">

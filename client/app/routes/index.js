@@ -19,6 +19,8 @@ import Login from './Login';
 
 import Profile from "./Settings/Profile";
 import Security from "./Settings/Security";
+import Storage from "./Settings/Storage";
+import Translation from "./Settings/Translation";
 
 import PrivateRoute from "./privateroute";
 
@@ -45,6 +47,8 @@ export const RoutedContent = () => {
 
             <PrivateRoute path='/settings/profile-edit' exact component={Profile}/>
             <PrivateRoute path='/settings/security-edit' exact component={Security}/>
+            <PrivateRoute path='/settings/storage-edit' exact component={Storage}/>
+            <PrivateRoute path='/settings/translation-edit' exact component={Translation}/>
 
             <Route path="/login" exact component={Login}/>
 

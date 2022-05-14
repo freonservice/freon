@@ -21,6 +21,7 @@ func (srv *server) settings(params op.SettingsParams, session *app.UserSession) 
 		Storage: &model.StorageConfiguration{
 			Use: pointer.ToInt32(state.Storage.Use),
 		},
+		FirstLaunch: state.FirstLaunch,
 	})
 }
 
@@ -52,4 +53,16 @@ func (srv *server) settingStorage(params op.SettingStorageParams, session *app.U
 	case nil:
 	}
 	return op.NewSettingStorageNoContent()
+}
+
+func (srv *server) settingFirstLaunch(params op.SettingFirstLaunchParams, session *app.UserSession) op.SettingFirstLaunchResponder {
+	ctx, log := fromRequest(params.HTTPRequest, session)
+	err := srv.app.DisableSettingFirstLaunch(ctx)
+	switch errors.Cause(err) {
+	default:
+		log.PrintErr(errors.WithStack(err))
+		return errSettingFirstLaunch(log, err, codeInternal)
+	case nil:
+	}
+	return op.NewSettingFirstLaunchNoContent()
 }

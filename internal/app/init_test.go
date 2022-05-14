@@ -16,7 +16,9 @@ func testNew(t *testing.T) (func(), Appl, *MockRepo, *MockAuth, *MockPassword) {
 	mockPassword := NewMockPassword(ctrl)
 	mockSettingRepo := NewMockSettingRepo(ctrl)
 	mockStorage := NewMockStorage(ctrl)
+	mockTranslation := NewMockTranslation(ctrl)
 
-	a := New(mockRepo, mockAuth, mockPassword, mockSettingRepo, nil, mockStorage, structlog.New())
+	svc := NewSvc(mockRepo, mockAuth, mockPassword, mockSettingRepo, mockTranslation, mockStorage)
+	a := New(svc, Config{}, structlog.New())
 	return ctrl.Finish, a, mockRepo, mockAuth, mockPassword
 }

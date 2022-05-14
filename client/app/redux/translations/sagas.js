@@ -17,7 +17,7 @@ import {
 const getTranslationsUrl = `${apiServerURL}/api/internal/translations`;
 const createTranslateUrl = `${apiServerURL}/api/internal/translation`;
 const updateTranslationUrl = `${apiServerURL}/api/internal/translation/`;
-const hideTranslationUrl = `${apiServerURL}/api/internal/translation/hide/`;
+// const hideTranslationUrl = `${apiServerURL}/api/internal/translation/hide/`;
 
 function getTranslationsApi(localizationId = 0) {
     let url = getTranslationsUrl;

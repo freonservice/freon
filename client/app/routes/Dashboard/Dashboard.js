@@ -11,11 +11,13 @@ import {HeaderMain} from '../components/HeaderMain';
 import {connect} from 'react-redux';
 import {statRequest} from '../../redux/stat/actions';
 import * as PropTypes from 'prop-types';
+import {listSettingsRequest} from "../../redux/settings/actions";
 
 export class Dashboard extends React.Component {
     constructor(props) {
         super(props);
 
+        this.props.listSettingsRequest();
         this.props.statRequest();
     }
 
@@ -27,7 +29,6 @@ export class Dashboard extends React.Component {
             count_localizations,
             stat_completed_translations
         } = this.props.stat;
-        console.log(typeof stat_completed_translations);
         return (
             <Container>
                 <Row className="mb-5">
@@ -140,6 +141,7 @@ Dashboard.propTypes = {
     stat: PropTypes.object,
     errorMsg: PropTypes.string,
     statRequest: PropTypes.func.isRequired,
+    listSettingsRequest: PropTypes.func.isRequired,
 };
 
 Dashboard.defaultTypes = {
@@ -154,7 +156,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = {
-    statRequest
+    statRequest,
+    listSettingsRequest,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);

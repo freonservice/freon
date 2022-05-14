@@ -8,7 +8,6 @@ import (
 	"github.com/freonservice/freon/internal/filter"
 	"github.com/freonservice/freon/internal/storage"
 	iface "github.com/freonservice/freon/internal/translation"
-	"github.com/freonservice/freon/pkg/freonApi"
 
 	"github.com/google/uuid"
 	"github.com/jmoiron/sqlx"
@@ -68,9 +67,11 @@ type (
 		GetCurrentSettingState() domain.SettingConfiguration
 		SetTranslationConfiguration(ctx Ctx, data domain.TranslationConfiguration) error
 		SetStorageConfiguration(ctx Ctx, data domain.StorageConfiguration) error
+		DisableSettingFirstLaunch(ctx Ctx) error
 
 		GetSupportedLanguages(ctx Ctx) ([]*domain.Language, error)
 		Translate(ctx Ctx, text string, source, target language.Tag) (string, error)
+		CreateAutoTranslationByID(ctx Ctx, id int64) error
 
 		HealthCheck(Ctx) (interface{}, error)
 	}
@@ -123,6 +124,7 @@ type (
 		UpdateTranslationWithMeta(ctx Ctx, localizationID, identifierID int64, singular, plural string) error
 		GetTranslation(ctx Ctx, locale, identifierName string) (*dao.Translation, error)
 		GetGroupedTranslations(ctx Ctx, f filter.GroupedTranslationFilter) (map[string][]*dao.Translation, error)
+		GetTranslationByID(ctx Ctx, id int64) (*dao.Translation, error)
 
 		CreateTranslationFile(ctx Ctx, name, path, s3fileID, s3bucket string, platform, storageType, creatorID, localizationID int64) error
 		GetTranslationFile(ctx Ctx, id int64) (*dao.TranslationFile, error)
@@ -140,6 +142,7 @@ type (
 		GetCurrentSettingState() domain.SettingConfiguration
 		SetTranslationConfiguration(ctx Ctx, data domain.TranslationConfiguration) error
 		SetStorageConfiguration(ctx Ctx, data domain.StorageConfiguration) error
+		DisableSettingFirstLaunch(ctx Ctx) error
 	}
 
 	Password interface {
@@ -148,14 +151,23 @@ type (
 		Generate(length int) string
 	}
 
-	appl struct {
+	Svc struct {
 		repo        Repo
 		auth        Auth
 		pass        Password
 		setting     SettingRepo
 		translation iface.Translation
 		storage     storage.Storage
-		logger      *structlog.Logger
+	}
+
+	Config struct {
+		TranslationFilesFolder string
+	}
+
+	appl struct {
+		svc    *Svc
+		config Config
+		logger *structlog.Logger
 	}
 
 	UserSession struct {
@@ -164,52 +176,25 @@ type (
 	}
 )
 
-func (a *appl) GetCurrentSettingState() domain.SettingConfiguration {
-	return a.setting.GetCurrentSettingState()
+func NewSvc(repo Repo, auth Auth, pass Password, setting SettingRepo, translation iface.Translation, s storage.Storage) *Svc {
+	return &Svc{
+		repo,
+		auth,
+		pass,
+		setting,
+		translation,
+		s,
+	}
 }
 
-func (a *appl) SetTranslationConfiguration(ctx Ctx, data domain.TranslationConfiguration) error {
-	return a.setting.SetTranslationConfiguration(ctx, data)
-}
-
-func (a *appl) SetStorageConfiguration(ctx Ctx, data domain.StorageConfiguration) error {
-	return a.setting.SetStorageConfiguration(ctx, data)
-}
-
-func New(
-	repo Repo, auth Auth, pass Password, setting SettingRepo,
-	translation iface.Translation, dataStorage storage.Storage, logger *structlog.Logger) Appl {
+func New(svc *Svc, config Config, logger *structlog.Logger) Appl {
 	return &appl{
-		repo:        repo,
-		auth:        auth,
-		pass:        pass,
-		setting:     setting,
-		translation: translation,
-		storage:     dataStorage,
-		logger:      logger,
+		svc:    svc,
+		config: config,
+		logger: logger,
 	}
 }
 
 func (a *appl) HealthCheck(_ Ctx) (interface{}, error) {
 	return "OK", nil
-}
-
-func (a *appl) GetSupportedLanguages(ctx Ctx) ([]*domain.Language, error) {
-	switch a.setting.GetCurrentSettingState().Translation.Use {
-	case int32(freonApi.TranslationSource_TRANSLATION_LIBRA):
-		return a.translation.Languages(ctx)
-	default:
-	}
-	languages, err := a.repo.GetLanguages(ctx)
-	if err != nil {
-		return nil, err
-	}
-	return mappingArrayLanguages(languages), nil
-}
-
-func (a *appl) Translate(ctx Ctx, text string, source, target language.Tag) (string, error) {
-	if a.setting.GetCurrentSettingState().Translation.Use == 0 {
-		return "", ErrAutoTranslation
-	}
-	return a.translation.Translate(ctx, text, source, target)
 }

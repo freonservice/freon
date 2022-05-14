@@ -78,8 +78,11 @@ export class IdentifierTable extends React.Component {
                             <dt className="col-sm-6 text-right">Description</dt>
                             <dd className="col-sm-6">{row.description || defaultString}</dd>
 
-                            <dt className="col-sm-6 text-right">Example Text</dt>
-                            <dd className="col-sm-6">{row.example_text || defaultString}</dd>
+                            <dt className="col-sm-6 text-right">Example Singular Text</dt>
+                            <dd className="col-sm-6">{row.text_singular || defaultString}</dd>
+
+                            <dt className="col-sm-6 text-right">Example Plural Text</dt>
+                            <dd className="col-sm-6">{row.text_plural || defaultString}</dd>
                         </dl>
                     </Col>
                 </Row>

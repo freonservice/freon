@@ -13,7 +13,7 @@ import (
 func (a *appl) CreateIdentifier(
 	ctx Ctx, creatorID, categoryID, parentID int64, name, description, textSingular, textPlural string, platforms []string,
 ) error {
-	identifierID, err := a.repo.CreateIdentifier(
+	identifierID, err := a.svc.repo.CreateIdentifier(
 		ctx, creatorID, categoryID, parentID, name,
 		description, textSingular, textPlural, createConcatenatedString(platforms),
 	)
@@ -30,7 +30,7 @@ func (a *appl) CreateIdentifier(
 }
 
 func (a *appl) GetIdentifiers(ctx Ctx, f filter.IdentifierFilter) ([]*domain.Identifier, error) {
-	l, err := a.repo.GetIdentifiers(ctx, f)
+	l, err := a.svc.repo.GetIdentifiers(ctx, f)
 	if err != nil {
 		return nil, err
 	}
@@ -38,13 +38,13 @@ func (a *appl) GetIdentifiers(ctx Ctx, f filter.IdentifierFilter) ([]*domain.Ide
 }
 
 func (a *appl) DeleteIdentifier(ctx Ctx, id int64) error {
-	return a.repo.DeleteIdentifier(ctx, id)
+	return a.svc.repo.DeleteIdentifier(ctx, id)
 }
 
 func (a *appl) UpdateIdentifier(
 	ctx Ctx, id, categoryID, parentID int64, name, description, textSingular, textPlural string, platforms []string,
 ) error {
-	err := a.repo.UpdateIdentifier(
+	err := a.svc.repo.UpdateIdentifier(
 		ctx, id, categoryID, parentID, name, description, textSingular, textPlural, createConcatenatedString(platforms),
 	)
 	if err != nil {
@@ -61,7 +61,7 @@ func (a *appl) UpdateIdentifier(
 
 func (a *appl) updateTranslationsForIdentifier(ctx context.Context, identifierID int64, singular, plural string) error {
 	var hasExampleText = len(singular) > 0 || len(plural) > 0
-	if !a.setting.GetCurrentSettingState().Translation.UseAutoTranslation() || !hasExampleText {
+	if !a.svc.setting.GetCurrentSettingState().Translation.UseAutoTranslation() || !hasExampleText {
 		return nil
 	}
 
@@ -70,7 +70,7 @@ func (a *appl) updateTranslationsForIdentifier(ctx context.Context, identifierID
 		return err
 	}
 
-	sourceLanguage, err := language.Parse(a.setting.GetCurrentSettingState().Translation.MainLanguage)
+	sourceLanguage, err := language.Parse(a.svc.setting.GetCurrentSettingState().Translation.MainLanguage)
 	if err != nil {
 		return err
 	}
@@ -96,7 +96,7 @@ func (a *appl) updateTranslationsForIdentifier(ctx context.Context, identifierID
 			defer cancel()
 
 			if len(singular) > 0 {
-				iTextSingular, err = a.translation.Translate(
+				iTextSingular, err = a.svc.translation.Translate(
 					ctxThread,
 					singular,
 					sourceLanguage,
@@ -109,7 +109,7 @@ func (a *appl) updateTranslationsForIdentifier(ctx context.Context, identifierID
 			}
 
 			if len(plural) > 0 {
-				iTextPlural, err = a.translation.Translate(
+				iTextPlural, err = a.svc.translation.Translate(
 					ctxThread,
 					plural,
 					sourceLanguage,
@@ -121,7 +121,7 @@ func (a *appl) updateTranslationsForIdentifier(ctx context.Context, identifierID
 				}
 			}
 
-			err = a.repo.UpdateTranslationWithMeta(ctxThread, localization.ID, identifierID, iTextSingular, iTextPlural)
+			err = a.svc.repo.UpdateTranslationWithMeta(ctxThread, localization.ID, identifierID, iTextSingular, iTextPlural)
 			if err != nil {
 				a.logger.PrintErr("update translation error", "err", err)
 				return

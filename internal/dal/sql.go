@@ -11,6 +11,11 @@ const (
 	sqlSelectIdentifierListID   = `SELECT id FROM identifiers WHERE status = $1 ORDER BY id DESC`
 	sqlSelectUsers              = `SELECT id, uuid_id, email, first_name, second_name, status, role, created_at,
 	updated_at FROM users ORDER BY id DESC`
+	sqlSelectTranslationByID = `
+	SELECT t.singular, t.plural, t.status, t.identifier_id, t.localization_id, l.locale FROM translations AS t 
+	JOIN localizations AS l ON t.localization_id=l.id  
+	WHERE t.id = $1   
+	ORDER BY t.id DESC LIMIT 1`
 
 	sqlUpdateUserSession       = `UPDATE user_sessions SET active = false WHERE token = $1`
 	sqlUpdateNameCategory      = `UPDATE categories SET name = $1, updated_at = NOW() WHERE id = $2`

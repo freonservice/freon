@@ -91,7 +91,8 @@ type CreateTranslationBody struct {
 	LocalizationID *int64 `json:"localization_id"`
 
 	// plural
-	Plural string `json:"plural,omitempty"`
+	// Required: true
+	Plural *string `json:"plural"`
 
 	// singular
 	// Required: true
@@ -111,7 +112,8 @@ func (o *CreateTranslationBody) UnmarshalJSON(data []byte) error {
 		LocalizationID *int64 `json:"localization_id"`
 
 		// plural
-		Plural string `json:"plural,omitempty"`
+		// Required: true
+		Plural *string `json:"plural"`
 
 		// singular
 		// Required: true
@@ -143,6 +145,10 @@ func (o *CreateTranslationBody) Validate(formats strfmt.Registry) error {
 		res = append(res, err)
 	}
 
+	if err := o.validatePlural(formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := o.validateSingular(formats); err != nil {
 		res = append(res, err)
 	}
@@ -165,6 +171,15 @@ func (o *CreateTranslationBody) validateIdentifierID(formats strfmt.Registry) er
 func (o *CreateTranslationBody) validateLocalizationID(formats strfmt.Registry) error {
 
 	if err := validate.Required("args"+"."+"localization_id", "body", o.LocalizationID); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (o *CreateTranslationBody) validatePlural(formats strfmt.Registry) error {
+
+	if err := validate.Required("args"+"."+"plural", "body", o.Plural); err != nil {
 		return err
 	}
 

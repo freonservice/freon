@@ -654,6 +654,7 @@ paths:
               - localization_id
               - identifier_id
               - singular
+              - plural
             properties:
               localization_id:
                 type: integer
@@ -865,11 +866,16 @@ paths:
             type: object
             required:
               - translation
+              - storage
+              - first_launch
             properties:
               translation:
                 $ref: '#/definitions/TranslationConfiguration'
               storage:
                 $ref: '#/definitions/StorageConfiguration'
+              first_launch:
+                type: boolean
+                default: true
         default:
           $ref: '#/responses/Error'
 
@@ -889,6 +895,17 @@ paths:
               use:
                 type: integer
                 format: int32
+      responses:
+        '204': { $ref: '#/responses/NoContent' }
+        default:
+          $ref: '#/responses/Error'
+
+  /setting/disable-first-launch:
+    put:
+      operationId: settingFirstLaunch
+      summary: setting first launch
+      security:
+        - JWTBearer: [ ]
       responses:
         '204': { $ref: '#/responses/NoContent' }
         default:
@@ -947,6 +964,23 @@ paths:
               text:
                 type: string
                 format: string
+        default:
+          $ref: '#/responses/Error'
+
+  /auto-translation/{id}:
+    put:
+      operationId: autoTranslationByID
+      summary: create automatical translation by translation_id
+      security:
+        - JWTBearer: [ ]
+      parameters:
+        - in: path
+          name: id
+          type: integer
+          minimum: 1
+          required: true
+      responses:
+        '204': { $ref: '#/responses/NoContent' }
         default:
           $ref: '#/responses/Error'
 
@@ -1104,6 +1138,7 @@ definitions:
       - localization
       - identifier
       - singular
+      - plural
       - created_at
     properties:
       id:
@@ -1156,6 +1191,31 @@ definitions:
       use:
         type: integer
         format: int32
+      s3_storage_conf:
+        $ref: '#/definitions/S3StorageConfiguration'
+
+  S3StorageConfiguration:
+    type: object
+    required:
+      - secret_access_key
+      - access_key_id
+      - region
+      - endpoint
+      - disableSSL
+      - force_path_style
+    properties:
+      secret_access_key:
+        type: string
+      access_key_id:
+        type: string
+      region:
+        type: string
+      endpoint:
+        type: string
+      disableSSL:
+        type: string
+      force_path_style:
+        type: string
 
   Info:
     type: object

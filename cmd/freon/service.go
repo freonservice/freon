@@ -10,6 +10,7 @@ import (
 	"github.com/freonservice/freon/internal/app"
 	"github.com/freonservice/freon/internal/auth"
 	"github.com/freonservice/freon/internal/dal"
+	"github.com/freonservice/freon/internal/domain"
 	"github.com/freonservice/freon/internal/password"
 	"github.com/freonservice/freon/internal/srv/frontend"
 	grpcServer "github.com/freonservice/freon/internal/srv/grpc"
@@ -48,16 +49,16 @@ func runServe(repo *dal.Repo, settingRepo *dal.SettingRepo, ctxShutdown Ctx, shu
 
 	switch state.Storage.Use {
 	case int32(freonApi.StorageType_STORAGE_TYPE_S3):
-		dataStorage, err = s3.NewStorage(&s3.StorageConfiguration{
-			SecretAccessKey: s3Storage.secretAccessKey,
-			AccessKeyID:     s3Storage.accessKeyID,
-			Region:          s3Storage.region,
-			AppleBucket:     s3Storage.appleBucket,
-			AndroidBucket:   s3Storage.androidBucket,
-			WebBucket:       s3Storage.webBucket,
-			URL:             s3Storage.url,
-			DisableSSL:      s3Storage.disableSSL,
-			ForcePathStyle:  s3Storage.forcePathStyle,
+		if state.Storage.S3Configuration == nil {
+			return errors.Wrap(err, "s3 storage configuration entity is nil")
+		}
+		dataStorage, err = s3.NewStorage(&domain.S3Configuration{
+			SecretAccessKey: state.Storage.S3Configuration.SecretAccessKey,
+			AccessKeyID:     state.Storage.S3Configuration.AccessKeyID,
+			Region:          state.Storage.S3Configuration.Region,
+			Endpoint:        state.Storage.S3Configuration.Endpoint,
+			DisableSSL:      state.Storage.S3Configuration.DisableSSL,
+			ForcePathStyle:  state.Storage.S3Configuration.ForcePathStyle,
 		}, log)
 		if err != nil {
 			return errors.Wrap(err, "s3 storage configuration")
@@ -72,7 +73,9 @@ func runServe(repo *dal.Repo, settingRepo *dal.SettingRepo, ctxShutdown Ctx, shu
 	default:
 	}
 
-	appl := app.New(repo, authorization, password.New(), settingRepo, translation, dataStorage, log)
+	cfgApp := app.Config{TranslationFilesFolder: cfg.translationFilesFolder}
+	svc := app.NewSvc(repo, authorization, password.New(), settingRepo, translation, dataStorage)
+	appl := app.New(svc, cfgApp, log)
 	err = createFirstAdmin(appl)
 	if err != nil {
 		return errors.Wrap(err, "failed create admin")

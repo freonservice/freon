@@ -21,6 +21,9 @@ import (
 // swagger:model StorageConfiguration
 type StorageConfiguration struct {
 
+	// s3 storage conf
+	S3StorageConf *S3StorageConfiguration `json:"s3_storage_conf,omitempty"`
+
 	// use
 	// Required: true
 	Use *int32 `json:"use"`
@@ -29,6 +32,9 @@ type StorageConfiguration struct {
 // UnmarshalJSON unmarshals this object while disallowing additional properties from JSON
 func (m *StorageConfiguration) UnmarshalJSON(data []byte) error {
 	var props struct {
+
+		// s3 storage conf
+		S3StorageConf *S3StorageConfiguration `json:"s3_storage_conf,omitempty"`
 
 		// use
 		// Required: true
@@ -41,6 +47,7 @@ func (m *StorageConfiguration) UnmarshalJSON(data []byte) error {
 		return err
 	}
 
+	m.S3StorageConf = props.S3StorageConf
 	m.Use = props.Use
 	return nil
 }
@@ -49,6 +56,10 @@ func (m *StorageConfiguration) UnmarshalJSON(data []byte) error {
 func (m *StorageConfiguration) Validate(formats strfmt.Registry) error {
 	var res []error
 
+	if err := m.validateS3StorageConf(formats); err != nil {
+		res = append(res, err)
+	}
+
 	if err := m.validateUse(formats); err != nil {
 		res = append(res, err)
 	}
@@ -56,6 +67,25 @@ func (m *StorageConfiguration) Validate(formats strfmt.Registry) error {
 	if len(res) > 0 {
 		return errors.CompositeValidationError(res...)
 	}
+	return nil
+}
+
+func (m *StorageConfiguration) validateS3StorageConf(formats strfmt.Registry) error {
+	if swag.IsZero(m.S3StorageConf) { // not required
+		return nil
+	}
+
+	if m.S3StorageConf != nil {
+		if err := m.S3StorageConf.Validate(formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("s3_storage_conf")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("s3_storage_conf")
+			}
+			return err
+		}
+	}
+
 	return nil
 }
 
@@ -68,8 +98,33 @@ func (m *StorageConfiguration) validateUse(formats strfmt.Registry) error {
 	return nil
 }
 
-// ContextValidate validates this storage configuration based on context it is used
+// ContextValidate validate this storage configuration based on the context it is used
 func (m *StorageConfiguration) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateS3StorageConf(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *StorageConfiguration) contextValidateS3StorageConf(ctx context.Context, formats strfmt.Registry) error {
+
+	if m.S3StorageConf != nil {
+		if err := m.S3StorageConf.ContextValidate(ctx, formats); err != nil {
+			if ve, ok := err.(*errors.Validation); ok {
+				return ve.ValidateName("s3_storage_conf")
+			} else if ce, ok := err.(*errors.CompositeError); ok {
+				return ce.ValidateName("s3_storage_conf")
+			}
+			return err
+		}
+	}
+
 	return nil
 }
 

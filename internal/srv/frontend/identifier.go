@@ -12,7 +12,7 @@ import (
 )
 
 func (srv *server) createIdentifier( //nolint:dupl
-	params op.CreateIdentifierParams, session *app.UserSession, //nolint:gocritic
+	params op.CreateIdentifierParams, session *app.UserSession,
 ) op.CreateIdentifierResponder {
 	ctx, log := fromRequest(params.HTTPRequest, session)
 
@@ -76,7 +76,7 @@ func (srv *server) deleteIdentifier(params op.DeleteIdentifierParams, session *a
 }
 
 func (srv *server) updateIdentifier( //nolint:dupl
-	params op.UpdateIdentifierParams, session *app.UserSession, //nolint:gocritic
+	params op.UpdateIdentifierParams, session *app.UserSession,
 ) op.UpdateIdentifierResponder {
 	ctx, log := fromRequest(params.HTTPRequest, session)
 

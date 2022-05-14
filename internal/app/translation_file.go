@@ -12,12 +12,12 @@ import (
 )
 
 func (a *appl) CreateTranslationFile(ctx Ctx, platform, storageType string, creatorID, localizationID int64) error {
-	localization, err := a.repo.GetLocalization(ctx, localizationID)
+	localization, err := a.svc.repo.GetLocalization(ctx, localizationID)
 	if err != nil {
 		return err
 	}
 
-	data, err := a.repo.GetTranslations(ctx, filter.TranslationFilter{LocalizationID: localizationID})
+	data, err := a.svc.repo.GetTranslations(ctx, filter.TranslationFilter{LocalizationID: localizationID})
 	if err != nil {
 		return err
 	}
@@ -39,7 +39,7 @@ func (a *appl) CreateTranslationFile(ctx Ctx, platform, storageType string, crea
 		return err
 	}
 
-	file, err := a.storage.Create(storage.FileParameter{
+	file, err := a.svc.storage.Create(storage.FileParameter{
 		LocalizationLocale: localization.Locale,
 		TranslatedText:     document,
 		Platform:           platform,
@@ -48,7 +48,7 @@ func (a *appl) CreateTranslationFile(ctx Ctx, platform, storageType string, crea
 		return err
 	}
 
-	return a.repo.CreateTranslationFile(
+	return a.svc.repo.CreateTranslationFile(
 		ctx,
 		file.Name,
 		file.WebPath,
@@ -62,7 +62,7 @@ func (a *appl) CreateTranslationFile(ctx Ctx, platform, storageType string, crea
 }
 
 func (a *appl) GetTranslationFiles(ctx Ctx, f filter.TranslationFileFilter) ([]*domain.TranslationFile, error) {
-	c, err := a.repo.GetTranslationFiles(ctx, f)
+	c, err := a.svc.repo.GetTranslationFiles(ctx, f)
 	if err != nil {
 		return nil, err
 	}
@@ -70,5 +70,5 @@ func (a *appl) GetTranslationFiles(ctx Ctx, f filter.TranslationFileFilter) ([]*
 }
 
 func (a *appl) DeleteTranslationFile(ctx Ctx, id int64) error {
-	return a.repo.DeleteTranslationFile(ctx, id)
+	return a.svc.repo.DeleteTranslationFile(ctx, id)
 }
