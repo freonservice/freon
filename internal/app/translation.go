@@ -4,8 +4,8 @@ import (
 	"context"
 	"time"
 
+	"github.com/freonservice/freon/internal/dal/filter"
 	"github.com/freonservice/freon/internal/domain"
-	"github.com/freonservice/freon/internal/filter"
 
 	"github.com/pkg/errors"
 	"golang.org/x/text/language"

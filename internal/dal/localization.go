@@ -113,8 +113,6 @@ func (r *Repo) SelectIdentifierListID(ctx Ctx, tx *reform.TX) ([]int64, error) {
 	rows, err := tx.QueryContext(ctx, sqlSelectIdentifierListID, api.Status_ACTIVE)
 	if err != nil {
 		return nil, err
-	} else if rows.Err() != nil {
-		return nil, rows.Err()
 	}
 	defer rows.Close()
 
@@ -129,6 +127,8 @@ func (r *Repo) SelectIdentifierListID(ctx Ctx, tx *reform.TX) ([]int64, error) {
 	if err != nil && err != sql.ErrNoRows {
 		return nil, err
 	}
-
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
 	return ids, nil
 }

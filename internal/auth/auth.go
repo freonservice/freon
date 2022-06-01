@@ -30,9 +30,9 @@ var (
 
 type (
 	auth struct {
+		secretKey []byte
 		storage   cache.Storage
 		repo      app.Repo
-		secretKey []byte
 		expTime   time.Duration
 		logger    *structlog.Logger
 	}

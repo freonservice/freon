@@ -3,9 +3,9 @@ package app
 import (
 	"context"
 
+	filter2 "github.com/freonservice/freon/internal/dal/filter"
 	"github.com/freonservice/freon/internal/dao"
 	"github.com/freonservice/freon/internal/domain"
-	"github.com/freonservice/freon/internal/filter"
 	"github.com/freonservice/freon/internal/storage"
 	iface "github.com/freonservice/freon/internal/translation"
 
@@ -38,7 +38,7 @@ type (
 		CreateIdentifier(
 			ctx Ctx, creatorID, categoryID, parentID int64, name, description, textSingular, textPlural string, platforms []string,
 		) error
-		GetIdentifiers(ctx Ctx, f filter.IdentifierFilter) ([]*domain.Identifier, error)
+		GetIdentifiers(ctx Ctx, f filter2.IdentifierFilter) ([]*domain.Identifier, error)
 		DeleteIdentifier(ctx Ctx, id int64) error
 		UpdateIdentifier(
 			ctx Ctx, id, categoryID, parentID int64, name, description, textSingular, textPlural string, platforms []string,
@@ -50,15 +50,15 @@ type (
 		UpdateCategory(ctx Ctx, id int64, name string) error
 
 		CreateTranslation(ctx Ctx, creatorID, localizationID, identifierID int64, singular, plural string) error
-		GetTranslations(ctx Ctx, f filter.TranslationFilter) ([]*domain.Translation, error)
+		GetTranslations(ctx Ctx, f filter2.TranslationFilter) ([]*domain.Translation, error)
 		DeleteTranslation(ctx Ctx, id int64) error
 		UpdateTranslation(ctx Ctx, id int64, singular, plural string) error
 		UpdateStatusTranslation(ctx Ctx, id, status int64) error
 		GetTranslation(ctx Ctx, locale, identifierName string) (*domain.Translation, error)
-		GetGroupedTranslations(ctx Ctx, f filter.GroupedTranslationFilter) ([]*domain.GroupedTranslations, error)
+		GetGroupedTranslations(ctx Ctx, f filter2.GroupedTranslationFilter) ([]*domain.GroupedTranslations, error)
 
 		CreateTranslationFile(ctx Ctx, platform, storageType string, creatorID, localizationID int64) error
-		GetTranslationFiles(ctx Ctx, f filter.TranslationFileFilter) ([]*domain.TranslationFile, error)
+		GetTranslationFiles(ctx Ctx, f filter2.TranslationFileFilter) ([]*domain.TranslationFile, error)
 		DeleteTranslationFile(ctx Ctx, id int64) error
 
 		GetStatistic(ctx Ctx) (*domain.Statistic, error)
@@ -106,7 +106,7 @@ type (
 		CreateIdentifier(
 			ctx Ctx, createID, categoryID, parentID int64, name, description, textSingular, textPlural, platforms string,
 		) (int64, error)
-		GetIdentifiers(ctx Ctx, f filter.IdentifierFilter) ([]*dao.Identifier, error)
+		GetIdentifiers(ctx Ctx, f filter2.IdentifierFilter) ([]*dao.Identifier, error)
 		DeleteIdentifier(ctx Ctx, id int64) error
 		UpdateIdentifier(
 			ctx Ctx, id, categoryID, parentID int64, name, description, textSingular, textPlural, platforms string) error
@@ -118,22 +118,22 @@ type (
 		UpdateCategory(ctx Ctx, id int64, name string) error
 
 		CreateTranslation(ctx Ctx, creatorID, localizationID, identifierID int64, singular, plural string) error
-		GetTranslations(ctx Ctx, f filter.TranslationFilter) ([]*dao.Translation, error)
+		GetTranslations(ctx Ctx, f filter2.TranslationFilter) ([]*dao.Translation, error)
 		DeleteTranslation(ctx Ctx, id int64) error
 		UpdateTranslation(ctx Ctx, id int64, singular, plural string) error
 		UpdateTranslationWithMeta(ctx Ctx, localizationID, identifierID int64, singular, plural string) error
 		GetTranslation(ctx Ctx, locale, identifierName string) (*dao.Translation, error)
-		GetGroupedTranslations(ctx Ctx, f filter.GroupedTranslationFilter) (map[string][]*dao.Translation, error)
+		GetGroupedTranslations(ctx Ctx, f filter2.GroupedTranslationFilter) (map[string][]*dao.Translation, error)
 		GetTranslationByID(ctx Ctx, id int64) (*dao.Translation, error)
 
 		CreateTranslationFile(ctx Ctx, name, path, s3fileID, s3bucket string, platform, storageType, creatorID, localizationID int64) error
 		GetTranslationFile(ctx Ctx, id int64) (*dao.TranslationFile, error)
-		GetTranslationFiles(ctx Ctx, f filter.TranslationFileFilter) ([]*dao.TranslationFile, error)
+		GetTranslationFiles(ctx Ctx, f filter2.TranslationFileFilter) ([]*dao.TranslationFile, error)
 		DeleteTranslationFile(ctx Ctx, id int64) error
 
 		GetStatistic(ctx Ctx) (*dao.Statistic, error)
-		GetVersionFromTranslationFiles(ctx Ctx, f filter.VersionTranslationFilesFilter) ([]*dao.Version, error)
-		GetVersionFromTranslations(ctx Ctx, f filter.VersionTranslationsFilter) ([]*dao.Version, error)
+		GetVersionFromTranslationFiles(ctx Ctx, f filter2.VersionTranslationFilesFilter) ([]*dao.Version, error)
+		GetVersionFromTranslations(ctx Ctx, f filter2.VersionTranslationsFilter) ([]*dao.Version, error)
 
 		GetLanguages(ctx Ctx) ([]*dao.Language, error)
 	}

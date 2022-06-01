@@ -5,11 +5,11 @@
 package app
 
 import (
+	filter2 "github.com/freonservice/freon/internal/dal/filter"
 	reflect "reflect"
 
 	dao "github.com/freonservice/freon/internal/dao"
 	domain "github.com/freonservice/freon/internal/domain"
-	filter "github.com/freonservice/freon/internal/filter"
 	gomock "github.com/golang/mock/gomock"
 	uuid "github.com/google/uuid"
 	sqlx "github.com/jmoiron/sqlx"
@@ -253,7 +253,7 @@ func (mr *MockApplMockRecorder) GetCurrentSettingState() *gomock.Call {
 }
 
 // GetGroupedTranslations mocks base method.
-func (m *MockAppl) GetGroupedTranslations(ctx Ctx, f filter.GroupedTranslationFilter) ([]*domain.GroupedTranslations, error) {
+func (m *MockAppl) GetGroupedTranslations(ctx Ctx, f filter2.GroupedTranslationFilter) ([]*domain.GroupedTranslations, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetGroupedTranslations", ctx, f)
 	ret0, _ := ret[0].([]*domain.GroupedTranslations)
@@ -268,7 +268,7 @@ func (mr *MockApplMockRecorder) GetGroupedTranslations(ctx, f interface{}) *gomo
 }
 
 // GetIdentifiers mocks base method.
-func (m *MockAppl) GetIdentifiers(ctx Ctx, f filter.IdentifierFilter) ([]*domain.Identifier, error) {
+func (m *MockAppl) GetIdentifiers(ctx Ctx, f filter2.IdentifierFilter) ([]*domain.Identifier, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetIdentifiers", ctx, f)
 	ret0, _ := ret[0].([]*domain.Identifier)
@@ -343,7 +343,7 @@ func (mr *MockApplMockRecorder) GetTranslation(ctx, locale, identifierName inter
 }
 
 // GetTranslationFiles mocks base method.
-func (m *MockAppl) GetTranslationFiles(ctx Ctx, f filter.TranslationFileFilter) ([]*domain.TranslationFile, error) {
+func (m *MockAppl) GetTranslationFiles(ctx Ctx, f filter2.TranslationFileFilter) ([]*domain.TranslationFile, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetTranslationFiles", ctx, f)
 	ret0, _ := ret[0].([]*domain.TranslationFile)
@@ -358,7 +358,7 @@ func (mr *MockApplMockRecorder) GetTranslationFiles(ctx, f interface{}) *gomock.
 }
 
 // GetTranslations mocks base method.
-func (m *MockAppl) GetTranslations(ctx Ctx, f filter.TranslationFilter) ([]*domain.Translation, error) {
+func (m *MockAppl) GetTranslations(ctx Ctx, f filter2.TranslationFilter) ([]*domain.Translation, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetTranslations", ctx, f)
 	ret0, _ := ret[0].([]*domain.Translation)
@@ -909,7 +909,7 @@ func (mr *MockRepoMockRecorder) GetDB() *gomock.Call {
 }
 
 // GetGroupedTranslations mocks base method.
-func (m *MockRepo) GetGroupedTranslations(ctx Ctx, f filter.GroupedTranslationFilter) (map[string][]*dao.Translation, error) {
+func (m *MockRepo) GetGroupedTranslations(ctx Ctx, f filter2.GroupedTranslationFilter) (map[string][]*dao.Translation, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetGroupedTranslations", ctx, f)
 	ret0, _ := ret[0].(map[string][]*dao.Translation)
@@ -924,7 +924,7 @@ func (mr *MockRepoMockRecorder) GetGroupedTranslations(ctx, f interface{}) *gomo
 }
 
 // GetIdentifiers mocks base method.
-func (m *MockRepo) GetIdentifiers(ctx Ctx, f filter.IdentifierFilter) ([]*dao.Identifier, error) {
+func (m *MockRepo) GetIdentifiers(ctx Ctx, f filter2.IdentifierFilter) ([]*dao.Identifier, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetIdentifiers", ctx, f)
 	ret0, _ := ret[0].([]*dao.Identifier)
@@ -1044,7 +1044,7 @@ func (mr *MockRepoMockRecorder) GetTranslationFile(ctx, id interface{}) *gomock.
 }
 
 // GetTranslationFiles mocks base method.
-func (m *MockRepo) GetTranslationFiles(ctx Ctx, f filter.TranslationFileFilter) ([]*dao.TranslationFile, error) {
+func (m *MockRepo) GetTranslationFiles(ctx Ctx, f filter2.TranslationFileFilter) ([]*dao.TranslationFile, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetTranslationFiles", ctx, f)
 	ret0, _ := ret[0].([]*dao.TranslationFile)
@@ -1059,7 +1059,7 @@ func (mr *MockRepoMockRecorder) GetTranslationFiles(ctx, f interface{}) *gomock.
 }
 
 // GetTranslations mocks base method.
-func (m *MockRepo) GetTranslations(ctx Ctx, f filter.TranslationFilter) ([]*dao.Translation, error) {
+func (m *MockRepo) GetTranslations(ctx Ctx, f filter2.TranslationFilter) ([]*dao.Translation, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetTranslations", ctx, f)
 	ret0, _ := ret[0].([]*dao.Translation)
@@ -1134,7 +1134,7 @@ func (mr *MockRepoMockRecorder) GetUsers(ctx interface{}) *gomock.Call {
 }
 
 // GetVersionFromTranslationFiles mocks base method.
-func (m *MockRepo) GetVersionFromTranslationFiles(ctx Ctx, f filter.VersionTranslationFilesFilter) ([]*dao.Version, error) {
+func (m *MockRepo) GetVersionFromTranslationFiles(ctx Ctx, f filter2.VersionTranslationFilesFilter) ([]*dao.Version, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetVersionFromTranslationFiles", ctx, f)
 	ret0, _ := ret[0].([]*dao.Version)
@@ -1149,7 +1149,7 @@ func (mr *MockRepoMockRecorder) GetVersionFromTranslationFiles(ctx, f interface{
 }
 
 // GetVersionFromTranslations mocks base method.
-func (m *MockRepo) GetVersionFromTranslations(ctx Ctx, f filter.VersionTranslationsFilter) ([]*dao.Version, error) {
+func (m *MockRepo) GetVersionFromTranslations(ctx Ctx, f filter2.VersionTranslationsFilter) ([]*dao.Version, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetVersionFromTranslations", ctx, f)
 	ret0, _ := ret[0].([]*dao.Version)

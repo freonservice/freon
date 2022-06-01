@@ -3,16 +3,14 @@ package dal
 import (
 	"database/sql"
 
+	"github.com/freonservice/freon/internal/dal/filter"
 	"github.com/freonservice/freon/internal/dao"
-	"github.com/freonservice/freon/internal/filter"
 )
 
 func (r *Repo) GetVersionFromTranslationFiles(ctx Ctx, f filter.VersionTranslationFilesFilter) ([]*dao.Version, error) {
 	rows, err := f.CreateRows(ctx, r.ReformDB)
 	if err != nil {
 		return nil, err
-	} else if rows.Err() != nil {
-		return nil, rows.Err()
 	}
 	defer rows.Close()
 
@@ -32,6 +30,9 @@ func (r *Repo) GetVersionFromTranslationFiles(ctx Ctx, f filter.VersionTranslati
 	if err != nil && err != sql.ErrNoRows {
 		return nil, err
 	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
 	return entities, nil
 }
 
@@ -39,8 +40,6 @@ func (r *Repo) GetVersionFromTranslations(ctx Ctx, f filter.VersionTranslationsF
 	rows, err := f.CreateRows(ctx, r.ReformDB)
 	if err != nil {
 		return nil, err
-	} else if rows.Err() != nil {
-		return nil, rows.Err()
 	}
 	defer rows.Close()
 
@@ -57,6 +56,9 @@ func (r *Repo) GetVersionFromTranslations(ctx Ctx, f filter.VersionTranslationsF
 		entities = append(entities, entity)
 	}
 	if err != nil && err != sql.ErrNoRows {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
 		return nil, err
 	}
 	return entities, nil

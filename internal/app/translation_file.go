@@ -1,8 +1,8 @@
 package app
 
 import (
+	filter2 "github.com/freonservice/freon/internal/dal/filter"
 	"github.com/freonservice/freon/internal/domain"
-	"github.com/freonservice/freon/internal/filter"
 	"github.com/freonservice/freon/internal/generator"
 	"github.com/freonservice/freon/internal/generator/android"
 	"github.com/freonservice/freon/internal/generator/ios"
@@ -17,7 +17,7 @@ func (a *appl) CreateTranslationFile(ctx Ctx, platform, storageType string, crea
 		return err
 	}
 
-	data, err := a.svc.repo.GetTranslations(ctx, filter.TranslationFilter{LocalizationID: localizationID})
+	data, err := a.svc.repo.GetTranslations(ctx, filter2.TranslationFilter{LocalizationID: localizationID})
 	if err != nil {
 		return err
 	}
@@ -61,7 +61,7 @@ func (a *appl) CreateTranslationFile(ctx Ctx, platform, storageType string, crea
 	)
 }
 
-func (a *appl) GetTranslationFiles(ctx Ctx, f filter.TranslationFileFilter) ([]*domain.TranslationFile, error) {
+func (a *appl) GetTranslationFiles(ctx Ctx, f filter2.TranslationFileFilter) ([]*domain.TranslationFile, error) {
 	c, err := a.svc.repo.GetTranslationFiles(ctx, f)
 	if err != nil {
 		return nil, err

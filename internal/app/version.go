@@ -1,9 +1,9 @@
 package app
 
 import (
+	"github.com/freonservice/freon/internal/dal/filter"
 	"github.com/freonservice/freon/internal/dao"
 	"github.com/freonservice/freon/internal/domain"
-	"github.com/freonservice/freon/internal/filter"
 	"github.com/freonservice/freon/pkg/freonApi"
 )
 

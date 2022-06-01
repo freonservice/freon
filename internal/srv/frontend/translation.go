@@ -1,11 +1,10 @@
 package frontend
 
 import (
+	"github.com/AlekSi/pointer"
 	"github.com/freonservice/freon/api/openapi/frontend/restapi/op"
 	"github.com/freonservice/freon/internal/app"
-	"github.com/freonservice/freon/internal/filter"
-
-	"github.com/AlekSi/pointer"
+	"github.com/freonservice/freon/internal/dal/filter"
 	"github.com/go-openapi/swag"
 	"github.com/pkg/errors"
 	"golang.org/x/text/language"

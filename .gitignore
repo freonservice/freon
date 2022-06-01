@@ -488,6 +488,7 @@ gen
 docker/freon-badger-db
 docker/freon-data-db
 docker/freon-docs
+docker/minio-data
 
 # frontend build folder
 frontend

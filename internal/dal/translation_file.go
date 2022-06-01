@@ -4,8 +4,8 @@ import (
 	"database/sql"
 	"time"
 
+	"github.com/freonservice/freon/internal/dal/filter"
 	"github.com/freonservice/freon/internal/dao"
-	"github.com/freonservice/freon/internal/filter"
 	api "github.com/freonservice/freon/pkg/freonApi"
 
 	"github.com/AlekSi/pointer"
@@ -67,7 +67,10 @@ func (r *Repo) GetTranslationFiles(ctx Ctx, f filter.TranslationFileFilter) ([]*
 		}
 		entities = append(entities, entity)
 	}
-	if rows.Err() != nil && rows.Err() != sql.ErrNoRows {
+	if err != nil && err != sql.ErrNoRows {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
 		return nil, err
 	}
 	return entities, nil

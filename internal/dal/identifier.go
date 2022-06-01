@@ -6,8 +6,8 @@ import (
 	"time"
 
 	"github.com/freonservice/freon/internal/app"
+	"github.com/freonservice/freon/internal/dal/filter"
 	"github.com/freonservice/freon/internal/dao"
-	"github.com/freonservice/freon/internal/filter"
 	api "github.com/freonservice/freon/pkg/freonApi"
 
 	"github.com/AlekSi/pointer"
@@ -97,8 +97,6 @@ func (r *Repo) GetIdentifiers(ctx Ctx, f filter.IdentifierFilter) ([]*dao.Identi
 	rows, err := f.CreateRows(ctx, r.ReformDB)
 	if err != nil {
 		return nil, err
-	} else if rows.Err() != nil {
-		return nil, rows.Err()
 	}
 	defer rows.Close()
 
@@ -121,6 +119,9 @@ func (r *Repo) GetIdentifiers(ctx Ctx, f filter.IdentifierFilter) ([]*dao.Identi
 		entities = append(entities, entity)
 	}
 	if err != nil && err != sql.ErrNoRows {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
 		return nil, err
 	}
 	return entities, nil

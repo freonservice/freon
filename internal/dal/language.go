@@ -1,9 +1,9 @@
 package dal
 
 import (
-	"github.com/freonservice/freon/internal/dao"
+	"database/sql"
 
-	"gopkg.in/reform.v1"
+	"github.com/freonservice/freon/internal/dao"
 )
 
 func (r *Repo) GetLanguages(ctx Ctx) ([]*dao.Language, error) {
@@ -21,10 +21,10 @@ func (r *Repo) GetLanguages(ctx Ctx) ([]*dao.Language, error) {
 		}
 		entities = append(entities, &entity)
 	}
-	if rows.Err() != nil {
-		return nil, rows.Err()
+	if err != nil && err != sql.ErrNoRows {
+		return nil, err
 	}
-	if err != nil && err != reform.ErrNoRows {
+	if err := rows.Err(); err != nil {
 		return nil, err
 	}
 	return entities, nil

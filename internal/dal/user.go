@@ -93,8 +93,6 @@ func (r *Repo) GetUsers(ctx Ctx) ([]*dao.User, error) {
 	rows, err := r.DB.QueryContext(ctx, sqlSelectUsers)
 	if err != nil {
 		return nil, err
-	} else if rows.Err() != nil {
-		return nil, rows.Err()
 	}
 	defer rows.Close()
 
@@ -112,6 +110,9 @@ func (r *Repo) GetUsers(ctx Ctx) ([]*dao.User, error) {
 		entities = append(entities, entity)
 	}
 	if err != nil && err != sql.ErrNoRows {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
 		return nil, err
 	}
 	return entities, nil

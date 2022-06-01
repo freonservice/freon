@@ -4,7 +4,7 @@ import (
 	"context"
 
 	"github.com/freonservice/freon/internal/app"
-	"github.com/freonservice/freon/internal/filter"
+	"github.com/freonservice/freon/internal/dal/filter"
 	api "github.com/freonservice/freon/pkg/freonApi"
 
 	"github.com/pkg/errors"

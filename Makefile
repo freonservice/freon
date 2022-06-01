@@ -31,8 +31,11 @@ proto-generate:
 reform-generate:
 	reform internal/dao
 
+lint:
+	golangci-lint run
+
 services-up:
-	docker-compose -f docker/docker-compose.yml up -d freon-db
+	docker-compose -f docker/docker-compose.yml up -d freon-db minio
 
 services-down:
 	docker-compose -f docker/docker-compose.yml down

@@ -5,7 +5,7 @@ import (
 
 	"github.com/freonservice/freon/api/openapi/frontend/restapi/op"
 	"github.com/freonservice/freon/internal/app"
-	"github.com/freonservice/freon/internal/filter"
+	"github.com/freonservice/freon/internal/dal/filter"
 
 	"github.com/go-openapi/swag"
 	"github.com/pkg/errors"

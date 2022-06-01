@@ -5,8 +5,8 @@ import (
 	"time"
 
 	"github.com/freonservice/freon/internal/app"
+	"github.com/freonservice/freon/internal/dal/filter"
 	"github.com/freonservice/freon/internal/dao"
-	"github.com/freonservice/freon/internal/filter"
 	api "github.com/freonservice/freon/pkg/freonApi"
 
 	"github.com/AlekSi/pointer"
@@ -40,8 +40,6 @@ func (r *Repo) GetTranslations(ctx Ctx, f filter.TranslationFilter) ([]*dao.Tran
 	rows, err := f.CreateRows(ctx, r.ReformDB)
 	if err != nil {
 		return nil, err
-	} else if rows.Err() != nil {
-		return nil, rows.Err()
 	}
 	defer rows.Close()
 
@@ -62,6 +60,9 @@ func (r *Repo) GetTranslations(ctx Ctx, f filter.TranslationFilter) ([]*dao.Tran
 		entities = append(entities, entity)
 	}
 	if err != nil && err != sql.ErrNoRows {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
 		return nil, err
 	}
 	return entities, nil
@@ -173,7 +174,9 @@ func (r *Repo) GetGroupedTranslations(ctx Ctx, f filter.GroupedTranslationFilter
 	if err != nil && err != sql.ErrNoRows {
 		return nil, err
 	}
-
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
 	return gts, nil
 }
 
